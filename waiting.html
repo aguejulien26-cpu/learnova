@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Learnova — Salle d'attente</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+body { padding-top:60px; background:var(--bg2); min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+
+.waiting-wrap { padding:40px 20px; display:flex; flex-direction:column; align-items:center; width:100%; }
+
+.waiting-box {
+  background:var(--bg); border:1px solid var(--border); border-radius:24px;
+  padding:48px 44px; max-width:560px; width:100%; text-align:center; box-shadow:var(--sh3);
+}
+
+.wb-ai-icon {
+  width:80px; height:80px; border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),#6d28d9);
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 22px; box-shadow:0 12px 40px rgba(26,86,219,.3);
+  animation:floatIcon 3s ease-in-out infinite;
+}
+@keyframes floatIcon { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+.wb-ai-icon svg { width:36px; height:36px; color:#fff; }
+
+.wb-session-name { font-size:.78rem; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; }
+.wb-title { font-family:var(--h); font-size:1.8rem; margin-bottom:8px; letter-spacing:-.5px; }
+.wb-sub { font-size:.9rem; color:var(--text2); line-height:1.65; margin-bottom:28px; }
+
+.wb-countdown { font-family:var(--h); font-size:4rem; color:var(--accent); letter-spacing:-2px; line-height:1; margin-bottom:6px; }
+.wb-countdown-label { font-size:.78rem; color:var(--text3); margin-bottom:28px; }
+
+.wb-progress { background:var(--bg2); border-radius:100px; height:4px; margin-bottom:24px; }
+.wb-prog-fill { height:100%; border-radius:100px; background:linear-gradient(90deg,var(--accent),#6d28d9); width:0%; transition:width .5s ease; }
+
+.wb-participants { display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:20px; }
+.wb-avs { display:flex; }
+.wb-av { width:30px; height:30px; border-radius:50%; border:2px solid var(--bg); margin-left:-8px; overflow:hidden; }
+.wb-av:first-child { margin-left:0; }
+.wb-av img { width:100%; height:100%; object-fit:cover; }
+.wb-p-text { font-size:.82rem; color:var(--text2); }
+.wb-p-text strong { color:var(--text); }
+
+.wb-status { display:flex; align-items:center; justify-content:center; gap:7px; font-size:.78rem; color:var(--green); font-weight:500; margin-bottom:24px; }
+
+.wb-actions { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+
+/* SESSION INFO */
+.session-info-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:24px; }
+.si-card { background:var(--bg2); border-radius:10px; padding:12px; }
+.si-label { font-size:.68rem; font-weight:600; color:var(--text3); text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; }
+.si-val { font-size:.85rem; font-weight:600; color:var(--text); }
+
+/* PROGRAM PREVIEW */
+.prog-preview { background:var(--bg2); border-radius:12px; padding:14px 16px; margin-bottom:24px; text-align:left; }
+.pp-title { font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--text3); margin-bottom:10px; }
+.pp-item { display:flex; align-items:center; gap:10px; padding:6px 0; font-size:.8rem; color:var(--text2); border-bottom:1px solid var(--border); }
+.pp-item:last-child { border-bottom:none; }
+.pp-time { font-weight:700; color:var(--accent); width:44px; flex-shrink:0; }
+.pp-type { font-size:.65rem; padding:2px 7px; border-radius:100px; font-weight:700; }
+
+/* ACTIVITY FEED */
+.activity-feed { display:flex; flex-direction:column; gap:6px; margin-bottom:20px; max-height:120px; overflow:hidden; }
+.af-item { display:flex; align-items:center; gap:8px; font-size:.78rem; color:var(--text2); animation:fadeUp .4s ease; }
+.af-av { width:22px; height:22px; border-radius:50%; overflow:hidden; flex-shrink:0; }
+.af-av img { width:100%; height:100%; object-fit:cover; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="ln-nav">
+  <div class="ln-nav-inner">
+    <a href="index.html" class="ln-logo">
+      <div class="ln-logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div>
+      <span class="ln-logo-name">Learnova</span>
+    </a>
+    <div class="ln-nav-right">
+      <a href="index.html" class="btn btn-ghost btn-sm">← Retour</a>
+      <a href="admin.html" class="btn btn-ghost btn-sm">Admin</a>
+    </div>
+  </div>
+</nav>
+
+<div class="waiting-wrap">
+  <div class="waiting-box">
+    <div class="wb-ai-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+      </svg>
+    </div>
+
+    <div class="wb-session-name">Session Learnova · UI/UX Design</div>
+    <h1 class="wb-title">L'IA arrive dans</h1>
+    <div class="wb-countdown" id="wbCountdown">18:42</div>
+    <div class="wb-countdown-label">La session commence à l'heure exacte — 15h00</div>
+
+    <div class="wb-progress"><div class="wb-prog-fill" id="wbProgFill"></div></div>
+
+    <!-- SESSION INFO -->
+    <div class="session-info-grid">
+      <div class="si-card"><div class="si-label">Durée</div><div class="si-val">2 heures</div></div>
+      <div class="si-card"><div class="si-label">Format</div><div class="si-val">Live IA</div></div>
+      <div class="si-card"><div class="si-label">Niveau</div><div class="si-val">Tous niveaux</div></div>
+    </div>
+
+    <!-- PROGRAM PREVIEW -->
+    <div class="prog-preview">
+      <div class="pp-title">Programme de la session</div>
+      <div class="pp-item"><span class="pp-time">15:00</span><span>Introduction & objectifs</span><span class="pp-type" style="background:var(--al);color:var(--accent);">Leçon</span></div>
+      <div class="pp-item"><span class="pp-time">15:20</span><span>Wireframing mobile</span><span class="pp-type" style="background:var(--al);color:var(--accent);">Leçon</span></div>
+      <div class="pp-item"><span class="pp-time">15:50</span><span>Challenge design — 30 sec</span><span class="pp-type" style="background:var(--pl);color:var(--purple);">Challenge</span></div>
+      <div class="pp-item"><span class="pp-time">16:00</span><span>Pause</span><span class="pp-type" style="background:var(--bg3);color:var(--text3);">Pause</span></div>
+      <div class="pp-item"><span class="pp-time">16:10</span><span>Prototypage Figma</span><span class="pp-type" style="background:var(--al);color:var(--accent);">Leçon</span></div>
+      <div class="pp-item"><span class="pp-time">16:50</span><span>Quiz final · Certification</span><span class="pp-type" style="background:var(--gl);color:var(--green);">Quiz</span></div>
+    </div>
+
+    <!-- PARTICIPANTS -->
+    <div class="wb-participants">
+      <div class="wb-avs">
+        <div class="wb-av"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&h=60&fit=crop&crop=face" alt=""/></div>
+        <div class="wb-av"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=60&h=60&fit=crop&crop=face" alt=""/></div>
+        <div class="wb-av"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&h=60&fit=crop&crop=face" alt=""/></div>
+        <div class="wb-av" style="background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:var(--text3);">+86</div>
+      </div>
+      <div class="wb-p-text"><strong id="partCount">89 participants</strong> attendent avec toi</div>
+    </div>
+
+    <!-- ACTIVITY FEED -->
+    <div class="activity-feed" id="activityFeed">
+      <div class="af-item"><div class="af-av"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=44&h=44&fit=crop&crop=face" alt=""/></div><span>Fatima K. vient de s'inscrire</span></div>
+      <div class="af-item"><div class="af-av"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=44&h=44&fit=crop&crop=face" alt=""/></div><span>Marcus D. est prêt pour la session</span></div>
+      <div class="af-item" style="color:var(--accent);">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" stroke="var(--accent)" stroke-width="1.5"/><path d="M9.663 17h4.673M12 3v1" stroke="var(--accent)" stroke-width="1.5"/></svg>
+        L'IA se prépare — programme chargé ✓
+      </div>
+    </div>
+
+    <div class="wb-status"><span class="pulse" style="background:var(--green);"></span> L'IA est prête — elle attend l'heure exacte</div>
+
+    <div class="wb-actions">
+      <a href="live.html" class="btn btn-dark btn-lg">Entrer dans la session →</a>
+      <a href="index.html" class="btn btn-ghost">Retour</a>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+let wbSecs = 18*60+42;
+const totalSecs = 18*60+42;
+let parts = 89;
+
+const iv = setInterval(() => {
+  wbSecs = Math.max(0, wbSecs - 1);
+  const m = Math.floor(wbSecs/60), s = wbSecs%60;
+  document.getElementById('wbCountdown').textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+  const pct = ((totalSecs - wbSecs) / totalSecs) * 100;
+  document.getElementById('wbProgFill').style.width = pct + '%';
+  if(wbSecs === 0) { clearInterval(iv); window.location.href = 'live.html'; }
+}, 1000);
+
+// Simulate people joining
+setInterval(() => {
+  parts += Math.floor(Math.random()*3);
+  document.getElementById('partCount').textContent = parts + ' participants';
+  const names = ['Karim B.','Sophie L.','Moussa D.','Ana R.','David K.','Layla M.','Omar S.'];
+  const imgs = ['photo-1507003211169-0a1dd7228f2d','photo-1534528741775-53994a69daeb','photo-1500648767791-00dcc994a43e','photo-1494790108377-be9c29b29330'];
+  const name = names[Math.floor(Math.random()*names.length)];
+  const img = imgs[Math.floor(Math.random()*imgs.length)];
+  const feed = document.getElementById('activityFeed');
+  const item = document.createElement('div');
+  item.className = 'af-item';
+  item.innerHTML = `<div class="af-av"><img src="https://images.unsplash.com/${img}?w=44&h=44&fit=crop&crop=face" alt=""/></div><span>${name} vient de s'inscrire</span>`;
+  feed.insertBefore(item, feed.firstChild);
+  if(feed.children.length > 4) feed.removeChild(feed.lastChild);
+}, 4000);
+</script>
+</body>
+</html>

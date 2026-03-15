@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Learnova — L'IA qui vous enseigne en direct</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+body { padding-top:60px; }
+
+/* HERO */
+.hero { padding:80px 0 60px; text-align:center; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(26,86,219,.06) 0%, transparent 70%); pointer-events:none; }
+.hero-eyebrow { display:inline-flex; align-items:center; gap:8px; background:var(--al); border:1px solid var(--am); color:var(--accent); padding:5px 14px; border-radius:100px; font-size:.78rem; font-weight:600; margin-bottom:28px; }
+.hero h1 { font-family:var(--h); font-size:clamp(2.8rem,5.5vw,4.4rem); font-weight:400; line-height:1.1; letter-spacing:-1.5px; margin-bottom:22px; }
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero-sub { font-size:1.1rem; color:var(--text2); line-height:1.75; max-width:580px; margin:0 auto 36px; font-weight:300; }
+.hero-actions { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-bottom:52px; }
+
+/* STATS */
+.hero-stats { display:flex; align-items:center; justify-content:center; gap:32px; padding:24px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); margin-bottom:70px; flex-wrap:wrap; }
+.hs-num { font-family:var(--h); font-size:1.7rem; color:var(--text); letter-spacing:-1px; }
+.hs-label { font-size:.75rem; color:var(--text3); margin-top:2px; }
+.hs-div { width:1px; height:36px; background:var(--border); }
+
+/* SESSIONS GRID */
+.sessions-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:80px; }
+.session-card { background:var(--bg); border:1px solid var(--border); border-radius:18px; padding:22px; cursor:pointer; transition:all .25s; position:relative; overflow:hidden; }
+.session-card:hover { border-color:var(--border2); box-shadow:var(--sh2); transform:translateY(-3px); }
+.session-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--accent),#6d28d9); opacity:0; transition:opacity .25s; }
+.session-card:hover::before { opacity:1; }
+.sc-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.sc-participants { font-size:.75rem; color:var(--text3); display:flex; align-items:center; gap:4px; }
+.sc-title { font-family:var(--h); font-size:1.05rem; margin-bottom:6px; line-height:1.3; }
+.sc-desc { font-size:.8rem; color:var(--text2); line-height:1.6; margin-bottom:14px; }
+.sc-meta { display:flex; align-items:center; gap:10px; }
+.sc-ai-tag { display:flex; align-items:center; gap:5px; font-size:.72rem; color:var(--purple); background:var(--pl); padding:3px 9px; border-radius:100px; font-weight:500; }
+.sc-time { font-size:.72rem; color:var(--text3); margin-left:auto; }
+.sc-countdown { font-family:var(--h); font-size:1.1rem; color:var(--accent); margin-top:10px; }
+
+/* HOW IT WORKS */
+.how-section { padding:80px 0; background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.how-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:32px; margin-top:48px; }
+.how-step { text-align:center; padding:0 8px; }
+.how-num { font-family:var(--h); font-size:2.5rem; color:var(--border2); line-height:1; margin-bottom:14px; }
+.how-icon { width:48px; height:48px; border-radius:12px; background:var(--bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; margin:0 auto 14px; box-shadow:var(--sh1); }
+.how-icon svg { width:22px; height:22px; color:var(--accent); }
+.how-step h3 { font-size:.92rem; font-weight:600; margin-bottom:7px; }
+.how-step p { font-size:.8rem; color:var(--text2); line-height:1.7; }
+
+/* AI MANAGER DEMO */
+.aim-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; padding:80px 0; }
+.aim-ui { background:var(--bg); border:1px solid var(--border); border-radius:18px; overflow:hidden; box-shadow:var(--sh3); }
+.aim-header { background:var(--text); padding:18px 22px; display:flex; align-items:center; gap:12px; }
+.aim-ai-av { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--accent),#6d28d9); display:flex; align-items:center; justify-content:center; font-size:.9rem; font-weight:700; color:#fff; font-family:var(--h); flex-shrink:0; }
+.aim-ai-name { font-size:.88rem; font-weight:600; color:#fff; }
+.aim-ai-status { font-size:.72rem; color:rgba(255,255,255,.6); }
+.aim-online { width:7px; height:7px; border-radius:50%; background:#6ee7b7; margin-left:auto; animation:pulse 2s infinite; }
+.aim-body { padding:20px; }
+.aim-plan-title { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--text3); margin-bottom:12px; }
+.aim-slot { display:flex; align-items:center; gap:12px; padding:10px 12px; background:var(--bg2); border-radius:8px; border:1px solid var(--border); margin-bottom:6px; transition:all .15s; }
+.aim-slot.active-slot { border-color:var(--accent); background:var(--al); }
+.aim-slot-time { font-size:.75rem; font-weight:700; color:var(--accent); width:48px; flex-shrink:0; }
+.aim-slot-topic { font-size:.82rem; font-weight:500; flex:1; }
+.aim-slot-type { font-size:.68rem; padding:2px 8px; border-radius:100px; font-weight:600; }
+.slot-lesson { background:var(--al); color:var(--accent); }
+.slot-challenge { background:var(--pl); color:var(--purple); }
+.slot-quiz { background:var(--gl); color:var(--green); }
+.slot-break { background:var(--bg3); color:var(--text3); }
+.aim-footer { border-top:1px solid var(--border); padding:14px 20px; display:flex; align-items:center; justify-content:space-between; }
+
+/* FEATURES */
+.features-section { padding:80px 0; background:var(--bg2); border-top:1px solid var(--border); }
+.feat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:var(--border); border:1px solid var(--border); border-radius:18px; overflow:hidden; margin-top:48px; }
+.feat { background:var(--bg); padding:28px; transition:background .2s; }
+.feat:hover { background:var(--bg2); }
+.feat-icon { width:42px; height:42px; border-radius:10px; background:var(--bg2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; margin-bottom:16px; }
+.feat-icon svg { width:19px; height:19px; color:var(--accent); }
+.feat h3 { font-size:.9rem; font-weight:600; margin-bottom:7px; }
+.feat p { font-size:.8rem; color:var(--text2); line-height:1.7; }
+.feat-new { display:inline-block; font-size:.65rem; font-weight:700; background:var(--al); color:var(--accent); padding:2px 8px; border-radius:100px; margin-top:10px; text-transform:uppercase; letter-spacing:.5px; }
+
+/* CTA */
+.cta-section { padding:80px 0; }
+.cta-box { background:var(--text); border-radius:24px; padding:64px; display:grid; grid-template-columns:1fr auto; gap:48px; align-items:center; }
+.cta-box h2 { font-family:var(--h); font-size:clamp(1.8rem,3vw,2.4rem); color:#fff; line-height:1.2; margin-bottom:10px; letter-spacing:-.8px; }
+.cta-box p { font-size:.95rem; color:rgba(255,255,255,.55); }
+.cta-form { display:flex; flex-direction:column; gap:10px; min-width:300px; }
+.cta-inp { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); border-radius:9px; padding:12px 16px; color:#fff; font-family:var(--b); font-size:.875rem; outline:none; transition:border-color .2s; }
+.cta-inp:focus { border-color:rgba(255,255,255,.35); }
+.cta-inp::placeholder { color:rgba(255,255,255,.35); }
+.cta-submit { background:#fff; color:var(--text); border:none; border-radius:9px; padding:13px; font-family:var(--b); font-size:.9rem; font-weight:600; cursor:pointer; transition:all .2s; }
+.cta-submit:hover { background:#f0f1f8; }
+.cta-note { font-size:.72rem; color:rgba(255,255,255,.3); text-align:center; }
+.cta-success { color:#fff; font-size:.85rem; display:none; background:rgba(4,120,87,.2); border:1px solid rgba(167,243,208,.3); border-radius:8px; padding:10px; text-align:center; }
+.cta-success.show { display:block; }
+
+/* FOOTER */
+footer { border-top:1px solid var(--border); padding:36px 0 24px; }
+.footer-inner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+.footer-inner p { font-size:.78rem; color:var(--text3); }
+.footer-links { display:flex; gap:18px; }
+.footer-links a { font-size:.78rem; color:var(--text3); text-decoration:none; }
+.footer-links a:hover { color:var(--text); }
+
+@media(max-width:960px) {
+  .sessions-grid,.how-grid,.aim-grid { grid-template-columns:1fr 1fr; }
+  .feat-grid { grid-template-columns:1fr 1fr; }
+  .cta-box { grid-template-columns:1fr; }
+}
+@media(max-width:640px) {
+  .sessions-grid,.how-grid,.feat-grid { grid-template-columns:1fr; }
+  .hero-stats { gap:16px; }
+  .hs-div { display:none; }
+  .cta-box { padding:36px 20px; }
+  .cta-form { min-width:unset; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="ln-nav">
+  <div class="ln-nav-inner">
+    <a href="index.html" class="ln-logo">
+      <div class="ln-logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div>
+      <span class="ln-logo-name">Learnova</span>
+    </a>
+    <ul class="ln-nav-links">
+      <li><a href="#sessions">Sessions live</a></li>
+      <li><a href="#how">Comment ça marche</a></li>
+      <li><a href="#features">Fonctionnalités</a></li>
+    </ul>
+    <div class="ln-nav-right">
+      <a href="admin.html" class="btn btn-ghost btn-sm">Espace Admin</a>
+      <a href="waiting.html" class="btn btn-dark btn-sm">Rejoindre une session →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow fade-up"><span class="pulse"></span> Nouveau — L'IA qui enseigne en direct</div>
+    <h1 class="fade-up-1">Votre professeur IA<br/>ne dort <em>jamais.</em></h1>
+    <p class="hero-sub fade-up-2">Learnova planifie, enseigne et évalue des centaines d'apprenants simultanément. L'IA arrive à l'heure exacte, enseigne, lance des challenges, et répond à chaque question.</p>
+    <div class="hero-actions fade-up-3">
+      <a href="waiting.html" class="btn btn-dark btn-lg">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Rejoindre la session live
+      </a>
+      <a href="admin.html" class="btn btn-ghost btn-lg">Je suis admin →</a>
+    </div>
+    <div class="hero-stats reveal">
+      <div class="text-center"><div class="hs-num" id="liveCount">342</div><div class="hs-label">Apprenants en ce moment</div></div>
+      <div class="hs-div"></div>
+      <div class="text-center"><div class="hs-num">2 847</div><div class="hs-label">Inscrits sur Learnova</div></div>
+      <div class="hs-div"></div>
+      <div class="text-center"><div class="hs-num">124</div><div class="hs-label">Pays représentés</div></div>
+      <div class="hs-div"></div>
+      <div class="text-center"><div class="hs-num">98%</div><div class="hs-label">Taux de satisfaction</div></div>
+      <div class="hs-div"></div>
+      <div class="text-center"><div class="hs-num">0€</div><div class="hs-label">Toujours gratuit</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SESSIONS LIVE -->
+<section id="sessions" style="padding-bottom:0;">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+      <h2 style="font-family:var(--h);font-size:1.7rem;letter-spacing:-.5px;">Sessions programmées par l'IA</h2>
+      <a href="admin.html" class="btn btn-ghost btn-sm">Créer une session →</a>
+    </div>
+    <div class="sessions-grid">
+      <div class="session-card reveal" onclick="window.location='live.html'">
+        <div class="sc-top">
+          <span class="badge badge-live"><span class="pulse"></span> En direct</span>
+          <span class="sc-participants">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87m-4-12a4 4 0 010 7.75"/></svg>
+            247 participants
+          </span>
+        </div>
+        <div class="sc-title">Python — Les algorithmes de tri expliqués</div>
+        <div class="sc-desc">L'IA enseigne tri à bulles, quicksort et merge sort avec des exemples visuels et des défis de code en direct.</div>
+        <div class="sc-meta">
+          <span class="sc-ai-tag"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1"/></svg> IA Manager actif</span>
+          <span class="sc-time">Démarré il y a 23 min</span>
+        </div>
+      </div>
+      <div class="session-card reveal" onclick="window.location='waiting.html'">
+        <div class="sc-top">
+          <span class="badge badge-soon">Dans <span id="cd1">18:42</span></span>
+          <span class="sc-participants">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            89 inscrits
+          </span>
+        </div>
+        <div class="sc-title">UI/UX Design — Créer une interface mobile</div>
+        <div class="sc-desc">Session de 2h. L'IA guidera chaque étape du wireframe au prototype avec challenges de design.</div>
+        <div class="sc-meta">
+          <span class="sc-ai-tag"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1"/></svg> Planifié par IA</span>
+        </div>
+      </div>
+      <div class="session-card reveal" onclick="window.location='waiting.html'">
+        <div class="sc-top">
+          <span class="badge badge-sched">Demain 20h00</span>
+          <span class="sc-participants">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            34 inscrits
+          </span>
+        </div>
+        <div class="sc-title">Marketing Digital — SEO & Growth Hacking</div>
+        <div class="sc-desc">30h de formation sur 1 mois. L'IA sera ton manager de progression quotidienne.</div>
+        <div class="sc-meta">
+          <span class="sc-ai-tag">30h · 1 mois</span>
+          <span class="sc-time">S'inscrire →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="container">
+    <div style="text-align:center;">
+      <div class="eyebrow">Processus</div>
+      <h2 class="section-title">Comment l'IA manage votre formation</h2>
+      <p class="section-sub" style="margin:0 auto;">De la planification à l'enseignement, l'IA gère tout. Vous choisissez le sujet et le rythme, elle fait le reste.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-step reveal">
+        <div class="how-num">01</div>
+        <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        <h3>Tu définis le rythme</h3>
+        <p>Choisis le sujet, la durée et le format : 1h/jour, 2h/semaine, 30h/mois. L'IA s'adapte complètement.</p>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num">02</div>
+        <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg></div>
+        <h3>L'IA planifie tout</h3>
+        <p>Elle crée le programme complet heure par heure : leçons, challenges, quiz, pauses. Tout est optimisé.</p>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num">03</div>
+        <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8h1a4 4 0 010 8h-1m-8 0H5a4 4 0 010-8h1"/></svg></div>
+        <h3>Tu partages le lien</h3>
+        <p>Un lien unique est généré. Tu le partages sur WhatsApp, Instagram ou email. Les gens s'inscrivent en 1 clic.</p>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num">04</div>
+        <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        <h3>L'IA arrive à l'heure</h3>
+        <p>À la seconde exacte, l'IA commence. Elle enseigne, répond aux questions, lance des challenges, évalue.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI MANAGER DEMO -->
+<section>
+  <div class="container">
+    <div class="aim-grid">
+      <div>
+        <div class="eyebrow">IA Manager</div>
+        <h2 class="section-title">Une IA qui planifie<br/>à la <em style="font-style:italic;color:var(--accent);">minute près.</em></h2>
+        <p style="font-size:.95rem;color:var(--text2);line-height:1.75;margin-bottom:24px;">L'IA Learnova crée le programme complet heure par heure. Elle sait exactement ce qu'elle va dire à 14h00, quel challenge lancer à 14h45, et quand accorder une pause à 15h30.</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:11px;">
+          <li style="display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--text2);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Programme généré automatiquement selon le sujet</li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--text2);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>L'admin reçoit une notification avant chaque session</li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--text2);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>S'adapte au niveau des participants en temps réel</li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--text2);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Rapport complet envoyé à l'admin après chaque session</li>
+        </ul>
+        <div style="margin-top:24px;">
+          <a href="live.html" class="btn btn-dark">Voir une session en direct →</a>
+        </div>
+      </div>
+      <div class="aim-ui reveal">
+        <div class="aim-header">
+          <div class="aim-ai-av">AI</div>
+          <div><div class="aim-ai-name">Learnova IA — Manager de session</div><div class="aim-ai-status">Python · 2h · 247 participants</div></div>
+          <div class="aim-online"></div>
+        </div>
+        <div class="aim-body">
+          <div class="aim-plan-title">Programme — Heure par heure</div>
+          <div class="aim-slot"><span class="aim-slot-time">14:00</span><span class="aim-slot-topic">Introduction & rappels</span><span class="aim-slot-type slot-lesson">Leçon</span></div>
+          <div class="aim-slot active-slot"><span class="aim-slot-time">14:20</span><span class="aim-slot-topic">Algorithme de tri à bulles</span><span class="aim-slot-type slot-lesson">Leçon</span></div>
+          <div class="aim-slot"><span class="aim-slot-time">14:45</span><span class="aim-slot-topic">Challenge : implémenter le tri</span><span class="aim-slot-type slot-challenge">Challenge</span></div>
+          <div class="aim-slot"><span class="aim-slot-time">15:00</span><span class="aim-slot-topic">Quiz rapide — 5 questions</span><span class="aim-slot-type slot-quiz">Quiz</span></div>
+          <div class="aim-slot"><span class="aim-slot-time">15:10</span><span class="aim-slot-topic">Pause</span><span class="aim-slot-type slot-break">Pause</span></div>
+          <div class="aim-slot"><span class="aim-slot-time">15:20</span><span class="aim-slot-topic">Quicksort — algorithme avancé</span><span class="aim-slot-type slot-lesson">Leçon</span></div>
+          <div class="aim-slot"><span class="aim-slot-time">15:50</span><span class="aim-slot-topic">Défi final — qui code le plus vite</span><span class="aim-slot-type slot-challenge">Challenge</span></div>
+        </div>
+        <div class="aim-footer">
+          <span style="font-size:.78rem;color:var(--text2);">247 participants actifs</span>
+          <a href="live.html" class="btn btn-dark btn-sm">Voir la session →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="container">
+    <div style="text-align:center;">
+      <div class="eyebrow">Ce que Learnova fait</div>
+      <h2 class="section-title">Aucune plateforme ne fait ça.</h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg></div><h3>IA Manager de formation</h3><p>L'IA planifie chaque minute. Leçons, challenges, quiz, pauses. Elle respecte l'heure à la seconde près.</p><span class="feat-new">Exclusif Learnova</span></div>
+      <div class="feat reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div><h3>Enseignement en streaming</h3><p>L'IA enseigne en direct, mot par mot, devant tous les participants simultanément.</p></div>
+      <div class="feat reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857"/></svg></div><h3>Challenges collectifs live</h3><p>QCM chronométré, défi de code, qui répond le plus vite, vote collectif. L'IA lance au moment parfait.</p><span class="feat-new">Jamais vu ailleurs</span></div>
+      <div class="feat reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></div><h3>Tu parles à l'IA</h3><p>Pendant la session, pose des questions à l'IA. Elle te répond sans interrompre les autres participants.</p></div>
+      <div class="feat reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><h3>Formats flexibles</h3><p>1h/jour, 2h/semaine, session unique, 30h/mois. L'IA s'adapte à n'importe quel rythme.</p></div>
+      <div class="feat reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0"/></svg></div><h3>Certification automatique</h3><p>À la fin de la formation, chaque participant reçoit son certificat signé et vérifiable.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box">
+      <div>
+        <h2>Prêt à former<br/>le monde entier ?</h2>
+        <p>Rejoins Learnova. Gratuit, pour toujours.</p>
+      </div>
+      <div class="cta-form">
+        <input class="cta-inp" id="ctaEmail" type="email" placeholder="ton@email.com"/>
+        <input class="cta-inp" id="ctaName" type="text" placeholder="Ton prénom"/>
+        <button class="cta-submit" onclick="ctaJoin()">Rejoindre Learnova gratuitement</button>
+        <div class="cta-note">Aucune carte bancaire. Aucun spam. Gratuit.</div>
+        <div class="cta-success" id="ctaSuccess">Bienvenue sur Learnova ! À très bientôt.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a href="index.html" class="ln-logo"><div class="ln-logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div><span class="ln-logo-name">Learnova</span></a>
+      <p>© 2025 Learnova · La plateforme d'apprentissage du futur.</p>
+      <div class="footer-links"><a href="admin.html">Admin</a><a href="#">Contact</a><a href="#">Confidentialité</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold:0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Live count animation
+let lc = 342;
+setInterval(() => {
+  lc += Math.random() > .5 ? 1 : -1;
+  lc = Math.max(330, Math.min(360, lc));
+  const el = document.getElementById('liveCount');
+  if(el) el.textContent = lc;
+}, 3000);
+
+// Countdown
+let cd = 18*60+42;
+setInterval(() => {
+  cd = Math.max(0, cd-1);
+  const el = document.getElementById('cd1');
+  if(el) el.textContent = `${Math.floor(cd/60).toString().padStart(2,'0')}:${(cd%60).toString().padStart(2,'0')}`;
+}, 1000);
+
+// CTA
+function ctaJoin() {
+  const e = document.getElementById('ctaEmail').value.trim();
+  const n = document.getElementById('ctaName').value.trim();
+  if(!e || !e.includes('@')) { alert('Entre une adresse email valide.'); return; }
+  if(!n) { alert('Entre ton prénom.'); return; }
+  document.getElementById('ctaSuccess').classList.add('show');
+  document.getElementById('ctaEmail').value = '';
+  document.getElementById('ctaName').value = '';
+  showToast(`Bienvenue ${n} sur Learnova !`);
+}
+</script>
+</body>
+</html>

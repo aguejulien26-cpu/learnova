@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Learnova — Session Live en cours</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+body { padding-top:60px; background:var(--bg2); }
+.live-layout { display:grid; grid-template-columns:1fr 340px; height:calc(100vh - 60px); }
+
+/* ── GAUCHE : Enseignement ── */
+.live-left { display:flex; flex-direction:column; overflow:hidden; background:var(--bg2); }
+
+.live-topbar {
+  background:var(--bg); border-bottom:1px solid var(--border);
+  padding:0 20px; height:52px; display:flex; align-items:center; gap:14px; flex-shrink:0;
+}
+.live-badge { display:flex; align-items:center; gap:5px; background:var(--rl); color:var(--red); font-size:.72rem; font-weight:700; padding:4px 10px; border-radius:100px; }
+.live-session-name { font-family:var(--h); font-size:1rem; flex:1; }
+.live-timer { font-family:var(--h); font-size:1.1rem; color:var(--accent); }
+.live-parts { font-size:.75rem; color:var(--text3); display:flex; align-items:center; gap:4px; }
+
+/* Teaching area */
+.teaching-area { flex:1; overflow-y:auto; padding:22px; display:flex; flex-direction:column; gap:16px; }
+
+.ai-block { display:flex; gap:12px; align-items:flex-start; }
+.ai-av-big {
+  width:38px; height:38px; border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),#6d28d9);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--h); font-size:.9rem; color:#fff; font-weight:700;
+  flex-shrink:0; box-shadow:0 4px 14px rgba(26,86,219,.25);
+}
+.ai-block-content { flex:1; max-width:760px; }
+.ai-block-name { font-size:.7rem; font-weight:700; color:var(--accent); margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+.ai-badge-mini { font-size:.6rem; background:var(--al); padding:2px 6px; border-radius:100px; }
+.ai-bubble {
+  background:var(--bg); border:1px solid var(--border);
+  border-radius:4px 14px 14px 14px; padding:14px 16px;
+  font-size:.87rem; line-height:1.75; color:var(--text2); box-shadow:var(--sh1);
+}
+.ai-bubble strong { color:var(--text); }
+.ai-bubble code { background:var(--bg2); padding:2px 6px; border-radius:4px; font-family:'Courier New',monospace; font-size:.82em; color:var(--accent); }
+
+.user-block { display:flex; gap:12px; align-items:flex-start; flex-direction:row-reverse; }
+.user-av-sm { width:30px; height:30px; border-radius:50%; overflow:hidden; flex-shrink:0; }
+.user-av-sm img { width:100%; height:100%; object-fit:cover; }
+.user-bubble { background:var(--al); border:1px solid var(--am); border-radius:14px 4px 14px 14px; padding:10px 14px; font-size:.84rem; line-height:1.6; color:var(--text2); max-width:75%; }
+
+.typing-block { display:flex; gap:12px; align-items:center; }
+.typing-dots { display:flex; gap:4px; padding:12px 16px; background:var(--bg); border:1px solid var(--border); border-radius:4px 14px 14px 14px; }
+.typing-dots span { width:6px; height:6px; border-radius:50%; background:var(--text3); animation:typeDot 1.2s infinite; }
+.typing-dots span:nth-child(2){animation-delay:.2s;} .typing-dots span:nth-child(3){animation-delay:.4s;}
+@keyframes typeDot{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}}
+
+/* CHALLENGE BLOCK */
+.challenge-card {
+  background:var(--bg); border:2px solid var(--accent); border-radius:16px;
+  padding:20px; box-shadow:0 0 0 4px rgba(26,86,219,.06);
+  display:none;
+}
+.challenge-card.show { display:block; }
+.ch-header { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.ch-icon { width:34px; height:34px; border-radius:9px; background:var(--al); display:flex; align-items:center; justify-content:center; }
+.ch-icon svg { width:17px; height:17px; color:var(--accent); }
+.ch-title { font-weight:600; font-size:.9rem; flex:1; }
+.ch-timer { font-family:var(--h); font-size:1.4rem; color:var(--red); }
+.ch-question { font-size:.9rem; font-weight:500; margin-bottom:14px; line-height:1.5; }
+.ch-opts { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
+.ch-opt { padding:11px 14px; border:1px solid var(--border); border-radius:9px; cursor:pointer; font-size:.85rem; transition:all .15s; color:var(--text2); text-align:center; font-weight:500; }
+.ch-opt:hover { border-color:var(--accent); background:var(--al); color:var(--accent); }
+.ch-opt.selected { border-color:var(--accent); background:var(--al); color:var(--accent); }
+.ch-opt.correct { border-color:var(--green); background:var(--gl); color:var(--green); }
+.ch-opt.wrong { border-color:var(--red); background:var(--rl); color:var(--red); }
+.ch-leaderboard { border-top:1px solid var(--border); padding-top:12px; display:none; }
+.ch-lb-title { font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--text3); margin-bottom:8px; }
+.ch-lb-row { display:flex; align-items:center; gap:10px; padding:5px 0; font-size:.82rem; }
+.ch-lb-av { width:22px; height:22px; border-radius:50%; overflow:hidden; }
+.ch-lb-av img { width:100%; height:100%; object-fit:cover; }
+.ch-lb-pts { font-weight:700; color:var(--accent); margin-left:auto; }
+
+/* User input */
+.live-input-bar {
+  background:var(--bg); border-top:1px solid var(--border);
+  padding:12px 20px; display:flex; gap:10px; align-items:center; flex-shrink:0;
+}
+.lib-av { width:30px; height:30px; border-radius:50%; overflow:hidden; flex-shrink:0; }
+.lib-av img { width:100%; height:100%; object-fit:cover; }
+.lib-inp { flex:1; border:1px solid var(--border2); border-radius:9px; padding:9px 14px; font-family:var(--b); font-size:.84rem; color:var(--text); outline:none; transition:border-color .2s; background:var(--bg2); }
+.lib-inp:focus { border-color:var(--accent); background:var(--bg); }
+.lib-send { width:34px; height:34px; border-radius:8px; background:var(--accent); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background .2s; }
+.lib-send:hover { background:#1448c0; }
+.lib-send svg { width:13px; height:13px; }
+
+/* ── DROITE ── */
+.live-right { background:var(--bg); border-left:1px solid var(--border); display:flex; flex-direction:column; overflow:hidden; }
+.lr-tabs { display:flex; border-bottom:1px solid var(--border); }
+.lrt { flex:1; padding:12px 8px; text-align:center; font-size:.78rem; font-weight:500; color:var(--text3); cursor:pointer; border-bottom:2px solid transparent; transition:all .15s; }
+.lrt:hover { color:var(--text); }
+.lrt.active { color:var(--accent); border-bottom-color:var(--accent); }
+.lr-panel { flex:1; overflow-y:auto; display:none; }
+.lr-panel.active { display:block; }
+
+/* Schedule */
+.sched-item { display:flex; gap:10px; align-items:flex-start; padding:11px 16px; border-bottom:1px solid var(--border); cursor:pointer; transition:background .15s; }
+.sched-item:hover { background:var(--bg2); }
+.sched-item.current { background:var(--al); border-left:2px solid var(--accent); }
+.si-time { font-size:.72rem; font-weight:700; color:var(--accent); width:42px; flex-shrink:0; margin-top:2px; }
+.si-topic-text { font-size:.82rem; font-weight:500; margin-bottom:3px; }
+.si-type-pill { font-size:.67px; padding:2px 7px; border-radius:100px; font-weight:700; display:inline-block; font-size:.65rem; }
+
+/* Participants */
+.part-header { padding:12px 16px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+.part-header h4 { font-size:.8rem; font-weight:600; }
+.part-online { font-size:.72rem; color:var(--green); }
+.part-item { display:flex; align-items:center; gap:9px; padding:9px 16px; border-bottom:1px solid var(--border); transition:background .15s; }
+.part-item:hover { background:var(--bg2); }
+.part-av { width:30px; height:30px; border-radius:50%; overflow:hidden; position:relative; flex-shrink:0; }
+.part-av img { width:100%; height:100%; object-fit:cover; }
+.part-online-dot { position:absolute; bottom:0; right:0; width:7px; height:7px; border-radius:50%; background:var(--green); border:1.5px solid var(--bg); }
+.part-name { font-size:.82rem; font-weight:500; flex:1; }
+.part-pts { font-size:.75rem; font-weight:700; color:var(--accent); }
+
+/* Questions panel */
+.q-item { padding:12px 16px; border-bottom:1px solid var(--border); }
+.q-text { font-size:.82rem; font-weight:500; margin-bottom:3px; }
+.q-status { font-size:.72rem; color:var(--text3); }
+.q-status.answered { color:var(--green); }
+
+@media(max-width:960px) {
+  .live-layout { grid-template-columns:1fr; }
+  .live-right { display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="ln-nav">
+  <div class="ln-nav-inner">
+    <a href="index.html" class="ln-logo">
+      <div class="ln-logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div>
+      <span class="ln-logo-name">Learnova</span>
+    </a>
+    <div class="ln-nav-right">
+      <a href="index.html" class="btn btn-ghost btn-sm">Quitter la session</a>
+      <a href="admin.html" class="btn btn-ghost btn-sm hide-mobile">Admin</a>
+    </div>
+  </div>
+</nav>
+
+<div class="live-layout">
+
+  <!-- LEFT -->
+  <div class="live-left">
+    <div class="live-topbar">
+      <div class="live-badge"><span class="pulse"></span> EN DIRECT</div>
+      <div class="live-session-name">Python — Algorithmes de tri</div>
+      <div class="live-timer" id="liveTimer">01:23:47</div>
+      <div class="live-parts">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg>
+        247 actifs
+      </div>
+    </div>
+
+    <div class="teaching-area" id="teachingArea">
+      <!-- Message IA initial -->
+      <div class="ai-block">
+        <div class="ai-av-big">AI</div>
+        <div class="ai-block-content">
+          <div class="ai-block-name">Learnova IA <span class="ai-badge-mini">Manager de session</span></div>
+          <div class="ai-bubble">
+            Bonjour à tous ! Je suis votre professeur IA pour cette session de 2 heures sur les <strong>algorithmes de tri en Python</strong>. Nous sommes <strong>247 participants</strong> aujourd'hui.<br/><br/>
+            Voici le programme : <strong>tri à bulles</strong>, <strong>quicksort</strong> et <strong>merge sort</strong>. À chaque étape je lancerai un challenge pour tester votre compréhension. Prêts ? Commençons !
+          </div>
+        </div>
+      </div>
+
+      <!-- Leçon -->
+      <div class="ai-block">
+        <div class="ai-av-big">AI</div>
+        <div class="ai-block-content">
+          <div class="ai-block-name">Learnova IA</div>
+          <div class="ai-bubble">
+            Commençons par le <strong>tri à bulles</strong>. Le principe est simple : on compare deux éléments voisins et on les échange si nécessaire. On répète jusqu'à ce que tout soit trié.<br/><br/>
+            Voici le code complet :
+            <div class="code-block">
+<span class="cm"># Tri à bulles — Python</span>
+<span class="kw">def</span> <span class="fn">tri_a_bulles</span>(liste):
+    n = <span class="fn">len</span>(liste)
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(n):
+        <span class="kw">for</span> j <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">0</span>, n-i-<span class="nm">1</span>):
+            <span class="kw">if</span> liste[j] > liste[j+<span class="nm">1</span>]:
+                liste[j], liste[j+<span class="nm">1</span>] = liste[j+<span class="nm">1</span>], liste[j]
+    <span class="kw">return</span> liste
+
+<span class="cm"># Test</span>
+nombres = [<span class="nm">64</span>, <span class="nm">34</span>, <span class="nm">25</span>, <span class="nm">12</span>, <span class="nm">22</span>]
+<span class="fn">print</span>(tri_a_bulles(nombres))
+<span class="cm"># Résultat : [12, 22, 25, 34, 64]</span>
+            </div>
+            La complexité est <strong>O(n²)</strong> — simple à comprendre, mais pas le plus efficace pour les grandes listes.
+          </div>
+        </div>
+      </div>
+
+      <!-- CHALLENGE (hidden, launched by JS) -->
+      <div class="challenge-card" id="challengeCard">
+        <div class="ch-header">
+          <div class="ch-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <div class="ch-title" id="chTitle">Challenge QCM</div>
+          <div class="ch-timer" id="chTimer">30</div>
+        </div>
+        <div class="ch-question" id="chQuestion"></div>
+        <div class="ch-opts" id="chOpts"></div>
+        <div class="ch-leaderboard" id="chLb">
+          <div class="ch-lb-title">Classement en direct</div>
+          <div id="lbRows"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- USER INPUT -->
+    <div class="live-input-bar">
+      <div class="lib-av"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face" alt=""/></div>
+      <input class="lib-inp" id="userQ" type="text" placeholder="Pose une question à l'IA... (elle répond sans interrompre la session)"/>
+      <button class="lib-send" onclick="sendUserQ()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="live-right">
+    <div class="lr-tabs">
+      <div class="lrt active" onclick="lrTab(this,'lr-sched')">Programme</div>
+      <div class="lrt" onclick="lrTab(this,'lr-parts')">Participants</div>
+      <div class="lrt" onclick="lrTab(this,'lr-qs')">Questions</div>
+    </div>
+
+    <!-- Programme -->
+    <div id="lr-sched" class="lr-panel active">
+      <div class="sched-item current">
+        <div class="si-time">14:20</div>
+        <div><div class="si-topic-text">Tri à bulles</div><span class="si-type-pill" style="background:var(--al);color:var(--accent);">En cours</span></div>
+      </div>
+      <div class="sched-item">
+        <div class="si-time">14:45</div>
+        <div><div class="si-topic-text">Challenge : implémenter le tri</div><span class="si-type-pill" style="background:var(--pl);color:var(--purple);">Challenge</span></div>
+      </div>
+      <div class="sched-item">
+        <div class="si-time">15:00</div>
+        <div><div class="si-topic-text">Quiz rapide — 5 questions</div><span class="si-type-pill" style="background:var(--gl);color:var(--green);">Quiz</span></div>
+      </div>
+      <div class="sched-item">
+        <div class="si-time">15:10</div>
+        <div><div class="si-topic-text">Pause 10 min</div><span class="si-type-pill" style="background:var(--bg3);color:var(--text3);">Pause</span></div>
+      </div>
+      <div class="sched-item">
+        <div class="si-time">15:20</div>
+        <div><div class="si-topic-text">Quicksort — avancé</div><span class="si-type-pill" style="background:var(--al);color:var(--accent);">Leçon</span></div>
+      </div>
+      <div class="sched-item">
+        <div class="si-time">15:50</div>
+        <div><div class="si-topic-text">Défi final — qui code le plus vite</div><span class="si-type-pill" style="background:var(--pl);color:var(--purple);">Challenge</span></div>
+      </div>
+    </div>
+
+    <!-- Participants -->
+    <div id="lr-parts" class="lr-panel">
+      <div class="part-header"><h4>Participants</h4><span class="part-online">247 en ligne</span></div>
+      <div id="partsList"></div>
+    </div>
+
+    <!-- Questions -->
+    <div id="lr-qs" class="lr-panel">
+      <div class="part-header"><h4>Mes questions à l'IA</h4></div>
+      <div id="qsList" style="padding:8px;display:flex;flex-direction:column;gap:8px;"></div>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+// LIVE TIMER
+let liveSecs = 83*60+47;
+setInterval(() => {
+  liveSecs++;
+  document.getElementById('liveTimer').textContent = formatDuration(liveSecs);
+}, 1000);
+
+// RIGHT TABS
+function lrTab(el, id) {
+  document.querySelectorAll('.lrt').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.lr-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// PARTICIPANTS
+const PARTS = [
+  {name:'Fatima K.', img:'photo-1494790108377-be9c29b29330', pts:420},
+  {name:'Marcus D.', img:'photo-1500648767791-00dcc994a43e', pts:380},
+  {name:'Wei C.', img:'photo-1507003211169-0a1dd7228f2d', pts:360},
+  {name:'Sara M.', img:'photo-1534528741775-53994a69daeb', pts:310},
+  {name:'Kofi A.', img:'photo-1507003211169-0a1dd7228f2d', pts:280},
+  {name:'Amina D.', img:'photo-1494790108377-be9c29b29330', pts:240},
+];
+const list = document.getElementById('partsList');
+PARTS.forEach(p => {
+  const d = document.createElement('div');
+  d.className = 'part-item';
+  d.innerHTML = `<div class="part-av"><img src="https://images.unsplash.com/${p.img}?w=64&h=64&fit=crop&crop=face" alt=""/><div class="part-online-dot"></div></div><div class="part-name">${p.name}</div><div class="part-pts">${p.pts} pts</div>`;
+  list.appendChild(d);
+});
+
+// USER QUESTION
+let aiRIdx = 0;
+function sendUserQ() {
+  const inp = document.getElementById('userQ');
+  const q = inp.value.trim();
+  if(!q) return;
+  const area = document.getElementById('teachingArea');
+  const bar = document.querySelector('.live-input-bar');
+
+  // User message
+  const ub = document.createElement('div');
+  ub.className = 'user-block';
+  ub.innerHTML = `<div class="user-av-sm"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face" alt=""/></div><div class="user-bubble">${q}</div>`;
+  area.insertBefore(ub, bar);
+  inp.value = '';
+
+  // Add to questions list
+  const qsList = document.getElementById('qsList');
+  const qi = document.createElement('div');
+  qi.className = 'q-item';
+  qi.innerHTML = `<div class="q-text">${q}</div><div class="q-status">En attente...</div>`;
+  qsList.appendChild(qi);
+
+  // Typing
+  const tb = document.createElement('div');
+  tb.className = 'typing-block';
+  tb.innerHTML = `<div class="ai-av-big">AI</div><div class="typing-dots"><span></span><span></span><span></span></div>`;
+  area.insertBefore(tb, bar);
+  area.scrollTop = area.scrollHeight;
+
+  setTimeout(() => {
+    tb.remove();
+    const answer = getAIResponse(q);
+    const ab = document.createElement('div');
+    ab.className = 'ai-block';
+    ab.innerHTML = `<div class="ai-av-big">AI</div><div class="ai-block-content"><div class="ai-block-name">Learnova IA <span class="ai-badge-mini">Répond à ta question</span></div><div class="ai-bubble">${answer}</div></div>`;
+    area.insertBefore(ab, bar);
+    area.scrollTop = area.scrollHeight;
+    qi.querySelector('.q-status').textContent = 'Répondu ✓';
+    qi.querySelector('.q-status').classList.add('answered');
+  }, 1800);
+}
+document.getElementById('userQ').addEventListener('keypress', e => { if(e.key==='Enter') sendUserQ(); });
+
+// CHALLENGES
+let chIdx = 0;
+let chTimerIv = null;
+function launchChallenge() {
+  const ch = CHALLENGES[chIdx % CHALLENGES.length];
+  chIdx++;
+  const card = document.getElementById('challengeCard');
+  const area = document.getElementById('teachingArea');
+  card.classList.add('show');
+
+  // AI announce
+  const bar = document.querySelector('.live-input-bar');
+  const ab = document.createElement('div');
+  ab.className = 'ai-block';
+  ab.innerHTML = `<div class="ai-av-big">AI</div><div class="ai-block-content"><div class="ai-block-name">Learnova IA <span class="ai-badge-mini">Challenge !</span></div><div class="ai-bubble">⚡ <strong>Challenge lancé !</strong> Vous avez ${ch.time} secondes pour répondre. Qui sera le plus rapide ? Go !</div></div>`;
+  area.insertBefore(ab, card);
+
+  document.getElementById('chTitle').textContent = ch.title;
+  document.getElementById('chQuestion').textContent = ch.q;
+  let t = ch.time;
+  document.getElementById('chTimer').textContent = t;
+  document.getElementById('chLb').style.display = 'none';
+
+  const opts = document.getElementById('chOpts');
+  opts.innerHTML = '';
+  ch.opts.forEach((o, i) => {
+    const d = document.createElement('div');
+    d.className = 'ch-opt';
+    d.textContent = o;
+    d.onclick = () => selectAnswer(d, i, ch.correct);
+    opts.appendChild(d);
+  });
+
+  if(chTimerIv) clearInterval(chTimerIv);
+  chTimerIv = setInterval(() => {
+    t--;
+    const el = document.getElementById('chTimer');
+    if(el) el.textContent = t;
+    if(el) el.style.color = t <= 10 ? 'var(--red)' : 'var(--red)';
+    if(t <= 0) { clearInterval(chTimerIv); revealCh(ch.correct); }
+  }, 1000);
+
+  card.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+function selectAnswer(el, idx, correct) {
+  if(el.classList.contains('correct') || el.classList.contains('wrong')) return;
+  document.querySelectorAll('.ch-opt').forEach(o => o.style.pointerEvents='none');
+  el.classList.add(idx === correct ? 'correct' : 'wrong');
+  clearInterval(chTimerIv);
+  if(idx === correct) showToast('+100 points ! Bonne réponse ! 🎉');
+  setTimeout(() => revealCh(correct), 600);
+}
+
+function revealCh(correct) {
+  document.querySelectorAll('.ch-opt').forEach((o,i) => { if(i===correct) o.classList.add('correct'); });
+  const lb = document.getElementById('chLb');
+  lb.style.display = 'block';
+  const rows = document.getElementById('lbRows');
+  const winners = [
+    {name:'Fatima K.', img:'photo-1494790108377-be9c29b29330', pts:520},
+    {name:'Marcus D.', img:'photo-1500648767791-00dcc994a43e', pts:480},
+    {name:'Toi', img:'photo-1507003211169-0a1dd7228f2d', pts:460},
+  ];
+  rows.innerHTML = winners.map((w,i) => `
+    <div class="ch-lb-row">
+      <span style="width:20px;font-weight:700;color:var(--text3);">${['🥇','🥈','🥉'][i]}</span>
+      <div class="ch-lb-av"><img src="https://images.unsplash.com/${w.img}?w=44&h=44&fit=crop&crop=face" alt=""/></div>
+      <span style="flex:1;font-weight:500;">${w.name}</span>
+      <span class="ch-lb-pts">+${w.pts} pts</span>
+    </div>`).join('');
+}
+
+// Auto-launch challenge after 8s
+setTimeout(launchChallenge, 8000);
+// Second challenge after 25s
+setTimeout(launchChallenge, 25000);
+</script>
+</body>
+</html>
