@@ -20,7 +20,7 @@ const SUPABASE_ANON_KEY = sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 // URL de ton backend Render (à remplir après déploiement)
-export const BACKEND_URL = "https://learnova-backend.onrender.com"
+export const BACKEND_URL = "https://learnova-backend-28pl.onrender.com"
 
 
 // ============================================================

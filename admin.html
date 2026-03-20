@@ -3,604 +3,947 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Learnova Admin — Tableau de bord</title>
-<link rel="stylesheet" href="style.css"/>
+<title>Learnova — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
 <style>
-body { padding-top:60px; background:var(--bg2); min-height:100vh; }
-.admin-layout { display:grid; grid-template-columns:240px 1fr; min-height:calc(100vh - 60px); }
+:root{
+  --bg:#ffffff;--bg2:#f7f8fc;--border:#e4e5f0;
+  --text:#09090f;--text2:#454560;--text3:#9090b0;
+  --accent:#1a56db;--al:#eff3ff;--am:#c7d7fd;
+  --green:#047857;--gl:#ecfdf5;--gm:#a7f3d0;
+  --red:#b91c1c;--rl:#fef2f2;
+  --purple:#6d28d9;--pl:#f5f3ff;
+  --gold:#b45309;--goldl:#fffbeb;
+  --h:'Instrument Serif',serif;--b:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{background:var(--bg2);color:var(--text);font-family:var(--b);-webkit-font-smoothing:antialiased;}
 
-/* SIDEBAR */
-.adm-sidebar { background:var(--bg); border-right:1px solid var(--border); padding:16px 0; position:sticky; top:60px; height:calc(100vh - 60px); overflow-y:auto; }
-.adm-section-label { font-size:.67rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--text3); padding:10px 16px 5px; margin-top:6px; }
-.adm-nav-item { display:flex; align-items:center; gap:9px; padding:9px 16px; font-size:.83rem; color:var(--text2); cursor:pointer; transition:all .15s; border-right:2px solid transparent; text-decoration:none; }
-.adm-nav-item:hover { background:var(--bg2); color:var(--text); }
-.adm-nav-item.active { color:var(--accent); background:var(--al); border-right-color:var(--accent); font-weight:500; }
-.adm-nav-item svg { width:15px; height:15px; flex-shrink:0; }
-.adm-badge { margin-left:auto; font-size:.67rem; background:var(--bg2); border:1px solid var(--border); padding:1px 7px; border-radius:100px; color:var(--text3); }
-.adm-user { padding:16px; border-top:1px solid var(--border); display:flex; align-items:center; gap:10px; margin-top:auto; }
-.adm-user-av { width:32px; height:32px; border-radius:50%; overflow:hidden; }
-.adm-user-av img { width:100%; height:100%; object-fit:cover; }
-.adm-user-name { font-size:.82rem; font-weight:600; }
-.adm-user-role { font-size:.7rem; color:var(--red); font-weight:600; }
+/* ── ÉCRAN DE PROTECTION ── */
+#protectScreen{
+  position:fixed;inset:0;background:var(--text);z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+}
+.protect-box{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:48px;width:380px;text-align:center;
+}
+.protect-logo{font-family:var(--h);font-size:1.8rem;color:#fff;margin-bottom:8px;}
+.protect-sub{font-size:.85rem;color:rgba(255,255,255,.4);margin-bottom:28px;}
+.protect-inp{
+  width:100%;padding:14px;border:1px solid rgba(255,255,255,.15);
+  border-radius:10px;background:rgba(255,255,255,.08);color:#fff;
+  font-family:var(--b);font-size:1rem;outline:none;letter-spacing:3px;
+  text-align:center;margin-bottom:12px;
+}
+.protect-inp::placeholder{color:rgba(255,255,255,.3);letter-spacing:0;}
+.protect-inp:focus{border-color:rgba(255,255,255,.3);}
+.protect-btn{
+  width:100%;padding:14px;background:#fff;color:var(--text);
+  border:none;border-radius:10px;font-family:var(--b);font-size:.95rem;
+  font-weight:600;cursor:pointer;transition:all .2s;
+}
+.protect-btn:hover{background:#f0f1f8;}
+.protect-err{color:#fca5a5;font-size:.82rem;margin-top:10px;display:none;}
+.protect-err.show{display:block;}
+.protect-note{font-size:.72rem;color:rgba(255,255,255,.2);margin-top:14px;}
+
+/* ── APP ADMIN ── */
+#adminApp{display:none;padding-top:60px;min-height:100vh;}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);height:60px;}
+.nav-inner{max-width:1400px;margin:0 auto;padding:0 28px;height:100%;display:flex;align-items:center;gap:14px;}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
+.logo-mark{width:30px;height:30px;border-radius:8px;background:var(--text);display:flex;align-items:center;justify-content:center;}
+.logo-mark svg{width:15px;height:15px;}
+.logo-name{font-family:var(--h);font-size:1.15rem;color:var(--text);}
+.admin-badge{font-size:.72rem;font-weight:700;background:var(--rl);color:var(--red);padding:3px 10px;border-radius:100px;}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:9px;font-family:var(--b);font-weight:500;font-size:.875rem;cursor:pointer;border:none;transition:all .2s;text-decoration:none;}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text2);}
+.btn-ghost:hover{background:var(--bg2);}
+.btn-dark{background:var(--text);color:#fff;}
+.btn-dark:hover{background:#1a1a2e;}
+.btn-accent{background:var(--accent);color:#fff;}
+.btn-accent:hover{background:#1448c0;}
+.btn-sm{padding:7px 14px;font-size:.8rem;border-radius:7px;}
+.btn-red{background:var(--red);color:#fff;}
+.btn-green{background:var(--green);color:#fff;}
+
+/* LAYOUT */
+.admin-layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 60px);}
+.sidebar{background:var(--bg);border-right:1px solid var(--border);padding:16px 0;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;}
+.sl{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);padding:10px 16px 5px;margin-top:6px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 16px;font-size:.83rem;color:var(--text2);cursor:pointer;transition:all .15s;border-right:2px solid transparent;}
+.nav-item:hover{background:var(--bg2);color:var(--text);}
+.nav-item.active{color:var(--accent);background:var(--al);border-right-color:var(--accent);font-weight:500;}
+.nav-item svg{width:15px;height:15px;flex-shrink:0;}
 
 /* MAIN */
-.adm-main { padding:28px; overflow-y:auto; }
-.adm-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; }
-.adm-topbar h1 { font-family:var(--h); font-size:1.5rem; letter-spacing:-.5px; }
-.adm-tab { display:none; }
-.adm-tab.active { display:block; }
+.main{padding:28px;overflow-y:auto;}
+.tab{display:none;}
+.tab.active{display:block;}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+.page-title{font-family:var(--h);font-size:1.5rem;letter-spacing:-.5px;}
 
-/* STATS CARDS */
-.stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:24px; }
-.stat-card { background:var(--bg); border:1px solid var(--border); border-radius:16px; padding:18px; }
-.sc-top2 { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
-.sc-icon { width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; }
-.sc-icon svg { width:16px; height:16px; }
-.sc-trend { font-size:.72rem; font-weight:500; color:var(--green); }
-.sc-num { font-family:var(--h); font-size:1.6rem; color:var(--text); letter-spacing:-1px; line-height:1; }
-.sc-label { font-size:.72rem; color:var(--text3); margin-top:3px; }
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.stat-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:18px;}
+.sc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.sc-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.sc-icon svg{width:16px;height:16px;}
+.sc-num{font-family:var(--h);font-size:1.6rem;letter-spacing:-1px;line-height:1;}
+.sc-label{font-size:.72rem;color:var(--text3);margin-top:3px;}
 
-/* NOTIFICATION IA */
-.ai-notif { background:linear-gradient(135deg,var(--pl),var(--al)); border:1px solid rgba(109,40,217,.15); border-radius:16px; padding:18px 20px; margin-bottom:20px; display:flex; align-items:center; gap:14px; }
-.ain-icon { width:42px; height:42px; border-radius:11px; background:var(--purple); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.ain-icon svg { width:20px; height:20px; color:#fff; }
-.ain-title { font-size:.88rem; font-weight:600; margin-bottom:3px; }
-.ain-sub { font-size:.78rem; color:var(--text2); }
-.ain-actions { display:flex; gap:8px; flex-shrink:0; }
+/* CARD */
+.card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;}
+.card h3{font-size:.92rem;font-weight:600;margin-bottom:4px;}
+.card > p{font-size:.78rem;color:var(--text3);margin-bottom:20px;}
 
-/* SESSION BUILDER */
-.builder-card { background:var(--bg); border:1px solid var(--border); border-radius:16px; padding:24px; margin-bottom:20px; }
-.builder-card h3 { font-size:.92rem; font-weight:600; margin-bottom:4px; }
-.builder-card p { font-size:.78rem; color:var(--text3); margin-bottom:20px; }
-.form-2col { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-.form-full { grid-column:span 2; }
+/* FORM */
+.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.form-label{font-size:.8rem;font-weight:500;}
+.form-input,.form-select,.form-textarea{border:1px solid var(--border);border-radius:8px;padding:10px 13px;font-family:var(--b);font-size:.85rem;color:var(--text);background:var(--bg2);outline:none;transition:border-color .2s;width:100%;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent);background:var(--bg);}
+.form-textarea{resize:vertical;min-height:70px;}
+.form-2col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-full{grid-column:span 2;}
 
-/* FORMAT SELECTOR */
-.format-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:14px 0; }
-.format-opt { border:1px solid var(--border); border-radius:9px; padding:12px; text-align:center; cursor:pointer; transition:all .2s; }
-.format-opt:hover { border-color:var(--accent); }
-.format-opt.active { border-color:var(--accent); background:var(--al); }
-.format-opt svg { width:20px; height:20px; color:var(--text3); margin:0 auto 6px; display:block; }
-.format-opt.active svg { color:var(--accent); }
-.format-opt-label { font-size:.72rem; font-weight:600; color:var(--text2); }
-.format-opt.active .format-opt-label { color:var(--accent); }
-.format-opt-sub { font-size:.64rem; color:var(--text3); }
+/* FORMAT */
+.format-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
+.format-opt{border:1px solid var(--border);border-radius:9px;padding:12px;text-align:center;cursor:pointer;transition:all .2s;}
+.format-opt:hover,.format-opt.active{border-color:var(--accent);background:var(--al);}
+.format-opt svg{width:20px;height:20px;color:var(--text3);margin:0 auto 6px;display:block;}
+.format-opt.active svg{color:var(--accent);}
+.format-opt-label{font-size:.72rem;font-weight:600;color:var(--text2);}
+.format-opt.active .format-opt-label{color:var(--accent);}
+.format-opt-sub{font-size:.64rem;color:var(--text3);}
 
-/* AI PLAN PREVIEW */
-.ai-plan-box { background:linear-gradient(135deg,var(--pl),var(--al)); border:1px solid rgba(109,40,217,.12); border-radius:16px; padding:20px; margin-top:16px; display:none; }
-.ai-plan-box.show { display:block; }
-.apb-header { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
-.apb-icon { width:30px; height:30px; border-radius:8px; background:var(--purple); display:flex; align-items:center; justify-content:center; }
-.apb-icon svg { width:15px; height:15px; color:#fff; }
-.apb-title { font-size:.85rem; font-weight:600; }
-.apb-sub { font-size:.72rem; color:var(--text3); }
-.plan-items { display:flex; flex-direction:column; gap:6px; }
-.plan-item { display:flex; align-items:center; gap:10px; padding:9px 12px; background:rgba(255,255,255,.7); border-radius:8px; font-size:.8rem; }
-.plan-item-time { font-weight:700; color:var(--accent); width:44px; flex-shrink:0; }
-.plan-item-topic { flex:1; font-weight:500; }
-.plan-item-type { font-size:.65rem; padding:2px 8px; border-radius:100px; font-weight:700; }
-.pit-lesson { background:var(--al); color:var(--accent); }
-.pit-challenge { background:var(--pl); color:var(--purple); }
-.pit-quiz { background:var(--gl); color:var(--green); }
-.pit-break { background:var(--bg3); color:var(--text3); }
-.plan-actions { display:flex; gap:8px; margin-top:12px; }
+/* AI PLAN */
+.ai-plan-box{background:linear-gradient(135deg,var(--pl),var(--al));border:1px solid rgba(109,40,217,.12);border-radius:16px;padding:20px;margin-top:16px;display:none;}
+.ai-plan-box.show{display:block;}
+.plan-item{display:flex;align-items:center;gap:10px;padding:9px 12px;background:rgba(255,255,255,.7);border-radius:8px;font-size:.8rem;margin-bottom:6px;transition:all .3s;}
+.plan-item-time{font-weight:700;color:var(--accent);width:44px;flex-shrink:0;}
+.plan-item-type{font-size:.65rem;padding:2px 8px;border-radius:100px;font-weight:700;margin-left:auto;}
+.pit-lesson{background:var(--al);color:var(--accent);}
+.pit-challenge{background:var(--pl);color:var(--purple);}
+.pit-quiz{background:var(--gl);color:var(--green);}
+.pit-break{background:#f3f4f6;color:var(--text3);}
 
-/* SHARE BOX */
-.share-box { background:var(--bg); border:1px solid var(--border); border-radius:16px; padding:20px; margin-top:16px; display:none; }
-.share-box.show { display:block; }
-.share-box h4 { font-size:.88rem; font-weight:600; margin-bottom:4px; }
-.share-box p { font-size:.78rem; color:var(--text3); margin-bottom:12px; }
-.share-row { display:flex; gap:8px; margin-bottom:10px; }
-.share-link-inp { flex:1; background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:.82rem; font-family:monospace; color:var(--text2); outline:none; }
-.copy-btn { padding:10px 18px; background:var(--text); color:#fff; border:none; border-radius:8px; cursor:pointer; font-family:var(--b); font-size:.8rem; font-weight:500; white-space:nowrap; transition:all .2s; }
-.copy-btn:hover { background:#1a1a2e; }
-.share-btns { display:flex; gap:8px; flex-wrap:wrap; }
+/* SHARE */
+.share-box{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:20px;margin-top:16px;display:none;}
+.share-box.show{display:block;}
+.share-box h4{font-size:.88rem;font-weight:600;margin-bottom:4px;}
+.share-box > p{font-size:.78rem;color:var(--text3);margin-bottom:12px;}
+.share-row{display:flex;gap:8px;margin-bottom:10px;}
+.share-link-inp{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:.82rem;font-family:monospace;color:var(--text2);outline:none;}
+.copy-btn{padding:10px 18px;background:var(--text);color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:var(--b);font-size:.8rem;font-weight:500;white-space:nowrap;}
+.copy-btn:hover{background:#1a1a2e;}
 
 /* TABLE */
-.table-card { background:var(--bg); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
-.table-header { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
-.table-header h3 { font-size:.88rem; font-weight:600; }
-table { width:100%; border-collapse:collapse; }
-th { padding:9px 16px; text-align:left; font-size:.67rem; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:.5px; background:var(--bg2); border-bottom:1px solid var(--border); }
-td { padding:13px 16px; border-bottom:1px solid var(--border); font-size:.83rem; vertical-align:middle; }
-tr:last-child td { border-bottom:none; }
-tr:hover td { background:var(--bg2); }
-.td-title { font-weight:500; }
-.td-sub { font-size:.72rem; color:var(--text3); margin-top:2px; }
-.td-actions { display:flex; gap:6px; }
-.act-btn { width:30px; height:30px; border-radius:7px; border:1px solid var(--border); background:var(--bg); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .15s; }
-.act-btn:hover { background:var(--bg2); }
-.act-btn svg { width:13px; height:13px; color:var(--text2); }
-.act-btn.danger:hover { background:var(--rl); }
-.act-btn.danger:hover svg { color:var(--red); }
+.table-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:20px;}
+.table-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.table-header h3{font-size:.88rem;font-weight:600;}
+table{width:100%;border-collapse:collapse;}
+th{padding:9px 16px;text-align:left;font-size:.67rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;background:var(--bg2);border-bottom:1px solid var(--border);}
+td{padding:13px 16px;border-bottom:1px solid var(--border);font-size:.83rem;vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--bg2);}
+.td-title{font-weight:500;}
+.td-sub{font-size:.72rem;color:var(--text3);margin-top:2px;}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px;}
+.badge-live{background:var(--rl);color:var(--red);}
+.badge-soon{background:var(--goldl);color:var(--gold);}
+.badge-sched{background:var(--bg2);color:var(--text3);border:1px solid var(--border);}
+.badge-pub{background:var(--gl);color:var(--green);}
+.badge-ai{background:var(--pl);color:var(--purple);}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.5s infinite;display:inline-block;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.6);}}
+.act-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;}
+.act-btn:hover{background:var(--bg2);}
+.act-btn.danger:hover{background:var(--rl);}
+.act-btn svg{width:13px;height:13px;color:var(--text2);}
+.act-btn.danger:hover svg{color:var(--red);}
 
-/* COURSE THUMB */
-.course-thumb { width:38px; height:38px; border-radius:7px; overflow:hidden; flex-shrink:0; }
-.course-thumb img { width:100%; height:100%; object-fit:cover; }
-.course-info-cell { display:flex; align-items:center; gap:12px; }
+/* UPLOAD PDF */
+.drop-zone{border:2px dashed var(--border);border-radius:16px;padding:40px 24px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg2);}
+.drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:var(--al);}
+.up-bar-wrap{background:var(--bg2);border-radius:100px;height:5px;margin:8px 0;}
+.up-bar{height:100%;border-radius:100px;background:var(--accent);width:0%;transition:width .3s;}
+.ai-result-box{background:var(--gl);border:1px solid var(--gm);border-radius:12px;padding:16px;margin-top:12px;display:none;font-size:.83rem;color:var(--green);line-height:1.8;}
+.ai-result-box.show{display:block;}
 
-/* UPLOAD ZONE */
-.drop-zone { border:2px dashed var(--border2); border-radius:16px; padding:40px 24px; text-align:center; cursor:pointer; transition:all .2s; background:var(--bg2); }
-.drop-zone:hover, .drop-zone.dragover { border-color:var(--accent); background:var(--al); }
-.drop-icon { width:48px; height:48px; border-radius:12px; background:var(--bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; margin:0 auto 14px; }
-.drop-icon svg { width:22px; height:22px; color:var(--text3); }
+/* APPRENANTS */
+.user-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);}
+.user-av{width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--accent);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.88rem;}
+.user-av img{width:100%;height:100%;object-fit:cover;}
+.user-name{font-size:.85rem;font-weight:600;}
+.user-email{font-size:.75rem;color:var(--text3);}
+.user-pts{font-size:.75rem;font-weight:700;color:var(--accent);margin-left:auto;}
+.user-role{font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:100px;}
+.role-admin{background:var(--rl);color:var(--red);}
+.role-student{background:var(--bg2);color:var(--text3);border:1px solid var(--border);}
 
-/* UPLOAD PROGRESS */
-.upload-progress { display:none; margin-top:14px; }
-.upload-progress.show { display:block; }
-.up-bar-wrap { background:var(--bg2); border-radius:100px; height:5px; margin:8px 0; }
-.up-bar { height:100%; border-radius:100px; background:var(--accent); width:0%; transition:width .3s; }
-.up-steps { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
-.up-step { display:flex; align-items:center; gap:5px; font-size:.72rem; padding:3px 10px; background:var(--bg); border:1px solid var(--border); border-radius:100px; color:var(--text3); }
-.up-step.active { background:var(--al); color:var(--accent); border-color:var(--am); }
-.up-step.done { background:var(--gl); color:var(--green); border-color:var(--gm); }
+/* COURS CARD */
+.course-card{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid var(--border);}
+.course-thumb{width:44px;height:44px;border-radius:9px;overflow:hidden;flex-shrink:0;background:var(--al);display:flex;align-items:center;justify-content:center;font-size:1.2rem;}
+.course-thumb img{width:100%;height:100%;object-fit:cover;}
+.course-info{flex:1;}
+.course-name{font-size:.85rem;font-weight:600;}
+.course-meta{font-size:.73rem;color:var(--text3);margin-top:2px;}
+.course-actions{display:flex;gap:6px;align-items:center;}
 
-/* AI PROCESSING */
-.ai-proc-box { display:none; background:linear-gradient(135deg,var(--pl),var(--al)); border:1px solid rgba(109,40,217,.12); border-radius:16px; padding:18px; margin-top:14px; }
-.ai-proc-box.show { display:block; }
-.ai-proc-step { display:flex; align-items:center; gap:10px; font-size:.82rem; color:var(--text2); margin-bottom:8px; }
-.ai-proc-step:last-child { margin-bottom:0; }
-.ai-step-dot { width:18px; height:18px; border-radius:50%; border:1.5px solid var(--border2); flex-shrink:0; display:flex; align-items:center; justify-content:center; }
-.ai-proc-step.done .ai-step-dot { background:var(--green); border-color:var(--green); }
-.ai-proc-step.active .ai-step-dot { background:var(--accent); border-color:var(--accent); animation:spin 1s linear infinite; }
-.ai-proc-step .ai-step-dot svg { width:9px; height:9px; color:#fff; }
+/* NOTIFICATION IA */
+.ai-notif{background:linear-gradient(135deg,var(--pl),var(--al));border:1px solid rgba(109,40,217,.12);border-radius:16px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;}
+.ain-icon{width:40px;height:40px;border-radius:10px;background:var(--purple);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ain-icon svg{width:18px;height:18px;color:#fff;}
+.ain-title{font-size:.88rem;font-weight:600;margin-bottom:2px;}
+.ain-sub{font-size:.78rem;color:var(--text2);}
 
-@media(max-width:900px) {
-  .admin-layout { grid-template-columns:1fr; }
-  .adm-sidebar { display:none; }
-  .stats-grid { grid-template-columns:1fr 1fr; }
-  .form-2col { grid-template-columns:1fr; }
-  .form-full { grid-column:span 1; }
-  .format-grid { grid-template-columns:1fr 1fr; }
-}
+@media(max-width:900px){.admin-layout{grid-template-columns:1fr;}.sidebar{display:none;}.stats-grid{grid-template-columns:1fr 1fr;}.form-2col{grid-template-columns:1fr;}.form-full{grid-column:span 1;}.format-grid{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav class="ln-nav">
-  <div class="ln-nav-inner">
-    <a href="index.html" class="ln-logo">
-      <div class="ln-logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div>
-      <span class="ln-logo-name">Learnova</span>
-    </a>
-    <ul class="ln-nav-links">
-      <li><a href="index.html">Site public</a></li>
-      <li><a href="live.html">Live en cours</a></li>
-      <li><a href="course.html">Cours</a></li>
-    </ul>
-    <div class="ln-nav-right">
-      <span style="font-size:.75rem;font-weight:700;background:var(--rl);color:var(--red);padding:3px 10px;border-radius:100px;">ADMIN</span>
-      <a href="index.html" class="btn btn-ghost btn-sm">← Retour au site</a>
-    </div>
-  </div>
-</nav>
-
-<div class="admin-layout">
-  <!-- SIDEBAR -->
-  <aside class="adm-sidebar">
-    <div class="adm-section-label">Principal</div>
-    <a class="adm-nav-item active" onclick="admTab('tab-dashboard',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      Vue d'ensemble <span class="adm-badge live-dot" style="background:var(--rl);color:var(--red);">Live</span>
-    </a>
-    <a class="adm-nav-item" onclick="admTab('tab-new-session',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      Nouvelle session IA
-    </a>
-    <a class="adm-nav-item" onclick="admTab('tab-sessions',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-      Sessions <span class="adm-badge">3</span>
-    </a>
-    <div class="adm-section-label">Contenu</div>
-    <a class="adm-nav-item" onclick="admTab('tab-courses',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13"/></svg>
-      Cours & PDF <span class="adm-badge">4</span>
-    </a>
-    <div class="adm-section-label">Communauté</div>
-    <a class="adm-nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857"/></svg>
-      Apprenants <span class="adm-badge">2847</span>
-    </a>
-    <a class="adm-nav-item" href="live.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13"/></svg>
-      Voir le live
-    </a>
-    <div style="padding:16px;border-top:1px solid var(--border);margin-top:auto;">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div style="width:32px;height:32px;border-radius:50%;overflow:hidden;"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face" alt="" style="width:100%;height:100%;object-fit:cover;"/></div>
-        <div><div style="font-size:.82rem;font-weight:600;">Admin</div><div style="font-size:.7rem;color:var(--red);font-weight:600;">Super Admin</div></div>
-      </div>
-    </div>
-  </aside>
-
-  <!-- MAIN -->
-  <div class="adm-main">
-
-    <!-- ── TAB: DASHBOARD ── -->
-    <div id="tab-dashboard" class="adm-tab active">
-      <div class="adm-topbar">
-        <h1>Tableau de bord</h1>
-        <div style="display:flex;gap:10px;">
-          <a href="index.html" class="btn btn-ghost btn-sm">Voir le site</a>
-          <button class="btn btn-dark btn-sm" onclick="admTab('tab-new-session',null)">+ Nouvelle session IA</button>
-        </div>
-      </div>
-
-      <div class="stats-grid">
-        <div class="stat-card"><div class="sc-top2"><div class="sc-icon" style="background:var(--al);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><span class="sc-trend">+2 aujourd'hui</span></div><div class="sc-num">3</div><div class="sc-label">Sessions actives / planifiées</div></div>
-        <div class="stat-card"><div class="sc-top2"><div class="sc-icon" style="background:var(--gl);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><span class="sc-trend">247 en ce moment</span></div><div class="sc-num">2847</div><div class="sc-label">Apprenants inscrits</div></div>
-        <div class="stat-card"><div class="sc-top2"><div class="sc-icon" style="background:var(--pl);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8"><path d="M9 12l2 2 4-4"/></svg></div><span class="sc-trend">Taux 82%</span></div><div class="sc-num">4.2k</div><div class="sc-label">Challenges complétés</div></div>
-        <div class="stat-card"><div class="sc-top2"><div class="sc-icon" style="background:var(--goldl);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><path d="M12 2l3 7h7l-5.5 4.5 2.5 7.5L12 17l-7 4 2.5-7.5L2 9h7z"/></svg></div><span class="sc-trend">98% satisfaits</span></div><div class="sc-num">98%</div><div class="sc-label">Taux de satisfaction</div></div>
-      </div>
-
-      <!-- AI NOTIF -->
-      <div class="ai-notif">
-        <div class="ain-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9m-4.27 13a2 2 0 01-3.46 0"/></svg></div>
-        <div style="flex:1;">
-          <div class="ain-title">L'IA te prévient — Session dans <span id="adminCd">18:42</span></div>
-          <div class="ain-sub">"UI/UX Design — Interface mobile" commence bientôt. 89 participants inscrits. Partage le lien pour plus d'inscrits.</div>
-        </div>
-        <div class="ain-actions">
-          <button class="btn btn-ghost btn-sm" onclick="toggleShareBox('shareBoxDash')">Partager</button>
-          <a href="live.html" class="btn btn-dark btn-sm">Voir live →</a>
-        </div>
-      </div>
-
-      <!-- SHARE BOX DASHBOARD -->
-      <div class="share-box" id="shareBoxDash">
-        <h4>Partager la session</h4>
-        <p>Envoie ce lien à tes apprenants. Ils rejoignent en 1 clic. L'IA commence automatiquement à l'heure exacte.</p>
-        <div class="share-row">
-          <input class="share-link-inp" value="https://learnova.app/session/uiux-interface-mobile-2025" readonly/>
-          <button class="copy-btn" onclick="copyText('https://learnova.app/session/uiux-interface-mobile-2025')">Copier</button>
-        </div>
-        <div class="share-btns">
-          <button class="btn btn-ghost btn-sm">WhatsApp</button>
-          <button class="btn btn-ghost btn-sm">Email</button>
-          <button class="btn btn-ghost btn-sm">Instagram</button>
-        </div>
-      </div>
-
-      <!-- SESSIONS TABLE -->
-      <div class="table-card">
-        <div class="table-header"><h3>Sessions programmées par l'IA</h3><button class="btn btn-accent btn-sm" onclick="admTab('tab-new-session',null)">+ Créer</button></div>
-        <table>
-          <thead><tr><th>Session</th><th>Format</th><th>Statut</th><th>Participants</th><th>Actions</th></tr></thead>
-          <tbody id="sessionsTableBody">
-            <tr>
-              <td><div class="td-title">Python — Algorithmes de tri</div><div class="td-sub">Aujourd'hui 14h00 · 2h</div></td>
-              <td>2h / session</td>
-              <td><span class="badge badge-live"><span class="pulse"></span> En direct</span></td>
-              <td><strong>247</strong></td>
-              <td><div class="td-actions">
-                <a href="live.html" class="act-btn" title="Voir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a>
-                <button class="act-btn" title="Partager" onclick="toggleShareBox('shareBoxDash')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
-                <button class="act-btn danger" title="Supprimer" onclick="deleteRow(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
-              </div></td>
-            </tr>
-            <tr>
-              <td><div class="td-title">UI/UX Design — Interface mobile</div><div class="td-sub">Aujourd'hui 15h00 · 2h</div></td>
-              <td>2h / session</td>
-              <td><span class="badge badge-soon">Dans <span id="td-cd">18:42</span></span></td>
-              <td><strong>89</strong></td>
-              <td><div class="td-actions">
-                <a href="waiting.html" class="act-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a>
-                <button class="act-btn" onclick="toggleShareBox('shareBoxDash')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
-                <button class="act-btn danger" onclick="deleteRow(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
-              </div></td>
-            </tr>
-            <tr>
-              <td><div class="td-title">Marketing Digital — SEO & Growth</div><div class="td-sub">Démarre demain · 30h / 1 mois</div></td>
-              <td>30h / mois</td>
-              <td><span class="badge badge-sched">Planifié</span></td>
-              <td><strong>34</strong></td>
-              <td><div class="td-actions">
-                <button class="act-btn" onclick="toggleShareBox('shareBoxDash')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
-                <button class="act-btn danger" onclick="deleteRow(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
-              </div></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ── TAB: NEW SESSION ── -->
-    <div id="tab-new-session" class="adm-tab">
-      <div class="adm-topbar"><h1>Créer une session IA</h1></div>
-      <div class="builder-card">
-        <h3>Paramètres de la session</h3>
-        <p>L'IA planifie automatiquement le programme complet selon le sujet et la durée choisie.</p>
-        <div class="form-2col">
-          <div class="form-group"><label class="form-label">Sujet / Titre *</label><input class="form-input" id="sessionSubject" type="text" placeholder="Ex: Python pour débutants, Design UI/UX..."/></div>
-          <div class="form-group"><label class="form-label">Catégorie</label><select class="form-select" id="sessionCat"><option>Programmation</option><option>Design</option><option>Marketing</option><option>Business</option><option>Langues</option><option>Data Science</option></select></div>
-          <div class="form-group form-full"><label class="form-label">Description (optionnel)</label><textarea class="form-textarea" id="sessionDesc" placeholder="Ce que les apprenants vont apprendre..."></textarea></div>
-          <div class="form-group"><label class="form-label">Date de début</label><input class="form-input" type="date" id="sessionDate"/></div>
-          <div class="form-group"><label class="form-label">Heure exacte (l'IA sera là à la seconde)</label><input class="form-input" type="time" id="sessionTime" value="20:00"/></div>
-        </div>
-
-        <label class="form-label" style="display:block;margin-top:16px;margin-bottom:8px;">Format de la formation</label>
-        <div class="format-grid" id="formatGrid">
-          <div class="format-opt active" onclick="selectFormat(this,'1h/jour')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <div class="format-opt-label">1h / jour</div><div class="format-opt-sub">Tous les jours</div>
-          </div>
-          <div class="format-opt" onclick="selectFormat(this,'2h/semaine')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            <div class="format-opt-label">2h / semaine</div><div class="format-opt-sub">Modulable</div>
-          </div>
-          <div class="format-opt" onclick="selectFormat(this,'session unique')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            <div class="format-opt-label">Session unique</div><div class="format-opt-sub">1h à 8h</div>
-          </div>
-          <div class="format-opt" onclick="selectFormat(this,'30h/mois')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            <div class="format-opt-label">30h / mois</div><div class="format-opt-sub">Formation complète</div>
-          </div>
-        </div>
-
-        <div style="display:flex;gap:10px;margin-top:18px;">
-          <button class="btn btn-dark" style="flex:1;" onclick="generateAIPlan()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1"/></svg>
-            L'IA génère le programme complet
-          </button>
-          <button class="btn btn-ghost" onclick="showToast('Brouillon sauvegardé.')">Brouillon</button>
-        </div>
-      </div>
-
-      <!-- AI PLAN RESULT -->
-      <div class="ai-plan-box" id="aiPlanBox">
-        <div class="apb-header">
-          <div class="apb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg></div>
-          <div><div class="apb-title">Programme généré par l'IA</div><div class="apb-sub" id="apbSub">Génération en cours...</div></div>
-        </div>
-        <div class="plan-items" id="planItems"></div>
-        <div class="plan-actions" id="planActions" style="display:none;">
-          <button class="btn btn-dark btn-sm" onclick="publishSession()">Publier cette session</button>
-          <button class="btn btn-ghost btn-sm" onclick="generateAIPlan()">Régénérer</button>
-        </div>
-      </div>
-
-      <!-- SHARE AFTER PUBLISH -->
-      <div class="share-box" id="shareBoxNew">
-        <h4>Session publiée ! Partage le lien.</h4>
-        <p>Envoie ce lien sur WhatsApp, Instagram ou email. L'IA commencera automatiquement à l'heure choisie.</p>
-        <div class="share-row">
-          <input class="share-link-inp" id="newSessionLink" readonly/>
-          <button class="copy-btn" onclick="copyText(document.getElementById('newSessionLink').value)">Copier</button>
-        </div>
-        <div class="share-btns">
-          <button class="btn btn-dark btn-sm">WhatsApp</button>
-          <button class="btn btn-ghost btn-sm">Email</button>
-          <button class="btn btn-ghost btn-sm">Instagram</button>
-          <a href="waiting.html" class="btn btn-ghost btn-sm">Voir salle d'attente →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── TAB: SESSIONS ── -->
-    <div id="tab-sessions" class="adm-tab">
-      <div class="adm-topbar"><h1>Toutes les sessions</h1><button class="btn btn-accent btn-sm" onclick="admTab('tab-new-session',null)">+ Nouvelle</button></div>
-      <div class="table-card">
-        <div class="table-header"><h3>Sessions IA</h3></div>
-        <table>
-          <thead><tr><th>Session</th><th>Format</th><th>Statut</th><th>Participants</th><th>Actions</th></tr></thead>
-          <tbody>
-            <tr><td><div class="td-title">Python — Algorithmes de tri</div><div class="td-sub">Aujourd'hui 14h00</div></td><td>2h</td><td><span class="badge badge-live"><span class="pulse"></span> Live</span></td><td>247</td><td><div class="td-actions"><a href="live.html" class="act-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a><button class="act-btn danger" onclick="deleteRow(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button></div></td></tr>
-            <tr><td><div class="td-title">UI/UX Design</div><div class="td-sub">Aujourd'hui 15h00</div></td><td>2h</td><td><span class="badge badge-soon">Bientôt</span></td><td>89</td><td><div class="td-actions"><a href="waiting.html" class="act-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a><button class="act-btn danger" onclick="deleteRow(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button></div></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ── TAB: COURSES ── -->
-    <div id="tab-courses" class="adm-tab">
-      <div class="adm-topbar"><h1>Cours & PDF</h1></div>
-      <div class="builder-card" style="margin-bottom:20px;">
-        <h3>Uploader un nouveau cours PDF</h3>
-        <p>L'IA analyse le PDF, génère le plan de cours et crée 10 questions de quiz automatiquement.</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-          <div>
-            <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()" ondragover="drgOvr(event)" ondragleave="drgLv(event)" ondrop="drgDrop(event)">
-              <div class="drop-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg></div>
-              <div style="font-size:.9rem;font-weight:600;margin-bottom:5px;">Glisse ton PDF ici</div>
-              <div style="font-size:.78rem;color:var(--text3);">ou clique pour choisir · Max 50MB</div>
-              <div style="display:flex;justify-content:center;gap:6px;margin-top:10px;">
-                <span style="font-size:.67rem;font-weight:600;padding:2px 9px;border-radius:100px;background:var(--bg);border:1px solid var(--border);color:var(--text2);">PDF</span>
-                <span style="font-size:.67rem;font-weight:600;padding:2px 9px;border-radius:100px;background:var(--bg);border:1px solid var(--border);color:var(--text2);">DOCX</span>
-              </div>
-            </div>
-            <input type="file" id="fileInput" accept=".pdf,.docx" style="display:none;" onchange="handleFile(this.files[0])"/>
-            <div class="upload-progress" id="uploadProgress">
-              <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:5px;"><span id="upFileName">fichier.pdf</span><span id="upPct">0%</span></div>
-              <div class="up-bar-wrap"><div class="up-bar" id="upBar"></div></div>
-              <div class="up-steps">
-                <div class="up-step active" id="us1">Upload</div>
-                <div class="up-step" id="us2">Lecture PDF</div>
-                <div class="up-step" id="us3">Analyse IA</div>
-                <div class="up-step" id="us4">Génération quiz</div>
-              </div>
-            </div>
-            <div class="ai-proc-box" id="aiProcBox">
-              <div class="ai-proc-step done" id="aps1"><div class="ai-step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>PDF lu — pages détectées</div>
-              <div class="ai-proc-step active" id="aps2"><div class="ai-step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581"/></svg></div>Extraction des concepts clés...</div>
-              <div class="ai-proc-step" id="aps3"><div class="ai-step-dot"></div>Génération du résumé IA</div>
-              <div class="ai-proc-step" id="aps4"><div class="ai-step-dot"></div>Création des 10 questions quiz</div>
-              <div class="ai-proc-step" id="aps5"><div class="ai-step-dot"></div>Structuration du plan de cours</div>
-            </div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:12px;">
-            <div class="form-group"><label class="form-label">Titre du cours *</label><input class="form-input" id="courseTitle" type="text" placeholder="Ex: Introduction à Python"/></div>
-            <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="courseDesc" placeholder="Ce que l'apprenant va apprendre..."></textarea></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-              <div class="form-group"><label class="form-label">Catégorie</label><select class="form-select"><option>Programmation</option><option>Design</option><option>Marketing</option></select></div>
-              <div class="form-group"><label class="form-label">Niveau</label><select class="form-select"><option>Débutant</option><option>Intermédiaire</option><option>Avancé</option></select></div>
-            </div>
-            <div style="display:flex;gap:10px;">
-              <button class="btn btn-dark" style="flex:1;" onclick="simulateUpload()">Uploader & Analyser</button>
-              <button class="btn btn-ghost">Brouillon</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Courses table -->
-      <div class="table-card">
-        <div class="table-header"><h3>Cours publiés</h3></div>
-        <table>
-          <thead><tr><th>Cours</th><th>Catégorie</th><th>Statut</th><th>Apprenants</th><th>Quiz</th><th>Actions</th></tr></thead>
-          <tbody id="coursesBody">
-            <tr><td><div class="course-info-cell"><div class="course-thumb"><img src="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=80&h=80&fit=crop" alt=""/></div><div><div class="td-title">Python pour débutants</div><div class="td-sub">Variables, conditions, boucles</div></div></div></td><td>Programmation</td><td><span class="badge badge-pub">Publié</span></td><td>847</td><td><span class="badge badge-ai">IA · 10 Qst</span></td><td><div class="td-actions"><a href="course.html" class="act-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a><button class="act-btn danger" onclick="deleteRow(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button></div></td></tr>
-            <tr><td><div class="course-info-cell"><div class="course-thumb"><img src="https://images.unsplash.com/photo-1558655146-d09347e92766?w=80&h=80&fit=crop" alt=""/></div><div><div class="td-title">UI/UX Design — Fondamentaux</div><div class="td-sub">Figma, wireframes, prototypage</div></div></div></td><td>Design</td><td><span class="badge badge-pub">Publié</span></td><td>412</td><td><span class="badge badge-ai">IA · 8 Qst</span></td><td><div class="td-actions"><a href="course.html" class="act-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a><button class="act-btn danger" onclick="deleteRow(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button></div></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
+<!-- PROTECTION MOT DE PASSE -->
+<div id="protectScreen">
+  <div class="protect-box">
+    <div class="protect-logo">⭐ Learnova Admin</div>
+    <div class="protect-sub">Espace réservé — Accès administrateur uniquement</div>
+    <input class="protect-inp" id="adminPin" type="password" placeholder="Mot de passe admin" onkeypress="if(event.key==='Enter')checkPin()"/>
+    <button class="protect-btn" onclick="checkPin()">Accéder à l'admin →</button>
+    <div class="protect-err" id="pinErr">❌ Mot de passe incorrect.</div>
+    <div class="protect-note">Cet espace n'est pas visible au public.</div>
   </div>
 </div>
 
-<script src="js/app.js"></script>
-<script>
-// TAB NAVIGATION
-function admTab(id, navEl) {
-  document.querySelectorAll('.adm-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.adm-nav-item').forEach(i => i.classList.remove('active'));
-  const tab = document.getElementById(id);
-  if(tab) tab.classList.add('active');
-  if(navEl) navEl.classList.add('active');
+<!-- APP ADMIN -->
+<div id="adminApp">
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo"><div class="logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div><span class="logo-name">Learnova</span></a>
+      <span class="admin-badge">ADMIN</span>
+      <div class="nav-right">
+        <a href="index.html" class="btn btn-ghost btn-sm">← Site public</a>
+        <a href="live.html" class="btn btn-ghost btn-sm">Voir le live</a>
+        <button class="btn btn-sm btn-red" onclick="lockAdmin()">🔒 Verrouiller</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sl">Principal</div>
+      <div class="nav-item active" onclick="showTab('tab-dash',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Tableau de bord
+      </div>
+      <div class="nav-item" onclick="showTab('tab-session',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Créer une session IA
+      </div>
+      <div class="nav-item" onclick="showTab('tab-sessions',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Sessions
+      </div>
+      <div class="sl">Contenu</div>
+      <div class="nav-item" onclick="showTab('tab-pdf',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+        Upload PDF → IA
+      </div>
+      <div class="nav-item" onclick="showTab('tab-courses',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13"/></svg>
+        Cours publiés
+      </div>
+      <div class="sl">Communauté</div>
+      <div class="nav-item" onclick="showTab('tab-users',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg>
+        Apprenants
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- ── TABLEAU DE BORD ── -->
+      <div id="tab-dash" class="tab active">
+        <div class="page-header">
+          <h1 class="page-title">Tableau de bord</h1>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-ghost btn-sm" onclick="refreshDash()">↻ Actualiser</button>
+            <button class="btn btn-dark btn-sm" onclick="showTab('tab-session',null)">+ Nouvelle session</button>
+          </div>
+        </div>
+
+        <!-- STATS RÉELLES SUPABASE -->
+        <div class="stats-grid">
+          <div class="stat-card"><div class="sc-top"><div class="sc-icon" style="background:var(--al)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="sc-num" id="dashSessions">—</div><div class="sc-label">Sessions créées</div></div>
+          <div class="stat-card"><div class="sc-top"><div class="sc-icon" style="background:var(--gl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div></div><div class="sc-num" id="dashInscrits">—</div><div class="sc-label">Apprenants inscrits</div></div>
+          <div class="stat-card"><div class="sc-top"><div class="sc-icon" style="background:var(--pl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div></div><div class="sc-num" id="dashChallenges">—</div><div class="sc-label">Challenges complétés</div></div>
+          <div class="stat-card"><div class="sc-top"><div class="sc-icon" style="background:var(--al)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div></div><div class="sc-num" id="dashOnline">—</div><div class="sc-label">En ligne maintenant</div></div>
+        </div>
+
+        <!-- NOTIFICATION SESSION EN COURS -->
+        <div class="ai-notif" id="liveNotif" style="display:none;">
+          <div class="ain-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          <div style="flex:1;">
+            <div class="ain-title" id="liveNotifTitle">Session en cours !</div>
+            <div class="ain-sub" id="liveNotifSub">L'IA enseigne en ce moment.</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <a href="live.html" class="btn btn-dark btn-sm">Voir le live →</a>
+          </div>
+        </div>
+
+        <!-- SESSIONS RÉCENTES -->
+        <div class="table-card">
+          <div class="table-header"><h3>Sessions récentes</h3><button class="btn btn-accent btn-sm" onclick="showTab('tab-session',null)">+ Créer</button></div>
+          <table><thead><tr><th>Session</th><th>Format</th><th>Date</th><th>Statut</th><th>Inscrits</th><th>Actions</th></tr></thead>
+          <tbody id="dashSessionsTable"><tr><td colspan="6" style="text-align:center;color:var(--text3);padding:24px;">Chargement...</td></tr></tbody></table>
+        </div>
+
+        <!-- COURS RÉCENTS -->
+        <div class="table-card">
+          <div class="table-header"><h3>Cours publiés</h3><button class="btn btn-accent btn-sm" onclick="showTab('tab-pdf',null)">+ Uploader PDF</button></div>
+          <div id="dashCoursesList"><div style="text-align:center;padding:24px;color:var(--text3);">Chargement...</div></div>
+        </div>
+      </div>
+
+      <!-- ── CRÉER SESSION ── -->
+      <div id="tab-session" class="tab">
+        <div class="page-header"><h1 class="page-title">Créer une session IA</h1></div>
+        <div class="card">
+          <h3>Paramètres de la session</h3>
+          <p>L'IA planifie automatiquement le programme heure par heure selon le sujet et le format.</p>
+          <div class="form-2col">
+            <div class="form-group"><label class="form-label">Sujet / Titre *</label><input class="form-input" id="sesSubject" type="text" placeholder="Ex: Python pour débutants, Design UI/UX..."/></div>
+            <div class="form-group"><label class="form-label">Catégorie</label>
+              <select class="form-select" id="sesCat">
+                <option>Programmation</option><option>Design</option><option>Marketing</option>
+                <option>Business</option><option>Langues</option><option>Data Science</option><option>Autre</option>
+              </select>
+            </div>
+            <div class="form-group form-full"><label class="form-label">Description (optionnel)</label><textarea class="form-textarea" id="sesDesc" placeholder="Ce que les apprenants vont apprendre..."></textarea></div>
+            <div class="form-group"><label class="form-label">Date de début</label><input class="form-input" type="date" id="sesDate"/></div>
+            <div class="form-group"><label class="form-label">Heure exacte (l'IA arrive à la seconde)</label><input class="form-input" type="time" id="sesTime" value="20:00"/></div>
+            <div class="form-group"><label class="form-label">Niveau</label>
+              <select class="form-select" id="sesLevel">
+                <option>Tous niveaux</option><option>Débutant</option><option>Intermédiaire</option><option>Avancé</option>
+              </select>
+            </div>
+            <div class="form-group form-full"><label class="form-label">Lier à un cours PDF (optionnel)</label>
+              <select class="form-select" id="sesCourse"><option value="">— Aucun cours lié —</option></select>
+            </div>
+          </div>
+
+          <label class="form-label" style="display:block;margin-bottom:8px;">Format de formation</label>
+          <div class="format-grid" id="fmtGrid">
+            <div class="format-opt active" data-fmt="1h/jour" onclick="selFmt(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <div class="format-opt-label">1h / jour</div><div class="format-opt-sub">Quotidien</div>
+            </div>
+            <div class="format-opt" data-fmt="2h/semaine" onclick="selFmt(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <div class="format-opt-label">2h / semaine</div><div class="format-opt-sub">Modulable</div>
+            </div>
+            <div class="format-opt" data-fmt="session unique" onclick="selFmt(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <div class="format-opt-label">Session unique</div><div class="format-opt-sub">1h à 8h</div>
+            </div>
+            <div class="format-opt" data-fmt="30h/mois" onclick="selFmt(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              <div class="format-opt-label">30h / mois</div><div class="format-opt-sub">Formation complète</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;margin-top:18px;">
+            <button class="btn btn-dark" style="flex:1;" onclick="genPlan()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1"/></svg>
+              L'IA génère le programme complet
+            </button>
+            <button class="btn btn-ghost" onclick="showToast('Brouillon sauvegardé.')">Brouillon</button>
+          </div>
+        </div>
+
+        <!-- PLAN IA -->
+        <div class="ai-plan-box" id="aiPlanBox">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+            <div style="width:32px;height:32px;border-radius:8px;background:var(--purple);display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M9.663 17h4.673M12 3v1"/></svg></div>
+            <div><div style="font-size:.85rem;font-weight:600;">Programme généré par l'IA</div><div style="font-size:.72rem;color:var(--text3);" id="planSubTitle">Génération...</div></div>
+            <div id="planLoading" style="margin-left:auto;font-size:.75rem;color:var(--text3);">⏳ L'IA planifie...</div>
+          </div>
+          <div id="planItems"></div>
+          <div style="display:flex;gap:8px;margin-top:12px;display:none;" id="planActions">
+            <button class="btn btn-dark btn-sm" onclick="publishSession()">Publier cette session →</button>
+            <button class="btn btn-ghost btn-sm" onclick="genPlan()">Régénérer</button>
+          </div>
+        </div>
+
+        <!-- SHARE -->
+        <div class="share-box" id="shareBox">
+          <h4>✅ Session publiée ! Partage le lien.</h4>
+          <p>Les apprenants rejoignent en 1 clic. L'IA commence automatiquement à l'heure choisie.</p>
+          <div class="share-row">
+            <input class="share-link-inp" id="shareLink" readonly/>
+            <button class="copy-btn" onclick="copyLink()">Copier</button>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="waiting.html" class="btn btn-ghost btn-sm">Salle d'attente →</a>
+            <a href="live.html" class="btn btn-dark btn-sm">Voir le live →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SESSIONS ── -->
+      <div id="tab-sessions" class="tab">
+        <div class="page-header"><h1 class="page-title">Toutes les sessions</h1><button class="btn btn-accent btn-sm" onclick="showTab('tab-session',null)">+ Nouvelle</button></div>
+        <div class="table-card">
+          <div class="table-header"><h3>Sessions IA</h3></div>
+          <table><thead><tr><th>Session</th><th>Format</th><th>Date</th><th>Statut</th><th>Inscrits</th><th>Lien</th><th>Actions</th></tr></thead>
+          <tbody id="allSessionsTable"><tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px;">Chargement...</td></tr></tbody></table>
+        </div>
+      </div>
+
+      <!-- ── UPLOAD PDF → IA ── -->
+      <div id="tab-pdf" class="tab">
+        <div class="page-header"><h1 class="page-title">Upload PDF → IA</h1></div>
+        <div class="card">
+          <h3>Analyser un PDF avec l'IA</h3>
+          <p>Upload ton PDF → l'IA lit le contenu, génère le résumé, les chapitres et 10 questions de quiz. Le cours est automatiquement publié et lié aux sessions.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+            <div>
+              <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInp').click()" ondragover="drgOvr(event)" ondragleave="drgLv()" ondrop="drgDrop(event)">
+                <div style="font-size:2.5rem;margin-bottom:10px;">📄</div>
+                <div style="font-weight:600;font-size:.92rem;margin-bottom:5px;">Glisse ton PDF ici</div>
+                <div style="font-size:.78rem;color:var(--text3);">ou clique pour choisir · Max 50MB</div>
+              </div>
+              <input type="file" id="fileInp" accept=".pdf" style="display:none;" onchange="handleFile(this.files[0])"/>
+              <div id="upProgress" style="display:none;margin-top:12px;">
+                <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:5px;"><span id="upName">fichier.pdf</span><span id="upPct">0%</span></div>
+                <div class="up-bar-wrap"><div class="up-bar" id="upBar"></div></div>
+                <div style="font-size:.75rem;color:var(--text3);margin-top:6px;" id="upStatus">Envoi en cours...</div>
+              </div>
+              <div class="ai-result-box" id="aiResultBox"></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div class="form-group"><label class="form-label">Titre du cours *</label><input class="form-input" id="pdfTitle" type="text" placeholder="Ex: Introduction à Python"/></div>
+              <div class="form-group"><label class="form-label">Description courte</label><textarea class="form-textarea" id="pdfDesc" placeholder="Ce que l'apprenant va apprendre..." style="min-height:60px;"></textarea></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <div class="form-group"><label class="form-label">Catégorie</label><select class="form-select" id="pdfCat"><option>Programmation</option><option>Design</option><option>Marketing</option><option>Business</option><option>Autre</option></select></div>
+                <div class="form-group"><label class="form-label">Niveau</label><select class="form-select" id="pdfLevel"><option>Débutant</option><option>Intermédiaire</option><option>Avancé</option></select></div>
+              </div>
+              <button class="btn btn-dark" onclick="uploadPDF()" id="uploadBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1"/></svg>
+                Analyser avec l'IA & Publier
+              </button>
+              <div style="font-size:.75rem;color:var(--text3);line-height:1.6;" id="pdfNote">
+                L'IA va lire ton PDF et générer automatiquement : résumé, plan des chapitres, leçons et 10 questions de quiz. Le cours sera disponible pour tous les apprenants.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── COURS PUBLIÉS ── -->
+      <div id="tab-courses" class="tab">
+        <div class="page-header"><h1 class="page-title">Cours publiés</h1><button class="btn btn-accent btn-sm" onclick="showTab('tab-pdf',null)">+ Uploader PDF</button></div>
+        <div class="table-card">
+          <div class="table-header"><h3 id="coursesCount">Cours</h3></div>
+          <div id="coursesList"><div style="text-align:center;padding:24px;color:var(--text3);">Chargement...</div></div>
+        </div>
+      </div>
+
+      <!-- ── APPRENANTS ── -->
+      <div id="tab-users" class="tab">
+        <div class="page-header"><h1 class="page-title">Apprenants inscrits</h1></div>
+        <div class="table-card">
+          <div class="table-header"><h3 id="usersCount">Chargement...</h3></div>
+          <div id="usersList"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+// ── CONFIG ───────────────────────────────────────────────────
+const SUPABASE_URL      = "https://jbshkbqchrehfhoodtuj.supabase.co"
+const SUPABASE_ANON_KEY = sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs // ← ta vraie clé anon Supabase
+const BACKEND_URL       = "https://learnova-backend-28pl.onrender.com"
+const ADMIN_PASSWORD    = "Learnova51961226@"  // ← CHANGE CE MOT DE PASSE !
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+// ── PROTECTION ───────────────────────────────────────────────
+window.checkPin = () => {
+  const pin = document.getElementById('adminPin').value
+  if (pin === ADMIN_PASSWORD) {
+    document.getElementById('protectScreen').style.display = 'none'
+    document.getElementById('adminApp').style.display = 'block'
+    sessionStorage.setItem('ln_admin', '1')
+    initAdmin()
+  } else {
+    const err = document.getElementById('pinErr')
+    err.classList.add('show')
+    document.getElementById('adminPin').value = ''
+    setTimeout(() => err.classList.remove('show'), 3000)
+  }
+}
+window.lockAdmin = () => {
+  sessionStorage.removeItem('ln_admin')
+  document.getElementById('protectScreen').style.display = 'flex'
+  document.getElementById('adminApp').style.display = 'none'
+  document.getElementById('adminPin').value = ''
+}
+document.getElementById('adminPin').addEventListener('keypress', e => { if(e.key==='Enter') checkPin() })
+
+if (sessionStorage.getItem('ln_admin') === '1') {
+  document.getElementById('protectScreen').style.display = 'none'
+  document.getElementById('adminApp').style.display = 'block'
+  initAdmin()
 }
 
-// FORMAT SELECTOR
-function selectFormat(el, format) {
-  document.querySelectorAll('.format-opt').forEach(o => o.classList.remove('active'));
-  el.classList.add('active');
-  el.dataset.format = format;
+// ── INIT ADMIN ───────────────────────────────────────────────
+async function initAdmin() {
+  loadStats()
+  loadSessions()
+  loadCourses()
+  loadUsers()
+  loadCoursesForSelect()
+
+  // Présence temps réel
+  const presenceCh = sb.channel('admin-presence')
+  presenceCh.on('presence', { event: 'sync' }, () => {
+    document.getElementById('dashOnline').textContent = Object.keys(presenceCh.presenceState()).length
+  }).subscribe()
+
+  // Temps réel stats
+  sb.channel('admin-stats')
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'stats' }, loadStats)
+    .subscribe()
+  sb.channel('admin-sessions')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'sessions' }, loadSessions)
+    .subscribe()
+  sb.channel('admin-courses')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'courses' }, loadCourses)
+    .subscribe()
+
+  // Date par défaut
+  const di = document.getElementById('sesDate')
+  if (di) di.value = new Date().toISOString().split('T')[0]
 }
 
-// GENERATE AI PLAN
-function generateAIPlan() {
-  const subject = document.getElementById('sessionSubject').value || 'Nouveau sujet';
-  const active = document.querySelector('.format-opt.active');
-  const format = active ? active.querySelector('.format-opt-label').textContent.trim() : '1h/jour';
-  const box = document.getElementById('aiPlanBox');
-  const items = document.getElementById('planItems');
-  const sub = document.getElementById('apbSub');
-  box.classList.add('show');
-  items.innerHTML = '';
-  sub.textContent = 'Génération en cours...';
-  document.getElementById('planActions').style.display = 'none';
-  document.getElementById('shareBoxNew').classList.remove('show');
+window.refreshDash = () => { loadStats(); loadSessions(); loadCourses(); loadUsers(); showToast('Actualisé !') }
 
-  const tpl = PLAN_TEMPLATES[format] || PLAN_TEMPLATES['session unique'];
-  const typeMap = { lesson:'pit-lesson', challenge:'pit-challenge', quiz:'pit-quiz', break:'pit-break' };
-  let i = 0;
-  const iv = setInterval(() => {
-    if(i >= tpl.length) {
-      clearInterval(iv);
-      sub.textContent = `Programme complet pour "${subject}" — ${tpl.length} blocs · Prêt à publier`;
-      document.getElementById('planActions').style.display = 'flex';
-      return;
-    }
-    const item = tpl[i];
-    const div = document.createElement('div');
-    div.className = 'plan-item';
-    div.style.cssText = 'opacity:0;transform:translateY(8px);transition:all .3s ease;';
-    div.innerHTML = `<span class="plan-item-time">${item.t}</span><span class="plan-item-topic">${item.topic}</span><span class="plan-item-type ${typeMap[item.type]||'pit-lesson'}">${item.label}</span>`;
-    items.appendChild(div);
-    setTimeout(() => { div.style.opacity='1'; div.style.transform='translateY(0)'; }, 50);
-    i++;
-  }, 350);
-}
-
-// PUBLISH
-function publishSession() {
-  const subject = document.getElementById('sessionSubject').value || 'session';
-  const time = document.getElementById('sessionTime').value || '20:00';
-  const date = document.getElementById('sessionDate').value || 'aujourd\'hui';
-  const slug = subject.toLowerCase().replace(/[^a-z0-9]+/g,'-').substring(0,28);
-  const link = `https://learnova.app/session/${slug}-${Math.random().toString(36).substring(2,7)}`;
-  document.getElementById('newSessionLink').value = link;
-  document.getElementById('shareBoxNew').classList.add('show');
-  showToast(`Session publiée ! L'IA commence le ${date} à ${time}.`);
-  // Add to table
-  const tbody = document.getElementById('sessionsTableBody');
-  if(tbody) {
-    const subject2 = document.getElementById('sessionSubject').value || 'Nouvelle session';
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td><div class="td-title">${subject2}</div><div class="td-sub">${date} · ${time}</div></td><td>—</td><td><span class="badge badge-sched">Planifié</span></td><td>0</td><td><div class="td-actions"><button class="act-btn danger" onclick="deleteRow(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button></div></td>`;
-    tbody.insertBefore(tr, tbody.firstChild);
+// ── STATS ────────────────────────────────────────────────────
+async function loadStats() {
+  const { data: s } = await sb.from('stats').select('*').eq('id', 1).single()
+  if (s) {
+    document.getElementById('dashInscrits').textContent = (s.total_inscrits || 0).toLocaleString('fr')
+    document.getElementById('dashSessions').textContent = (s.total_sessions || 0).toLocaleString('fr')
+    document.getElementById('dashChallenges').textContent = (s.total_challenges || 0).toLocaleString('fr')
   }
 }
 
-// TOGGLE SHARE BOX
-function toggleShareBox(id) {
-  const box = document.getElementById(id);
-  if(box) box.classList.toggle('show');
+// ── SESSIONS ─────────────────────────────────────────────────
+async function loadSessions() {
+  const { data: sessions } = await sb.from('sessions').select('*').order('created_at', { ascending: false })
+  renderSessionsTable(sessions || [], 'dashSessionsTable', true)
+  renderSessionsTable(sessions || [], 'allSessionsTable', false)
+
+  // Vérifier si une session est en cours
+  const live = sessions?.find(s => s.statut === 'en_cours')
+  const notif = document.getElementById('liveNotif')
+  if (live) {
+    notif.style.display = 'flex'
+    document.getElementById('liveNotifTitle').textContent = `🔴 "${live.titre}" est en direct !`
+    document.getElementById('liveNotifSub').textContent = `${live.nb_inscrits || 0} participants · L'IA enseigne en ce moment.`
+  } else {
+    notif.style.display = 'none'
+  }
 }
 
-// DELETE ROW
-function deleteRow(btn) {
-  if(!confirm('Supprimer ?')) return;
-  const row = btn.closest('tr');
-  row.style.opacity = '0'; row.style.transition = 'opacity .3s';
-  setTimeout(() => row.remove(), 300);
-  showToast('Supprimé.', 'error');
+function renderSessionsTable(sessions, tableId, limited) {
+  const tbody = document.getElementById(tableId)
+  const list = limited ? sessions.slice(0, 5) : sessions
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px;">Aucune session — <button class="btn btn-sm btn-accent" style="margin-left:8px;" onclick="showTab('tab-session',null)">Créer maintenant</button></td></tr>`
+    return
+  }
+  tbody.innerHTML = list.map(s => {
+    const badge = s.statut === 'en_cours'
+      ? `<span class="badge badge-live"><span class="pulse"></span> Live</span>`
+      : s.statut === 'planifie'
+      ? `<span class="badge badge-soon">Planifié</span>`
+      : `<span class="badge">Terminé</span>`
+    const liveUrl = `${window.location.origin}/live.html?session=${s.id}`
+    const waitUrl = `${window.location.origin}/waiting.html?session=${s.id}`
+    return `<tr>
+      <td><div class="td-title">${s.titre}</div></td>
+      <td>${s.format || '—'}</td>
+      <td><div class="td-sub">${s.date_debut || '—'} ${s.heure || ''}</div></td>
+      <td>${badge}</td>
+      <td><strong>${s.nb_inscrits || 0}</strong></td>
+      <td><button class="btn btn-ghost btn-sm" onclick="copyText('${waitUrl}')">Copier lien</button></td>
+      <td style="display:flex;gap:5px;">
+        <a href="${liveUrl}" class="act-btn" title="Voir live"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a>
+        <button class="act-btn" title="Changer statut" onclick="toggleStatus('${s.id}','${s.statut}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button>
+        <button class="act-btn danger" title="Supprimer" onclick="deleteSession('${s.id}',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+      </td>
+    </tr>`
+  }).join('')
 }
 
-// DRAG & DROP
-function drgOvr(e) { e.preventDefault(); document.getElementById('dropZone').classList.add('dragover'); }
-function drgLv() { document.getElementById('dropZone').classList.remove('dragover'); }
-function drgDrop(e) { e.preventDefault(); drgLv(); const f = e.dataTransfer.files[0]; if(f) handleFile(f); }
-function handleFile(f) { if(!f) return; document.getElementById('upFileName').textContent = f.name; simulateUpload(); }
-
-// SIMULATE UPLOAD + AI
-function simulateUpload() {
-  document.getElementById('uploadProgress').classList.add('show');
-  let p = 0;
-  const bar = document.getElementById('upBar');
-  const pct = document.getElementById('upPct');
-  const iv = setInterval(() => {
-    p += Math.random()*10+2;
-    if(p >= 100) { p = 100; clearInterval(iv); startAIProc(); }
-    bar.style.width = p+'%'; pct.textContent = Math.round(p)+'%';
-    if(p>30) { document.getElementById('us1').classList.remove('active'); document.getElementById('us1').classList.add('done'); document.getElementById('us2').classList.add('active'); }
-    if(p>70) { document.getElementById('us2').classList.remove('active'); document.getElementById('us2').classList.add('done'); document.getElementById('us3').classList.add('active'); }
-  }, 180);
+window.deleteSession = async (id, btn) => {
+  if (!confirm('Supprimer cette session ?')) return
+  await sb.from('sessions').delete().eq('id', id)
+  const row = btn.closest('tr')
+  row.style.opacity = '0'; row.style.transition = 'opacity .3s'
+  setTimeout(() => { row.remove(); loadSessions() }, 300)
 }
-function startAIProc() {
-  document.getElementById('us3').classList.remove('active'); document.getElementById('us3').classList.add('done'); document.getElementById('us4').classList.add('active');
-  document.getElementById('aiProcBox').classList.add('show');
-  const steps = ['aps3','aps4','aps5'];
-  let i = 0;
-  const iv = setInterval(() => {
-    if(i > 0) { const prev = document.getElementById(steps[i-1]); prev.classList.remove('active'); prev.classList.add('done'); prev.querySelector('.ai-step-dot').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>'; }
-    if(i < steps.length) { document.getElementById(steps[i]).classList.add('active'); i++; }
-    else {
-      clearInterval(iv);
-      document.getElementById('us4').classList.remove('active'); document.getElementById('us4').classList.add('done');
-      const title = document.getElementById('courseTitle').value || 'Nouveau cours';
-      const tbody = document.getElementById('coursesBody');
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td><div class="course-info-cell"><div class="course-thumb" style="background:var(--al);display:flex;align-items:center;justify-content:center;font-size:.9rem;">📄</div><div><div class="td-title">${title}</div><div class="td-sub">Généré par IA depuis PDF</div></div></div></td><td>Programmation</td><td><span class="badge badge-pub">Publié</span></td><td>0</td><td><span class="badge badge-ai">IA · 10 Qst</span></td><td><div class="td-actions"><a href="course.html" class="act-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a><button class="act-btn danger" onclick="deleteRow(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button></div></td>`;
-      tbody.insertBefore(tr, tbody.firstChild);
-      showToast(`"${title}" créé ! Quiz de 10 questions généré par l'IA.`);
+
+window.toggleStatus = async (id, currentStatus) => {
+  const nextStatus = currentStatus === 'planifie' ? 'en_cours' : currentStatus === 'en_cours' ? 'termine' : 'planifie'
+  await sb.from('sessions').update({ statut: nextStatus }).eq('id', id)
+  showToast(`Statut → ${nextStatus}`)
+  loadSessions()
+}
+
+// ── CRÉER SESSION ─────────────────────────────────────────────
+const PLAN_TEMPLATES = {
+  '1h/jour': [{t:'00:00',topic:'Introduction & objectifs',type:'lesson'},{t:'00:15',topic:'Concept principal',type:'lesson'},{t:'00:35',topic:'Challenge QCM',type:'challenge'},{t:'00:45',topic:'Exercice pratique',type:'lesson'},{t:'00:55',topic:'Quiz de clôture',type:'quiz'}],
+  '2h/semaine': [{t:'00:00',topic:'Rappel & introduction',type:'lesson'},{t:'00:20',topic:'Nouveau chapitre',type:'lesson'},{t:'00:50',topic:'Challenge collectif',type:'challenge'},{t:'01:05',topic:'Pause',type:'break'},{t:'01:15',topic:'Pratique',type:'lesson'},{t:'01:45',topic:'Quiz final',type:'quiz'}],
+  'session unique': [{t:'00:00',topic:'Présentation & objectifs',type:'lesson'},{t:'00:20',topic:'Module 1 — Fondations',type:'lesson'},{t:'00:50',topic:'Challenge #1',type:'challenge'},{t:'01:00',topic:'Pause 10 min',type:'break'},{t:'01:10',topic:'Module 2 — Approfondissement',type:'lesson'},{t:'01:40',topic:'Défi final',type:'challenge'},{t:'01:55',topic:'Quiz de certification',type:'quiz'}],
+  '30h/mois': [{t:'Sem.1',topic:'Fondations & concepts de base',type:'lesson'},{t:'Sem.1',topic:'Premier projet pratique',type:'challenge'},{t:'Sem.2',topic:'Approfondissement',type:'lesson'},{t:'Sem.2',topic:'Quiz de mi-parcours',type:'quiz'},{t:'Sem.3',topic:'Techniques avancées',type:'lesson'},{t:'Sem.3',topic:'Projet collaboratif',type:'challenge'},{t:'Sem.4',topic:'Révision + projet final',type:'lesson'},{t:'Sem.4',topic:'Examen de certification',type:'quiz'}]
+}
+
+window.selFmt = (el) => {
+  document.querySelectorAll('.format-opt').forEach(o => o.classList.remove('active'))
+  el.classList.add('active')
+}
+
+window.genPlan = async () => {
+  const subject = document.getElementById('sesSubject').value.trim()
+  if (!subject) { alert('Entre un sujet pour la session.'); return }
+
+  const fmt = document.querySelector('.format-opt.active')?.dataset.fmt || 'session unique'
+  const level = document.getElementById('sesLevel').value
+  const box = document.getElementById('aiPlanBox')
+  const items = document.getElementById('planItems')
+  const loading = document.getElementById('planLoading')
+
+  box.classList.add('show')
+  items.innerHTML = ''
+  document.getElementById('planSubTitle').textContent = `"${subject}" — ${fmt}`
+  document.getElementById('planActions').style.display = 'none'
+  document.getElementById('shareBox').classList.remove('show')
+  loading.style.display = 'block'
+
+  let plan = []
+
+  // Essayer d'abord via le backend IA
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/generate-session-plan`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ subject, format: fmt, level })
+    })
+    const data = await res.json()
+    if (data.plan && data.plan.length) {
+      plan = data.plan.map(p => ({ t: p.time, topic: p.topic, type: p.type }))
     }
-  }, 1200);
+  } catch(e) {}
+
+  // Fallback template local
+  if (!plan.length) plan = PLAN_TEMPLATES[fmt] || PLAN_TEMPLATES['session unique']
+
+  loading.style.display = 'none'
+
+  const typeMap = { lesson:'pit-lesson', challenge:'pit-challenge', quiz:'pit-quiz', break:'pit-break' }
+  const labels = { lesson:'Leçon', challenge:'Challenge', quiz:'Quiz', break:'Pause' }
+
+  let i = 0
+  const iv = setInterval(() => {
+    if (i >= plan.length) {
+      clearInterval(iv)
+      document.getElementById('planActions').style.display = 'flex'
+      return
+    }
+    const item = plan[i]
+    const div = document.createElement('div')
+    div.className = 'plan-item'
+    div.style.cssText = 'opacity:0;transform:translateY(8px);'
+    div.innerHTML = `<span class="plan-item-time">${item.t}</span><span style="flex:1;font-weight:500;">${item.topic}</span><span class="plan-item-type ${typeMap[item.type]||'pit-lesson'}">${labels[item.type]||'Leçon'}</span>`
+    items.appendChild(div)
+    setTimeout(() => { div.style.opacity='1'; div.style.transform='translateY(0)' }, 50)
+    i++
+  }, 350)
+
+  // Sauvegarder le plan pour la publication
+  window._currentPlan = plan
 }
 
-// COUNTDOWNS
-let cd = 18*60+42;
-setInterval(() => {
-  cd = Math.max(0, cd-1);
-  const m = Math.floor(cd/60).toString().padStart(2,'0');
-  const s = (cd%60).toString().padStart(2,'0');
-  ['adminCd','td-cd'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = `${m}:${s}`; });
-}, 1000);
+window.publishSession = async () => {
+  const titre = document.getElementById('sesSubject').value.trim()
+  const description = document.getElementById('sesDesc').value
+  const format = document.querySelector('.format-opt.active')?.dataset.fmt || 'session unique'
+  const date_debut = document.getElementById('sesDate').value
+  const heure = document.getElementById('sesTime').value
+  const courseId = document.getElementById('sesCourse').value || null
 
-// Default date
-const di = document.getElementById('sessionDate');
-if(di) di.value = new Date().toISOString().split('T')[0];
+  if (!titre) { alert('Entre un titre.'); return }
+
+  const { data, error } = await sb.from('sessions').insert({
+    titre, description, format, date_debut, heure,
+    statut: 'planifie', nb_inscrits: 0,
+    plan: window._currentPlan || [],
+    course_id: courseId
+  }).select().single()
+
+  if (error) { alert('Erreur: ' + error.message); return }
+  await sb.rpc('increment_stat', { stat_name: 'total_sessions' })
+
+  const waitUrl = `${window.location.origin}/waiting.html?session=${data.id}`
+  document.getElementById('shareLink').value = waitUrl
+  document.getElementById('shareBox').classList.add('show')
+  showToast('✅ Session publiée ! L\'IA sera prête à l\'heure exacte.')
+  loadSessions()
+}
+
+window.copyLink = () => { copyText(document.getElementById('shareLink').value) }
+
+// ── UPLOAD PDF → IA ───────────────────────────────────────────
+let selectedFile = null
+
+window.handleFile = (f) => {
+  if (!f) return
+  selectedFile = f
+  document.getElementById('upName').textContent = f.name
+  document.getElementById('upProgress').style.display = 'block'
+  document.getElementById('upBar').style.width = '20%'
+  document.getElementById('upPct').textContent = 'Prêt'
+  document.getElementById('upStatus').textContent = 'Fichier sélectionné — clique sur "Analyser avec l\'IA"'
+  if (!document.getElementById('pdfTitle').value) {
+    document.getElementById('pdfTitle').value = f.name.replace('.pdf','').replace(/-/g,' ')
+  }
+}
+
+window.uploadPDF = async () => {
+  if (!selectedFile) { alert('Sélectionne un fichier PDF d\'abord.'); return }
+  const title = document.getElementById('pdfTitle').value.trim()
+  if (!title) { alert('Entre un titre pour le cours.'); return }
+
+  const level = document.getElementById('pdfLevel').value
+  const cat = document.getElementById('pdfCat').value
+  const desc = document.getElementById('pdfDesc').value
+  const btn = document.getElementById('uploadBtn')
+  const bar = document.getElementById('upBar')
+  const pct = document.getElementById('upPct')
+  const status = document.getElementById('upStatus')
+  const resultBox = document.getElementById('aiResultBox')
+
+  btn.disabled = true
+  btn.textContent = 'Analyse en cours...'
+  bar.style.width = '40%'; pct.textContent = '40%'
+  status.textContent = '⏳ L\'IA lit le PDF...'
+  resultBox.classList.remove('show')
+
+  const formData = new FormData()
+  formData.append('file', selectedFile)
+  formData.append('title', title)
+  formData.append('level', level)
+
+  try {
+    bar.style.width = '70%'; pct.textContent = '70%'
+    status.textContent = '🤖 L\'IA analyse le contenu...'
+
+    const res = await fetch(`${BACKEND_URL}/api/analyze-pdf`, { method: 'POST', body: formData })
+    const data = await res.json()
+
+    bar.style.width = '100%'; pct.textContent = '100%'
+
+    if (data.error) {
+      status.textContent = '❌ Erreur: ' + data.error
+      btn.disabled = false; btn.textContent = 'Analyser avec l\'IA & Publier'
+      return
+    }
+
+    status.textContent = '✅ Analyse terminée ! Publication du cours...'
+
+    // Publier dans Supabase
+    const coursePayload = {
+      titre: title,
+      description: desc || data.resume || '',
+      categorie: cat,
+      difficulte: level,
+      duree_totale: data.duree_totale || '—',
+      resume: data.resume || '',
+      chapitres: data.chapitres || [],
+      quiz: data.quiz || [],
+      concepts_cles: data.concepts_cles || [],
+      objectifs: data.objectifs || [],
+      nb_apprenants: 0,
+      statut: 'publie'
+    }
+
+    const { data: course, error: courseErr } = await sb.from('courses').insert(coursePayload).select().single()
+
+    if (courseErr) {
+      // Table peut ne pas exister encore
+      status.textContent = '⚠️ Cours analysé mais non sauvegardé. Exécute le SQL add-courses-table.sql dans Supabase d\'abord.'
+    } else {
+      status.textContent = '✅ Cours publié avec succès !'
+      loadCourses()
+      loadCoursesForSelect()
+    }
+
+    resultBox.classList.add('show')
+    resultBox.innerHTML = `
+      <strong>✅ Analyse IA terminée !</strong><br/>
+      📖 <strong>${data.chapitres?.length || 0} chapitres</strong> générés<br/>
+      ❓ <strong>${data.quiz?.length || 0} questions</strong> de quiz créées<br/>
+      ⏱️ Durée estimée : <strong>${data.duree_totale || '—'}</strong><br/>
+      🎯 Niveau : <strong>${level}</strong><br/>
+      📝 Résumé : ${data.resume || '—'}<br/><br/>
+      <strong>Concepts clés :</strong> ${(data.concepts_cles || []).join(', ') || '—'}`
+
+    showToast(`"${title}" analysé et publié ! ${data.quiz?.length||0} questions créées.`)
+    btn.disabled = false; btn.textContent = 'Analyser avec l\'IA & Publier'
+
+  } catch(e) {
+    bar.style.width = '0%'; pct.textContent = '0%'
+    status.textContent = '❌ Erreur de connexion au backend. Vérifie que Render est actif.'
+    btn.disabled = false; btn.textContent = 'Analyser avec l\'IA & Publier'
+  }
+}
+
+window.drgOvr = (e) => { e.preventDefault(); document.getElementById('dropZone').classList.add('dragover') }
+window.drgLv = () => document.getElementById('dropZone').classList.remove('dragover')
+window.drgDrop = (e) => { e.preventDefault(); drgLv(); handleFile(e.dataTransfer.files[0]) }
+
+// ── COURS ─────────────────────────────────────────────────────
+async function loadCourses() {
+  const { data: courses, count } = await sb.from('courses').select('*', { count: 'exact' }).order('created_at', { ascending: false })
+
+  document.getElementById('coursesCount').textContent = `${count || 0} cours publié${count > 1 ? 's' : ''}`
+
+  // Dashboard
+  const dashList = document.getElementById('dashCoursesList')
+  if (!courses?.length) {
+    dashList.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text3);">Aucun cours — <button class="btn btn-sm btn-accent" style="margin-left:8px;" onclick="showTab(\'tab-pdf\',null)">Uploader un PDF</button></div>'
+  } else {
+    dashList.innerHTML = courses.slice(0, 5).map(c => `
+      <div class="course-card">
+        <div class="course-thumb">📚</div>
+        <div class="course-info">
+          <div class="course-name">${c.titre}</div>
+          <div class="course-meta">${c.categorie || '—'} · ${c.difficulte || '—'} · ${c.nb_apprenants || 0} apprenants · ${c.quiz?.length || 0} questions</div>
+        </div>
+        <div class="course-actions">
+          <span class="badge badge-pub">${c.statut || 'publié'}</span>
+          <a href="course.html?course=${c.id}" class="act-btn" title="Voir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a>
+          <button class="act-btn" title="Copier lien" onclick="copyText('${window.location.origin}/course.html?course=${c.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+          <button class="act-btn danger" title="Supprimer" onclick="deleteCourse('${c.id}',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+        </div>
+      </div>`).join('')
+  }
+
+  // Onglet cours complet
+  const coursesList = document.getElementById('coursesList')
+  if (!courses?.length) {
+    coursesList.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3);">Aucun cours. Upload un PDF pour commencer !</div>'
+  } else {
+    coursesList.innerHTML = courses.map(c => `
+      <div class="course-card">
+        <div class="course-thumb">📚</div>
+        <div class="course-info">
+          <div class="course-name">${c.titre}</div>
+          <div class="course-meta">${c.categorie||'—'} · ${c.difficulte||'—'} · ${c.chapitres?.length||0} chapitres · ${c.quiz?.length||0} questions · ${c.nb_apprenants||0} apprenants</div>
+          <div class="course-meta" style="margin-top:4px;color:var(--text3);">${c.resume ? c.resume.substring(0,80)+'...' : ''}</div>
+        </div>
+        <div class="course-actions">
+          <span class="badge badge-pub">Publié</span>
+          <a href="course.html?course=${c.id}" class="act-btn" title="Voir le cours"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a>
+          <button class="btn btn-ghost btn-sm" onclick="copyText('${window.location.origin}/course.html?course=${c.id}')">Partager</button>
+          <button class="act-btn danger" onclick="deleteCourse('${c.id}',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+        </div>
+      </div>`).join('')
+  }
+}
+
+window.deleteCourse = async (id, btn) => {
+  if (!confirm('Supprimer ce cours ?')) return
+  await sb.from('courses').delete().eq('id', id)
+  const row = btn.closest('.course-card')
+  row.style.opacity = '0'; row.style.transition = 'opacity .3s'
+  setTimeout(() => { row.remove(); loadCourses() }, 300)
+}
+
+async function loadCoursesForSelect() {
+  const { data: courses } = await sb.from('courses').select('id,titre').order('created_at', { ascending: false })
+  const sel = document.getElementById('sesCourse')
+  sel.innerHTML = '<option value="">— Aucun cours lié —</option>'
+  courses?.forEach(c => { sel.innerHTML += `<option value="${c.id}">${c.titre}</option>` })
+}
+
+// ── APPRENANTS ────────────────────────────────────────────────
+async function loadUsers() {
+  const { data: users, count } = await sb.from('profiles').select('*', { count: 'exact' }).order('created_at', { ascending: false })
+  document.getElementById('usersCount').textContent = `${count || 0} apprenant${count > 1 ? 's' : ''} inscrit${count > 1 ? 's' : ''}`
+  const list = document.getElementById('usersList')
+  if (!users?.length) {
+    list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3);">Aucun inscrit pour l\'instant.</div>'
+    return
+  }
+  list.innerHTML = users.map(u => `
+    <div class="user-item">
+      <div class="user-av">
+        ${u.photo_url ? `<img src="${u.photo_url}" alt="${u.prenom}"/>` : (u.prenom||'?').charAt(0).toUpperCase()}
+      </div>
+      <div>
+        <div class="user-name">${u.prenom || '—'}</div>
+        <div class="user-email">${u.email || '—'}</div>
+      </div>
+      <div class="user-pts">${(u.score_total || 0)} pts</div>
+      <span class="user-role ${u.role === 'admin' ? 'role-admin' : 'role-student'}">${u.role || 'student'}</span>
+    </div>`).join('')
+}
+
+// ── NAV TABS ─────────────────────────────────────────────────
+window.showTab = (id, navEl) => {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'))
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'))
+  const tab = document.getElementById(id)
+  if (tab) tab.classList.add('active')
+  if (navEl) navEl.classList.add('active')
+  if (id === 'tab-users') loadUsers()
+  if (id === 'tab-sessions') loadSessions()
+  if (id === 'tab-courses') loadCourses()
+  if (id === 'tab-dash') { loadStats(); loadSessions(); loadCourses() }
+}
+
+// ── UTILITAIRES ───────────────────────────────────────────────
+window.copyText = (text) => {
+  navigator.clipboard.writeText(text).catch(() => {
+    const ta = document.createElement('textarea')
+    ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove()
+  })
+  showToast('🔗 Lien copié !')
+}
+
+function showToast(msg) {
+  let t = document.getElementById('toast')
+  if (!t) { t=document.createElement('div'); t.id='toast'; t.style.cssText='position:fixed;bottom:24px;right:24px;background:#09090f;color:#fff;padding:12px 18px;border-radius:10px;font-size:.83rem;z-index:9999;transform:translateY(80px);transition:transform .3s;font-family:"DM Sans",sans-serif;max-width:340px;'; document.body.appendChild(t) }
+  t.textContent = msg
+  t.style.transform = 'translateY(0)'
+  setTimeout(() => t.style.transform = 'translateY(80px)', 3500)
+}
+window.showToast = showToast
 </script>
 </body>
 </html>

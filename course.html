@@ -3,448 +3,618 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Python pour débutants — Learnova</title>
-<link rel="stylesheet" href="style.css"/>
+<title>Learnova — Cours</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
 <style>
-body { padding-top:60px; background:var(--bg2); }
-.course-layout { display:grid; grid-template-columns:260px 1fr 300px; height:calc(100vh - 60px); }
+:root{
+  --bg:#fff;--bg2:#f7f8fc;--bg3:#eef0f8;--border:#e4e5f0;
+  --text:#09090f;--text2:#454560;--text3:#9090b0;
+  --accent:#1a56db;--al:#eff3ff;--am:#c7d7fd;
+  --green:#047857;--gl:#ecfdf5;--gm:#a7f3d0;
+  --red:#b91c1c;--rl:#fef2f2;
+  --purple:#6d28d9;--pl:#f5f3ff;
+  --h:'Instrument Serif',serif;--b:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg2);color:var(--text);font-family:var(--b);-webkit-font-smoothing:antialiased;padding-top:58px;}
 
-/* LEFT: Sommaire */
-.sidebar-left { background:var(--bg); border-right:1px solid var(--border); overflow-y:auto; padding:16px 0; }
-.sl-header { padding:0 16px 14px; border-bottom:1px solid var(--border); margin-bottom:10px; }
-.sl-course-title { font-size:.82rem; font-weight:600; margin-bottom:8px; }
-.sl-progress-bar { background:var(--bg2); border-radius:100px; height:4px; margin-bottom:4px; }
-.sl-prog-fill { height:100%; border-radius:100px; background:var(--accent); width:40%; }
-.sl-pct { font-size:.7rem; color:var(--text3); }
-.chapter { margin-bottom:2px; }
-.chapter-hd { display:flex; align-items:center; gap:8px; padding:8px 16px; cursor:pointer; font-size:.82rem; font-weight:500; color:var(--text2); transition:all .15s; }
-.chapter-hd:hover { background:var(--bg2); color:var(--text); }
-.chapter-hd.done { color:var(--green); }
-.chapter-hd.active { color:var(--accent); }
-.chapter-num { width:18px; height:18px; border-radius:50%; background:var(--bg2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:.62rem; font-weight:700; flex-shrink:0; }
-.chapter-hd.done .chapter-num { background:var(--green); border-color:var(--green); color:#fff; }
-.chapter-hd.active .chapter-num { background:var(--accent); border-color:var(--accent); color:#fff; }
-.chapter-arrow { margin-left:auto; transition:transform .2s; font-size:.75rem; color:var(--text3); }
-.chapter-arrow.open { transform:rotate(90deg); }
-.chapter-lessons { padding-left:36px; display:none; }
-.chapter-lessons.open { display:block; }
-.lesson-item { display:flex; align-items:center; gap:7px; padding:6px 16px 6px 0; font-size:.78rem; color:var(--text3); cursor:pointer; transition:all .15s; }
-.lesson-item:hover { color:var(--text); }
-.lesson-item.active { color:var(--accent); font-weight:500; }
-.lesson-item.done { color:var(--green); }
-.lesson-dot { width:5px; height:5px; border-radius:50%; background:currentColor; flex-shrink:0; }
-.lesson-dur { margin-left:auto; opacity:.7; font-size:.68rem; }
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(255,255,255,.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);height:58px;}
+.nav-in{max-width:1400px;margin:0 auto;padding:0 22px;height:100%;display:flex;align-items:center;gap:12px;}
+.logo{display:flex;align-items:center;gap:7px;text-decoration:none;}
+.lm{width:27px;height:27px;border-radius:7px;background:var(--text);display:flex;align-items:center;justify-content:center;}
+.lm svg{width:13px;height:13px;}
+.ln{font-family:var(--h);font-size:1.05rem;color:var(--text);}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:8px;font-family:var(--b);font-weight:500;font-size:.82rem;cursor:pointer;border:none;transition:all .2s;text-decoration:none;}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text2);}
+.btn-ghost:hover{background:var(--bg2);}
+.btn-dark{background:var(--text);color:#fff;}
+.btn-sm{padding:6px 12px;font-size:.76rem;border-radius:6px;}
+.prog-wrap{width:72px;background:var(--border);border-radius:100px;height:4px;}
+.prog-fill{height:100%;border-radius:100px;background:var(--accent);transition:width .5s;}
+.prog-pct{font-size:.74rem;color:var(--text3);}
+.upill{display:flex;align-items:center;gap:6px;padding:3px 9px;border-radius:100px;background:var(--bg2);border:1px solid var(--border);}
+.upill-av{width:21px;height:21px;border-radius:50%;overflow:hidden;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.58rem;font-weight:700;}
+.upill-av img{width:100%;height:100%;object-fit:cover;}
+.upill-name{font-size:.76rem;font-weight:500;}
 
-/* CENTER */
-.course-main { overflow-y:auto; display:flex; flex-direction:column; }
-.course-hero { background:var(--bg); border-bottom:1px solid var(--border); padding:22px 28px; }
-.ch-meta { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
-.course-title { font-family:var(--h); font-size:1.5rem; margin-bottom:7px; letter-spacing:-.5px; }
-.course-desc-text { font-size:.85rem; color:var(--text2); line-height:1.6; max-width:600px; }
-.course-instructor { display:flex; align-items:center; gap:10px; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); }
-.ci-av { width:30px; height:30px; border-radius:50%; overflow:hidden; }
-.ci-av img { width:100%; height:100%; object-fit:cover; }
-.ci-name { font-size:.82rem; font-weight:600; }
-.ci-role { font-size:.72rem; color:var(--text3); }
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:248px 1fr 284px;height:calc(100vh - 58px);}
+
+/* SIDEBAR GAUCHE */
+.sl{background:var(--bg);border-right:1px solid var(--border);overflow-y:auto;padding:12px 0;}
+.sl-hd{padding:0 13px 11px;border-bottom:1px solid var(--border);margin-bottom:8px;}
+.sl-ttl{font-size:.78rem;font-weight:600;margin-bottom:7px;line-height:1.4;}
+.sl-pb{background:var(--bg2);border-radius:100px;height:3px;margin-bottom:3px;}
+.sl-pf{height:100%;border-radius:100px;background:var(--accent);transition:width .5s;}
+.sl-pct{font-size:.66rem;color:var(--text3);}
+.ch-hd{display:flex;align-items:center;gap:6px;padding:6px 13px;cursor:pointer;font-size:.78rem;font-weight:500;color:var(--text2);transition:all .15s;}
+.ch-hd:hover{background:var(--bg2);}
+.ch-hd.active{color:var(--accent);}
+.ch-hd.done{color:var(--green);}
+.ch-num{width:16px;height:16px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;flex-shrink:0;}
+.ch-hd.active .ch-num{background:var(--accent);border-color:var(--accent);color:#fff;}
+.ch-hd.done .ch-num{background:var(--green);border-color:var(--green);color:#fff;}
+.ch-arr{margin-left:auto;font-size:.68rem;color:var(--text3);transition:transform .2s;}
+.ch-arr.open{transform:rotate(90deg);}
+.ch-lessons{padding-left:29px;display:none;}
+.ch-lessons.open{display:block;}
+.li{display:flex;align-items:center;gap:5px;padding:5px 13px 5px 0;font-size:.74rem;color:var(--text3);cursor:pointer;transition:all .15s;}
+.li:hover{color:var(--text);}
+.li.active{color:var(--accent);font-weight:500;}
+.li.done{color:var(--green);}
+.li-dot{width:4px;height:4px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.li-dur{margin-left:auto;opacity:.7;font-size:.64rem;}
+
+/* MAIN */
+.main{overflow-y:auto;display:flex;flex-direction:column;}
+.c-hero{background:var(--bg);border-bottom:1px solid var(--border);padding:18px 24px;}
+.c-meta{display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap;}
+.badge{display:inline-flex;align-items:center;gap:3px;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:100px;}
+.b-prog{background:var(--al);color:var(--accent);}
+.b-ia{background:var(--pl);color:var(--purple);}
+.b-diff{background:var(--bg2);color:var(--text3);border:1px solid var(--border);}
+.c-title{font-family:var(--h);font-size:1.4rem;margin-bottom:5px;letter-spacing:-.4px;}
+.c-desc{font-size:.82rem;color:var(--text2);line-height:1.65;max-width:580px;}
+
+/* PARTICIPANTS DU COURS AVEC PHOTOS */
+.c-parts{display:flex;align-items:center;gap:7px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+.cp-avs{display:flex;}
+.cp-av{width:25px;height:25px;border-radius:50%;overflow:hidden;border:2px solid var(--bg);margin-left:-5px;flex-shrink:0;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.58rem;font-weight:700;}
+.cp-av:first-child{margin-left:0;}
+.cp-av img{width:100%;height:100%;object-fit:cover;}
+.cp-txt{font-size:.74rem;color:var(--text2);}
 
 /* TABS */
-.course-tabs { background:var(--bg); border-bottom:1px solid var(--border); padding:0 28px; display:flex; position:sticky; top:0; z-index:10; }
-.ctab { padding:12px 16px; font-size:.83rem; font-weight:500; color:var(--text3); cursor:pointer; border-bottom:2px solid transparent; transition:all .15s; display:flex; align-items:center; gap:6px; }
-.ctab:hover { color:var(--text); }
-.ctab.active { color:var(--accent); border-bottom-color:var(--accent); }
-.ctab svg { width:14px; height:14px; }
-.ctab-count { font-size:.67rem; background:var(--bg2); padding:1px 6px; border-radius:100px; }
-.ctab.active .ctab-count { background:var(--al); color:var(--accent); }
+.c-tabs{background:var(--bg);border-bottom:1px solid var(--border);padding:0 24px;display:flex;position:sticky;top:0;z-index:10;}
+.ctab{padding:10px 12px;font-size:.79rem;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;}
+.ctab:hover{color:var(--text);}
+.ctab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.tab-p{padding:22px 24px;display:none;}
+.tab-p.active{display:block;}
 
-.tab-pane { padding:26px 28px; display:none; }
-.tab-pane.active { display:block; }
+/* CONTENU */
+.l-body{max-width:660px;}
+.ls{margin-bottom:22px;}
+.ls h2{font-family:var(--h);font-size:1.15rem;margin-bottom:8px;}
+.ls h3{font-size:.88rem;font-weight:600;margin-bottom:6px;}
+.ls p{font-size:.84rem;color:var(--text2);line-height:1.75;margin-bottom:8px;}
+.callout{border-left:3px solid var(--accent);background:var(--al);border-radius:0 7px 7px 0;padding:10px 14px;margin:9px 0;font-size:.81rem;color:var(--text2);line-height:1.6;}
+.callout strong{color:var(--accent);display:block;margin-bottom:2px;font-size:.74rem;}
+.code-blk{background:#0f111a;border-radius:7px;padding:12px 16px;font-family:'Courier New',monospace;font-size:.79rem;line-height:1.7;overflow-x:auto;margin:8px 0;color:#e2e8f0;}
+.l-nav{display:flex;justify-content:space-between;margin-top:22px;padding-top:16px;border-top:1px solid var(--border);}
 
-/* LESSON CONTENT */
-.lesson-body { max-width:700px; }
-.lesson-section { margin-bottom:26px; }
-.lesson-section h2 { font-family:var(--h); font-size:1.25rem; margin-bottom:10px; }
-.lesson-section h3 { font-size:.92rem; font-weight:600; margin-bottom:7px; }
-.lesson-section p { font-size:.88rem; color:var(--text2); line-height:1.75; margin-bottom:10px; }
-.lesson-nav { display:flex; justify-content:space-between; margin-top:28px; padding-top:20px; border-top:1px solid var(--border); }
-
-/* AI CHAT */
-.ai-intro { background:var(--pl); border:1px solid rgba(109,40,217,.12); border-radius:14px; padding:16px 18px; margin-bottom:18px; display:flex; align-items:center; gap:12px; }
-.ai-intro-icon { width:38px; height:38px; border-radius:9px; background:var(--purple); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.ai-intro-icon svg { width:18px; height:18px; color:#fff; }
-.ai-conv { display:flex; flex-direction:column; gap:14px; max-height:360px; overflow-y:auto; margin-bottom:14px; }
-.ai-msg-wrap { display:flex; gap:9px; align-items:flex-start; }
-.ai-msg-wrap.user { flex-direction:row-reverse; }
-.ai-msg-av { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.ai-msg-av.bot { background:var(--purple); color:#fff; font-size:.7rem; font-weight:700; }
-.ai-msg-av.usr { overflow:hidden; }
-.ai-msg-av.usr img { width:100%; height:100%; object-fit:cover; }
-.ai-bubble-sm { padding:10px 13px; font-size:.84rem; line-height:1.65; max-width:85%; }
-.ai-msg-wrap:not(.user) .ai-bubble-sm { background:var(--bg); border:1px solid var(--border); border-radius:3px 12px 12px 12px; color:var(--text2); }
-.ai-msg-wrap.user .ai-bubble-sm { background:var(--accent); color:#fff; border-radius:12px 3px 12px 12px; }
-.ai-typing-sm { display:flex; gap:3px; }
-.ai-typing-sm span { width:5px; height:5px; border-radius:50%; background:var(--text3); animation:typeDot 1.2s infinite; }
-.ai-typing-sm span:nth-child(2){animation-delay:.2s;} .ai-typing-sm span:nth-child(3){animation-delay:.4s;}
-.ai-input-box { background:var(--bg); border:1px solid var(--border2); border-radius:14px; overflow:hidden; }
-.ai-suggs { display:flex; gap:6px; padding:9px 11px; border-bottom:1px solid var(--border); flex-wrap:wrap; }
-.ai-sugg { padding:4px 11px; background:var(--bg2); border:1px solid var(--border); border-radius:100px; font-size:.74rem; color:var(--text2); cursor:pointer; white-space:nowrap; transition:all .15s; }
-.ai-sugg:hover { border-color:var(--accent); color:var(--accent); background:var(--al); }
-.ai-inp-row { display:flex; gap:8px; padding:9px 11px; }
-.ai-inp { flex:1; border:none; outline:none; font-family:var(--b); font-size:.84rem; color:var(--text); background:transparent; }
-.ai-snd { width:32px; height:32px; border-radius:8px; background:var(--accent); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.ai-snd:hover { background:#1448c0; }
-.ai-snd svg { width:13px; height:13px; }
+/* IA CHAT */
+.ai-intro{background:var(--pl);border:1px solid rgba(109,40,217,.12);border-radius:11px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.ai-intro-ico{width:32px;height:32px;border-radius:7px;background:var(--purple);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ai-intro-ico svg{width:15px;height:15px;color:#fff;}
+.ai-conv{display:flex;flex-direction:column;gap:9px;max-height:290px;overflow-y:auto;margin-bottom:10px;}
+.ai-msg{display:flex;gap:6px;align-items:flex-start;}
+.ai-msg.user{flex-direction:row-reverse;}
+.ai-msg-av{width:23px;height:23px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;font-size:.57rem;font-weight:700;color:#fff;}
+.ai-msg-av.bot{background:var(--purple);}
+.ai-msg-av.usr{background:var(--accent);}
+.ai-msg-av img{width:100%;height:100%;object-fit:cover;}
+.ai-bbl{padding:7px 10px;font-size:.8rem;line-height:1.6;max-width:85%;}
+.ai-msg:not(.user) .ai-bbl{background:var(--bg);border:1px solid var(--border);border-radius:3px 10px 10px 10px;color:var(--text2);}
+.ai-msg.user .ai-bbl{background:var(--accent);color:#fff;border-radius:10px 3px 10px 10px;}
+.typing-sm{display:flex;gap:3px;}
+.typing-sm span{width:4px;height:4px;border-radius:50%;background:var(--text3);animation:td 1.2s infinite;}
+.typing-sm span:nth-child(2){animation-delay:.2s;}.typing-sm span:nth-child(3){animation-delay:.4s;}
+@keyframes td{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
+.ai-inp-box{background:var(--bg);border:1px solid var(--border);border-radius:11px;overflow:hidden;}
+.ai-suggs{display:flex;gap:4px;padding:6px 8px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.ai-sugg{padding:3px 8px;background:var(--bg2);border:1px solid var(--border);border-radius:100px;font-size:.7rem;color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .15s;}
+.ai-sugg:hover{border-color:var(--accent);color:var(--accent);background:var(--al);}
+.ai-inp-row{display:flex;gap:6px;padding:6px 8px;}
+.ai-inp{flex:1;border:none;outline:none;font-family:var(--b);font-size:.79rem;color:var(--text);background:transparent;}
+.ai-snd{width:26px;height:26px;border-radius:6px;background:var(--accent);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ai-snd svg{width:10px;height:10px;}
 
 /* QUIZ */
-.quiz-header-card { background:var(--bg); border:1px solid var(--border); border-radius:14px; padding:18px 22px; margin-bottom:18px; display:flex; align-items:center; justify-content:space-between; }
-.qhc-left h3 { font-family:var(--h); font-size:1.05rem; margin-bottom:3px; }
-.qhc-left p { font-size:.75rem; color:var(--text3); }
-.qhc-stats { display:flex; gap:16px; }
-.qhcs { text-align:center; }
-.qhcs-num { font-family:var(--h); font-size:1.2rem; }
-.qhcs-label { font-size:.68rem; color:var(--text3); }
-.quiz-q { background:var(--bg); border:1px solid var(--border); border-radius:14px; padding:20px 22px; margin-bottom:12px; }
-.qq-num { font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--text3); margin-bottom:10px; }
-.qq-text { font-size:.92rem; font-weight:500; margin-bottom:16px; line-height:1.5; }
-.qq-opts { display:flex; flex-direction:column; gap:7px; }
-.qq-opt { display:flex; align-items:center; gap:10px; padding:11px 13px; border:1px solid var(--border); border-radius:9px; cursor:pointer; font-size:.84rem; transition:all .15s; color:var(--text2); }
-.qq-opt:hover { border-color:var(--accent); background:var(--al); color:var(--accent); }
-.qq-opt.selected { border-color:var(--accent); background:var(--al); color:var(--accent); font-weight:500; }
-.qq-opt.correct { border-color:var(--green); background:var(--gl); color:var(--green); }
-.qq-opt.wrong { border-color:var(--red); background:var(--rl); color:var(--red); }
-.qq-key { width:24px; height:24px; border-radius:6px; background:var(--bg2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:.7rem; font-weight:700; flex-shrink:0; }
-.qq-explanation { display:none; margin-top:10px; padding:10px 13px; background:var(--gl); border-radius:8px; font-size:.8rem; color:var(--green); line-height:1.6; border:1px solid var(--gm); }
-.qq-explanation.show { display:block; }
-.qq-explanation.wrong-exp { background:var(--rl); color:var(--red); border-color:rgba(185,28,28,.15); }
-.quiz-score { display:none; background:var(--bg); border:1px solid var(--border); border-radius:14px; padding:36px; text-align:center; margin-top:12px; }
-.quiz-score.show { display:block; }
-.qs-circle { width:76px; height:76px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; }
-.qs-pct { font-family:var(--h); font-size:1.6rem; }
+.quiz-gen{background:linear-gradient(135deg,var(--pl),var(--al));border:1px solid rgba(109,40,217,.12);border-radius:11px;padding:12px;margin-bottom:12px;display:flex;align-items:center;gap:9px;}
+.q-hdr{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:13px 16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.qh-left h3{font-family:var(--h);font-size:.96rem;margin-bottom:2px;}
+.qh-left p{font-size:.71rem;color:var(--text3);}
+.qh-stats{display:flex;gap:10px;}
+.qhs{text-align:center;}
+.qhs-num{font-family:var(--h);font-size:1.1rem;}
+.qhs-lbl{font-size:.64rem;color:var(--text3);}
+.quiz-q{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:14px 16px;margin-bottom:8px;}
+.qq-num{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:6px;}
+.qq-txt{font-size:.86rem;font-weight:500;margin-bottom:11px;line-height:1.5;}
+.qq-opts{display:flex;flex-direction:column;gap:5px;}
+.qq-opt{display:flex;align-items:center;gap:8px;padding:8px 11px;border:1px solid var(--border);border-radius:7px;cursor:pointer;font-size:.8rem;transition:all .15s;color:var(--text2);}
+.qq-opt:hover{border-color:var(--accent);background:var(--al);color:var(--accent);}
+.qq-opt.correct{border-color:var(--green);background:var(--gl);color:var(--green);font-weight:500;}
+.qq-opt.wrong{border-color:var(--red);background:var(--rl);color:var(--red);}
+.qq-key{width:19px;height:19px;border-radius:5px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.64rem;font-weight:700;flex-shrink:0;}
+.qq-exp{display:none;margin-top:6px;padding:7px 10px;background:var(--gl);border-radius:6px;font-size:.75rem;color:var(--green);line-height:1.6;}
+.qq-exp.show{display:block;}
+.qq-exp.wr{background:var(--rl);color:var(--red);}
+.quiz-res{display:none;background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:28px;text-align:center;margin-top:9px;}
+.quiz-res.show{display:block;}
+.qr-circle{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 11px;}
+.qr-pct{font-family:var(--h);font-size:1.4rem;}
 
-/* RIGHT SIDEBAR */
-.sidebar-right { background:var(--bg); border-left:1px solid var(--border); overflow-y:auto; }
-.sr-block { padding:16px; border-bottom:1px solid var(--border); }
-.sr-block-title { font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--text3); margin-bottom:12px; }
-.progress-item { display:flex; align-items:center; justify-content:space-between; font-size:.8rem; margin-bottom:8px; }
-.progress-item-label { color:var(--text2); }
-.progress-item-val { font-weight:600; }
-.progress-item-val.green { color:var(--green); }
-.streak-card { background:linear-gradient(135deg,var(--goldl),#fffbeb); border:1px solid #fde68a; border-radius:10px; padding:14px; display:flex; align-items:center; gap:10px; }
-.streak-num { font-family:var(--h); font-size:2rem; color:var(--gold); line-height:1; }
-.pdf-dl { display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--bg2); border:1px solid var(--border); border-radius:8px; cursor:pointer; transition:all .15s; }
-.pdf-dl:hover { border-color:var(--border2); }
-.pdf-dl-icon { width:30px; height:30px; background:var(--rl); border-radius:7px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.pdf-dl-icon svg { width:14px; height:14px; color:var(--red); }
-.pdf-dl-name { font-size:.78rem; font-weight:500; }
-.pdf-dl-size { font-size:.7rem; color:var(--text3); }
-.notes-ta { width:100%; border:1px solid var(--border2); border-radius:8px; padding:10px 12px; font-family:var(--b); font-size:.8rem; color:var(--text); resize:none; min-height:110px; outline:none; background:var(--bg2); line-height:1.6; }
-.notes-ta:focus { border-color:var(--accent); }
+/* SIDEBAR DROITE */
+.sr{background:var(--bg);border-left:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;}
+.sr-blk{padding:13px;border-bottom:1px solid var(--border);}
+.sr-ttl{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:9px;}
+.p-item{display:flex;align-items:center;justify-content:space-between;font-size:.77rem;margin-bottom:6px;}
+.p-val{font-weight:600;}
+.p-val.green{color:var(--green);}
+.notes-ta{width:100%;border:1px solid var(--border);border-radius:7px;padding:8px 10px;font-family:var(--b);font-size:.76rem;color:var(--text);resize:none;min-height:88px;outline:none;background:var(--bg2);line-height:1.6;}
+.notes-ta:focus{border-color:var(--accent);}
+.save-btn{width:100%;margin-top:6px;padding:7px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-family:var(--b);font-size:.74rem;font-weight:500;cursor:pointer;transition:all .2s;}
+.save-btn:hover{border-color:var(--accent);color:var(--accent);}
+.ul-item{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+.ul-av{width:24px;height:24px;border-radius:50%;overflow:hidden;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.58rem;font-weight:700;flex-shrink:0;}
+.ul-av img{width:100%;height:100%;object-fit:cover;}
+.ul-name{font-size:.76rem;font-weight:500;}
 
-@media(max-width:1100px) {
-  .course-layout { grid-template-columns:0 1fr 0; }
-  .sidebar-left, .sidebar-right { display:none; }
-}
+@media(max-width:1060px){.layout{grid-template-columns:0 1fr 0;}.sl,.sr{display:none;}}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav class="ln-nav">
-  <div class="ln-nav-inner">
-    <a href="index.html" class="ln-logo">
-      <div class="ln-logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div>
-      <span class="ln-logo-name">Learnova</span>
-    </a>
-    <ul class="ln-nav-links">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="live.html">Session live</a></li>
-    </ul>
-    <div class="ln-nav-right">
-      <div style="display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--text2);">
-        <div style="width:70px;background:var(--border);border-radius:100px;height:4px;"><div style="width:40%;height:100%;border-radius:100px;background:var(--accent);"></div></div>
-        40%
-      </div>
-      <button class="btn btn-dark btn-sm" onclick="markDone()">Marquer terminé ✓</button>
+<nav class="nav">
+  <div class="nav-in">
+    <a href="index.html" class="logo"><div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div><span class="ln">Learnova</span></a>
+    <div class="nav-r">
+      <div class="prog-wrap"><div class="prog-fill" id="navPF" style="width:0%;"></div></div>
+      <span class="prog-pct" id="navPct">0%</span>
+      <div class="upill" id="upill" style="display:none;"><div class="upill-av" id="upillAv">?</div><span class="upill-name" id="upillName">...</span></div>
+      <button class="btn btn-dark btn-sm" onclick="markDone()">✓ Terminé</button>
+      <a href="live.html" class="btn btn-ghost btn-sm">Live →</a>
     </div>
   </div>
 </nav>
 
-<div class="course-layout">
-  <!-- LEFT -->
-  <aside class="sidebar-left">
-    <div class="sl-header">
-      <div class="sl-course-title">Python pour débutants</div>
-      <div class="sl-progress-bar"><div class="sl-prog-fill"></div></div>
-      <div class="sl-pct">40% — 2 chapitres sur 5</div>
+<div class="layout">
+
+  <!-- SOMMAIRE -->
+  <aside class="sl">
+    <div class="sl-hd">
+      <div class="sl-ttl" id="slTtl">Chargement...</div>
+      <div class="sl-pb"><div class="sl-pf" id="slPF" style="width:0%;"></div></div>
+      <div class="sl-pct" id="slPct">0% complété</div>
     </div>
-    <div class="chapter"><div class="chapter-hd done" onclick="toggleChap(this)"><span class="chapter-num">1</span> Introduction <span class="chapter-arrow open">›</span></div><div class="chapter-lessons open"><div class="lesson-item done"><span class="lesson-dot"></span>Qu'est-ce que Python ? <span class="lesson-dur">5 min</span></div><div class="lesson-item done"><span class="lesson-dot"></span>Installation <span class="lesson-dur">8 min</span></div></div></div>
-    <div class="chapter"><div class="chapter-hd active" onclick="toggleChap(this)"><span class="chapter-num">2</span> Variables & Types <span class="chapter-arrow open">›</span></div><div class="chapter-lessons open"><div class="lesson-item done"><span class="lesson-dot"></span>Déclarer une variable <span class="lesson-dur">6 min</span></div><div class="lesson-item active"><span class="lesson-dot"></span>Types de données <span class="lesson-dur">10 min</span></div><div class="lesson-item"><span class="lesson-dot"></span>Chaînes de caractères <span class="lesson-dur">8 min</span></div></div></div>
-    <div class="chapter"><div class="chapter-hd" onclick="toggleChap(this)"><span class="chapter-num">3</span> Conditions <span class="chapter-arrow">›</span></div><div class="chapter-lessons"><div class="lesson-item"><span class="lesson-dot"></span>if / else / elif <span class="lesson-dur">9 min</span></div><div class="lesson-item"><span class="lesson-dot"></span>Comparaisons <span class="lesson-dur">6 min</span></div></div></div>
-    <div class="chapter"><div class="chapter-hd" onclick="toggleChap(this)"><span class="chapter-num">4</span> Boucles <span class="chapter-arrow">›</span></div><div class="chapter-lessons"><div class="lesson-item"><span class="lesson-dot"></span>Boucle for <span class="lesson-dur">10 min</span></div><div class="lesson-item"><span class="lesson-dot"></span>Boucle while <span class="lesson-dur">8 min</span></div></div></div>
-    <div class="chapter"><div class="chapter-hd" onclick="toggleChap(this)"><span class="chapter-num">5</span> Fonctions <span class="chapter-arrow">›</span></div><div class="chapter-lessons"><div class="lesson-item"><span class="lesson-dot"></span>Définir une fonction <span class="lesson-dur">11 min</span></div><div class="lesson-item"><span class="lesson-dot"></span>Paramètres & retour <span class="lesson-dur">9 min</span></div></div></div>
+    <div id="chapList"></div>
   </aside>
 
-  <!-- CENTER -->
-  <main class="course-main">
-    <div class="course-hero">
-      <div class="ch-meta">
-        <span class="badge" style="background:var(--al);color:var(--accent);">Programmation</span>
-        <span class="badge" style="background:var(--gl);color:var(--green);">Débutant</span>
-        <span class="badge" style="background:var(--pl);color:var(--purple);">IA activée</span>
+  <!-- CONTENU -->
+  <main class="main">
+    <div class="c-hero">
+      <div class="c-meta">
+        <span class="badge b-prog" id="cCat">Chargement...</span>
+        <span class="badge b-ia">🤖 IA</span>
+        <span class="badge b-diff" id="cDiff">Débutant</span>
       </div>
-      <h1 class="course-title">Python pour débutants</h1>
-      <p class="course-desc-text">Maîtrise les fondamentaux de Python : variables, conditions, boucles et fonctions. 100% pratique avec quiz générés par IA.</p>
-      <div class="course-instructor">
-        <div class="ci-av"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face" alt=""/></div>
-        <div><div class="ci-name">Wei Chen</div><div class="ci-role">Senior Engineer, Google DeepMind</div></div>
-        <div style="margin-left:auto;display:flex;gap:8px;">
-          <a href="live.html" class="btn btn-ghost btn-sm">Voir le live →</a>
-        </div>
-      </div>
-    </div>
+      <h1 class="c-title" id="cTitle">Chargement...</h1>
+      <p class="c-desc" id="cDesc">Contenu généré par l'IA depuis le PDF uploadé.</p>
 
-    <div class="course-tabs">
-      <div class="ctab active" onclick="switchTab('tab-cours',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13"/></svg>
-        Cours
-      </div>
-      <div class="ctab" onclick="switchTab('tab-ai',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg>
-        Demander à l'IA
-      </div>
-      <div class="ctab" onclick="switchTab('tab-quiz',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12l2 2 4-4"/></svg>
-        Quiz <span class="ctab-count">5</span>
+      <!-- PARTICIPANTS AVEC PHOTOS -->
+      <div class="c-parts">
+        <div class="cp-avs" id="cpAvs"></div>
+        <span class="cp-txt" id="cpTxt">0 apprenant</span>
       </div>
     </div>
 
-    <!-- TAB COURS -->
-    <div id="tab-cours" class="tab-pane active">
-      <div class="lesson-body">
-        <div class="lesson-section">
-          <h2>Chapitre 2.4 — Les types de données en Python</h2>
-          <p>En Python, chaque valeur a un <strong>type</strong>. Le type détermine ce que tu peux faire avec cette valeur. Python détecte automatiquement le type.</p>
-          <div class="callout"><strong>Concept clé</strong>Python est un langage à typage dynamique : le type est déterminé automatiquement par la valeur.</div>
-          <h3>Les 4 types de base</h3>
-          <div class="code-block">
-<span class="cm"># 1. Entier (int)</span>
-<span>age</span> = <span class="nm">25</span>
+    <div class="c-tabs">
+      <div class="ctab active" onclick="swTab('t-cours',this)">📖 Cours</div>
+      <div class="ctab" onclick="swTab('t-ai',this)">🤖 Demander à l'IA</div>
+      <div class="ctab" onclick="swTab('t-quiz',this)">✅ Quiz IA</div>
+    </div>
 
-<span class="cm"># 2. Décimal (float)</span>
-<span>prix</span> = <span class="nm">19.99</span>
-
-<span class="cm"># 3. Texte (str)</span>
-<span>nom</span> = <span class="st">"Marie"</span>
-
-<span class="cm"># 4. Booléen (bool)</span>
-<span>est_connecte</span> = <span class="kw">True</span>
-          </div>
-          <h3>Vérifier le type</h3>
-          <p>La fonction <code>type()</code> te dit le type d'une variable :</p>
-          <div class="code-block">
-<span class="fn">print</span>(<span class="fn">type</span>(age))   <span class="cm"># &lt;class 'int'&gt;</span>
-<span class="fn">print</span>(<span class="fn">type</span>(prix))  <span class="cm"># &lt;class 'float'&gt;</span>
-<span class="fn">print</span>(<span class="fn">type</span>(nom))   <span class="cm"># &lt;class 'str'&gt;</span>
-          </div>
-          <div class="callout callout-green"><strong>Astuce</strong>Dans VS Code, survole une variable avec la souris — l'éditeur affiche son type automatiquement.</div>
-          <h3>Convertir les types</h3>
-          <div class="code-block">
-<span>age_texte</span> = <span class="st">"25"</span>
-<span>age_nombre</span> = <span class="fn">int</span>(<span>age_texte</span>)  <span class="cm"># str → int</span>
-<span>prix_int</span> = <span class="fn">int</span>(<span class="nm">19.99</span>)      <span class="cm"># Donne 19</span>
-<span>texte</span> = <span class="fn">str</span>(<span class="nm">25</span>)           <span class="cm"># Donne "25"</span>
-          </div>
-        </div>
-        <div class="lesson-nav">
-          <button class="btn btn-ghost">← Leçon précédente</button>
-          <button class="btn btn-dark" onclick="markDone()">Leçon suivante →</button>
-        </div>
+    <!-- COURS -->
+    <div id="t-cours" class="tab-p active">
+      <div class="l-body" id="lBody">
+        <div style="text-align:center;padding:38px;color:var(--text3);"><div style="font-size:2rem;margin-bottom:9px;">⏳</div>Chargement...</div>
       </div>
     </div>
 
-    <!-- TAB AI -->
-    <div id="tab-ai" class="tab-pane">
-      <div style="max-width:700px;">
+    <!-- IA -->
+    <div id="t-ai" class="tab-p">
+      <div style="max-width:660px;">
         <div class="ai-intro">
-          <div class="ai-intro-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg></div>
-          <div><div style="font-size:.88rem;font-weight:600;margin-bottom:2px;">Professeur IA — Spécialisé Python</div><div style="font-size:.75rem;color:var(--text3);">Pose n'importe quelle question sur ce cours. Je réponds instantanément.</div></div>
+          <div class="ai-intro-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg></div>
+          <div><div style="font-size:.84rem;font-weight:600;margin-bottom:1px;">Professeur IA — Spécialisé sur ce cours</div><div style="font-size:.72rem;color:var(--text3);">Pose n'importe quelle question, réponse instantanée.</div></div>
         </div>
         <div class="ai-conv" id="aiConv">
-          <div class="ai-msg-wrap"><div class="ai-msg-av bot">AI</div><div class="ai-bubble-sm">Bonjour ! Je suis l'IA Learnova, ton assistant Python. Pose-moi n'importe quelle question sur ce chapitre ou sur Python en général.</div></div>
+          <div class="ai-msg"><div class="ai-msg-av bot">AI</div><div class="ai-bbl">Bonjour ! Pose-moi n'importe quelle question sur ce cours, je réponds immédiatement ! 🎓</div></div>
         </div>
-        <div class="ai-input-box">
-          <div class="ai-suggs">
-            <span class="ai-sugg" onclick="askAI(this.textContent)">Explique int vs float simplement</span>
-            <span class="ai-sugg" onclick="askAI(this.textContent)">Donne-moi un exemple concret</span>
-            <span class="ai-sugg" onclick="askAI(this.textContent)">Pourquoi utiliser bool ?</span>
-            <span class="ai-sugg" onclick="askAI(this.textContent)">C'est quoi type() exactement ?</span>
-          </div>
+        <div class="ai-inp-box">
+          <div class="ai-suggs" id="aiSuggs"></div>
           <div class="ai-inp-row">
-            <input class="ai-inp" id="aiInp" type="text" placeholder="Ta question sur Python..."/>
-            <button class="ai-snd" onclick="sendAI()"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+            <input class="ai-inp" id="aiInp" type="text" placeholder="Ta question..."/>
+            <button class="ai-snd" onclick="askAI()"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- TAB QUIZ -->
-    <div id="tab-quiz" class="tab-pane">
-      <div style="max-width:680px;">
-        <div class="quiz-header-card">
-          <div class="qhc-left"><h3>Quiz — Types de données</h3><p>Généré automatiquement par l'IA depuis ce cours</p></div>
-          <div class="qhc-stats">
-            <div class="qhcs"><div class="qhcs-num" id="qScore">0</div><div class="qhcs-label">Score</div></div>
-            <div class="qhcs"><div class="qhcs-num">5</div><div class="qhcs-label">Questions</div></div>
-            <div class="qhcs"><div class="qhcs-num" id="qAnswered">0</div><div class="qhcs-label">Répondues</div></div>
+    <!-- QUIZ -->
+    <div id="t-quiz" class="tab-p">
+      <div style="max-width:640px;">
+        <div class="quiz-gen">
+          <div style="width:28px;height:28px;border-radius:6px;background:var(--purple);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M9.663 17h4.673M12 3v1"/></svg></div>
+          <div style="flex:1;"><div style="font-size:.81rem;font-weight:600;">Quiz généré par l'IA</div><div style="font-size:.7rem;color:var(--text3);">Basé sur le contenu de ce cours</div></div>
+          <button class="btn btn-ghost btn-sm" onclick="generateQuiz()">↺ Régénérer</button>
+        </div>
+        <div class="q-hdr">
+          <div class="qh-left"><h3 id="quizTtl">Quiz</h3><p>Généré automatiquement</p></div>
+          <div class="qh-stats">
+            <div class="qhs"><div class="qhs-num" id="qSc">0</div><div class="qhs-lbl">Score</div></div>
+            <div class="qhs"><div class="qhs-num" id="qTot">—</div><div class="qhs-lbl">Questions</div></div>
+            <div class="qhs"><div class="qhs-num" id="qAns">0</div><div class="qhs-lbl">Répondues</div></div>
           </div>
         </div>
-        <div id="quizQs">
-          <div class="quiz-q" data-q="1"><div class="qq-num">Question 1 sur 5</div><div class="qq-text">Quel est le type de <code style="background:var(--bg2);padding:1px 5px;border-radius:4px;font-family:monospace;">x = 42</code> ?</div><div class="qq-opts"><div class="qq-opt" onclick="ansQ(this,1,false)"><span class="qq-key">A</span>float</div><div class="qq-opt" onclick="ansQ(this,1,true)"><span class="qq-key">B</span>int</div><div class="qq-opt" onclick="ansQ(this,1,false)"><span class="qq-key">C</span>str</div><div class="qq-opt" onclick="ansQ(this,1,false)"><span class="qq-key">D</span>bool</div></div><div class="qq-explanation" id="exp-1">Un nombre entier sans virgule est automatiquement de type <strong>int</strong>. <code>type(42)</code> retourne <code>&lt;class 'int'&gt;</code>.</div></div>
-          <div class="quiz-q" data-q="2"><div class="qq-num">Question 2 sur 5</div><div class="qq-text">Quelle fonction convertit un texte en nombre entier ?</div><div class="qq-opts"><div class="qq-opt" onclick="ansQ(this,2,false)"><span class="qq-key">A</span>str()</div><div class="qq-opt" onclick="ansQ(this,2,false)"><span class="qq-key">B</span>float()</div><div class="qq-opt" onclick="ansQ(this,2,true)"><span class="qq-key">C</span>int()</div><div class="qq-opt" onclick="ansQ(this,2,false)"><span class="qq-key">D</span>convert()</div></div><div class="qq-explanation" id="exp-2"><strong>int()</strong> convertit une valeur en entier. <code>int("25")</code> donne <code>25</code>.</div></div>
-          <div class="quiz-q" data-q="3"><div class="qq-num">Question 3 sur 5</div><div class="qq-text">Que retourne <code style="background:var(--bg2);padding:1px 5px;border-radius:4px;font-family:monospace;">int(19.99)</code> ?</div><div class="qq-opts"><div class="qq-opt" onclick="ansQ(this,3,false)"><span class="qq-key">A</span>20</div><div class="qq-opt" onclick="ansQ(this,3,true)"><span class="qq-key">B</span>19</div><div class="qq-opt" onclick="ansQ(this,3,false)"><span class="qq-key">C</span>19.99</div><div class="qq-opt" onclick="ansQ(this,3,false)"><span class="qq-key">D</span>Erreur</div></div><div class="qq-explanation" id="exp-3"><strong>int()</strong> tronque la partie décimale. <code>int(19.99)</code> = <strong>19</strong>, pas 20.</div></div>
-          <div class="quiz-q" data-q="4"><div class="qq-num">Question 4 sur 5</div><div class="qq-text">Quelle valeur est de type <strong>bool</strong> ?</div><div class="qq-opts"><div class="qq-opt" onclick="ansQ(this,4,false)"><span class="qq-key">A</span>"True"</div><div class="qq-opt" onclick="ansQ(this,4,false)"><span class="qq-key">B</span>1</div><div class="qq-opt" onclick="ansQ(this,4,true)"><span class="qq-key">C</span>True</div><div class="qq-opt" onclick="ansQ(this,4,false)"><span class="qq-key">D</span>1.0</div></div><div class="qq-explanation" id="exp-4"><strong>True</strong> (avec majuscule) est le booléen. "True" est un str, 1 est un int. Attention à la majuscule !</div></div>
-          <div class="quiz-q" data-q="5"><div class="qq-num">Question 5 sur 5</div><div class="qq-text">Quel type Python stocke le texte <code style="background:var(--bg2);padding:1px 5px;border-radius:4px;font-family:monospace;">"Learnova"</code> ?</div><div class="qq-opts"><div class="qq-opt" onclick="ansQ(this,5,false)"><span class="qq-key">A</span>text</div><div class="qq-opt" onclick="ansQ(this,5,true)"><span class="qq-key">B</span>str</div><div class="qq-opt" onclick="ansQ(this,5,false)"><span class="qq-key">C</span>char</div><div class="qq-opt" onclick="ansQ(this,5,false)"><span class="qq-key">D</span>string</div></div><div class="qq-explanation" id="exp-5">En Python, le type texte s'appelle <strong>str</strong>. Il n'y a pas de type <code>text</code> ni <code>char</code> en Python.</div></div>
+        <div id="quizQs"><div style="text-align:center;padding:32px;color:var(--text3);">⏳ Génération par l'IA...</div></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:9px;">
+          <span style="font-size:.74rem;color:var(--text3);" id="qInfo"></span>
+          <button class="btn btn-dark btn-sm" id="qResBtn" style="display:none;" onclick="showResult()">Voir résultat →</button>
         </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;">
-          <span style="font-size:.78rem;color:var(--text3);" id="qInfo">0 réponse sur 5</span>
-          <button class="btn btn-dark btn-sm" id="qResultBtn" style="display:none;" onclick="showQResult()">Voir mon résultat</button>
-        </div>
-        <div class="quiz-score" id="quizScore">
-          <div class="qs-circle" id="qsCircle" style="background:var(--gl);border:3px solid var(--green);"><div class="qs-pct" id="qsPct" style="color:var(--green);">0%</div></div>
-          <div style="font-family:var(--h);font-size:1.2rem;margin-bottom:6px;" id="qsTitle">Résultat</div>
-          <div style="font-size:.85rem;color:var(--text3);" id="qsSub"></div>
-          <div style="display:flex;gap:10px;justify-content:center;margin-top:18px;">
+        <div class="quiz-res" id="quizRes">
+          <div class="qr-circle" id="qrCircle" style="background:var(--gl);border:3px solid var(--green);"><div class="qr-pct" id="qrPct" style="color:var(--green);">0%</div></div>
+          <div style="font-family:var(--h);font-size:1.1rem;margin-bottom:4px;" id="qrTtl">Résultat</div>
+          <div style="font-size:.81rem;color:var(--text3);" id="qrSub"></div>
+          <div style="display:flex;gap:7px;justify-content:center;margin-top:12px;">
             <button class="btn btn-ghost btn-sm" onclick="resetQuiz()">Recommencer</button>
-            <button class="btn btn-dark btn-sm" onclick="switchTab('tab-cours',document.querySelectorAll('.ctab')[0])">Revoir le cours</button>
+            <button class="btn btn-dark btn-sm" onclick="swTab('t-cours',document.querySelectorAll('.ctab')[0])">Revoir le cours</button>
           </div>
         </div>
       </div>
     </div>
   </main>
 
-  <!-- RIGHT -->
-  <aside class="sidebar-right">
-    <div class="sr-block">
-      <div class="sr-block-title">Ma progression</div>
-      <div class="progress-item"><span class="progress-item-label">Leçons</span><span class="progress-item-val">4 / 10</span></div>
-      <div class="progress-item"><span class="progress-item-label">Quiz réussis</span><span class="progress-item-val green">2 / 5</span></div>
-      <div class="progress-item"><span class="progress-item-label">Score moyen</span><span class="progress-item-val green">82%</span></div>
-      <div class="progress-item"><span class="progress-item-label">Temps total</span><span class="progress-item-val">1h 24min</span></div>
+  <!-- SIDEBAR DROITE -->
+  <aside class="sr">
+    <div class="sr-blk">
+      <div class="sr-ttl">Ma progression</div>
+      <div class="p-item"><span>Leçons</span><span class="p-val" id="pLecons">0/0</span></div>
+      <div class="p-item"><span>Score quiz</span><span class="p-val green" id="pScore">0%</span></div>
     </div>
-    <div class="sr-block">
-      <div class="sr-block-title">Série</div>
-      <div class="streak-card">
-        <div class="streak-num">7</div>
-        <div><div style="font-size:.78rem;color:var(--text2);font-weight:500;">jours consécutifs</div><div style="font-size:.7rem;color:var(--text3);margin-top:2px;">Continue comme ça !</div></div>
-      </div>
+    <div class="sr-blk">
+      <div class="sr-ttl">Apprenants de ce cours</div>
+      <div id="usersList"></div>
     </div>
-    <div class="sr-block">
-      <div class="sr-block-title">Ressources</div>
-      <div class="pdf-dl" onclick="showToast('Téléchargement...')">
-        <div class="pdf-dl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div>
-        <div><div class="pdf-dl-name">Python-Débutants.pdf</div><div class="pdf-dl-size">2.4 MB · 47 pages</div></div>
-      </div>
-    </div>
-    <div class="sr-block" style="flex:1;">
-      <div class="sr-block-title">Mes notes</div>
-      <textarea class="notes-ta" id="notesArea" placeholder="Écris tes notes ici...">int = nombre entier
-float = décimal
-str = texte
-bool = True / False</textarea>
+    <div class="sr-blk" style="flex:1;">
+      <div class="sr-ttl">Mes notes (auto-sauvegardées)</div>
+      <textarea class="notes-ta" id="notesArea" placeholder="Écris tes notes ici..."></textarea>
+      <button class="save-btn" onclick="saveNotes()">💾 Sauvegarder</button>
     </div>
   </aside>
 </div>
 
-<script src="js/app.js"></script>
-<script>
-function switchTab(id, el) {
-  document.querySelectorAll('.tab-pane').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.ctab').forEach(t => t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  if(el) el.classList.add('active');
-}
-function toggleChap(el) {
-  const arrow = el.querySelector('.chapter-arrow');
-  const lessons = el.nextElementSibling;
-  arrow.classList.toggle('open');
-  lessons.classList.toggle('open');
-}
-function markDone() {
-  const a = document.querySelector('.lesson-item.active');
-  if(a) { a.classList.remove('active'); a.classList.add('done'); }
-  showToast('Leçon terminée ! Bravo !');
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+const SB_URL  = "https://jbshkbqchrehfhoodtuj.supabase.co"
+const SB_KEY  =sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs
+const BACKEND = "https://learnova-backend-28pl.onrender.com"
+const sb      = createClient(SB_URL, SB_KEY)
+
+const courseId = new URLSearchParams(window.location.search).get('course') || 'default'
+
+let courseData   = null
+let quizData     = []
+let answered     = {}
+let qScore       = 0
+let lessonsDone  = 0
+let totalLessons = 0
+let currentUser  = null
+let myPhoto      = null
+
+// ── AUTH ──────────────────────────────────────────────────
+sb.auth.onAuthStateChange(async (_e, session) => {
+  currentUser = session?.user || null
+  if (!currentUser) return
+  const { data:p } = await sb.from('profiles').select('*').eq('id', currentUser.id).single()
+  const prenom = p?.prenom || currentUser.email?.split('@')[0] || 'Apprenant'
+  myPhoto = p?.photo_url || currentUser.user_metadata?.avatar_url || null
+
+  document.getElementById('upill').style.display = 'flex'
+  const av = document.getElementById('upillAv')
+  if (myPhoto) av.innerHTML = `<img src="${myPhoto}" alt=""/>`
+  else av.textContent = prenom.charAt(0).toUpperCase()
+  document.getElementById('upillName').textContent = prenom
+
+  const { data:note } = await sb.from('notes').select('content').eq('user_id', currentUser.id).eq('course_id', courseId).single()
+  if (note?.content) document.getElementById('notesArea').value = note.content
+
+  trackPresence(prenom, myPhoto)
+})
+
+// ── PRÉSENCE & PARTICIPANTS AVEC PHOTOS ───────────────────
+function trackPresence(prenom, photo) {
+  const ch = sb.channel(`course-${courseId}`, { config:{ presence:{ key: currentUser?.id || 'g'+Math.random().toString(36).substr(2,6) } } })
+  ch.on('presence', { event:'sync' }, () => {
+    const users = Object.values(ch.presenceState()).flat()
+    updateParticipants(users)
+  }).subscribe(async s => {
+    if (s === 'SUBSCRIBED') await ch.track({ prenom, photo })
+  })
 }
 
-// AI
-const AI_ANS = {
-  'explique int vs float simplement':'Imagine deux tiroirs : le tiroir <strong>int</strong> pour compter des choses entières (1 personne, 42 points, 100 euros), et le tiroir <strong>float</strong> pour mesurer (19.99€, 36.6°, 3.14). Règle simple : si tu comptes → int, si tu mesures → float.',
-  'donne-moi un exemple concret':'Commande de pizza : <br/><code style="background:#f1f5f9;padding:1px 5px;border-radius:3px;">nom = "Marie"</code> (str)<br/><code style="background:#f1f5f9;padding:1px 5px;border-radius:3px;">nb_pizzas = 2</code> (int)<br/><code style="background:#f1f5f9;padding:1px 5px;border-radius:3px;">prix = 29.98</code> (float)<br/><code style="background:#f1f5f9;padding:1px 5px;border-radius:3px;">livraison = True</code> (bool)',
-  'pourquoi utiliser bool ?':'Le type <strong>bool</strong> est parfait pour les états oui/non : connecté/déconnecté, ouvert/fermé, vrai/faux. Il est utilisé partout dans les conditions : <code>if est_connecte:</code>. C\'est la base de toute logique de programme.',
-  "c'est quoi type() exactement ?":'<code>type()</code> est une fonction intégrée Python qui retourne le type d\'une valeur. <code>type(42)</code> retourne <code>&lt;class \'int\'&gt;</code>. C\'est ton meilleur outil pour déboguer quand quelque chose ne marche pas comme prévu.',
-};
-function askAI(q) { document.getElementById('aiInp').value = q; sendAI(); }
-function sendAI() {
-  const inp = document.getElementById('aiInp');
-  const q = inp.value.trim(); if(!q) return;
-  const conv = document.getElementById('aiConv');
-  const um = document.createElement('div'); um.className='ai-msg-wrap user';
-  um.innerHTML=`<div class="ai-msg-av usr"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=56&h=56&fit=crop&crop=face" alt=""/></div><div class="ai-bubble-sm">${q}</div>`;
-  conv.appendChild(um); inp.value='';
-  const tm = document.createElement('div'); tm.className='ai-msg-wrap';
-  tm.innerHTML=`<div class="ai-msg-av bot">AI</div><div class="ai-bubble-sm"><div class="ai-typing-sm"><span></span><span></span><span></span></div></div>`;
-  conv.appendChild(tm); conv.scrollTop=conv.scrollHeight;
-  setTimeout(() => {
-    tm.remove();
-    const ans = AI_ANS[q.toLowerCase()] || `Bonne question ! Pour répondre à "${q}" : ce concept est fondamental en Python. Je te recommande de tester avec <code style="background:#f1f5f9;padding:1px 4px;border-radius:3px;">print(type(...))</code> pour vérifier par toi-même. Veux-tu un exemple de code ?`;
-    const am = document.createElement('div'); am.className='ai-msg-wrap';
-    am.innerHTML=`<div class="ai-msg-av bot">AI</div><div class="ai-bubble-sm">${ans}</div>`;
-    conv.appendChild(am); conv.scrollTop=conv.scrollHeight;
-  }, 1400);
-}
-document.getElementById('aiInp').addEventListener('keypress', e => { if(e.key==='Enter') sendAI(); });
+function updateParticipants(users) {
+  const avs = document.getElementById('cpAvs')
+  const txt = document.getElementById('cpTxt')
+  avs.innerHTML = users.slice(0, 7).map(u =>
+    `<div class="cp-av" title="${u.prenom}">${u.photo?`<img src="${u.photo}" alt="${u.prenom}"/>`:u.prenom.charAt(0).toUpperCase()}</div>`
+  ).join('')
+  txt.textContent = `${users.length} apprenant${users.length>1?'s':''} ${users.length>1?'suivent':'suit'} ce cours`
 
-// QUIZ
-let answered={}, qScore=0;
-function ansQ(opt, qNum, correct) {
-  if(answered[qNum]) return;
-  answered[qNum]=true;
-  opt.closest('.qq-opts').querySelectorAll('.qq-opt').forEach(o => o.style.pointerEvents='none');
-  opt.classList.add(correct?'correct':'wrong');
-  if(!correct) { opt.closest('.quiz-q').querySelectorAll('.qq-opt').forEach(o => { if(o.getAttribute('onclick').includes('true')) o.classList.add('correct'); }); }
-  else qScore++;
-  document.getElementById(`exp-${qNum}`).classList.add('show');
-  if(!correct) document.getElementById(`exp-${qNum}`).classList.add('wrong-exp');
-  document.getElementById('qScore').textContent=qScore;
-  const ac=Object.keys(answered).length;
-  document.getElementById('qAnswered').textContent=ac;
-  document.getElementById('qInfo').textContent=`${ac} réponse${ac>1?'s':''} sur 5`;
-  if(ac===5) document.getElementById('qResultBtn').style.display='inline-flex';
-}
-function showQResult() {
-  document.getElementById('quizQs').style.display='none';
-  document.getElementById('qResultBtn').style.display='none';
-  const pct=Math.round(qScore/5*100);
-  document.getElementById('qsPct').textContent=pct+'%';
-  document.getElementById('qsTitle').textContent=pct>=80?'Excellent !':pct>=60?'Bon résultat !':'Continue à pratiquer';
-  document.getElementById('qsSub').textContent=`${qScore} bonne${qScore>1?'s':''} réponse${qScore>1?'s':''} sur 5`;
-  if(pct<60) { document.getElementById('qsCircle').style.cssText='background:var(--rl);border:3px solid var(--red);width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;'; document.getElementById('qsPct').style.color='var(--red)'; }
-  document.getElementById('quizScore').classList.add('show');
-}
-function resetQuiz() {
-  answered={}; qScore=0;
-  ['qScore','qAnswered'].forEach(id => document.getElementById(id).textContent='0');
-  document.getElementById('qInfo').textContent='0 réponse sur 5';
-  document.getElementById('qResultBtn').style.display='none';
-  document.getElementById('quizScore').classList.remove('show');
-  document.getElementById('quizQs').style.display='block';
-  document.querySelectorAll('.qq-opt').forEach(o => { o.classList.remove('correct','wrong','selected'); o.style.pointerEvents='auto'; });
-  document.querySelectorAll('.qq-explanation').forEach(e => e.classList.remove('show','wrong-exp'));
+  document.getElementById('usersList').innerHTML = users.slice(0, 6).map(u => `
+    <div class="ul-item">
+      <div class="ul-av">${u.photo?`<img src="${u.photo}" alt="${u.prenom}"/>`:u.prenom.charAt(0).toUpperCase()}</div>
+      <span class="ul-name">${u.prenom}</span>
+    </div>`).join('')
 }
 
-// NOTES
-const n = document.getElementById('notesArea');
-n.addEventListener('input', () => Store.set('notes-python', n.value));
-const saved = Store.get('notes-python');
-if(saved) n.value = saved;
+// ── CHARGER LE COURS ──────────────────────────────────────
+async function loadCourse() {
+  if (courseId !== 'default') {
+    const { data:c } = await sb.from('courses').select('*').eq('id', courseId).single()
+    if (c) { courseData = c; renderCourse(c); generateQuiz(); loadSuggestions(); return }
+  }
+  renderDemo(); generateQuiz(); loadSuggestions()
+}
+
+function renderCourse(c) {
+  document.getElementById('slTtl').textContent = c.titre || 'Cours'
+  document.getElementById('cTitle').textContent = c.titre || 'Cours'
+  document.getElementById('cDesc').textContent = c.description || c.resume || ''
+  document.getElementById('cCat').textContent = c.categorie || 'Formation'
+  document.getElementById('cDiff').textContent = c.difficulte || 'Débutant'
+
+  const chapitres = c.chapitres || []
+  totalLessons = chapitres.reduce((a,ch) => a + (ch.lecons?.length||0), 0)
+  updateProg()
+
+  if (!chapitres.length) {
+    document.getElementById('chapList').innerHTML = '<div style="padding:12px;font-size:.76rem;color:var(--text3);">Aucun chapitre.</div>'
+    renderLesson(c.titre, c.resume || c.description || 'Contenu du cours.')
+    return
+  }
+
+  document.getElementById('chapList').innerHTML = chapitres.map((ch,ci) => `
+    <div>
+      <div class="ch-hd ${ci===0?'active':''}" onclick="toggleCh(this)">
+        <span class="ch-num">${ci+1}</span>${ch.titre}
+        <span class="ch-arr ${ci===0?'open':''}">›</span>
+      </div>
+      <div class="ch-lessons ${ci===0?'open':''}">
+        ${(ch.lecons||[]).map((l,li) => `
+          <div class="li ${ci===0&&li===0?'active':''}" onclick="selLesson(this,'${encodeURIComponent(l)}')">
+            <span class="li-dot"></span>${l}<span class="li-dur">${ch.duree_minutes||10}min</span>
+          </div>`).join('')}
+      </div>
+    </div>`).join('')
+
+  renderLesson(chapitres[0]?.titre || c.titre, c.resume || `Bienvenue dans "${c.titre}". Contenu généré par l'IA depuis le PDF uploadé.`)
+}
+
+function renderDemo() {
+  document.getElementById('slTtl').textContent = 'Cours Learnova'
+  document.getElementById('cTitle').textContent = 'Cours Learnova'
+  document.getElementById('cDesc').textContent = 'Ce cours est généré automatiquement par l\'IA depuis le PDF uploadé dans l\'espace admin.'
+  document.getElementById('cCat').textContent = 'Formation'
+  totalLessons = 4; updateProg()
+  const chaps = [{titre:'Introduction',lecons:['Bienvenue','Objectifs']},{titre:'Contenu',lecons:['Concepts clés','Mise en pratique']}]
+  document.getElementById('chapList').innerHTML = chaps.map((ch,ci) => `
+    <div>
+      <div class="ch-hd ${ci===0?'active':''}" onclick="toggleCh(this)">
+        <span class="ch-num">${ci+1}</span>${ch.titre}<span class="ch-arr ${ci===0?'open':''}">›</span>
+      </div>
+      <div class="ch-lessons ${ci===0?'open':''}">
+        ${ch.lecons.map((l,li) => `<div class="li ${ci===0&&li===0?'active':''}" onclick="selLesson(this,'${encodeURIComponent(l)}')"><span class="li-dot"></span>${l}<span class="li-dur">10min</span></div>`).join('')}
+      </div>
+    </div>`).join('')
+  renderLesson('Bienvenue', 'Ce cours est créé par l\'IA Learnova depuis un PDF uploadé par l\'admin. Pose des questions dans "Demander à l\'IA" pour approfondir.')
+}
+
+function renderLesson(titre, contenu) {
+  document.getElementById('lBody').innerHTML = `
+    <div class="ls">
+      <h2>${titre}</h2>
+      <p>${contenu.replace(/\n/g,'</p><p>')}</p>
+      <div class="callout"><strong>📌 Note IA</strong>Contenu analysé automatiquement. Va dans "Demander à l'IA" pour poser tes questions.</div>
+    </div>
+    <div class="l-nav">
+      <button class="btn btn-ghost btn-sm" onclick="prevLesson()">← Précédent</button>
+      <button class="btn btn-dark btn-sm" onclick="markDone()">Suivant →</button>
+    </div>`
+}
+
+// ── QUIZ ──────────────────────────────────────────────────
+window.generateQuiz = async () => {
+  const titre = courseData?.titre || document.getElementById('cTitle').textContent || 'ce cours'
+  document.getElementById('quizTtl').textContent = `Quiz — ${titre}`
+  document.getElementById('quizQs').innerHTML = '<div style="text-align:center;padding:28px;color:var(--text3);">⏳ L\'IA génère vos questions...</div>'
+  try {
+    const r = await fetch(`${BACKEND}/api/generate-quiz`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ subject:titre, level:courseData?.difficulte||'Débutant', num_questions:5 })
+    })
+    const d = await r.json()
+    if (d.quiz?.length) { quizData = d.quiz; renderQuiz(d.quiz); return }
+  } catch {}
+  quizData = [
+    {question:`Que retenir principalement de "${courseData?.titre||'ce cours'}" ?`,options:['Mémoriser tout','Comprendre et pratiquer','Passer vite','Rien'],correct:1,explication:'Comprendre et pratiquer est toujours la clé.'},
+    {question:'Comment approfondir un sujet ?',options:['Relire','Poser des questions à l\'IA','Mémoriser','Ignorer'],correct:1,explication:'L\'IA Learnova répond à toutes vos questions.'}
+  ]
+  renderQuiz(quizData)
+}
+
+function renderQuiz(quiz) {
+  answered = {}; qScore = 0
+  document.getElementById('qTot').textContent = quiz.length
+  document.getElementById('qSc').textContent = 0
+  document.getElementById('qAns').textContent = 0
+  document.getElementById('qResBtn').style.display = 'none'
+  document.getElementById('quizRes').classList.remove('show')
+  document.getElementById('quizQs').style.display = 'block'
+  document.getElementById('qInfo').textContent = `0 réponse sur ${quiz.length}`
+  document.getElementById('quizQs').innerHTML = quiz.map((q,qi) => `
+    <div class="quiz-q">
+      <div class="qq-num">Question ${qi+1}/${quiz.length}</div>
+      <div class="qq-txt">${q.question}</div>
+      <div class="qq-opts">${q.options.map((o,oi)=>`<div class="qq-opt" onclick="ansQ(this,${qi},${oi},${q.correct})"><span class="qq-key">${String.fromCharCode(65+oi)}</span>${o}</div>`).join('')}</div>
+      <div class="qq-exp" id="exp-${qi}">${q.explication||''}</div>
+    </div>`).join('')
+}
+
+window.ansQ = (el, qi, oi, correct) => {
+  if (answered[qi] !== undefined) return
+  answered[qi] = oi
+  el.closest('.qq-opts').querySelectorAll('.qq-opt').forEach(o => o.style.pointerEvents='none')
+  el.classList.add(oi===correct?'correct':'wrong')
+  if (oi!==correct) el.closest('.quiz-q').querySelectorAll('.qq-opt')[correct].classList.add('correct')
+  else qScore++
+  const exp = document.getElementById(`exp-${qi}`)
+  if (exp) { exp.classList.add('show'); if(oi!==correct) exp.classList.add('wr') }
+  document.getElementById('qSc').textContent = qScore
+  const ac = Object.keys(answered).length
+  document.getElementById('qAns').textContent = ac
+  document.getElementById('qInfo').textContent = `${ac} réponse${ac>1?'s':''} sur ${quizData.length}`
+  document.getElementById('pScore').textContent = Math.round((qScore/quizData.length)*100)+'%'
+  if (ac === quizData.length) document.getElementById('qResBtn').style.display = 'inline-flex'
+}
+
+window.showResult = () => {
+  const pct = Math.round((qScore/quizData.length)*100)
+  document.getElementById('qrPct').textContent = pct+'%'
+  document.getElementById('qrTtl').textContent = pct>=80?'Excellent ! 🎉':pct>=60?'Bon résultat !':'Continue à pratiquer 💪'
+  document.getElementById('qrSub').textContent = `${qScore} bonne${qScore>1?'s':''} réponse${qScore>1?'s':''} sur ${quizData.length}`
+  if (pct < 60) { document.getElementById('qrCircle').style.cssText='width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 11px;background:var(--rl);border:3px solid var(--red);'; document.getElementById('qrPct').style.color='var(--red)' }
+  document.getElementById('quizRes').classList.add('show')
+  document.getElementById('quizQs').style.display = 'none'
+}
+
+window.resetQuiz = () => { document.getElementById('quizQs').style.display='block'; renderQuiz(quizData) }
+
+// ── IA CHAT ───────────────────────────────────────────────
+window.askAI = async (q) => {
+  const inp = document.getElementById('aiInp')
+  const question = q || inp.value.trim(); if (!question) return
+  inp.value = ''
+
+  const conv = document.getElementById('aiConv')
+  const avH = myPhoto ? `<div class="ai-msg-av usr"><img src="${myPhoto}" alt=""/></div>` : `<div class="ai-msg-av usr">${(currentUser?.email?.[0]||'?').toUpperCase()}</div>`
+  const um = document.createElement('div')
+  um.className = 'ai-msg user'
+  um.innerHTML = `${avH}<div class="ai-bbl">${question}</div>`
+  conv.appendChild(um)
+
+  const tm = document.createElement('div')
+  tm.className = 'ai-msg'
+  tm.innerHTML = `<div class="ai-msg-av bot">AI</div><div class="ai-bbl"><div class="typing-sm"><span></span><span></span><span></span></div></div>`
+  conv.appendChild(tm); conv.scrollTop = conv.scrollHeight
+
+  try {
+    const r = await fetch(`${BACKEND}/api/ask-ai`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ question, course_title:courseData?.titre||document.getElementById('cTitle').textContent, course_context:courseData?.resume||courseData?.description||'' })
+    })
+    const d = await r.json()
+    tm.remove()
+    const am = document.createElement('div')
+    am.className = 'ai-msg'
+    am.innerHTML = `<div class="ai-msg-av bot">AI</div><div class="ai-bbl">${(d.answer||'Bonne question !').replace(/\n/g,'<br/>')}</div>`
+    conv.appendChild(am)
+  } catch {
+    tm.remove()
+    const am = document.createElement('div')
+    am.className = 'ai-msg'
+    am.innerHTML = `<div class="ai-msg-av bot">AI</div><div class="ai-bbl">Bonne question ! N'hésite pas à reformuler.</div>`
+    conv.appendChild(am)
+  }
+  conv.scrollTop = conv.scrollHeight
+}
+document.getElementById('aiInp').addEventListener('keypress', e=>{ if(e.key==='Enter') askAI() })
+
+function loadSuggestions() {
+  const titre = courseData?.titre || 'ce cours'
+  const s = [`Explique le concept principal de ${titre}`, 'Donne-moi un exemple concret', 'Que dois-je retenir ?', 'Comment pratiquer ?']
+  document.getElementById('aiSuggs').innerHTML = s.map(q=>`<span class="ai-sugg" onclick="askAI('${q}')">${q}</span>`).join('')
+}
+
+// ── PROGRESSION ───────────────────────────────────────────
+window.markDone = () => {
+  const a = document.querySelector('.li.active')
+  if (a) { a.classList.remove('active'); a.classList.add('done'); lessonsDone++ }
+  updateProg(); toast('Leçon terminée ! 🎉')
+}
+
+window.prevLesson = () => toast('Tu es au début !')
+
+function updateProg() {
+  const pct = totalLessons > 0 ? Math.round((lessonsDone/totalLessons)*100) : 0
+  document.getElementById('slPF').style.width = pct+'%'
+  document.getElementById('slPct').textContent = `${pct}% complété`
+  document.getElementById('navPF').style.width = pct+'%'
+  document.getElementById('navPct').textContent = pct+'%'
+  document.getElementById('pLecons').textContent = `${lessonsDone}/${totalLessons}`
+}
+
+window.selLesson = (el, encodedLesson) => {
+  const lesson = decodeURIComponent(encodedLesson)
+  document.querySelectorAll('.li').forEach(l=>l.classList.remove('active'))
+  el.classList.add('active')
+  renderLesson(lesson, `Contenu de la leçon "${lesson}". Pose tes questions à l'IA pour approfondir ce sujet.`)
+}
+
+window.toggleCh = (el) => {
+  el.querySelector('.ch-arr').classList.toggle('open')
+  el.nextElementSibling.classList.toggle('open')
+}
+
+window.swTab = (id, el) => {
+  document.querySelectorAll('.tab-p').forEach(t=>t.classList.remove('active'))
+  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('active'))
+  document.getElementById(id).classList.add('active')
+  if (el) el.classList.add('active')
+}
+
+// ── NOTES ─────────────────────────────────────────────────
+window.saveNotes = async () => {
+  const content = document.getElementById('notesArea').value
+  if (currentUser) await sb.from('notes').upsert({ user_id:currentUser.id, course_id:courseId, content, updated_at:new Date().toISOString() })
+  toast('Notes sauvegardées ✓')
+}
+let st
+document.getElementById('notesArea').addEventListener('input', () => { clearTimeout(st); st=setTimeout(saveNotes, 2000) })
+
+function toast(msg) {
+  let t = document.getElementById('toast')
+  if (!t) { t=document.createElement('div'); t.id='toast'; t.style.cssText='position:fixed;bottom:20px;right:20px;background:#09090f;color:#fff;padding:9px 15px;border-radius:8px;font-size:.79rem;z-index:9999;transform:translateY(50px);transition:transform .3s;font-family:"DM Sans",sans-serif;'; document.body.appendChild(t) }
+  t.textContent = msg; t.style.transform = 'translateY(0)'
+  setTimeout(()=>t.style.transform='translateY(50px)', 3000)
+}
+
+await loadCourse()
 </script>
 </body>
 </html>

@@ -3,137 +3,182 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Learnova — L'IA qui vous enseigne en direct</title>
-<link rel="stylesheet" href="style.css"/>
+<title>Learnova — L'IA qui enseigne en direct</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
 <style>
-body { padding-top:60px; }
+:root {
+  --bg: #ffffff;
+  --bg2: #f7f8fc;
+  --bg3: #eef0f8;
+  --border: #e4e5f0;
+  --text: #09090f;
+  --text2: #454560;
+  --text3: #9090b0;
+  --accent: #1a56db;
+  --al: #eff3ff;
+  --am: #c7d7fd;
+  --green: #047857;
+  --gl: #ecfdf5;
+  --red: #b91c1c;
+  --rl: #fef2f2;
+  --purple: #6d28d9;
+  --pl: #f5f3ff;
+  --sh2: 0 4px 20px rgba(0,0,0,.07);
+  --sh3: 0 20px 60px rgba(0,0,0,.10);
+  --h: 'Instrument Serif', serif;
+  --b: 'DM Sans', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--b); -webkit-font-smoothing: antialiased; overflow-x: hidden; padding-top: 60px; }
+
+/* NAV */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: rgba(255,255,255,.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); height: 60px; }
+.nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 28px; height: 100%; display: flex; align-items: center; gap: 24px; }
+.logo { display: flex; align-items: center; gap: 9px; text-decoration: none; }
+.logo-mark { width: 30px; height: 30px; border-radius: 8px; background: var(--text); display: flex; align-items: center; justify-content: center; }
+.logo-mark svg { width: 15px; height: 15px; }
+.logo-name { font-family: var(--h); font-size: 1.15rem; color: var(--text); }
+.nav-links { display: flex; gap: 2px; list-style: none; margin-left: 8px; }
+.nav-links a { padding: 6px 12px; border-radius: 7px; color: var(--text3); font-size: .85rem; font-weight: 500; text-decoration: none; cursor: pointer; transition: all .15s; }
+.nav-links a:hover { background: var(--bg2); color: var(--text); }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 20px; border-radius: 9px; font-family: var(--b); font-weight: 500; font-size: .875rem; cursor: pointer; border: none; transition: all .2s; text-decoration: none; }
+.btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text2); }
+.btn-ghost:hover { background: var(--bg2); }
+.btn-dark { background: var(--text); color: #fff; }
+.btn-dark:hover { background: #1a1a2e; transform: translateY(-1px); }
+.btn-lg { padding: 13px 28px; font-size: 1rem; border-radius: 11px; }
+.btn-sm { padding: 7px 14px; font-size: .8rem; border-radius: 7px; }
+
+/* NAV USER */
+.nav-user { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 5px 10px; border-radius: 8px; transition: background .15s; }
+.nav-user:hover { background: var(--bg2); }
+.nav-av { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-size: .75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+.nav-av img { width: 100%; height: 100%; object-fit: cover; }
+.nav-uname { font-size: .82rem; font-weight: 500; color: var(--text); }
 
 /* HERO */
-.hero { padding:80px 0 60px; text-align:center; position:relative; overflow:hidden; }
-.hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(26,86,219,.06) 0%, transparent 70%); pointer-events:none; }
-.hero-eyebrow { display:inline-flex; align-items:center; gap:8px; background:var(--al); border:1px solid var(--am); color:var(--accent); padding:5px 14px; border-radius:100px; font-size:.78rem; font-weight:600; margin-bottom:28px; }
-.hero h1 { font-family:var(--h); font-size:clamp(2.8rem,5.5vw,4.4rem); font-weight:400; line-height:1.1; letter-spacing:-1.5px; margin-bottom:22px; }
-.hero h1 em { font-style:italic; color:var(--accent); }
-.hero-sub { font-size:1.1rem; color:var(--text2); line-height:1.75; max-width:580px; margin:0 auto 36px; font-weight:300; }
-.hero-actions { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-bottom:52px; }
+.hero { padding: 80px 0 60px; text-align: center; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(26,86,219,.06) 0%, transparent 70%); pointer-events: none; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: var(--al); border: 1px solid var(--am); color: var(--accent); padding: 5px 14px; border-radius: 100px; font-size: .78rem; font-weight: 600; margin-bottom: 28px; }
+.pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--red); animation: pulse 1.5s infinite; display: inline-block; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.5;transform:scale(1.6);} }
+.hero h1 { font-family: var(--h); font-size: clamp(2.8rem, 5.5vw, 4.4rem); font-weight: 400; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 22px; }
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero-sub { font-size: 1.1rem; color: var(--text2); line-height: 1.75; max-width: 580px; margin: 0 auto 36px; font-weight: 300; }
+.hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 52px; }
 
-/* STATS */
-.hero-stats { display:flex; align-items:center; justify-content:center; gap:32px; padding:24px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); margin-bottom:70px; flex-wrap:wrap; }
-.hs-num { font-family:var(--h); font-size:1.7rem; color:var(--text); letter-spacing:-1px; }
-.hs-label { font-size:.75rem; color:var(--text3); margin-top:2px; }
-.hs-div { width:1px; height:36px; background:var(--border); }
+/* STATS RÉELLES */
+.hero-stats { display: flex; align-items: center; justify-content: center; gap: 32px; padding: 24px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 70px; flex-wrap: wrap; }
+.hs-item { text-align: center; }
+.hs-num { font-family: var(--h); font-size: 1.7rem; color: var(--text); letter-spacing: -1px; transition: all .3s; }
+.hs-num.loading::after { content: '...'; animation: dots 1s infinite; }
+@keyframes dots { 0%,100%{content:'.'} 33%{content:'..'} 66%{content:'...'} }
+.hs-label { font-size: .75rem; color: var(--text3); margin-top: 2px; }
+.hs-div { width: 1px; height: 36px; background: var(--border); }
 
-/* SESSIONS GRID */
-.sessions-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:80px; }
-.session-card { background:var(--bg); border:1px solid var(--border); border-radius:18px; padding:22px; cursor:pointer; transition:all .25s; position:relative; overflow:hidden; }
-.session-card:hover { border-color:var(--border2); box-shadow:var(--sh2); transform:translateY(-3px); }
-.session-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--accent),#6d28d9); opacity:0; transition:opacity .25s; }
-.session-card:hover::before { opacity:1; }
-.sc-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
-.sc-participants { font-size:.75rem; color:var(--text3); display:flex; align-items:center; gap:4px; }
-.sc-title { font-family:var(--h); font-size:1.05rem; margin-bottom:6px; line-height:1.3; }
-.sc-desc { font-size:.8rem; color:var(--text2); line-height:1.6; margin-bottom:14px; }
-.sc-meta { display:flex; align-items:center; gap:10px; }
-.sc-ai-tag { display:flex; align-items:center; gap:5px; font-size:.72rem; color:var(--purple); background:var(--pl); padding:3px 9px; border-radius:100px; font-weight:500; }
-.sc-time { font-size:.72rem; color:var(--text3); margin-left:auto; }
-.sc-countdown { font-family:var(--h); font-size:1.1rem; color:var(--accent); margin-top:10px; }
+/* SESSIONS */
+.sessions-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 80px; }
+.session-card { background: var(--bg); border: 1px solid var(--border); border-radius: 18px; padding: 22px; cursor: pointer; transition: all .25s; position: relative; overflow: hidden; }
+.session-card:hover { border-color: var(--border); box-shadow: var(--sh2); transform: translateY(-3px); }
+.session-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), #6d28d9); opacity: 0; transition: opacity .25s; }
+.session-card:hover::before { opacity: 1; }
+.sc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.badge { display: inline-flex; align-items: center; gap: 4px; font-size: .72rem; font-weight: 700; padding: 3px 10px; border-radius: 100px; }
+.badge-live { background: var(--rl); color: var(--red); }
+.badge-soon { background: #fffbeb; color: #b45309; }
+.badge-sched { background: var(--bg2); color: var(--text3); border: 1px solid var(--border); }
+.sc-parts { font-size: .75rem; color: var(--text3); display: flex; align-items: center; gap: 4px; }
+.sc-title { font-family: var(--h); font-size: 1.05rem; margin-bottom: 6px; line-height: 1.3; }
+.sc-desc { font-size: .8rem; color: var(--text2); line-height: 1.6; margin-bottom: 14px; }
+.sc-meta { display: flex; align-items: center; gap: 8px; }
+.sc-ai { font-size: .72rem; color: var(--purple); background: var(--pl); padding: 3px 9px; border-radius: 100px; font-weight: 500; }
+.sc-time-text { font-size: .72rem; color: var(--text3); margin-left: auto; }
+.sc-empty { grid-column: span 3; text-align: center; padding: 60px; color: var(--text3); }
 
-/* HOW IT WORKS */
-.how-section { padding:80px 0; background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
-.how-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:32px; margin-top:48px; }
-.how-step { text-align:center; padding:0 8px; }
-.how-num { font-family:var(--h); font-size:2.5rem; color:var(--border2); line-height:1; margin-bottom:14px; }
-.how-icon { width:48px; height:48px; border-radius:12px; background:var(--bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; margin:0 auto 14px; box-shadow:var(--sh1); }
-.how-icon svg { width:22px; height:22px; color:var(--accent); }
-.how-step h3 { font-size:.92rem; font-weight:600; margin-bottom:7px; }
-.how-step p { font-size:.8rem; color:var(--text2); line-height:1.7; }
-
-/* AI MANAGER DEMO */
-.aim-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; padding:80px 0; }
-.aim-ui { background:var(--bg); border:1px solid var(--border); border-radius:18px; overflow:hidden; box-shadow:var(--sh3); }
-.aim-header { background:var(--text); padding:18px 22px; display:flex; align-items:center; gap:12px; }
-.aim-ai-av { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--accent),#6d28d9); display:flex; align-items:center; justify-content:center; font-size:.9rem; font-weight:700; color:#fff; font-family:var(--h); flex-shrink:0; }
-.aim-ai-name { font-size:.88rem; font-weight:600; color:#fff; }
-.aim-ai-status { font-size:.72rem; color:rgba(255,255,255,.6); }
-.aim-online { width:7px; height:7px; border-radius:50%; background:#6ee7b7; margin-left:auto; animation:pulse 2s infinite; }
-.aim-body { padding:20px; }
-.aim-plan-title { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--text3); margin-bottom:12px; }
-.aim-slot { display:flex; align-items:center; gap:12px; padding:10px 12px; background:var(--bg2); border-radius:8px; border:1px solid var(--border); margin-bottom:6px; transition:all .15s; }
-.aim-slot.active-slot { border-color:var(--accent); background:var(--al); }
-.aim-slot-time { font-size:.75rem; font-weight:700; color:var(--accent); width:48px; flex-shrink:0; }
-.aim-slot-topic { font-size:.82rem; font-weight:500; flex:1; }
-.aim-slot-type { font-size:.68rem; padding:2px 8px; border-radius:100px; font-weight:600; }
-.slot-lesson { background:var(--al); color:var(--accent); }
-.slot-challenge { background:var(--pl); color:var(--purple); }
-.slot-quiz { background:var(--gl); color:var(--green); }
-.slot-break { background:var(--bg3); color:var(--text3); }
-.aim-footer { border-top:1px solid var(--border); padding:14px 20px; display:flex; align-items:center; justify-content:space-between; }
-
-/* FEATURES */
-.features-section { padding:80px 0; background:var(--bg2); border-top:1px solid var(--border); }
-.feat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:var(--border); border:1px solid var(--border); border-radius:18px; overflow:hidden; margin-top:48px; }
-.feat { background:var(--bg); padding:28px; transition:background .2s; }
-.feat:hover { background:var(--bg2); }
-.feat-icon { width:42px; height:42px; border-radius:10px; background:var(--bg2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; margin-bottom:16px; }
-.feat-icon svg { width:19px; height:19px; color:var(--accent); }
-.feat h3 { font-size:.9rem; font-weight:600; margin-bottom:7px; }
-.feat p { font-size:.8rem; color:var(--text2); line-height:1.7; }
-.feat-new { display:inline-block; font-size:.65rem; font-weight:700; background:var(--al); color:var(--accent); padding:2px 8px; border-radius:100px; margin-top:10px; text-transform:uppercase; letter-spacing:.5px; }
+/* MODAL AUTH */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+.modal-overlay.show { display: flex; }
+.modal { background: var(--bg); border-radius: 20px; padding: 36px; width: 440px; max-width: 94vw; box-shadow: 0 40px 100px rgba(0,0,0,.13); animation: modalIn .25s ease; position: relative; }
+@keyframes modalIn { from{opacity:0;transform:scale(.96) translateY(10px);} to{opacity:1;transform:scale(1) translateY(0);} }
+.modal-close { position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg2); cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
+.modal-title { font-family: var(--h); font-size: 1.4rem; margin-bottom: 20px; }
+.mtabs { display: flex; background: var(--bg2); border-radius: 10px; padding: 4px; margin-bottom: 22px; gap: 4px; }
+.mtab { flex: 1; padding: 8px; text-align: center; font-size: .85rem; font-weight: 500; cursor: pointer; border-radius: 8px; color: var(--text3); transition: all .2s; }
+.mtab.active { background: var(--bg); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+.auth-form { display: flex; flex-direction: column; gap: 12px; }
+.auth-inp { border: 1px solid var(--border); border-radius: 9px; padding: 12px 14px; font-family: var(--b); font-size: .88rem; color: var(--text); background: var(--bg2); outline: none; transition: border-color .2s; width: 100%; }
+.auth-inp:focus { border-color: var(--accent); background: var(--bg); }
+.auth-inp::placeholder { color: var(--text3); }
+.auth-btn { background: var(--text); color: #fff; border: none; border-radius: 9px; padding: 13px; font-family: var(--b); font-size: .9rem; font-weight: 600; cursor: pointer; transition: all .2s; width: 100%; }
+.auth-btn:hover { background: #1a1a2e; }
+.auth-btn:disabled { opacity: .6; pointer-events: none; }
+.auth-err { font-size: .8rem; color: var(--red); background: var(--rl); padding: 10px 12px; border-radius: 8px; display: none; }
+.auth-err.show { display: block; }
+.auth-ok { font-size: .8rem; color: var(--green); background: var(--gl); padding: 10px 12px; border-radius: 8px; display: none; }
+.auth-ok.show { display: block; }
+.auth-note { font-size: .73rem; color: var(--text3); text-align: center; }
+.divider { display: flex; align-items: center; gap: 10px; }
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.divider span { font-size: .75rem; color: var(--text3); }
 
 /* CTA */
-.cta-section { padding:80px 0; }
-.cta-box { background:var(--text); border-radius:24px; padding:64px; display:grid; grid-template-columns:1fr auto; gap:48px; align-items:center; }
-.cta-box h2 { font-family:var(--h); font-size:clamp(1.8rem,3vw,2.4rem); color:#fff; line-height:1.2; margin-bottom:10px; letter-spacing:-.8px; }
-.cta-box p { font-size:.95rem; color:rgba(255,255,255,.55); }
-.cta-form { display:flex; flex-direction:column; gap:10px; min-width:300px; }
-.cta-inp { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); border-radius:9px; padding:12px 16px; color:#fff; font-family:var(--b); font-size:.875rem; outline:none; transition:border-color .2s; }
-.cta-inp:focus { border-color:rgba(255,255,255,.35); }
-.cta-inp::placeholder { color:rgba(255,255,255,.35); }
-.cta-submit { background:#fff; color:var(--text); border:none; border-radius:9px; padding:13px; font-family:var(--b); font-size:.9rem; font-weight:600; cursor:pointer; transition:all .2s; }
-.cta-submit:hover { background:#f0f1f8; }
-.cta-note { font-size:.72rem; color:rgba(255,255,255,.3); text-align:center; }
-.cta-success { color:#fff; font-size:.85rem; display:none; background:rgba(4,120,87,.2); border:1px solid rgba(167,243,208,.3); border-radius:8px; padding:10px; text-align:center; }
-.cta-success.show { display:block; }
+.cta-box { background: var(--text); border-radius: 24px; padding: 64px; display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; margin-bottom: 80px; }
+.cta-box h2 { font-family: var(--h); font-size: clamp(1.8rem,3vw,2.4rem); color: #fff; line-height: 1.2; margin-bottom: 10px; letter-spacing: -.8px; }
+.cta-box > div:first-child p { font-size: .95rem; color: rgba(255,255,255,.55); }
+.cta-form { display: flex; flex-direction: column; gap: 10px; min-width: 300px; }
+.cta-inp { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); border-radius: 9px; padding: 12px 16px; color: #fff; font-family: var(--b); font-size: .875rem; outline: none; transition: border-color .2s; }
+.cta-inp:focus { border-color: rgba(255,255,255,.35); }
+.cta-inp::placeholder { color: rgba(255,255,255,.35); }
+.cta-submit { background: #fff; color: var(--text); border: none; border-radius: 9px; padding: 13px; font-family: var(--b); font-size: .9rem; font-weight: 600; cursor: pointer; transition: all .2s; }
+.cta-submit:hover { background: #f0f1f8; }
+.cta-submit:disabled { opacity: .6; pointer-events: none; }
+.cta-note { font-size: .72rem; color: rgba(255,255,255,.3); text-align: center; }
+.cta-result { display: none; padding: 10px; border-radius: 8px; text-align: center; font-size: .85rem; }
+.cta-result.ok { display: block; color: #fff; background: rgba(4,120,87,.25); border: 1px solid rgba(167,243,208,.3); }
+.cta-result.err { display: block; color: #fca5a5; background: rgba(220,38,38,.2); }
 
-/* FOOTER */
-footer { border-top:1px solid var(--border); padding:36px 0 24px; }
-.footer-inner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
-.footer-inner p { font-size:.78rem; color:var(--text3); }
-.footer-links { display:flex; gap:18px; }
-.footer-links a { font-size:.78rem; color:var(--text3); text-decoration:none; }
-.footer-links a:hover { color:var(--text); }
+footer { border-top: 1px solid var(--border); padding: 36px 0 24px; }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+.footer-inner p { font-size: .78rem; color: var(--text3); }
 
-@media(max-width:960px) {
-  .sessions-grid,.how-grid,.aim-grid { grid-template-columns:1fr 1fr; }
-  .feat-grid { grid-template-columns:1fr 1fr; }
-  .cta-box { grid-template-columns:1fr; }
-}
-@media(max-width:640px) {
-  .sessions-grid,.how-grid,.feat-grid { grid-template-columns:1fr; }
-  .hero-stats { gap:16px; }
-  .hs-div { display:none; }
-  .cta-box { padding:36px 20px; }
-  .cta-form { min-width:unset; }
-}
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);} }
+.fade-up { animation: fadeUp .5s ease both; }
+.fade-up-1 { animation: fadeUp .5s .1s ease both; }
+.fade-up-2 { animation: fadeUp .5s .2s ease both; }
+
+@media(max-width:900px) { .sessions-grid { grid-template-columns: 1fr 1fr; } .cta-box { grid-template-columns: 1fr; } .nav-links { display: none; } .sc-empty { grid-column: span 2; } }
+@media(max-width:640px) { .sessions-grid { grid-template-columns: 1fr; } .sc-empty { grid-column: span 1; } .hero-stats { gap: 16px; } .hs-div { display: none; } .cta-box { padding: 36px 20px; } .cta-form { min-width: unset; } }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav class="ln-nav">
-  <div class="ln-nav-inner">
-    <a href="index.html" class="ln-logo">
-      <div class="ln-logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div>
-      <span class="ln-logo-name">Learnova</span>
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div>
+      <span class="logo-name">Learnova</span>
     </a>
-    <ul class="ln-nav-links">
+    <ul class="nav-links">
       <li><a href="#sessions">Sessions live</a></li>
-      <li><a href="#how">Comment ça marche</a></li>
-      <li><a href="#features">Fonctionnalités</a></li>
+      <li><a href="#rejoindre">Rejoindre</a></li>
     </ul>
-    <div class="ln-nav-right">
-      <a href="admin.html" class="btn btn-ghost btn-sm">Espace Admin</a>
-      <a href="waiting.html" class="btn btn-dark btn-sm">Rejoindre une session →</a>
+    <div class="nav-right">
+      <div id="navGuest">
+        <button class="btn btn-ghost btn-sm" onclick="openModal('login')">Connexion</button>
+        <button class="btn btn-dark btn-sm" onclick="openModal('signup')">S'inscrire</button>
+      </div>
+      <div id="navUser" style="display:none;align-items:center;gap:10px;">
+        <div class="nav-user">
+          <div class="nav-av" id="navAv">?</div>
+          <span class="nav-uname" id="navUname">...</span>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="doSignOut()">Déconnexion</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -141,250 +186,331 @@ footer { border-top:1px solid var(--border); padding:36px 0 24px; }
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <div class="hero-eyebrow fade-up"><span class="pulse"></span> Nouveau — L'IA qui enseigne en direct</div>
+    <div class="hero-eyebrow fade-up"><span class="pulse"></span> L'IA qui enseigne en direct</div>
     <h1 class="fade-up-1">Votre professeur IA<br/>ne dort <em>jamais.</em></h1>
     <p class="hero-sub fade-up-2">Learnova planifie, enseigne et évalue des centaines d'apprenants simultanément. L'IA arrive à l'heure exacte, enseigne, lance des challenges, et répond à chaque question.</p>
-    <div class="hero-actions fade-up-3">
-      <a href="waiting.html" class="btn btn-dark btn-lg">
+    <div class="hero-actions">
+      <button class="btn btn-dark btn-lg" onclick="openModal('signup')">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Rejoindre la session live
-      </a>
-      <a href="admin.html" class="btn btn-ghost btn-lg">Je suis admin →</a>
+        Rejoindre Learnova — Gratuit
+      </button>
+      <a href="waiting.html" class="btn btn-ghost btn-lg">Voir une session →</a>
     </div>
-    <div class="hero-stats reveal">
-      <div class="text-center"><div class="hs-num" id="liveCount">342</div><div class="hs-label">Apprenants en ce moment</div></div>
+
+    <!-- STATS 100% RÉELLES DEPUIS SUPABASE -->
+    <div class="hero-stats">
+      <div class="hs-item">
+        <div class="hs-num loading" id="statOnline">0</div>
+        <div class="hs-label">En ligne maintenant</div>
+      </div>
       <div class="hs-div"></div>
-      <div class="text-center"><div class="hs-num">2 847</div><div class="hs-label">Inscrits sur Learnova</div></div>
+      <div class="hs-item">
+        <div class="hs-num loading" id="statInscrits">0</div>
+        <div class="hs-label">Inscrits sur Learnova</div>
+      </div>
       <div class="hs-div"></div>
-      <div class="text-center"><div class="hs-num">124</div><div class="hs-label">Pays représentés</div></div>
+      <div class="hs-item">
+        <div class="hs-num loading" id="statSessions">0</div>
+        <div class="hs-label">Sessions créées</div>
+      </div>
       <div class="hs-div"></div>
-      <div class="text-center"><div class="hs-num">98%</div><div class="hs-label">Taux de satisfaction</div></div>
+      <div class="hs-item">
+        <div class="hs-num loading" id="statChallenges">0</div>
+        <div class="hs-label">Challenges complétés</div>
+      </div>
       <div class="hs-div"></div>
-      <div class="text-center"><div class="hs-num">0€</div><div class="hs-label">Toujours gratuit</div></div>
+      <div class="hs-item">
+        <div class="hs-num">0€</div>
+        <div class="hs-label">Toujours gratuit</div>
+      </div>
     </div>
+    <!-- NOTE: Ces chiffres sont mis à jour automatiquement depuis Supabase.
+         Au début tout est à 0. Ils augmentent quand de vraies personnes s'inscrivent. -->
   </div>
 </section>
 
-<!-- SESSIONS LIVE -->
-<section id="sessions" style="padding-bottom:0;">
+<!-- SESSIONS RÉELLES DEPUIS SUPABASE -->
+<section id="sessions" style="padding-bottom:80px;">
   <div class="container">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
-      <h2 style="font-family:var(--h);font-size:1.7rem;letter-spacing:-.5px;">Sessions programmées par l'IA</h2>
-      <a href="admin.html" class="btn btn-ghost btn-sm">Créer une session →</a>
+      <h2 style="font-family:var(--h);font-size:1.7rem;letter-spacing:-.5px;">Sessions en cours et à venir</h2>
     </div>
-    <div class="sessions-grid">
-      <div class="session-card reveal" onclick="window.location='live.html'">
-        <div class="sc-top">
-          <span class="badge badge-live"><span class="pulse"></span> En direct</span>
-          <span class="sc-participants">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87m-4-12a4 4 0 010 7.75"/></svg>
-            247 participants
-          </span>
-        </div>
-        <div class="sc-title">Python — Les algorithmes de tri expliqués</div>
-        <div class="sc-desc">L'IA enseigne tri à bulles, quicksort et merge sort avec des exemples visuels et des défis de code en direct.</div>
-        <div class="sc-meta">
-          <span class="sc-ai-tag"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1"/></svg> IA Manager actif</span>
-          <span class="sc-time">Démarré il y a 23 min</span>
-        </div>
+    <div class="sessions-grid" id="sessionsGrid">
+      <div class="sc-empty">
+        <div style="font-size:1.5rem;margin-bottom:8px;">⏳</div>
+        Chargement des sessions...
       </div>
-      <div class="session-card reveal" onclick="window.location='waiting.html'">
-        <div class="sc-top">
-          <span class="badge badge-soon">Dans <span id="cd1">18:42</span></span>
-          <span class="sc-participants">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-            89 inscrits
-          </span>
-        </div>
-        <div class="sc-title">UI/UX Design — Créer une interface mobile</div>
-        <div class="sc-desc">Session de 2h. L'IA guidera chaque étape du wireframe au prototype avec challenges de design.</div>
-        <div class="sc-meta">
-          <span class="sc-ai-tag"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1"/></svg> Planifié par IA</span>
-        </div>
-      </div>
-      <div class="session-card reveal" onclick="window.location='waiting.html'">
-        <div class="sc-top">
-          <span class="badge badge-sched">Demain 20h00</span>
-          <span class="sc-participants">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-            34 inscrits
-          </span>
-        </div>
-        <div class="sc-title">Marketing Digital — SEO & Growth Hacking</div>
-        <div class="sc-desc">30h de formation sur 1 mois. L'IA sera ton manager de progression quotidienne.</div>
-        <div class="sc-meta">
-          <span class="sc-ai-tag">30h · 1 mois</span>
-          <span class="sc-time">S'inscrire →</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="how-section" id="how">
-  <div class="container">
-    <div style="text-align:center;">
-      <div class="eyebrow">Processus</div>
-      <h2 class="section-title">Comment l'IA manage votre formation</h2>
-      <p class="section-sub" style="margin:0 auto;">De la planification à l'enseignement, l'IA gère tout. Vous choisissez le sujet et le rythme, elle fait le reste.</p>
-    </div>
-    <div class="how-grid">
-      <div class="how-step reveal">
-        <div class="how-num">01</div>
-        <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-        <h3>Tu définis le rythme</h3>
-        <p>Choisis le sujet, la durée et le format : 1h/jour, 2h/semaine, 30h/mois. L'IA s'adapte complètement.</p>
-      </div>
-      <div class="how-step reveal">
-        <div class="how-num">02</div>
-        <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg></div>
-        <h3>L'IA planifie tout</h3>
-        <p>Elle crée le programme complet heure par heure : leçons, challenges, quiz, pauses. Tout est optimisé.</p>
-      </div>
-      <div class="how-step reveal">
-        <div class="how-num">03</div>
-        <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8h1a4 4 0 010 8h-1m-8 0H5a4 4 0 010-8h1"/></svg></div>
-        <h3>Tu partages le lien</h3>
-        <p>Un lien unique est généré. Tu le partages sur WhatsApp, Instagram ou email. Les gens s'inscrivent en 1 clic.</p>
-      </div>
-      <div class="how-step reveal">
-        <div class="how-num">04</div>
-        <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-        <h3>L'IA arrive à l'heure</h3>
-        <p>À la seconde exacte, l'IA commence. Elle enseigne, répond aux questions, lance des challenges, évalue.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- AI MANAGER DEMO -->
-<section>
-  <div class="container">
-    <div class="aim-grid">
-      <div>
-        <div class="eyebrow">IA Manager</div>
-        <h2 class="section-title">Une IA qui planifie<br/>à la <em style="font-style:italic;color:var(--accent);">minute près.</em></h2>
-        <p style="font-size:.95rem;color:var(--text2);line-height:1.75;margin-bottom:24px;">L'IA Learnova crée le programme complet heure par heure. Elle sait exactement ce qu'elle va dire à 14h00, quel challenge lancer à 14h45, et quand accorder une pause à 15h30.</p>
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:11px;">
-          <li style="display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--text2);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Programme généré automatiquement selon le sujet</li>
-          <li style="display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--text2);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>L'admin reçoit une notification avant chaque session</li>
-          <li style="display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--text2);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>S'adapte au niveau des participants en temps réel</li>
-          <li style="display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--text2);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Rapport complet envoyé à l'admin après chaque session</li>
-        </ul>
-        <div style="margin-top:24px;">
-          <a href="live.html" class="btn btn-dark">Voir une session en direct →</a>
-        </div>
-      </div>
-      <div class="aim-ui reveal">
-        <div class="aim-header">
-          <div class="aim-ai-av">AI</div>
-          <div><div class="aim-ai-name">Learnova IA — Manager de session</div><div class="aim-ai-status">Python · 2h · 247 participants</div></div>
-          <div class="aim-online"></div>
-        </div>
-        <div class="aim-body">
-          <div class="aim-plan-title">Programme — Heure par heure</div>
-          <div class="aim-slot"><span class="aim-slot-time">14:00</span><span class="aim-slot-topic">Introduction & rappels</span><span class="aim-slot-type slot-lesson">Leçon</span></div>
-          <div class="aim-slot active-slot"><span class="aim-slot-time">14:20</span><span class="aim-slot-topic">Algorithme de tri à bulles</span><span class="aim-slot-type slot-lesson">Leçon</span></div>
-          <div class="aim-slot"><span class="aim-slot-time">14:45</span><span class="aim-slot-topic">Challenge : implémenter le tri</span><span class="aim-slot-type slot-challenge">Challenge</span></div>
-          <div class="aim-slot"><span class="aim-slot-time">15:00</span><span class="aim-slot-topic">Quiz rapide — 5 questions</span><span class="aim-slot-type slot-quiz">Quiz</span></div>
-          <div class="aim-slot"><span class="aim-slot-time">15:10</span><span class="aim-slot-topic">Pause</span><span class="aim-slot-type slot-break">Pause</span></div>
-          <div class="aim-slot"><span class="aim-slot-time">15:20</span><span class="aim-slot-topic">Quicksort — algorithme avancé</span><span class="aim-slot-type slot-lesson">Leçon</span></div>
-          <div class="aim-slot"><span class="aim-slot-time">15:50</span><span class="aim-slot-topic">Défi final — qui code le plus vite</span><span class="aim-slot-type slot-challenge">Challenge</span></div>
-        </div>
-        <div class="aim-footer">
-          <span style="font-size:.78rem;color:var(--text2);">247 participants actifs</span>
-          <a href="live.html" class="btn btn-dark btn-sm">Voir la session →</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section class="features-section" id="features">
-  <div class="container">
-    <div style="text-align:center;">
-      <div class="eyebrow">Ce que Learnova fait</div>
-      <h2 class="section-title">Aucune plateforme ne fait ça.</h2>
-    </div>
-    <div class="feat-grid">
-      <div class="feat reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg></div><h3>IA Manager de formation</h3><p>L'IA planifie chaque minute. Leçons, challenges, quiz, pauses. Elle respecte l'heure à la seconde près.</p><span class="feat-new">Exclusif Learnova</span></div>
-      <div class="feat reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div><h3>Enseignement en streaming</h3><p>L'IA enseigne en direct, mot par mot, devant tous les participants simultanément.</p></div>
-      <div class="feat reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857"/></svg></div><h3>Challenges collectifs live</h3><p>QCM chronométré, défi de code, qui répond le plus vite, vote collectif. L'IA lance au moment parfait.</p><span class="feat-new">Jamais vu ailleurs</span></div>
-      <div class="feat reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></div><h3>Tu parles à l'IA</h3><p>Pendant la session, pose des questions à l'IA. Elle te répond sans interrompre les autres participants.</p></div>
-      <div class="feat reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><h3>Formats flexibles</h3><p>1h/jour, 2h/semaine, session unique, 30h/mois. L'IA s'adapte à n'importe quel rythme.</p></div>
-      <div class="feat reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0"/></svg></div><h3>Certification automatique</h3><p>À la fin de la formation, chaque participant reçoit son certificat signé et vérifiable.</p></div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section class="cta-section">
+<section id="rejoindre" style="padding:0 0 80px;">
   <div class="container">
     <div class="cta-box">
       <div>
-        <h2>Prêt à former<br/>le monde entier ?</h2>
+        <h2>Prêt à apprendre<br/>autrement ?</h2>
         <p>Rejoins Learnova. Gratuit, pour toujours.</p>
       </div>
       <div class="cta-form">
+        <input class="cta-inp" id="ctaPrenom" type="text" placeholder="Ton prénom"/>
         <input class="cta-inp" id="ctaEmail" type="email" placeholder="ton@email.com"/>
-        <input class="cta-inp" id="ctaName" type="text" placeholder="Ton prénom"/>
-        <button class="cta-submit" onclick="ctaJoin()">Rejoindre Learnova gratuitement</button>
+        <input class="cta-inp" id="ctaPassword" type="password" placeholder="Mot de passe (min. 6 caractères)"/>
+        <button class="cta-submit" id="ctaBtn" onclick="ctaSignUp()">Rejoindre Learnova gratuitement</button>
         <div class="cta-note">Aucune carte bancaire. Aucun spam. Gratuit.</div>
-        <div class="cta-success" id="ctaSuccess">Bienvenue sur Learnova ! À très bientôt.</div>
+        <div class="cta-result" id="ctaResult"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="container">
     <div class="footer-inner">
-      <a href="index.html" class="ln-logo"><div class="ln-logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div><span class="ln-logo-name">Learnova</span></a>
+      <a href="index.html" class="logo">
+        <div class="logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div>
+        <span class="logo-name">Learnova</span>
+      </a>
       <p>© 2025 Learnova · La plateforme d'apprentissage du futur.</p>
-      <div class="footer-links"><a href="admin.html">Admin</a><a href="#">Contact</a><a href="#">Confidentialité</a></div>
     </div>
   </div>
 </footer>
 
-<script src="js/app.js"></script>
-<script>
-// Scroll reveal
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold:0.08 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+<!-- MODAL AUTH -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-title" id="modalTitle">Rejoindre Learnova</div>
+    <div class="mtabs">
+      <div class="mtab active" id="tabS" onclick="switchTab('signup')">S'inscrire</div>
+      <div class="mtab" id="tabL" onclick="switchTab('login')">Se connecter</div>
+    </div>
+    <div id="panelSignup">
+      <div class="auth-form">
+        <input class="auth-inp" id="sPrenom" type="text" placeholder="Ton prénom"/>
+        <input class="auth-inp" id="sEmail" type="email" placeholder="ton@email.com"/>
+        <input class="auth-inp" id="sPassword" type="password" placeholder="Mot de passe (min. 6 caractères)"/>
+        <div class="auth-err" id="sErr"></div>
+        <div class="auth-ok" id="sOk"></div>
+        <button class="auth-btn" id="sBtn" onclick="doSignUp()">Créer mon compte gratuitement</button>
+        <div class="auth-note">Gratuit · Aucune carte · Aucun spam</div>
+      </div>
+    </div>
+    <div id="panelLogin" style="display:none;">
+      <div class="auth-form">
+        <input class="auth-inp" id="lEmail" type="email" placeholder="ton@email.com"/>
+        <input class="auth-inp" id="lPassword" type="password" placeholder="Ton mot de passe"/>
+        <div class="auth-err" id="lErr"></div>
+        <button class="auth-btn" id="lBtn" onclick="doSignIn()">Se connecter</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-// Live count animation
-let lc = 342;
-setInterval(() => {
-  lc += Math.random() > .5 ? 1 : -1;
-  lc = Math.max(330, Math.min(360, lc));
-  const el = document.getElementById('liveCount');
-  if(el) el.textContent = lc;
-}, 3000);
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
-// Countdown
-let cd = 18*60+42;
-setInterval(() => {
-  cd = Math.max(0, cd-1);
-  const el = document.getElementById('cd1');
-  if(el) el.textContent = `${Math.floor(cd/60).toString().padStart(2,'0')}:${(cd%60).toString().padStart(2,'0')}`;
-}, 1000);
+// ── CONFIG SUPABASE ──────────────────────────────────────────
+const SUPABASE_URL = "https://jbshkbqchrehfhoodtuj.supabase.co"
+const SUPABASE_ANON_KEY =sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs // ← remplace par ta vraie clé
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-// CTA
-function ctaJoin() {
-  const e = document.getElementById('ctaEmail').value.trim();
-  const n = document.getElementById('ctaName').value.trim();
-  if(!e || !e.includes('@')) { alert('Entre une adresse email valide.'); return; }
-  if(!n) { alert('Entre ton prénom.'); return; }
-  document.getElementById('ctaSuccess').classList.add('show');
-  document.getElementById('ctaEmail').value = '';
-  document.getElementById('ctaName').value = '';
-  showToast(`Bienvenue ${n} sur Learnova !`);
+// ── AUTH STATE ───────────────────────────────────────────────
+let currentUser = null
+sb.auth.onAuthStateChange(async (_e, session) => {
+  currentUser = session?.user || null
+  if (currentUser) {
+    document.getElementById('navGuest').style.display = 'none'
+    document.getElementById('navUser').style.display = 'flex'
+    const { data: profile } = await sb.from('profiles').select('prenom,photo_url').eq('id', currentUser.id).single()
+    const prenom = profile?.prenom || currentUser.email?.split('@')[0] || 'Toi'
+    document.getElementById('navUname').textContent = prenom
+    const av = document.getElementById('navAv')
+    if (profile?.photo_url || currentUser.user_metadata?.avatar_url) {
+      av.innerHTML = `<img src="${profile?.photo_url || currentUser.user_metadata?.avatar_url}" alt=""/>`
+    } else {
+      av.textContent = prenom.charAt(0).toUpperCase()
+    }
+    closeModal()
+  } else {
+    document.getElementById('navGuest').style.display = 'flex'
+    document.getElementById('navUser').style.display = 'none'
+  }
+})
+
+// ── STATS RÉELLES ────────────────────────────────────────────
+// Lecture initiale
+const { data: stats } = await sb.from('stats').select('*').eq('id', 1).single()
+if (stats) updateStats(stats)
+
+// Écoute temps réel → mise à jour automatique
+sb.channel('stats-live')
+  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'stats' }, p => updateStats(p.new))
+  .subscribe()
+
+function updateStats(s) {
+  if (!s) return
+  animNum('statInscrits', s.total_inscrits || 0)
+  animNum('statSessions', s.total_sessions || 0)
+  animNum('statChallenges', s.total_challenges || 0)
+  document.querySelectorAll('.hs-num.loading').forEach(el => el.classList.remove('loading'))
 }
+
+// ── PRÉSENCE EN LIGNE ────────────────────────────────────────
+const presenceCh = sb.channel('online-users', { config: { presence: { key: 'visitor-' + Math.random() } } })
+presenceCh
+  .on('presence', { event: 'sync' }, () => {
+    const n = Object.keys(presenceCh.presenceState()).length
+    animNum('statOnline', n)
+    document.getElementById('statOnline').classList.remove('loading')
+  })
+  .subscribe(async s => { if (s === 'SUBSCRIBED') await presenceCh.track({ page: 'home' }) })
+
+function animNum(id, target) {
+  const el = document.getElementById(id)
+  if (!el) return
+  const start = parseInt(el.textContent) || 0
+  const diff = target - start
+  let i = 0
+  const iv = setInterval(() => {
+    i++
+    el.textContent = Math.round(start + diff * (i / 20)).toLocaleString('fr')
+    if (i >= 20) { el.textContent = target.toLocaleString('fr'); clearInterval(iv) }
+  }, 30)
+}
+
+// ── SESSIONS RÉELLES ─────────────────────────────────────────
+async function loadSessions() {
+  const { data: sessions } = await sb.from('sessions').select('*').order('created_at', { ascending: false })
+  renderSessions(sessions || [])
+}
+
+function renderSessions(sessions) {
+  const grid = document.getElementById('sessionsGrid')
+  grid.innerHTML = ''
+  if (!sessions.length) {
+    grid.innerHTML = `<div class="sc-empty"><div style="font-size:1.5rem;margin-bottom:10px;">📅</div><div style="font-weight:600;margin-bottom:6px;">Aucune session pour l'instant</div><div style="font-size:.82rem;">L'admin créera bientôt la première session.</div></div>`
+    return
+  }
+  sessions.forEach(s => {
+    const badge = s.statut === 'en_cours'
+      ? `<span class="badge badge-live"><span class="pulse"></span> En direct</span>`
+      : s.statut === 'planifie'
+      ? `<span class="badge badge-soon">${s.heure || 'Bientôt'}</span>`
+      : `<span class="badge badge-sched">Terminé</span>`
+    const card = document.createElement('div')
+    card.className = 'session-card'
+    card.innerHTML = `
+      <div class="sc-top">${badge}<span class="sc-parts"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>${s.nb_inscrits || 0} inscrits</span></div>
+      <div class="sc-title">${s.titre}</div>
+      <div class="sc-desc">${s.description || 'Session live avec l\'IA Learnova.'}</div>
+      <div class="sc-meta"><span class="sc-ai">IA Manager</span><span class="sc-time-text">${s.format || '—'}</span></div>`
+    card.onclick = () => {
+      if (currentUser) window.location.href = s.statut === 'en_cours' ? 'live.html' : 'waiting.html'
+      else { openModal('signup'); showToast('Inscris-toi pour rejoindre !') }
+    }
+    grid.appendChild(card)
+  })
+}
+
+loadSessions()
+
+// Temps réel sessions
+sb.channel('sessions-live')
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'sessions' }, loadSessions)
+  .subscribe()
+
+// ── AUTH FUNCTIONS ────────────────────────────────────────────
+window.openModal = (tab = 'signup') => { document.getElementById('modalOverlay').classList.add('show'); switchTab(tab) }
+window.closeModal = () => document.getElementById('modalOverlay').classList.remove('show')
+window.switchTab = (tab) => {
+  document.getElementById('panelSignup').style.display = tab === 'signup' ? 'block' : 'none'
+  document.getElementById('panelLogin').style.display = tab === 'login' ? 'block' : 'none'
+  document.getElementById('tabS').classList.toggle('active', tab === 'signup')
+  document.getElementById('tabL').classList.toggle('active', tab === 'login')
+}
+
+window.doSignUp = async () => {
+  const prenom = document.getElementById('sPrenom').value.trim()
+  const email = document.getElementById('sEmail').value.trim()
+  const password = document.getElementById('sPassword').value
+  const btn = document.getElementById('sBtn')
+  clearMsg()
+  if (!prenom) return showErr('sErr', 'Entre ton prénom.')
+  if (!email || !email.includes('@')) return showErr('sErr', 'Email invalide.')
+  if (password.length < 6) return showErr('sErr', 'Mot de passe trop court (min. 6).')
+  btn.disabled = true; btn.textContent = 'Création...'
+  const { error } = await sb.auth.signUp({ email, password, options: { data: { prenom } } })
+  if (error) { btn.disabled = false; btn.textContent = 'Créer mon compte'; return showErr('sErr', translateErr(error.message)) }
+  // Créer profil
+  const { data: { user } } = await sb.auth.getUser()
+  if (user) {
+    await sb.from('profiles').upsert({ id: user.id, prenom, email, role: 'student', score_total: 0 })
+    await sb.rpc('increment_stat', { stat_name: 'total_inscrits' })
+  }
+  showOk('sOk', `🎉 Bienvenue ${prenom} ! Vérifie ton email.`)
+  btn.textContent = 'Compte créé ✓'
+}
+
+window.doSignIn = async () => {
+  const email = document.getElementById('lEmail').value.trim()
+  const password = document.getElementById('lPassword').value
+  const btn = document.getElementById('lBtn')
+  clearMsg()
+  if (!email || !password) return showErr('lErr', 'Remplis tous les champs.')
+  btn.disabled = true; btn.textContent = 'Connexion...'
+  const { error } = await sb.auth.signInWithPassword({ email, password })
+  if (error) { btn.disabled = false; btn.textContent = 'Se connecter'; return showErr('lErr', translateErr(error.message)) }
+}
+
+window.doSignOut = async () => { await sb.auth.signOut(); showToast('Déconnecté.') }
+
+window.ctaSignUp = async () => {
+  const prenom = document.getElementById('ctaPrenom').value.trim()
+  const email = document.getElementById('ctaEmail').value.trim()
+  const password = document.getElementById('ctaPassword').value
+  const btn = document.getElementById('ctaBtn')
+  if (!prenom || !email || !email.includes('@') || password.length < 6) {
+    showCta('err', 'Remplis tous les champs correctement.')
+    return
+  }
+  btn.disabled = true; btn.textContent = 'Création...'
+  const { error } = await sb.auth.signUp({ email, password, options: { data: { prenom } } })
+  if (error) { btn.disabled = false; btn.textContent = 'Rejoindre Learnova gratuitement'; showCta('err', translateErr(error.message)); return }
+  const { data: { user } } = await sb.auth.getUser()
+  if (user) {
+    await sb.from('profiles').upsert({ id: user.id, prenom, email, role: 'student', score_total: 0 })
+    await sb.rpc('increment_stat', { stat_name: 'total_inscrits' })
+  }
+  showCta('ok', `🎉 Bienvenue ${prenom} ! Vérifie ton email.`)
+  btn.textContent = 'Compte créé ✓'
+  document.getElementById('ctaPrenom').value = ''
+  document.getElementById('ctaEmail').value = ''
+  document.getElementById('ctaPassword').value = ''
+}
+
+function showErr(id, msg) { const el = document.getElementById(id); if(el){el.textContent=msg;el.classList.add('show')} }
+function showOk(id, msg) { const el = document.getElementById(id); if(el){el.textContent=msg;el.classList.add('show')} }
+function clearMsg() { ['sErr','sOk','lErr'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('show')}) }
+function showCta(type, msg) { const el=document.getElementById('ctaResult'); el.textContent=msg; el.className=`cta-result ${type}` }
+
+function translateErr(msg) {
+  if (!msg) return 'Erreur inconnue.'
+  if (msg.includes('already registered')) return 'Email déjà utilisé. Connecte-toi.'
+  if (msg.includes('Invalid login')) return 'Email ou mot de passe incorrect.'
+  if (msg.includes('Password')) return 'Mot de passe trop court (min. 6).'
+  return 'Une erreur est survenue. Réessaie.'
+}
+
+function showToast(msg) {
+  let t = document.getElementById('toast')
+  if (!t) { t=document.createElement('div'); t.id='toast'; t.style.cssText='position:fixed;bottom:24px;right:24px;background:#09090f;color:#fff;padding:12px 18px;border-radius:10px;font-size:.83rem;box-shadow:0 20px 60px rgba(0,0,0,.15);z-index:9999;transform:translateY(80px);transition:transform .3s;font-family:"DM Sans",sans-serif;'; document.body.appendChild(t) }
+  t.textContent = msg
+  t.style.transform = 'translateY(0)'
+  setTimeout(() => t.style.transform = 'translateY(80px)', 3500)
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal() })
 </script>
 </body>
 </html>
