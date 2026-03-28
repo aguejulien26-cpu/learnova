@@ -4,129 +4,244 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Learnova — Salle d'attente</title>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --bg:#fff;--bg2:#f7f8fc;--border:#e4e5f0;
+  --bg:#fff;--bg2:#f8f9fc;--bg3:#eef1f8;--border:#e8eaf2;
   --text:#09090f;--text2:#454560;--text3:#9090b0;
-  --accent:#1a56db;--al:#eff3ff;--am:#c7d7fd;
+  --accent:#1a56db;--al:#eef2ff;--am:#c7d7fd;
   --green:#047857;--gl:#ecfdf5;--gm:#a7f3d0;
   --red:#b91c1c;--rl:#fef2f2;
   --purple:#6d28d9;--pl:#f5f3ff;
-  --gold:#b45309;--goldl:#fffbeb;
+  --gold:#92400e;--goldl:#fef3c7;
   --h:'Instrument Serif',serif;--b:'DM Sans',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:var(--b);-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;}
+body{
+  background:var(--bg);color:var(--text);font-family:var(--b);
+  -webkit-font-smoothing:antialiased;min-height:100vh;
+  display:flex;flex-direction:column;
+}
 
-.nav{height:60px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 28px;gap:16px;}
+/* NAV */
+.nav{
+  height:62px;background:rgba(255,255,255,.96);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;
+  padding:0 28px;gap:16px;flex-shrink:0;
+  position:sticky;top:0;z-index:100;
+}
 .logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
 .lm{width:30px;height:30px;border-radius:8px;background:var(--text);display:flex;align-items:center;justify-content:center;}
-.lm svg{width:15px;height:15px;}
-.ln{font-family:var(--h);font-size:1.15rem;color:var(--text);}
-.nav-r{margin-left:auto;display:flex;gap:10px;}
-.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:9px;font-family:var(--b);font-weight:500;font-size:.875rem;cursor:pointer;border:none;transition:all .2s;text-decoration:none;}
+.lm svg{width:14px;height:14px;}
+.ln{font-family:var(--h);font-size:1.1rem;color:var(--text);}
+.nav-r{margin-left:auto;display:flex;gap:8px;}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;padding:9px 20px;
+  border-radius:9px;font-family:var(--b);font-weight:500;font-size:.875rem;
+  cursor:pointer;border:none;transition:all .2s;text-decoration:none;
+}
 .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text2);}
 .btn-ghost:hover{background:var(--bg2);}
 .btn-dark{background:var(--text);color:#fff;}
 .btn-dark:hover{background:#1a1a2e;transform:translateY(-1px);}
 .btn-red{background:var(--red);color:#fff;}
+.btn-red:hover{background:#9b1515;}
 .btn-sm{padding:7px 14px;font-size:.8rem;border-radius:7px;}
 
-.main{flex:1;display:flex;align-items:center;justify-content:center;padding:48px 24px;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(26,86,219,.05) 0%,transparent 70%);}
-.inner{max-width:680px;width:100%;}
+/* MAIN */
+.main{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  padding:48px 24px;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(26,86,219,.05) 0%,transparent 70%);
+}
+.inner{max-width:700px;width:100%;}
 
-/* LIVE NOW */
-.live-banner{display:none;background:var(--rl);border:1px solid #fecaca;border-radius:16px;padding:20px 24px;margin-bottom:28px;text-align:center;}
+/* BANNIÈRE EN DIRECT */
+.live-banner{
+  display:none;background:linear-gradient(135deg,var(--rl),#fef7f7);
+  border:1.5px solid #fca5a5;border-radius:18px;padding:22px 26px;
+  margin-bottom:28px;text-align:center;animation:pulse-border 2s infinite;
+}
 .live-banner.show{display:block;}
-.live-banner-title{font-family:var(--h);font-size:1.3rem;color:var(--red);margin-bottom:6px;}
-.live-banner-sub{font-size:.85rem;color:var(--red);opacity:.8;}
-.pulse-red{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1.5s infinite;display:inline-block;margin-right:6px;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.8);}}
+@keyframes pulse-border{
+  0%,100%{border-color:#fca5a5;}
+  50%{border-color:var(--red);}
+}
+.live-banner-top{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;}
+.live-dot{width:10px;height:10px;border-radius:50%;background:var(--red);animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.6);}}
+.live-banner-title{font-family:var(--h);font-size:1.3rem;color:var(--red);}
+.live-banner-sub{font-size:.84rem;color:var(--text2);margin-bottom:14px;}
 
-/* COUNTDOWN */
-.countdown-wrap{text-align:center;margin-bottom:36px;}
-.cd-label{font-size:.78rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;}
-.cd-blocks{display:flex;align-items:center;justify-content:center;gap:12px;}
-.cd-block{display:flex;flex-direction:column;align-items:center;gap:6px;}
-.cd-num{font-family:var(--h);font-size:3.5rem;line-height:1;letter-spacing:-2px;color:var(--text);min-width:76px;text-align:center;background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:14px 16px;box-shadow:0 4px 20px rgba(0,0,0,.06);transition:transform .1s;}
-.cd-num.tick{transform:scale(1.05);}
+/* COMPTE À REBOURS */
+.countdown-section{text-align:center;margin-bottom:36px;}
+.cd-label{
+  font-size:.76rem;font-weight:700;color:var(--text3);
+  text-transform:uppercase;letter-spacing:1.2px;margin-bottom:20px;
+}
+.cd-blocks{display:flex;align-items:center;justify-content:center;gap:10px;}
+.cd-block{display:flex;flex-direction:column;align-items:center;gap:7px;}
+.cd-num{
+  font-family:var(--h);font-size:clamp(2.5rem,5vw,3.5rem);line-height:1;
+  letter-spacing:-2px;color:var(--text);min-width:76px;text-align:center;
+  background:var(--bg);border:1px solid var(--border);border-radius:16px;
+  padding:14px 16px;box-shadow:0 4px 20px rgba(0,0,0,.07);
+  transition:transform .12s ease;
+}
+.cd-num.tick{transform:scale(1.06);}
 .cd-unit{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);}
-.cd-sep{font-family:var(--h);font-size:2.5rem;color:var(--text3);margin-bottom:18px;line-height:1;}
+.cd-sep{font-family:var(--h);font-size:2.8rem;color:var(--text3);margin-bottom:20px;line-height:1;user-select:none;}
 
-/* SESSION CARD */
-.session-info{background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:28px;margin-bottom:28px;box-shadow:0 4px 24px rgba(0,0,0,.06);}
-.si-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
-.si-badge{font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:100px;}
+/* CARD SESSION */
+.session-card{
+  background:var(--bg);border:1px solid var(--border);border-radius:22px;
+  padding:30px;margin-bottom:28px;
+  box-shadow:0 4px 24px rgba(0,0,0,.07);
+}
+.sc-top{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:18px;flex-wrap:wrap;gap:10px;
+}
+.sc-badge{font-size:.72rem;font-weight:700;padding:4px 13px;border-radius:100px;}
 .badge-wait{background:var(--al);color:var(--accent);}
 .badge-live{background:var(--rl);color:var(--red);}
 .badge-done{background:var(--bg2);color:var(--text3);border:1px solid var(--border);}
-.si-date{font-size:.76rem;color:var(--text3);}
-.si-title{font-family:var(--h);font-size:1.5rem;margin-bottom:8px;letter-spacing:-.5px;}
-.si-desc{font-size:.85rem;color:var(--text2);line-height:1.7;margin-bottom:18px;}
-.si-meta{display:flex;gap:20px;flex-wrap:wrap;padding-top:14px;border-top:1px solid var(--border);}
-.si-meta-item{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--text2);}
-.si-meta-item svg{width:14px;height:14px;color:var(--text3);}
-.si-meta-val{font-weight:600;color:var(--text);}
+.sc-date{font-size:.76rem;color:var(--text3);}
+.sc-title{font-family:var(--h);font-size:1.6rem;margin-bottom:8px;letter-spacing:-.5px;line-height:1.2;}
+.sc-desc{font-size:.86rem;color:var(--text2);line-height:1.7;margin-bottom:20px;}
+.sc-meta{
+  display:flex;gap:20px;flex-wrap:wrap;padding-top:16px;
+  border-top:1px solid var(--border);
+}
+.sc-meta-item{display:flex;align-items:center;gap:7px;font-size:.81rem;color:var(--text2);}
+.sc-meta-item svg{width:14px;height:14px;color:var(--text3);}
+.sc-meta-val{font-weight:700;color:var(--text);}
 
 /* PLAN */
-.plan-section{background:var(--bg2);border-radius:12px;padding:16px;margin-top:16px;}
-.plan-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:10px;}
-.plan-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:.82rem;}
+.plan-section{
+  background:var(--bg2);border-radius:14px;padding:18px;margin-top:18px;
+}
+.plan-header{
+  font-size:.7rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:1px;color:var(--text3);margin-bottom:12px;
+}
+.plan-item{
+  display:flex;align-items:center;gap:10px;padding:8px 0;
+  border-bottom:1px solid var(--border);font-size:.83rem;
+}
 .plan-item:last-child{border-bottom:none;}
-.plan-time{font-weight:700;color:var(--accent);width:44px;flex-shrink:0;}
+.plan-time{font-weight:700;color:var(--accent);width:46px;flex-shrink:0;}
 .plan-topic{flex:1;}
-.plan-pill{font-size:.62rem;padding:2px 8px;border-radius:100px;font-weight:700;}
-.pp-l{background:var(--al);color:var(--accent);}
-.pp-c{background:var(--pl);color:var(--purple);}
-.pp-q{background:var(--gl);color:var(--green);}
-.pp-b{background:var(--bg2);color:var(--text3);border:1px solid var(--border);}
+.plan-pill{font-size:.63rem;padding:2px 9px;border-radius:100px;font-weight:700;}
+.pill-l{background:var(--al);color:var(--accent);}
+.pill-c{background:var(--pl);color:var(--purple);}
+.pill-q{background:var(--gl);color:var(--green);}
+.pill-b{background:var(--bg3);color:var(--text3);}
 
 /* ACTIONS */
-.actions{display:flex;flex-direction:column;align-items:center;gap:12px;}
-.join-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 40px;background:var(--text);color:#fff;border:none;border-radius:14px;font-family:var(--b);font-size:1rem;font-weight:700;cursor:pointer;transition:all .25s;width:100%;max-width:360px;}
-.join-btn:hover{background:#1a1a2e;transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.15);}
-.join-btn.live{background:var(--red);}
-.join-btn.live:hover{background:#9b1515;}
+.actions{display:flex;flex-direction:column;align-items:center;gap:14px;}
+.join-btn{
+  display:flex;align-items:center;justify-content:center;gap:11px;
+  padding:17px 44px;border:none;border-radius:15px;
+  font-family:var(--b);font-size:1rem;font-weight:700;cursor:pointer;
+  transition:all .25s;width:100%;max-width:380px;
+}
+.join-btn-dark{background:var(--text);color:#fff;}
+.join-btn-dark:hover{background:#1a1a2e;transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.18);}
+.join-btn-red{background:var(--red);color:#fff;}
+.join-btn-red:hover{background:#9b1515;transform:translateY(-3px);}
 .join-btn:disabled{opacity:.5;pointer-events:none;}
-.action-note{font-size:.78rem;color:var(--text3);display:flex;align-items:center;gap:6px;}
+.action-note{
+  font-size:.78rem;color:var(--text3);
+  display:flex;align-items:center;gap:6px;
+}
+.action-note svg{width:13px;height:13px;}
 
-/* SHARE */
-.share-wrap{margin-top:28px;padding-top:24px;border-top:1px solid var(--border);}
-.share-label{font-size:.78rem;color:var(--text2);margin-bottom:10px;font-weight:500;}
+/* PARTAGER */
+.share-section{margin-top:28px;padding-top:26px;border-top:1px solid var(--border);}
+.share-label{font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:11px;}
 .share-row{display:flex;gap:8px;}
-.share-inp{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 13px;font-size:.8rem;font-family:monospace;color:var(--text2);outline:none;}
-.copy-btn{padding:10px 18px;background:var(--text);color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:var(--b);font-size:.8rem;font-weight:600;transition:background .2s;}
+.share-inp{
+  flex:1;background:var(--bg2);border:1px solid var(--border);
+  border-radius:9px;padding:11px 14px;font-size:.81rem;font-family:monospace;
+  color:var(--text2);outline:none;overflow:hidden;text-overflow:ellipsis;
+}
+.copy-btn{
+  padding:11px 20px;background:var(--text);color:#fff;border:none;
+  border-radius:9px;cursor:pointer;font-family:var(--b);font-size:.82rem;
+  font-weight:600;transition:background .2s;white-space:nowrap;
+}
 .copy-btn:hover{background:#1a1a2e;}
 
-/* MODAL PHOTO */
-.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(10px);}
-.modal-ov.show{display:flex;}
-.modal{background:var(--bg);border-radius:20px;padding:34px;width:400px;max-width:94vw;animation:mIn .25s ease;}
-@keyframes mIn{from{opacity:0;transform:scale(.95);}to{opacity:1;transform:scale(1);}}
-.modal h2{font-family:var(--h);font-size:1.3rem;margin-bottom:5px;}
-.modal-sub{font-size:.82rem;color:var(--text3);margin-bottom:18px;}
-.photo-zone{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px;background:var(--bg2);border-radius:11px;border:1.5px dashed var(--border);cursor:pointer;margin-bottom:12px;}
-.photo-zone:hover{border-color:var(--accent);}
-.photo-preview{width:68px;height:68px;border-radius:50%;overflow:hidden;background:var(--border);display:flex;align-items:center;justify-content:center;}
-.photo-preview img{width:100%;height:100%;object-fit:cover;}
-.photo-preview svg{width:26px;height:26px;color:var(--text3);}
-.photo-hint{font-size:.74rem;color:var(--text3);text-align:center;}
-.minp{border:1.5px solid var(--border);border-radius:9px;padding:12px 14px;font-family:var(--b);font-size:.86rem;color:var(--text);background:var(--bg2);outline:none;width:100%;transition:border-color .2s;margin-bottom:10px;}
-.minp:focus{border-color:var(--accent);}
-.mbtn{padding:13px;background:var(--text);color:#fff;border:none;border-radius:9px;font-family:var(--b);font-size:.9rem;font-weight:700;cursor:pointer;width:100%;transition:background .2s;}
-.mbtn:hover{background:#1a1a2e;}
-
-footer{border-top:1px solid var(--border);padding:24px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border);padding:22px 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+}
 footer p{font-size:.76rem;color:var(--text3);}
 
-@media(max-width:640px){.cd-num{font-size:2.5rem;min-width:56px;}.cd-blocks{gap:8px;}}
+/* MODAL REJOINDRE */
+.modal-ov{
+  position:fixed;inset:0;background:rgba(0,0,0,.6);
+  z-index:1000;display:none;align-items:center;justify-content:center;
+  backdrop-filter:blur(10px);
+}
+.modal-ov.show{display:flex;}
+.modal{
+  background:var(--bg);border-radius:22px;padding:36px;
+  width:420px;max-width:95vw;
+  box-shadow:0 40px 100px rgba(0,0,0,.18);
+  animation:mIn .25s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes mIn{from{opacity:0;transform:scale(.9) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.modal h2{font-family:var(--h);font-size:1.4rem;margin-bottom:6px;}
+.modal-sub{font-size:.83rem;color:var(--text3);margin-bottom:20px;line-height:1.55;}
+.mform{display:flex;flex-direction:column;gap:12px;}
+
+/* ZONE PHOTO */
+.photo-zone{
+  display:flex;flex-direction:column;align-items:center;gap:9px;
+  padding:16px;background:var(--bg2);border-radius:13px;
+  border:1.5px dashed var(--border);cursor:pointer;transition:all .2s;
+}
+.photo-zone:hover{border-color:var(--accent);background:var(--al);}
+.photo-preview{
+  width:72px;height:72px;border-radius:50%;overflow:hidden;
+  background:var(--bg3);display:flex;align-items:center;justify-content:center;
+}
+.photo-preview img{width:100%;height:100%;object-fit:cover;}
+.photo-preview svg{width:28px;height:28px;color:var(--text3);}
+.photo-hint{font-size:.75rem;color:var(--text3);text-align:center;line-height:1.4;}
+
+.minp{
+  border:1.5px solid var(--border);border-radius:10px;padding:13px 15px;
+  font-family:var(--b);font-size:.87rem;color:var(--text);background:var(--bg2);
+  outline:none;transition:all .2s;width:100%;
+}
+.minp:focus{border-color:var(--accent);background:var(--bg);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
+.minp.error{border-color:var(--red);}
+.merr{font-size:.8rem;color:var(--red);background:var(--rl);border:1px solid #fecaca;padding:9px 13px;border-radius:9px;display:none;}
+.merr.show{display:block;}
+.mbtn{
+  padding:14px;background:var(--text);color:#fff;border:none;
+  border-radius:10px;font-family:var(--b);font-size:.9rem;font-weight:700;
+  cursor:pointer;width:100%;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.mbtn:hover{background:#1a1a2e;}
+
+@media(max-width:600px){.cd-num{font-size:2rem;min-width:54px;padding:10px 12px;}.cd-blocks{gap:6px;}.session-card{padding:20px;}.join-btn{padding:14px 24px;}}
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav class="nav">
-  <a href="index.html" class="logo"><div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div><span class="ln">Learnova</span></a>
+  <a href="index.html" class="logo">
+    <div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div>
+    <span class="ln">Learnova</span>
+  </a>
   <div class="nav-r">
     <a href="community.html" class="btn btn-ghost btn-sm">Communauté</a>
     <a href="index.html" class="btn btn-ghost btn-sm">← Accueil</a>
@@ -136,72 +251,92 @@ footer p{font-size:.76rem;color:var(--text3);}
 <div class="main">
   <div class="inner">
 
-    <!-- BANNIÈRE SI EN DIRECT -->
+    <!-- BANNIÈRE EN DIRECT -->
     <div class="live-banner" id="liveBanner">
-      <div class="live-banner-title"><span class="pulse-red"></span>Session en direct maintenant !</div>
+      <div class="live-banner-top">
+        <div class="live-dot"></div>
+        <div class="live-banner-title">Session en direct maintenant !</div>
+      </div>
       <div class="live-banner-sub">L'IA enseigne en ce moment. Rejoins la session !</div>
+      <button class="join-btn join-btn-red" style="max-width:280px;margin:0 auto;" onclick="openJoinModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Rejoindre maintenant
+      </button>
     </div>
 
     <!-- COMPTE À REBOURS -->
-    <div class="countdown-wrap" id="countdownWrap">
+    <div class="countdown-section" id="countdownSection">
       <div class="cd-label">La session commence dans</div>
       <div class="cd-blocks">
-        <div class="cd-block"><div class="cd-num" id="cdJ">00</div><div class="cd-unit">Jours</div></div>
+        <div class="cd-block">
+          <div class="cd-num" id="cdJ">00</div>
+          <div class="cd-unit">Jours</div>
+        </div>
         <div class="cd-sep">:</div>
-        <div class="cd-block"><div class="cd-num" id="cdH">00</div><div class="cd-unit">Heures</div></div>
+        <div class="cd-block">
+          <div class="cd-num" id="cdH">00</div>
+          <div class="cd-unit">Heures</div>
+        </div>
         <div class="cd-sep">:</div>
-        <div class="cd-block"><div class="cd-num" id="cdM">00</div><div class="cd-unit">Minutes</div></div>
+        <div class="cd-block">
+          <div class="cd-num" id="cdM">00</div>
+          <div class="cd-unit">Minutes</div>
+        </div>
         <div class="cd-sep">:</div>
-        <div class="cd-block"><div class="cd-num" id="cdS">00</div><div class="cd-unit">Secondes</div></div>
+        <div class="cd-block">
+          <div class="cd-num" id="cdS">00</div>
+          <div class="cd-unit">Secondes</div>
+        </div>
       </div>
     </div>
 
     <!-- INFOS SESSION -->
-    <div class="session-info">
-      <div class="si-top">
-        <span class="si-badge badge-wait" id="siBadge">⏰ Bientôt</span>
-        <span class="si-date" id="siDate">—</span>
+    <div class="session-card">
+      <div class="sc-top">
+        <span class="sc-badge badge-wait" id="scBadge">⏰ Bientôt</span>
+        <span class="sc-date" id="scDate">—</span>
       </div>
-      <div class="si-title" id="siTitle">Chargement de la session...</div>
-      <div class="si-desc" id="siDesc">Préparation du contenu par l'IA...</div>
-      <div class="si-meta">
-        <div class="si-meta-item">
+      <div class="sc-title" id="scTitle">Chargement de la session...</div>
+      <div class="sc-desc" id="scDesc">Préparation du contenu par l'IA en cours...</div>
+      <div class="sc-meta">
+        <div class="sc-meta-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          <span class="si-meta-val" id="siFormat">—</span>
+          <span class="sc-meta-val" id="scFormat">—</span>
         </div>
-        <div class="si-meta-item">
+        <div class="sc-meta-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-          <span id="siInscrits">0</span>&nbsp;inscrits
+          <span id="scInscrits">0</span>&nbsp;inscrits
         </div>
-        <div class="si-meta-item">
+        <div class="sc-meta-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.663 17h4.673M12 3v1"/></svg>
           IA active à l'heure exacte
         </div>
       </div>
-      <!-- PLAN -->
+
+      <!-- PLAN DE LA SESSION -->
       <div class="plan-section" id="planSection" style="display:none;">
-        <div class="plan-title">Programme de la session</div>
+        <div class="plan-header">Programme de la session</div>
         <div id="planList"></div>
       </div>
     </div>
 
-    <!-- ACTIONS -->
+    <!-- BOUTON REJOINDRE -->
     <div class="actions">
-      <button class="join-btn" id="joinBtn" onclick="openJoinModal()">
+      <button class="join-btn join-btn-dark" id="joinMainBtn" onclick="openJoinModal()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         Rejoindre la session live
       </button>
       <div class="action-note">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        L'IA arrive automatiquement à l'heure exacte choisie par l'admin
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        L'IA arrive automatiquement à l'heure choisie par l'admin
       </div>
     </div>
 
     <!-- PARTAGER -->
-    <div class="share-wrap">
+    <div class="share-section">
       <div class="share-label">Partager cette session avec tes amis :</div>
       <div class="share-row">
-        <input class="share-inp" id="shareInput" readonly/>
+        <input class="share-inp" id="shareInp" readonly/>
         <button class="copy-btn" onclick="copyLink()">Copier</button>
       </div>
     </div>
@@ -210,24 +345,37 @@ footer p{font-size:.76rem;color:var(--text3);}
 </div>
 
 <footer>
-  <a href="index.html" class="logo"><div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div><span class="ln">Learnova</span></a>
+  <a href="index.html" class="logo">
+    <div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div>
+    <span class="ln">Learnova</span>
+  </a>
   <p>Learnova — L'IA qui enseigne en direct · Gratuit pour toujours</p>
 </footer>
 
-<!-- MODAL REJOINDRE AVEC PHOTO -->
-<div class="modal-ov" id="joinModal">
+<!-- MODAL REJOINDRE -->
+<div class="modal-ov" id="joinModal" onclick="if(event.target===this)closeJoinModal()">
   <div class="modal">
     <h2>Rejoindre la session</h2>
-    <div class="modal-sub">Ajoute ta photo pour apparaître parmi les participants en direct.</div>
-    <div class="photo-zone" onclick="document.getElementById('photoFile').click()">
-      <div class="photo-preview" id="photoPreview">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <div class="modal-sub">Ajoute ta photo pour apparaître parmi les participants en direct. Ton prénom s'affichera dans la barre des participants.</div>
+    <div class="mform">
+      <div class="photo-zone" id="photoZone" onclick="document.getElementById('photoFile').click()">
+        <div class="photo-preview" id="photoPreview">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <div class="photo-hint">Clique pour ajouter ta photo 📸<br/><span style="font-size:.7rem;opacity:.7;">(optionnel mais recommandé)</span></div>
+        <input type="file" id="photoFile" accept="image/*" style="display:none;" onchange="onPhotoSelected(this)"/>
       </div>
-      <div class="photo-hint">Clique pour ajouter ta photo (optionnel)</div>
-      <input type="file" id="photoFile" accept="image/*" style="display:none;" onchange="onPhoto(this)"/>
+      <input class="minp" id="joinPrenom" type="text" placeholder="Ton prénom *" maxlength="50" autocomplete="given-name"/>
+      <input class="minp" id="joinEmail" type="email" placeholder="ton@email.com (optionnel)" autocomplete="email"/>
+      <div class="merr" id="joinErr"></div>
+      <button class="mbtn" onclick="confirmJoin()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Rejoindre maintenant
+      </button>
     </div>
-    <input class="minp" id="joinPrenom" type="text" placeholder="Ton prénom *" maxlength="50"/>
-    <button class="mbtn" onclick="confirmJoin()">Rejoindre maintenant →</button>
   </div>
 </div>
 
@@ -236,33 +384,52 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 const SB_URL = "https://jbshkbqchrehfhoodtuj.supabase.co"
 const SB_KEY = "sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs"
-const sb = createClient(SB_URL, SB_KEY, { auth: { persistSession: true } })
+const sb     = createClient(SB_URL, SB_KEY, { auth: { persistSession: true } })
 
+// ── ÉTAT ──────────────────────────────────────────────────────
 const urlParams = new URLSearchParams(window.location.search)
 const sessionId = urlParams.get('session')
-let photoBase64 = null
 let sessionData = null
+let photoBase64 = null
 
 // Lien de partage
-document.getElementById('shareInput').value = window.location.href
+document.getElementById('shareInp').value = window.location.href
 
-// ── CHARGER LA SESSION ────────────────────────────────────────
+// ── PHOTO ─────────────────────────────────────────────────────
+window.onPhotoSelected = (input) => {
+  const file = input.files[0]
+  if (!file) return
+  if (file.size > 3 * 1024 * 1024) {
+    showToast('Photo trop grande (max 3MB)', 'err')
+    return
+  }
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    photoBase64 = e.target.result
+    const preview = document.getElementById('photoPreview')
+    preview.innerHTML = `<img src="${photoBase64}" alt="Ma photo"/>`
+    document.getElementById('photoZone').style.borderColor = 'var(--green)'
+  }
+  reader.readAsDataURL(file)
+}
+
+// ── CHARGER SESSION ───────────────────────────────────────────
 async function loadSession() {
   if (!sessionId) {
-    // Mode démo sans session
+    // Mode démo
     renderSession({
       titre: 'Session de démonstration Learnova',
-      description: 'Découvrez comment l\'IA Learnova enseigne en direct. Posez vos questions, participez aux challenges !',
+      description: 'Découvrez comment l\'IA Learnova enseigne en direct. Posez vos questions, participez aux challenges et gagnez des points !',
       format: 'session unique',
       statut: 'planifie',
-      date_debut: new Date(Date.now() + 3600000).toISOString().split('T')[0],
-      heure: new Date(Date.now() + 3600000).toTimeString().slice(0, 5),
+      date_debut: new Date(Date.now() + 7200000).toISOString().split('T')[0],
+      heure: new Date(Date.now() + 7200000).toTimeString().slice(0, 5),
       nb_inscrits: 0,
       plan: [
-        { time: '00:00', topic: 'Introduction', type: 'lesson' },
+        { time: '00:00', topic: 'Introduction & bienvenue', type: 'lesson' },
         { time: '00:20', topic: 'Concepts clés', type: 'lesson' },
         { time: '00:45', topic: 'Challenge collectif', type: 'challenge' },
-        { time: '01:00', topic: 'Pause', type: 'break' },
+        { time: '01:00', topic: 'Pause 10 min', type: 'break' },
         { time: '01:10', topic: 'Approfondissement', type: 'lesson' },
         { time: '01:50', topic: 'Quiz final', type: 'quiz' }
       ]
@@ -271,183 +438,220 @@ async function loadSession() {
   }
 
   const { data: s, error } = await sb.from('sessions').select('*').eq('id', sessionId).single()
+
   if (error || !s) {
-    document.getElementById('siTitle').textContent = 'Session introuvable'
-    document.getElementById('siDesc').textContent = 'Cette session n\'existe pas ou a été supprimée.'
-    document.getElementById('joinBtn').disabled = true
+    document.getElementById('scTitle').textContent = 'Session introuvable'
+    document.getElementById('scDesc').textContent = 'Cette session n\'existe pas ou a été supprimée par l\'admin.'
+    document.getElementById('joinMainBtn').disabled = true
+    document.getElementById('joinMainBtn').textContent = 'Session indisponible'
     return
   }
 
   sessionData = s
   renderSession(s)
 
-  // Temps réel — écouter les changements de statut
-  sb.channel(`waiting-${sessionId}`)
+  // Écouter les changements en temps réel (si admin change le statut → mise à jour automatique)
+  sb.channel(`waiting-session-${sessionId}`)
     .on('postgres_changes', {
-      event: 'UPDATE', schema: 'public', table: 'sessions',
-      filter: `id=eq.${sessionId}`
+      event: 'UPDATE', schema: 'public',
+      table: 'sessions', filter: `id=eq.${sessionId}`
     }, (payload) => {
       sessionData = payload.new
       renderSession(payload.new)
-      // Si la session passe en direct → afficher la bannière
+
+      // Si passage en direct → notification
       if (payload.new.statut === 'en_cours') {
-        showToast('🔴 La session est maintenant EN DIRECT !', 'ok')
+        showToast('🔴 La session est maintenant EN DIRECT !', 'ok', 6000)
+        // Son d'alerte si possible
+        try { new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAA').play().catch(()=>{}) } catch(e){}
       }
     })
     .subscribe()
 }
 
 function renderSession(s) {
-  sessionData = s
-  document.getElementById('siTitle').textContent = s.titre || '—'
-  document.getElementById('siDesc').textContent = s.description || 'Session IA Learnova.'
-  document.getElementById('siFormat').textContent = s.format || '—'
-  document.getElementById('siInscrits').textContent = s.nb_inscrits || 0
+  // Titre et description
+  document.getElementById('scTitle').textContent = s.titre || '—'
+  document.getElementById('scDesc').textContent   = s.description || 'Session IA Learnova.'
+  document.getElementById('scFormat').textContent  = s.format || '—'
+  document.getElementById('scInscrits').textContent = s.nb_inscrits || 0
 
+  // Date
   if (s.date_debut && s.heure) {
-    document.getElementById('siDate').textContent = `${s.date_debut} à ${s.heure}`
+    document.getElementById('scDate').textContent = `${s.date_debut} à ${s.heure}`
     startCountdown(s.date_debut, s.heure)
   }
 
-  // Badge et style selon statut
-  const badge = document.getElementById('siBadge')
-  const joinBtn = document.getElementById('joinBtn')
-  const liveBanner = document.getElementById('liveBanner')
+  const badge   = document.getElementById('scBadge')
+  const joinBtn = document.getElementById('joinMainBtn')
+  const banner  = document.getElementById('liveBanner')
+  const cdSection = document.getElementById('countdownSection')
 
   if (s.statut === 'en_cours') {
+    // EN DIRECT
     badge.textContent = '🔴 En direct maintenant'
-    badge.className = 'si-badge badge-live'
-    liveBanner.classList.add('show')
-    document.getElementById('countdownWrap').style.display = 'none'
-    joinBtn.classList.add('live')
-    joinBtn.innerHTML = '<span class="pulse-red" style="width:8px;height:8px;border-radius:50%;background:#fff;animation:pulse 1.5s infinite;display:inline-block;"></span> Rejoindre maintenant — En direct !'
+    badge.className = 'sc-badge badge-live'
+    banner.classList.add('show')
+    cdSection.style.display = 'none'
+    joinBtn.className = 'join-btn join-btn-red'
+    joinBtn.innerHTML = `<span style="width:8px;height:8px;border-radius:50%;background:#fff;animation:pulse 1.5s infinite;display:inline-block;"></span> Rejoindre — Session en direct`
+
   } else if (s.statut === 'termine') {
-    badge.textContent = '✓ Terminée'
-    badge.className = 'si-badge badge-done'
-    document.getElementById('countdownWrap').style.display = 'none'
+    // TERMINÉ
+    badge.textContent = '✓ Session terminée'
+    badge.className = 'sc-badge badge-done'
+    cdSection.style.display = 'none'
     joinBtn.disabled = true
     joinBtn.textContent = 'Session terminée'
+    joinBtn.className = 'join-btn join-btn-dark'
+
   } else {
+    // PLANIFIÉ
     badge.textContent = '⏰ Bientôt'
-    badge.className = 'si-badge badge-wait'
+    badge.className = 'sc-badge badge-wait'
+    banner.classList.remove('show')
+    cdSection.style.display = 'block'
   }
 
-  // Plan
+  // Plan de la session
   const plan = s.plan || []
   if (plan.length) {
     document.getElementById('planSection').style.display = 'block'
-    const tmap = { lesson: 'pp-l', challenge: 'pp-c', quiz: 'pp-q', break: 'pp-b' }
-    const lmap = { lesson: 'Leçon', challenge: 'Challenge', quiz: 'Quiz', break: 'Pause' }
+    const pillMap = { lesson: 'pill-l', challenge: 'pill-c', quiz: 'pill-q', break: 'pill-b' }
+    const labelMap = { lesson: 'Leçon', challenge: 'Challenge', quiz: 'Quiz', break: 'Pause' }
     document.getElementById('planList').innerHTML = plan.map(p => `
       <div class="plan-item">
         <span class="plan-time">${p.time || p.t || '—'}</span>
         <span class="plan-topic">${p.topic}</span>
-        <span class="plan-pill ${tmap[p.type] || 'pp-l'}">${lmap[p.type] || 'Leçon'}</span>
+        <span class="plan-pill ${pillMap[p.type] || 'pill-l'}">${labelMap[p.type] || 'Leçon'}</span>
       </div>`).join('')
   }
 }
 
 // ── COMPTE À REBOURS ──────────────────────────────────────────
 function startCountdown(dateStr, timeStr) {
+  const prev = { j: '', h: '', m: '', s: '' }
+
   function tick() {
     const target = new Date(`${dateStr}T${timeStr}:00`)
     const now    = new Date()
     const diff   = target - now
 
     if (diff <= 0) {
-      ['cdJ','cdH','cdM','cdS'].forEach(id => document.getElementById(id).textContent = '00')
+      // Temps écoulé
+      ['cdJ','cdH','cdM','cdS'].forEach(id => {
+        document.getElementById(id).textContent = '00'
+      })
       return
     }
 
-    const j = Math.floor(diff / 86400000)
-    const h = Math.floor((diff % 86400000) / 3600000)
-    const m = Math.floor((diff % 3600000) / 60000)
-    const s = Math.floor((diff % 60000) / 1000)
+    const j = String(Math.floor(diff / 86400000)).padStart(2, '0')
+    const h = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0')
+    const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0')
+    const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0')
 
+    // Animation tick sur changement
     const vals = { cdJ: j, cdH: h, cdM: m, cdS: s }
+    const prevs = { cdJ: prev.j, cdH: prev.h, cdM: prev.m, cdS: prev.s }
+
     Object.entries(vals).forEach(([id, val]) => {
       const el = document.getElementById(id)
-      const str = String(val).padStart(2, '0')
-      if (el.textContent !== str) {
-        el.textContent = str
+      if (el.textContent !== val) {
+        el.textContent = val
         el.classList.add('tick')
-        setTimeout(() => el.classList.remove('tick'), 100)
+        setTimeout(() => el.classList.remove('tick'), 120)
       }
     })
+    prev.j = j; prev.h = h; prev.m = m; prev.s = s
   }
+
   tick()
   setInterval(tick, 1000)
 }
 
-// ── MODAL REJOINDRE ────────────────────────────────────────────
+// ── MODAL REJOINDRE ───────────────────────────────────────────
 window.openJoinModal = () => {
   document.getElementById('joinModal').classList.add('show')
   setTimeout(() => document.getElementById('joinPrenom').focus(), 100)
 }
 
-window.onPhoto = (input) => {
-  const file = input.files[0]
-  if (!file) return
-  const reader = new FileReader()
-  reader.onload = (e) => {
-    photoBase64 = e.target.result
-    document.getElementById('photoPreview').innerHTML = `<img src="${photoBase64}" alt=""/>`
-  }
-  reader.readAsDataURL(file)
+window.closeJoinModal = () => {
+  document.getElementById('joinModal').classList.remove('show')
 }
 
 window.confirmJoin = () => {
   const prenom = document.getElementById('joinPrenom').value.trim()
+  const email  = document.getElementById('joinEmail').value.trim()
+  const errEl  = document.getElementById('joinErr')
+
+  errEl.classList.remove('show')
+
   if (!prenom || prenom.length < 2) {
-    showToast('Entre ton prénom (min. 2 caractères)', 'err')
+    document.getElementById('joinPrenom').classList.add('error')
+    errEl.textContent = 'Entre ton prénom (minimum 2 caractères).'
+    errEl.classList.add('show')
     return
   }
 
-  // Incrémenter nb_inscrits
+  document.getElementById('joinPrenom').classList.remove('error')
+
+  // Incrémenter le compteur d'inscrits
   if (sessionId && sessionData) {
-    sb.from('sessions').update({ nb_inscrits: (sessionData.nb_inscrits || 0) + 1 }).eq('id', sessionId).then(() => {})
+    sb.from('sessions')
+      .update({ nb_inscrits: (sessionData.nb_inscrits || 0) + 1 })
+      .eq('id', sessionId)
+      .then(() => {})
   }
 
-  // Construire l'URL du live avec les paramètres
+  // Stocker photo dans sessionStorage pour live.html
+  if (photoBase64) {
+    sessionStorage.setItem('ln_photo', photoBase64)
+  }
+  sessionStorage.setItem('ln_prenom', prenom)
+  if (email) sessionStorage.setItem('ln_email', email)
+
+  // Naviguer vers live.html avec les paramètres
   const params = new URLSearchParams()
   if (sessionId) params.set('session', sessionId)
   params.set('prenom', encodeURIComponent(prenom))
-  if (photoBase64) {
-    // Stocker la photo dans sessionStorage pour ne pas surcharger l'URL
-    sessionStorage.setItem('ln_photo', photoBase64)
-    params.set('hasPhoto', '1')
-  }
 
   window.location.href = `live.html?${params.toString()}`
 }
 
+document.getElementById('joinPrenom').addEventListener('keypress', e => {
+  if (e.key === 'Enter') confirmJoin()
+})
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeJoinModal()
+})
+
 // ── COPIER LIEN ───────────────────────────────────────────────
 window.copyLink = () => {
-  navigator.clipboard.writeText(window.location.href).catch(() => {})
-  showToast('🔗 Lien copié !', 'ok')
+  navigator.clipboard.writeText(window.location.href)
+    .then(() => showToast('🔗 Lien copié !', 'ok'))
+    .catch(() => {
+      const inp = document.getElementById('shareInp')
+      inp.select(); document.execCommand('copy')
+      showToast('🔗 Lien copié !', 'ok')
+    })
 }
 
 // ── TOAST ─────────────────────────────────────────────────────
-function showToast(msg, type = 'dark') {
+function showToast(msg, type = 'dark', duration = 3500) {
   let t = document.getElementById('ln-toast')
   if (!t) {
-    t = document.createElement('div')
-    t.id = 'ln-toast'
-    t.style.cssText = 'position:fixed;bottom:24px;right:24px;padding:12px 20px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s;font-family:"DM Sans",sans-serif;font-weight:500;'
+    t = document.createElement('div'); t.id = 'ln-toast'
+    t.style.cssText = "position:fixed;bottom:24px;right:24px;padding:12px 20px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif;font-weight:500;box-shadow:0 20px 60px rgba(0,0,0,.2);max-width:320px;"
     document.body.appendChild(t)
   }
-  const colors = { dark: 'background:#09090f;color:#fff;', ok: 'background:#047857;color:#fff;', err: 'background:#b91c1c;color:#fff;' }
-  t.style.cssText += colors[type] || colors.dark
-  t.textContent = msg
-  t.style.transform = 'translateY(0)'
-  clearTimeout(t._t)
-  t._t = setTimeout(() => t.style.transform = 'translateY(80px)', 3500)
+  const styles = { dark:'background:#09090f;color:#fff;', ok:'background:#047857;color:#fff;', err:'background:#b91c1c;color:#fff;' }
+  t.style.cssText += styles[type] || styles.dark
+  t.textContent = msg; t.style.transform = 'translateY(0)'
+  clearTimeout(t._t); t._t = setTimeout(() => t.style.transform = 'translateY(80px)', duration)
 }
 
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') document.getElementById('joinModal').classList.remove('show')
-})
-
+// Init
 loadSession()
 </script>
 </body>
