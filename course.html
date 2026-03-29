@@ -4,177 +4,216 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Learnova — Cours</title>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --bg:#fff;--bg2:#f7f8fc;--bg3:#eef0f8;--border:#e4e5f0;
+  --bg:#fff;--bg2:#f8f9fc;--bg3:#eef1f8;--border:#e8eaf2;
   --text:#09090f;--text2:#454560;--text3:#9090b0;
-  --accent:#1a56db;--al:#eff3ff;--am:#c7d7fd;
+  --accent:#1a56db;--al:#eef2ff;--am:#c7d7fd;
   --green:#047857;--gl:#ecfdf5;--gm:#a7f3d0;
   --red:#b91c1c;--rl:#fef2f2;
   --purple:#6d28d9;--pl:#f5f3ff;
+  --gold:#92400e;--goldl:#fef3c7;
   --h:'Instrument Serif',serif;--b:'DM Sans',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg2);color:var(--text);font-family:var(--b);-webkit-font-smoothing:antialiased;padding-top:58px;}
+body{background:var(--bg);color:var(--text);font-family:var(--b);-webkit-font-smoothing:antialiased;padding-top:62px;}
 
 /* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(255,255,255,.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);height:58px;}
-.nav-in{max-width:1400px;margin:0 auto;padding:0 22px;height:100%;display:flex;align-items:center;gap:12px;}
-.logo{display:flex;align-items:center;gap:7px;text-decoration:none;}
-.lm{width:27px;height:27px;border-radius:7px;background:var(--text);display:flex;align-items:center;justify-content:center;}
+.nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(255,255,255,.96);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);height:62px;}
+.nav-in{max-width:1280px;margin:0 auto;padding:0 28px;height:100%;display:flex;align-items:center;gap:16px;}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
+.lm{width:28px;height:28px;border-radius:7px;background:var(--text);display:flex;align-items:center;justify-content:center;}
 .lm svg{width:13px;height:13px;}
-.ln{font-family:var(--h);font-size:1.05rem;color:var(--text);}
-.nav-r{margin-left:auto;display:flex;align-items:center;gap:8px;}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:8px;font-family:var(--b);font-weight:500;font-size:.82rem;cursor:pointer;border:none;transition:all .2s;text-decoration:none;}
+.ln{font-family:var(--h);font-size:1.1rem;color:var(--text);}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;border-radius:9px;font-family:var(--b);font-weight:500;font-size:.84rem;cursor:pointer;border:none;transition:all .2s;text-decoration:none;}
 .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text2);}
 .btn-ghost:hover{background:var(--bg2);}
 .btn-dark{background:var(--text);color:#fff;}
-.btn-sm{padding:6px 12px;font-size:.76rem;border-radius:6px;}
-.prog-wrap{width:72px;background:var(--border);border-radius:100px;height:4px;}
-.prog-fill{height:100%;border-radius:100px;background:var(--accent);transition:width .5s;}
-.prog-pct{font-size:.74rem;color:var(--text3);}
-.upill{display:flex;align-items:center;gap:6px;padding:3px 9px;border-radius:100px;background:var(--bg2);border:1px solid var(--border);}
-.upill-av{width:21px;height:21px;border-radius:50%;overflow:hidden;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.58rem;font-weight:700;}
-.upill-av img{width:100%;height:100%;object-fit:cover;}
-.upill-name{font-size:.76rem;font-weight:500;}
+.btn-accent{background:var(--accent);color:#fff;}
+.btn-accent:hover{background:#1448c0;}
+.btn-sm{padding:6px 12px;font-size:.78rem;border-radius:7px;}
+.nav-av{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:.73rem;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;}
+.nav-av img{width:100%;height:100%;object-fit:cover;}
 
 /* LAYOUT */
-.layout{display:grid;grid-template-columns:248px 1fr 284px;height:calc(100vh - 58px);}
+.layout{max-width:1280px;margin:0 auto;padding:28px;display:grid;grid-template-columns:260px 1fr 300px;gap:24px;}
 
-/* SIDEBAR GAUCHE */
-.sl{background:var(--bg);border-right:1px solid var(--border);overflow-y:auto;padding:12px 0;}
-.sl-hd{padding:0 13px 11px;border-bottom:1px solid var(--border);margin-bottom:8px;}
-.sl-ttl{font-size:.78rem;font-weight:600;margin-bottom:7px;line-height:1.4;}
-.sl-pb{background:var(--bg2);border-radius:100px;height:3px;margin-bottom:3px;}
-.sl-pf{height:100%;border-radius:100px;background:var(--accent);transition:width .5s;}
-.sl-pct{font-size:.66rem;color:var(--text3);}
-.ch-hd{display:flex;align-items:center;gap:6px;padding:6px 13px;cursor:pointer;font-size:.78rem;font-weight:500;color:var(--text2);transition:all .15s;}
-.ch-hd:hover{background:var(--bg2);}
-.ch-hd.active{color:var(--accent);}
-.ch-hd.done{color:var(--green);}
-.ch-num{width:16px;height:16px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;flex-shrink:0;}
-.ch-hd.active .ch-num{background:var(--accent);border-color:var(--accent);color:#fff;}
-.ch-hd.done .ch-num{background:var(--green);border-color:var(--green);color:#fff;}
-.ch-arr{margin-left:auto;font-size:.68rem;color:var(--text3);transition:transform .2s;}
-.ch-arr.open{transform:rotate(90deg);}
-.ch-lessons{padding-left:29px;display:none;}
-.ch-lessons.open{display:block;}
-.li{display:flex;align-items:center;gap:5px;padding:5px 13px 5px 0;font-size:.74rem;color:var(--text3);cursor:pointer;transition:all .15s;}
-.li:hover{color:var(--text);}
-.li.active{color:var(--accent);font-weight:500;}
-.li.done{color:var(--green);}
-.li-dot{width:4px;height:4px;border-radius:50%;background:currentColor;flex-shrink:0;}
-.li-dur{margin-left:auto;opacity:.7;font-size:.64rem;}
+/* SIDEBAR GAUCHE — SOMMAIRE */
+.sidebar-left{position:sticky;top:82px;height:calc(100vh - 100px);overflow-y:auto;}
+.sidebar-left::-webkit-scrollbar{width:3px;}
+.sidebar-left::-webkit-scrollbar-thumb{background:var(--border);}
+.course-nav-title{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);margin-bottom:12px;}
+.chap-item{border-radius:9px;margin-bottom:4px;overflow:hidden;}
+.chap-header{display:flex;align-items:center;gap:8px;padding:9px 12px;cursor:pointer;transition:background .15s;border-radius:9px;}
+.chap-header:hover{background:var(--bg2);}
+.chap-header.active{background:var(--al);}
+.chap-num{width:22px;height:22px;border-radius:6px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;color:var(--text3);flex-shrink:0;}
+.chap-header.active .chap-num{background:var(--accent);color:#fff;}
+.chap-name{font-size:.8rem;font-weight:500;flex:1;line-height:1.3;}
+.chap-header.active .chap-name{color:var(--accent);font-weight:600;}
+.chap-done{font-size:.7rem;color:var(--green);}
+.lecons-list{padding:0 0 4px 30px;display:none;}
+.lecons-list.show{display:block;}
+.lecon-item{display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:7px;cursor:pointer;transition:background .15s;font-size:.78rem;color:var(--text2);}
+.lecon-item:hover{background:var(--bg2);}
+.lecon-item.active{color:var(--accent);font-weight:500;}
+.lecon-dot{width:5px;height:5px;border-radius:50%;background:var(--border);flex-shrink:0;}
+.lecon-item.active .lecon-dot{background:var(--accent);}
+.lecon-item.done .lecon-dot{background:var(--green);}
 
-/* MAIN */
-.main{overflow-y:auto;display:flex;flex-direction:column;}
-.c-hero{background:var(--bg);border-bottom:1px solid var(--border);padding:18px 24px;}
-.c-meta{display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap;}
-.badge{display:inline-flex;align-items:center;gap:3px;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:100px;}
-.b-prog{background:var(--al);color:var(--accent);}
-.b-ia{background:var(--pl);color:var(--purple);}
-.b-diff{background:var(--bg2);color:var(--text3);border:1px solid var(--border);}
-.c-title{font-family:var(--h);font-size:1.4rem;margin-bottom:5px;letter-spacing:-.4px;}
-.c-desc{font-size:.82rem;color:var(--text2);line-height:1.65;max-width:580px;}
+/* CONTENU PRINCIPAL */
+.content-main{min-width:0;}
 
-/* PARTICIPANTS DU COURS AVEC PHOTOS */
-.c-parts{display:flex;align-items:center;gap:7px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
-.cp-avs{display:flex;}
-.cp-av{width:25px;height:25px;border-radius:50%;overflow:hidden;border:2px solid var(--bg);margin-left:-5px;flex-shrink:0;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.58rem;font-weight:700;}
-.cp-av:first-child{margin-left:0;}
-.cp-av img{width:100%;height:100%;object-fit:cover;}
-.cp-txt{font-size:.74rem;color:var(--text2);}
+/* HERO COURS */
+.course-hero{background:linear-gradient(135deg,var(--text),#1a1a3a);border-radius:20px;padding:32px;margin-bottom:28px;color:#fff;position:relative;overflow:hidden;}
+.course-hero::before{content:'';position:absolute;top:-30px;right:-30px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.04);}
+.course-hero::after{content:'';position:absolute;bottom:-50px;left:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.03);}
+.hero-cat{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);padding:4px 12px;border-radius:100px;font-size:.72rem;font-weight:600;margin-bottom:14px;}
+.hero-title{font-family:var(--h);font-size:1.8rem;line-height:1.2;margin-bottom:10px;letter-spacing:-.5px;}
+.hero-desc{font-size:.88rem;color:rgba(255,255,255,.65);line-height:1.65;margin-bottom:18px;max-width:560px;}
+.hero-meta{display:flex;gap:16px;flex-wrap:wrap;}
+.hero-meta-item{display:flex;align-items:center;gap:5px;font-size:.78rem;color:rgba(255,255,255,.55);}
+.hero-meta-item strong{color:#fff;}
+.hero-progress{margin-top:18px;}
+.progress-label{display:flex;justify-content:space-between;font-size:.76rem;color:rgba(255,255,255,.5);margin-bottom:7px;}
+.progress-bar{background:rgba(255,255,255,.12);border-radius:100px;height:5px;}
+.progress-fill{height:100%;border-radius:100px;background:var(--green);transition:width .5s ease;}
 
-/* TABS */
-.c-tabs{background:var(--bg);border-bottom:1px solid var(--border);padding:0 24px;display:flex;position:sticky;top:0;z-index:10;}
-.ctab{padding:10px 12px;font-size:.79rem;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;}
-.ctab:hover{color:var(--text);}
-.ctab.active{color:var(--accent);border-bottom-color:var(--accent);}
-.tab-p{padding:22px 24px;display:none;}
-.tab-p.active{display:block;}
+/* LEÇON ACTUELLE */
+.lesson-card{background:var(--bg);border:1px solid var(--border);border-radius:18px;padding:26px;margin-bottom:20px;}
+.lesson-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.lesson-chap-badge{font-size:.7rem;font-weight:700;background:var(--al);color:var(--accent);padding:3px 10px;border-radius:100px;}
+.lesson-title{font-family:var(--h);font-size:1.3rem;flex:1;}
+.lesson-content{font-size:.88rem;color:var(--text2);line-height:1.8;}
+.lesson-content p{margin-bottom:12px;}
+.lesson-content strong{color:var(--text);}
+.lesson-content ul{margin:10px 0 10px 20px;}
+.lesson-content li{margin-bottom:6px;}
+.lesson-nav{display:flex;gap:10px;margin-top:20px;padding-top:18px;border-top:1px solid var(--border);}
+.btn-prev{background:transparent;border:1px solid var(--border);color:var(--text2);}
+.btn-prev:hover{background:var(--bg2);}
+.btn-next{background:var(--text);color:#fff;flex:1;justify-content:center;}
+.btn-next:hover{background:#1a1a2e;}
+.btn-done{background:var(--green);color:#fff;flex:1;justify-content:center;}
 
-/* CONTENU */
-.l-body{max-width:660px;}
-.ls{margin-bottom:22px;}
-.ls h2{font-family:var(--h);font-size:1.15rem;margin-bottom:8px;}
-.ls h3{font-size:.88rem;font-weight:600;margin-bottom:6px;}
-.ls p{font-size:.84rem;color:var(--text2);line-height:1.75;margin-bottom:8px;}
-.callout{border-left:3px solid var(--accent);background:var(--al);border-radius:0 7px 7px 0;padding:10px 14px;margin:9px 0;font-size:.81rem;color:var(--text2);line-height:1.6;}
-.callout strong{color:var(--accent);display:block;margin-bottom:2px;font-size:.74rem;}
-.code-blk{background:#0f111a;border-radius:7px;padding:12px 16px;font-family:'Courier New',monospace;font-size:.79rem;line-height:1.7;overflow-x:auto;margin:8px 0;color:#e2e8f0;}
-.l-nav{display:flex;justify-content:space-between;margin-top:22px;padding-top:16px;border-top:1px solid var(--border);}
-
-/* IA CHAT */
-.ai-intro{background:var(--pl);border:1px solid rgba(109,40,217,.12);border-radius:11px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
-.ai-intro-ico{width:32px;height:32px;border-radius:7px;background:var(--purple);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.ai-intro-ico svg{width:15px;height:15px;color:#fff;}
-.ai-conv{display:flex;flex-direction:column;gap:9px;max-height:290px;overflow-y:auto;margin-bottom:10px;}
-.ai-msg{display:flex;gap:6px;align-items:flex-start;}
-.ai-msg.user{flex-direction:row-reverse;}
-.ai-msg-av{width:23px;height:23px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;font-size:.57rem;font-weight:700;color:#fff;}
-.ai-msg-av.bot{background:var(--purple);}
-.ai-msg-av.usr{background:var(--accent);}
-.ai-msg-av img{width:100%;height:100%;object-fit:cover;}
-.ai-bbl{padding:7px 10px;font-size:.8rem;line-height:1.6;max-width:85%;}
-.ai-msg:not(.user) .ai-bbl{background:var(--bg);border:1px solid var(--border);border-radius:3px 10px 10px 10px;color:var(--text2);}
-.ai-msg.user .ai-bbl{background:var(--accent);color:#fff;border-radius:10px 3px 10px 10px;}
-.typing-sm{display:flex;gap:3px;}
-.typing-sm span{width:4px;height:4px;border-radius:50%;background:var(--text3);animation:td 1.2s infinite;}
-.typing-sm span:nth-child(2){animation-delay:.2s;}.typing-sm span:nth-child(3){animation-delay:.4s;}
-@keyframes td{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
-.ai-inp-box{background:var(--bg);border:1px solid var(--border);border-radius:11px;overflow:hidden;}
-.ai-suggs{display:flex;gap:4px;padding:6px 8px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
-.ai-sugg{padding:3px 8px;background:var(--bg2);border:1px solid var(--border);border-radius:100px;font-size:.7rem;color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .15s;}
-.ai-sugg:hover{border-color:var(--accent);color:var(--accent);background:var(--al);}
-.ai-inp-row{display:flex;gap:6px;padding:6px 8px;}
-.ai-inp{flex:1;border:none;outline:none;font-family:var(--b);font-size:.79rem;color:var(--text);background:transparent;}
-.ai-snd{width:26px;height:26px;border-radius:6px;background:var(--accent);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.ai-snd svg{width:10px;height:10px;}
+/* IA ASSISTANT */
+.ai-section{background:linear-gradient(135deg,var(--pl),var(--al));border:1px solid rgba(109,40,217,.12);border-radius:18px;padding:22px;margin-bottom:20px;}
+.ai-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.ai-icon{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--purple));display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ai-icon svg{width:18px;height:18px;color:#fff;}
+.ai-title{font-size:.92rem;font-weight:700;}
+.ai-sub{font-size:.77rem;color:var(--text3);}
+.ai-messages{display:flex;flex-direction:column;gap:10px;max-height:400px;overflow-y:auto;margin-bottom:14px;padding-right:4px;}
+.ai-messages::-webkit-scrollbar{width:3px;}
+.ai-messages::-webkit-scrollbar-thumb{background:var(--am);}
+.ai-msg-item{display:flex;gap:9px;align-items:flex-start;animation:msgIn .3s ease;}
+@keyframes msgIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+.ai-msg-item.user{flex-direction:row-reverse;}
+.msg-av{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;overflow:hidden;}
+.msg-av.ai-av-icon{background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;}
+.msg-av.user-av-icon{background:var(--accent);color:#fff;}
+.msg-av img{width:100%;height:100%;object-fit:cover;}
+.msg-bubble{padding:10px 14px;border-radius:4px 12px 12px 12px;font-size:.84rem;line-height:1.7;max-width:85%;}
+.msg-bubble.ai{background:rgba(255,255,255,.85);color:var(--text2);border:1px solid rgba(255,255,255,.5);}
+.msg-bubble.ai strong{color:var(--text);}
+.msg-bubble.ai code{background:var(--bg2);padding:1px 5px;border-radius:4px;font-family:'Courier New',monospace;font-size:.8em;color:var(--accent);}
+.msg-bubble.user{background:var(--al);color:var(--accent);border-radius:12px 4px 12px 12px;}
+.typing-ind{display:flex;gap:4px;padding:10px 14px;background:rgba(255,255,255,.8);border-radius:4px 12px 12px 12px;width:fit-content;}
+.typing-ind span{width:5px;height:5px;border-radius:50%;background:var(--text3);animation:dotB 1.2s infinite;}
+.typing-ind span:nth-child(2){animation-delay:.2s;}
+.typing-ind span:nth-child(3){animation-delay:.4s;}
+@keyframes dotB{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
+.ai-input-row{display:flex;gap:8px;}
+.ai-inp{flex:1;border:1.5px solid rgba(109,40,217,.2);border-radius:100px;padding:10px 18px;font-family:var(--b);font-size:.84rem;color:var(--text);background:rgba(255,255,255,.9);outline:none;transition:all .2s;}
+.ai-inp:focus{border-color:var(--accent);background:#fff;}
+.ai-inp::placeholder{color:var(--text3);}
+.ai-send-btn{width:38px;height:38px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
+.ai-send-btn:hover{background:#1448c0;}
+.ai-send-btn:disabled{opacity:.5;pointer-events:none;}
+.ai-send-btn svg{width:14px;height:14px;}
+.ai-suggestions{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.sugg-btn{padding:5px 12px;background:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.5);border-radius:100px;font-size:.75rem;color:var(--text2);cursor:pointer;transition:all .15s;font-family:var(--b);}
+.sugg-btn:hover{background:#fff;color:var(--accent);}
 
 /* QUIZ */
-.quiz-gen{background:linear-gradient(135deg,var(--pl),var(--al));border:1px solid rgba(109,40,217,.12);border-radius:11px;padding:12px;margin-bottom:12px;display:flex;align-items:center;gap:9px;}
-.q-hdr{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:13px 16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
-.qh-left h3{font-family:var(--h);font-size:.96rem;margin-bottom:2px;}
-.qh-left p{font-size:.71rem;color:var(--text3);}
-.qh-stats{display:flex;gap:10px;}
-.qhs{text-align:center;}
-.qhs-num{font-family:var(--h);font-size:1.1rem;}
-.qhs-lbl{font-size:.64rem;color:var(--text3);}
-.quiz-q{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:14px 16px;margin-bottom:8px;}
-.qq-num{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:6px;}
-.qq-txt{font-size:.86rem;font-weight:500;margin-bottom:11px;line-height:1.5;}
-.qq-opts{display:flex;flex-direction:column;gap:5px;}
-.qq-opt{display:flex;align-items:center;gap:8px;padding:8px 11px;border:1px solid var(--border);border-radius:7px;cursor:pointer;font-size:.8rem;transition:all .15s;color:var(--text2);}
-.qq-opt:hover{border-color:var(--accent);background:var(--al);color:var(--accent);}
-.qq-opt.correct{border-color:var(--green);background:var(--gl);color:var(--green);font-weight:500;}
-.qq-opt.wrong{border-color:var(--red);background:var(--rl);color:var(--red);}
-.qq-key{width:19px;height:19px;border-radius:5px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.64rem;font-weight:700;flex-shrink:0;}
-.qq-exp{display:none;margin-top:6px;padding:7px 10px;background:var(--gl);border-radius:6px;font-size:.75rem;color:var(--green);line-height:1.6;}
-.qq-exp.show{display:block;}
-.qq-exp.wr{background:var(--rl);color:var(--red);}
-.quiz-res{display:none;background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:28px;text-align:center;margin-top:9px;}
-.quiz-res.show{display:block;}
-.qr-circle{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 11px;}
-.qr-pct{font-family:var(--h);font-size:1.4rem;}
+.quiz-section{background:var(--bg);border:1px solid var(--border);border-radius:18px;padding:24px;margin-bottom:20px;}
+.quiz-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.quiz-title{font-family:var(--h);font-size:1.1rem;}
+.quiz-score-badge{font-size:.78rem;font-weight:700;background:var(--al);color:var(--accent);padding:4px 12px;border-radius:100px;}
+.quiz-question{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border);}
+.quiz-question:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.q-text{font-size:.9rem;font-weight:600;margin-bottom:12px;line-height:1.5;}
+.q-num{font-size:.7rem;font-weight:700;color:var(--text3);margin-bottom:6px;}
+.q-options{display:flex;flex-direction:column;gap:7px;}
+.q-opt{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;font-size:.84rem;}
+.q-opt:hover:not(.locked){border-color:var(--accent);background:var(--al);}
+.q-opt.selected{border-color:var(--accent);background:var(--al);color:var(--accent);font-weight:500;}
+.q-opt.correct{border-color:var(--green);background:var(--gl);color:var(--green);}
+.q-opt.wrong{border-color:var(--red);background:var(--rl);color:var(--red);}
+.q-opt.locked{pointer-events:none;}
+.q-opt-letter{width:24px;height:24px;border-radius:7px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s;}
+.q-opt.selected .q-opt-letter{background:var(--accent);color:#fff;}
+.q-opt.correct .q-opt-letter{background:var(--green);color:#fff;}
+.q-opt.wrong .q-opt-letter{background:var(--red);color:#fff;}
+.q-explication{font-size:.8rem;color:var(--text2);background:var(--bg2);border-radius:8px;padding:10px 13px;margin-top:8px;line-height:1.6;display:none;}
+.q-explication.show{display:block;}
+.quiz-submit-row{display:flex;gap:10px;margin-top:20px;}
+.quiz-result{background:linear-gradient(135deg,var(--gl),var(--al));border:1px solid var(--gm);border-radius:14px;padding:20px;text-align:center;margin-top:16px;display:none;}
+.quiz-result.show{display:block;}
+.qr-score{font-family:var(--h);font-size:2.5rem;color:var(--green);letter-spacing:-1px;}
+.qr-label{font-size:.84rem;color:var(--text2);margin-top:4px;}
+.qr-badge{display:inline-block;font-size:.82rem;font-weight:700;padding:5px 14px;border-radius:100px;margin-top:10px;}
+
+/* NOTES */
+.notes-section{background:var(--bg);border:1px solid var(--border);border-radius:18px;padding:22px;margin-bottom:20px;}
+.notes-title{font-size:.88rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
+.notes-ta{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-family:var(--b);font-size:.84rem;color:var(--text);outline:none;resize:vertical;min-height:100px;line-height:1.65;background:var(--bg2);transition:all .2s;}
+.notes-ta:focus{border-color:var(--accent);background:var(--bg);}
+.notes-save-btn{padding:9px 20px;background:var(--green);color:#fff;border:none;border-radius:9px;font-family:var(--b);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;margin-top:8px;}
+.notes-save-btn:hover{background:#036644;}
+.notes-saved{font-size:.76rem;color:var(--green);margin-top:6px;display:none;}
+.notes-saved.show{display:block;}
 
 /* SIDEBAR DROITE */
-.sr{background:var(--bg);border-left:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;}
-.sr-blk{padding:13px;border-bottom:1px solid var(--border);}
-.sr-ttl{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:9px;}
-.p-item{display:flex;align-items:center;justify-content:space-between;font-size:.77rem;margin-bottom:6px;}
-.p-val{font-weight:600;}
-.p-val.green{color:var(--green);}
-.notes-ta{width:100%;border:1px solid var(--border);border-radius:7px;padding:8px 10px;font-family:var(--b);font-size:.76rem;color:var(--text);resize:none;min-height:88px;outline:none;background:var(--bg2);line-height:1.6;}
-.notes-ta:focus{border-color:var(--accent);}
-.save-btn{width:100%;margin-top:6px;padding:7px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-family:var(--b);font-size:.74rem;font-weight:500;cursor:pointer;transition:all .2s;}
-.save-btn:hover{border-color:var(--accent);color:var(--accent);}
-.ul-item{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
-.ul-av{width:24px;height:24px;border-radius:50%;overflow:hidden;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.58rem;font-weight:700;flex-shrink:0;}
-.ul-av img{width:100%;height:100%;object-fit:cover;}
-.ul-name{font-size:.76rem;font-weight:500;}
+.sidebar-right{position:sticky;top:82px;height:fit-content;}
+.sr-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;}
+.sr-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:12px;}
 
-@media(max-width:1060px){.layout{grid-template-columns:0 1fr 0;}.sl,.sr{display:none;}}
+/* PARTICIPANTS */
+.part-chip{display:flex;align-items:center;gap:7px;padding:7px 0;border-bottom:1px solid var(--border);}
+.part-chip:last-child{border-bottom:none;}
+.part-av{width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.65rem;font-weight:700;position:relative;}
+.part-av img{width:100%;height:100%;object-fit:cover;}
+.part-dot{position:absolute;bottom:0;right:0;width:7px;height:7px;border-radius:50%;background:var(--green);border:1.5px solid var(--bg);}
+.part-name{font-size:.8rem;font-weight:500;flex:1;}
+.part-pts{font-size:.7rem;font-weight:700;color:var(--accent);}
+
+/* OBJECTIFS */
+.obj-item{display:flex;align-items:flex-start;gap:7px;padding:6px 0;border-bottom:1px solid var(--border);font-size:.8rem;color:var(--text2);}
+.obj-item:last-child{border-bottom:none;}
+.obj-check{width:16px;height:16px;border-radius:50%;background:var(--gl);border:1.5px solid var(--gm);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.obj-check svg{width:8px;height:8px;color:var(--green);}
+
+/* SESSION LIÉE */
+.linked-session{background:linear-gradient(135deg,var(--al),var(--pl));border:1px solid var(--am);border-radius:12px;padding:14px;}
+.ls-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);margin-bottom:8px;}
+.ls-title{font-size:.84rem;font-weight:600;margin-bottom:4px;}
+.ls-meta{font-size:.74rem;color:var(--text3);margin-bottom:10px;}
+.ls-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;background:var(--text);color:#fff;border:none;border-radius:9px;font-family:var(--b);font-size:.8rem;font-weight:600;cursor:pointer;width:100%;transition:all .2s;}
+.ls-btn:hover{background:#1a1a2e;}
+.ls-btn.live{background:var(--red);}
+
+/* LOADING */
+.loading-state{text-align:center;padding:80px 20px;color:var(--text3);}
+.loading-spin{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.not-found{text-align:center;padding:80px 20px;}
+.not-found-icon{font-size:3rem;margin-bottom:16px;}
+
+@media(max-width:1100px){.layout{grid-template-columns:220px 1fr;}.sidebar-right{display:none;}}
+@media(max-width:780px){.layout{grid-template-columns:1fr;}.sidebar-left{display:none;}}
 </style>
 </head>
 <body>
@@ -182,128 +221,142 @@ body{background:var(--bg2);color:var(--text);font-family:var(--b);-webkit-font-s
 <nav class="nav">
   <div class="nav-in">
     <a href="index.html" class="logo"><div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div><span class="ln">Learnova</span></a>
+    <span id="navBreadcrumb" style="font-size:.82rem;color:var(--text3);"></span>
     <div class="nav-r">
-      <div class="prog-wrap"><div class="prog-fill" id="navPF" style="width:0%;"></div></div>
-      <span class="prog-pct" id="navPct">0%</span>
-      <div class="upill" id="upill" style="display:none;"><div class="upill-av" id="upillAv">?</div><span class="upill-name" id="upillName">...</span></div>
-      <button class="btn btn-dark btn-sm" onclick="markDone()">✓ Terminé</button>
-      <a href="live.html" class="btn btn-ghost btn-sm">Live →</a>
+      <a href="community.html" class="btn btn-ghost btn-sm">Communauté</a>
+      <a href="index.html" class="btn btn-ghost btn-sm">← Accueil</a>
+      <div id="navUserWrap" style="display:none;align-items:center;gap:8px;">
+        <div class="nav-av" id="navAv">?</div>
+        <button class="btn btn-ghost btn-sm" onclick="doSignOut()">Déconnexion</button>
+      </div>
     </div>
   </div>
 </nav>
 
-<div class="layout">
+<div id="loadingState" class="loading-state" style="margin-top:60px;">
+  <div class="loading-spin"></div>
+  <div>Chargement du cours...</div>
+</div>
 
-  <!-- SOMMAIRE -->
-  <aside class="sl">
-    <div class="sl-hd">
-      <div class="sl-ttl" id="slTtl">Chargement...</div>
-      <div class="sl-pb"><div class="sl-pf" id="slPF" style="width:0%;"></div></div>
-      <div class="sl-pct" id="slPct">0% complété</div>
-    </div>
-    <div id="chapList"></div>
+<div id="notFoundState" class="not-found" style="display:none;">
+  <div class="not-found-icon">📚</div>
+  <h2 style="font-family:var(--h);font-size:1.4rem;margin-bottom:8px;">Cours introuvable</h2>
+  <p style="font-size:.85rem;color:var(--text3);margin-bottom:20px;">Ce cours n'existe pas ou a été supprimé.</p>
+  <a href="index.html" class="btn btn-dark">← Retour à l'accueil</a>
+</div>
+
+<div class="layout" id="courseLayout" style="display:none;">
+
+  <!-- SIDEBAR GAUCHE — SOMMAIRE -->
+  <aside class="sidebar-left">
+    <div class="course-nav-title">Plan du cours</div>
+    <div id="chapsList"></div>
   </aside>
 
-  <!-- CONTENU -->
-  <main class="main">
-    <div class="c-hero">
-      <div class="c-meta">
-        <span class="badge b-prog" id="cCat">Chargement...</span>
-        <span class="badge b-ia">🤖 IA</span>
-        <span class="badge b-diff" id="cDiff">Débutant</span>
+  <!-- CONTENU PRINCIPAL -->
+  <main class="content-main">
+    <!-- HERO -->
+    <div class="course-hero" id="courseHero">
+      <div class="hero-cat" id="heroCat">📚 Formation</div>
+      <div class="hero-title" id="heroTitle">Chargement...</div>
+      <div class="hero-desc" id="heroDesc"></div>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span id="heroDuree">—</span></div>
+        <div class="hero-meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14"/></svg>Niveau : <strong id="heroLevel">—</strong></div>
+        <div class="hero-meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5"/><circle cx="9" cy="7" r="4"/></svg><span id="heroLearners">0</span> apprenants</div>
+        <div class="hero-meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span id="heroQuiz">0</span> questions de quiz</div>
       </div>
-      <h1 class="c-title" id="cTitle">Chargement...</h1>
-      <p class="c-desc" id="cDesc">Contenu généré par l'IA depuis le PDF uploadé.</p>
-
-      <!-- PARTICIPANTS AVEC PHOTOS -->
-      <div class="c-parts">
-        <div class="cp-avs" id="cpAvs"></div>
-        <span class="cp-txt" id="cpTxt">0 apprenant</span>
-      </div>
-    </div>
-
-    <div class="c-tabs">
-      <div class="ctab active" onclick="swTab('t-cours',this)">📖 Cours</div>
-      <div class="ctab" onclick="swTab('t-ai',this)">🤖 Demander à l'IA</div>
-      <div class="ctab" onclick="swTab('t-quiz',this)">✅ Quiz IA</div>
-    </div>
-
-    <!-- COURS -->
-    <div id="t-cours" class="tab-p active">
-      <div class="l-body" id="lBody">
-        <div style="text-align:center;padding:38px;color:var(--text3);"><div style="font-size:2rem;margin-bottom:9px;">⏳</div>Chargement...</div>
+      <div class="hero-progress">
+        <div class="progress-label"><span>Progression</span><span id="progressPct">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%;"></div></div>
       </div>
     </div>
 
-    <!-- IA -->
-    <div id="t-ai" class="tab-p">
-      <div style="max-width:660px;">
-        <div class="ai-intro">
-          <div class="ai-intro-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg></div>
-          <div><div style="font-size:.84rem;font-weight:600;margin-bottom:1px;">Professeur IA — Spécialisé sur ce cours</div><div style="font-size:.72rem;color:var(--text3);">Pose n'importe quelle question, réponse instantanée.</div></div>
+    <!-- LEÇON ACTUELLE -->
+    <div class="lesson-card" id="lessonCard">
+      <div class="lesson-header">
+        <span class="lesson-chap-badge" id="lessonChapBadge">Chapitre 1</span>
+        <div class="lesson-title" id="lessonTitle">Introduction</div>
+      </div>
+      <div class="lesson-content" id="lessonContent">
+        <p>Sélectionnez une leçon dans le sommaire pour commencer.</p>
+      </div>
+      <div class="lesson-nav">
+        <button class="btn btn-prev btn-sm" id="btnPrev" onclick="prevLesson()" style="display:none;">← Précédent</button>
+        <button class="btn btn-next btn-sm" id="btnNext" onclick="nextLesson()">Suivant →</button>
+        <button class="btn btn-done btn-sm" id="btnDone" onclick="markDone()" style="display:none;">✓ Marquer comme vu</button>
+      </div>
+    </div>
+
+    <!-- IA ASSISTANT -->
+    <div class="ai-section">
+      <div class="ai-header">
+        <div class="ai-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.663 17h4.673M12 3v1M3.22 7l.77.64M20.78 7l-.77.64M12 21v-1M5 17H3M21 17h-2"/></svg></div>
+        <div>
+          <div class="ai-title">Professeur IA — Je suis là pour toi</div>
+          <div class="ai-sub">Pose-moi toutes tes questions sur ce cours. Je réponds en contexte.</div>
         </div>
-        <div class="ai-conv" id="aiConv">
-          <div class="ai-msg"><div class="ai-msg-av bot">AI</div><div class="ai-bbl">Bonjour ! Pose-moi n'importe quelle question sur ce cours, je réponds immédiatement ! 🎓</div></div>
-        </div>
-        <div class="ai-inp-box">
-          <div class="ai-suggs" id="aiSuggs"></div>
-          <div class="ai-inp-row">
-            <input class="ai-inp" id="aiInp" type="text" placeholder="Ta question..."/>
-            <button class="ai-snd" onclick="askAI()"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
-          </div>
-        </div>
+      </div>
+      <div class="ai-suggestions" id="aiSuggestions"></div>
+      <div class="ai-messages" id="aiMessages"></div>
+      <div class="ai-input-row">
+        <input class="ai-inp" id="aiInput" type="text" placeholder="Pose une question sur ce cours..." maxlength="500"/>
+        <button class="ai-send-btn" id="aiSendBtn" onclick="sendAIQuestion()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
       </div>
     </div>
 
     <!-- QUIZ -->
-    <div id="t-quiz" class="tab-p">
-      <div style="max-width:640px;">
-        <div class="quiz-gen">
-          <div style="width:28px;height:28px;border-radius:6px;background:var(--purple);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M9.663 17h4.673M12 3v1"/></svg></div>
-          <div style="flex:1;"><div style="font-size:.81rem;font-weight:600;">Quiz généré par l'IA</div><div style="font-size:.7rem;color:var(--text3);">Basé sur le contenu de ce cours</div></div>
-          <button class="btn btn-ghost btn-sm" onclick="generateQuiz()">↺ Régénérer</button>
-        </div>
-        <div class="q-hdr">
-          <div class="qh-left"><h3 id="quizTtl">Quiz</h3><p>Généré automatiquement</p></div>
-          <div class="qh-stats">
-            <div class="qhs"><div class="qhs-num" id="qSc">0</div><div class="qhs-lbl">Score</div></div>
-            <div class="qhs"><div class="qhs-num" id="qTot">—</div><div class="qhs-lbl">Questions</div></div>
-            <div class="qhs"><div class="qhs-num" id="qAns">0</div><div class="qhs-lbl">Répondues</div></div>
-          </div>
-        </div>
-        <div id="quizQs"><div style="text-align:center;padding:32px;color:var(--text3);">⏳ Génération par l'IA...</div></div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:9px;">
-          <span style="font-size:.74rem;color:var(--text3);" id="qInfo"></span>
-          <button class="btn btn-dark btn-sm" id="qResBtn" style="display:none;" onclick="showResult()">Voir résultat →</button>
-        </div>
-        <div class="quiz-res" id="quizRes">
-          <div class="qr-circle" id="qrCircle" style="background:var(--gl);border:3px solid var(--green);"><div class="qr-pct" id="qrPct" style="color:var(--green);">0%</div></div>
-          <div style="font-family:var(--h);font-size:1.1rem;margin-bottom:4px;" id="qrTtl">Résultat</div>
-          <div style="font-size:.81rem;color:var(--text3);" id="qrSub"></div>
-          <div style="display:flex;gap:7px;justify-content:center;margin-top:12px;">
-            <button class="btn btn-ghost btn-sm" onclick="resetQuiz()">Recommencer</button>
-            <button class="btn btn-dark btn-sm" onclick="swTab('t-cours',document.querySelectorAll('.ctab')[0])">Revoir le cours</button>
-          </div>
-        </div>
+    <div class="quiz-section" id="quizSection" style="display:none;">
+      <div class="quiz-header">
+        <div class="quiz-title">Quiz du cours</div>
+        <div class="quiz-score-badge" id="quizScoreBadge" style="display:none;"></div>
       </div>
+      <div id="quizQuestions"></div>
+      <div class="quiz-submit-row">
+        <button class="btn btn-dark" onclick="submitQuiz()" id="quizSubmitBtn">Valider mes réponses</button>
+        <button class="btn btn-ghost" onclick="resetQuiz()" id="quizResetBtn" style="display:none;">Recommencer</button>
+      </div>
+      <div class="quiz-result" id="quizResult"></div>
+    </div>
+
+    <!-- NOTES -->
+    <div class="notes-section">
+      <div class="notes-title">
+        <span>📝 Mes notes personnelles</span>
+        <span style="font-size:.73rem;color:var(--text3);font-weight:400;">Auto-sauvegardées</span>
+      </div>
+      <textarea class="notes-ta" id="notesTa" placeholder="Écris tes notes, idées ou points importants ici..."></textarea>
+      <button class="notes-save-btn" onclick="saveNotes()">Sauvegarder les notes</button>
+      <div class="notes-saved" id="notesSaved">✅ Notes sauvegardées !</div>
     </div>
   </main>
 
   <!-- SIDEBAR DROITE -->
-  <aside class="sr">
-    <div class="sr-blk">
-      <div class="sr-ttl">Ma progression</div>
-      <div class="p-item"><span>Leçons</span><span class="p-val" id="pLecons">0/0</span></div>
-      <div class="p-item"><span>Score quiz</span><span class="p-val green" id="pScore">0%</span></div>
+  <aside class="sidebar-right">
+    <!-- PARTICIPANTS -->
+    <div class="sr-card">
+      <div class="sr-title">Participants en ligne</div>
+      <div id="partsList"><div style="font-size:.79rem;color:var(--text3);">Personne pour l'instant...</div></div>
     </div>
-    <div class="sr-blk">
-      <div class="sr-ttl">Apprenants de ce cours</div>
-      <div id="usersList"></div>
+
+    <!-- OBJECTIFS -->
+    <div class="sr-card" id="objectifsCard" style="display:none;">
+      <div class="sr-title">Objectifs du cours</div>
+      <div id="objectifsList"></div>
     </div>
-    <div class="sr-blk" style="flex:1;">
-      <div class="sr-ttl">Mes notes (auto-sauvegardées)</div>
-      <textarea class="notes-ta" id="notesArea" placeholder="Écris tes notes ici..."></textarea>
-      <button class="save-btn" onclick="saveNotes()">💾 Sauvegarder</button>
+
+    <!-- SESSION LIÉE -->
+    <div class="sr-card" id="linkedSessionCard" style="display:none;">
+      <div class="sr-title">Session live associée</div>
+      <div id="linkedSessionContent"></div>
+    </div>
+
+    <!-- CONCEPTS CLÉS -->
+    <div class="sr-card" id="conceptsCard" style="display:none;">
+      <div class="sr-title">Concepts clés</div>
+      <div id="conceptsList"></div>
     </div>
   </aside>
 </div>
@@ -312,309 +365,579 @@ body{background:var(--bg2);color:var(--text);font-family:var(--b);-webkit-font-s
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
 const SB_URL  = "https://jbshkbqchrehfhoodtuj.supabase.co"
-const SB_KEY  ="sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs"
+const SB_KEY  = "sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs"
 const BACKEND = "https://learnova-backend-28pl.onrender.com"
-const sb      = createClient(SB_URL, SB_KEY)
+const sb      = createClient(SB_URL, SB_KEY, { auth: { persistSession: true } })
 
-const courseId = new URLSearchParams(window.location.search).get('course') || 'default'
+const courseId = new URLSearchParams(window.location.search).get('course')
 
-let courseData   = null
-let quizData     = []
-let answered     = {}
-let qScore       = 0
-let lessonsDone  = 0
-let totalLessons = 0
-let currentUser  = null
-let myPhoto      = null
+// État
+let courseData    = null
+let currentUser   = null
+let myProfile     = null
+let chapIdx       = 0
+let leconIdx      = 0
+let doneLecons    = new Set()
+let aiHistory     = []
+let quizAnswers   = {}
+let presenceCh    = null
+let notesTimeout  = null
 
-// ── AUTH ──────────────────────────────────────────────────
-sb.auth.onAuthStateChange(async (_e, session) => {
+// ── AUTH ───────────────────────────────────────────────────────
+sb.auth.onAuthStateChange(async (event, session) => {
   currentUser = session?.user || null
-  if (!currentUser) return
-  const { data:p } = await sb.from('profiles').select('*').eq('id', currentUser.id).single()
-  const prenom = p?.prenom || currentUser.email?.split('@')[0] || 'Apprenant'
-  myPhoto = p?.photo_url || currentUser.user_metadata?.avatar_url || null
-
-  document.getElementById('upill').style.display = 'flex'
-  const av = document.getElementById('upillAv')
-  if (myPhoto) av.innerHTML = `<img src="${myPhoto}" alt=""/>`
-  else av.textContent = prenom.charAt(0).toUpperCase()
-  document.getElementById('upillName').textContent = prenom
-
-  const { data:note } = await sb.from('notes').select('content').eq('user_id', currentUser.id).eq('course_id', courseId).single()
-  if (note?.content) document.getElementById('notesArea').value = note.content
-
-  trackPresence(prenom, myPhoto)
+  if (currentUser) {
+    document.getElementById('navUserWrap').style.display = 'flex'
+    const { data: p } = await sb.from('profiles').select('*').eq('id', currentUser.id).single()
+    myProfile = p
+    const prenom = p?.prenom || currentUser.email?.split('@')[0] || 'Toi'
+    const av = document.getElementById('navAv')
+    if (p?.photo_url) av.innerHTML = `<img src="${p.photo_url}" alt=""/>`
+    else av.textContent = prenom.charAt(0).toUpperCase()
+    // Charger les notes
+    loadNotes()
+    // Présence
+    joinPresence(prenom, p?.photo_url)
+  }
 })
 
-// ── PRÉSENCE & PARTICIPANTS AVEC PHOTOS ───────────────────
-function trackPresence(prenom, photo) {
-  const ch = sb.channel(`course-${courseId}`, { config:{ presence:{ key: currentUser?.id || 'g'+Math.random().toString(36).substr(2,6) } } })
-  ch.on('presence', { event:'sync' }, () => {
-    const users = Object.values(ch.presenceState()).flat()
-    updateParticipants(users)
-  }).subscribe(async s => {
-    if (s === 'SUBSCRIBED') await ch.track({ prenom, photo })
-  })
+window.doSignOut = async () => {
+  await sb.auth.signOut()
+  document.getElementById('navUserWrap').style.display = 'none'
+  showToast('À bientôt !')
 }
 
-function updateParticipants(users) {
-  const avs = document.getElementById('cpAvs')
-  const txt = document.getElementById('cpTxt')
-  avs.innerHTML = users.slice(0, 7).map(u =>
-    `<div class="cp-av" title="${u.prenom}">${u.photo?`<img src="${u.photo}" alt="${u.prenom}"/>`:u.prenom.charAt(0).toUpperCase()}</div>`
-  ).join('')
-  txt.textContent = `${users.length} apprenant${users.length>1?'s':''} ${users.length>1?'suivent':'suit'} ce cours`
-
-  document.getElementById('usersList').innerHTML = users.slice(0, 6).map(u => `
-    <div class="ul-item">
-      <div class="ul-av">${u.photo?`<img src="${u.photo}" alt="${u.prenom}"/>`:u.prenom.charAt(0).toUpperCase()}</div>
-      <span class="ul-name">${u.prenom}</span>
-    </div>`).join('')
-}
-
-// ── CHARGER LE COURS ──────────────────────────────────────
+// ── CHARGER LE COURS ───────────────────────────────────────────
 async function loadCourse() {
-  if (courseId !== 'default') {
-    const { data:c } = await sb.from('courses').select('*').eq('id', courseId).single()
-    if (c) { courseData = c; renderCourse(c); generateQuiz(); loadSuggestions(); return }
-  }
-  renderDemo(); generateQuiz(); loadSuggestions()
+  if (!courseId) { showNotFound(); return }
+
+  const { data: course, error } = await sb.from('courses').select('*').eq('id', courseId).single()
+
+  if (error || !course) { showNotFound(); return }
+
+  courseData = course
+  renderCourse(course)
+
+  // Charger la session liée
+  const { data: sessions } = await sb.from('sessions')
+    .select('*').eq('course_id', courseId)
+    .neq('statut', 'termine')
+    .order('created_at', { ascending: false })
+    .limit(1)
+  if (sessions?.length) renderLinkedSession(sessions[0])
+
+  // Présence
+  setupPresence()
+}
+
+function showNotFound() {
+  document.getElementById('loadingState').style.display  = 'none'
+  document.getElementById('notFoundState').style.display = 'block'
 }
 
 function renderCourse(c) {
-  document.getElementById('slTtl').textContent = c.titre || 'Cours'
-  document.getElementById('cTitle').textContent = c.titre || 'Cours'
-  document.getElementById('cDesc').textContent = c.description || c.resume || ''
-  document.getElementById('cCat').textContent = c.categorie || 'Formation'
-  document.getElementById('cDiff').textContent = c.difficulte || 'Débutant'
+  document.getElementById('loadingState').style.display = 'none'
+  document.getElementById('courseLayout').style.display = 'grid'
 
+  document.title = `Learnova — ${c.titre}`
+  document.getElementById('navBreadcrumb').textContent = c.titre
+
+  // Hero
+  document.getElementById('heroCat').textContent   = `📚 ${c.categorie || 'Formation'}`
+  document.getElementById('heroTitle').textContent  = c.titre
+  document.getElementById('heroDesc').textContent   = c.description || c.resume || ''
+  document.getElementById('heroDuree').textContent  = c.duree_totale || '—'
+  document.getElementById('heroLevel').textContent  = c.difficulte || '—'
+  document.getElementById('heroLearners').textContent = c.nb_apprenants || 0
+  document.getElementById('heroQuiz').textContent   = c.quiz?.length || 0
+
+  // Sommaire chapitres
   const chapitres = c.chapitres || []
-  totalLessons = chapitres.reduce((a,ch) => a + (ch.lecons?.length||0), 0)
-  updateProg()
+  const chapsList = document.getElementById('chapsList')
+  if (chapitres.length) {
+    chapsList.innerHTML = chapitres.map((ch, ci) => `
+      <div class="chap-item">
+        <div class="chap-header ${ci === 0 ? 'active' : ''}" onclick="selectChap(${ci})" id="chap-hd-${ci}">
+          <div class="chap-num">${ci + 1}</div>
+          <div class="chap-name">${ch.titre || `Chapitre ${ci + 1}`}</div>
+        </div>
+        <div class="lecons-list ${ci === 0 ? 'show' : ''}" id="lecons-${ci}">
+          ${(ch.lecons || []).map((l, li) => `
+            <div class="lecon-item ${ci === 0 && li === 0 ? 'active' : ''}" onclick="selectLecon(${ci}, ${li})" id="lecon-${ci}-${li}">
+              <div class="lecon-dot"></div>
+              ${typeof l === 'string' ? l : l.titre || `Leçon ${li + 1}`}
+            </div>`).join('')}
+        </div>
+      </div>`).join('')
+  } else {
+    chapsList.innerHTML = '<div style="font-size:.79rem;color:var(--text3);">Aucun chapitre disponible.</div>'
+  }
 
-  if (!chapitres.length) {
-    document.getElementById('chapList').innerHTML = '<div style="padding:12px;font-size:.76rem;color:var(--text3);">Aucun chapitre.</div>'
-    renderLesson(c.titre, c.resume || c.description || 'Contenu du cours.')
+  // Charger la première leçon
+  if (chapitres.length) selectLecon(0, 0)
+
+  // Quiz
+  if (c.quiz?.length) {
+    document.getElementById('quizSection').style.display = 'block'
+    renderQuiz(c.quiz)
+  }
+
+  // Objectifs
+  if (c.objectifs?.length) {
+    document.getElementById('objectifsCard').style.display = 'block'
+    document.getElementById('objectifsList').innerHTML = c.objectifs.map(o => `
+      <div class="obj-item">
+        <div class="obj-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <span>${o}</span>
+      </div>`).join('')
+  }
+
+  // Concepts clés
+  if (c.concepts_cles?.length) {
+    document.getElementById('conceptsCard').style.display = 'block'
+    document.getElementById('conceptsList').innerHTML = c.concepts_cles.map(cc => `
+      <span style="display:inline-block;background:var(--al);color:var(--accent);padding:3px 10px;border-radius:100px;font-size:.74rem;font-weight:600;margin:3px 2px;">${cc}</span>`
+    ).join('')
+  }
+
+  // Suggestions IA
+  const suggestions = [
+    `C'est quoi ${c.titre} ?`,
+    `Par où commencer ?`,
+    `Exemple concret ?`,
+    `C'est difficile ?`
+  ]
+  document.getElementById('aiSuggestions').innerHTML = suggestions.map(s =>
+    `<button class="sugg-btn" onclick="askSuggestion('${s}')">${s}</button>`
+  ).join('')
+
+  // Message d'accueil IA
+  addAIMessage(`Bonjour ! Je suis ton assistant IA pour **"${c.titre}"**. Je connais tout le contenu de ce cours. Pose-moi tes questions !`, 'Bienvenue')
+
+  updateProgress()
+}
+
+// ── NAVIGATION CHAPITRES / LEÇONS ─────────────────────────────
+window.selectChap = (ci) => {
+  document.querySelectorAll('.chap-header').forEach((h, i) => h.classList.toggle('active', i === ci))
+  document.querySelectorAll('.lecons-list').forEach((l, i) => l.classList.toggle('show', i === ci))
+  chapIdx = ci
+  selectLecon(ci, 0)
+}
+
+window.selectLecon = (ci, li) => {
+  document.querySelectorAll('.lecon-item').forEach(l => l.classList.remove('active'))
+  const leconEl = document.getElementById(`lecon-${ci}-${li}`)
+  if (leconEl) leconEl.classList.add('active')
+
+  chapIdx  = ci
+  leconIdx = li
+
+  const chap  = courseData.chapitres?.[ci]
+  const lecons = chap?.lecons || []
+  const lecon  = lecons[li]
+
+  if (!lecon) return
+
+  const leconText = typeof lecon === 'string' ? lecon : lecon.titre || `Leçon ${li + 1}`
+
+  document.getElementById('lessonChapBadge').textContent = chap?.titre || `Chapitre ${ci + 1}`
+  document.getElementById('lessonTitle').textContent = leconText
+
+  // Générer le contenu de la leçon avec l'IA (ou afficher le contenu stocké)
+  const leconContent = typeof lecon === 'object' ? lecon.content : null
+  if (leconContent) {
+    document.getElementById('lessonContent').innerHTML = formatContent(leconContent)
+  } else {
+    document.getElementById('lessonContent').innerHTML = `
+      <p>📖 <strong>${leconText}</strong></p>
+      <p>Cette leçon fait partie du chapitre <strong>${chap?.titre || 'Introduction'}</strong>.</p>
+      <p>Utilise l'assistant IA ci-dessous pour explorer ce sujet en profondeur. Tu peux lui poser toutes tes questions spécifiques à cette leçon.</p>
+      <p style="background:var(--al);padding:12px 16px;border-radius:10px;font-size:.84rem;color:var(--accent);margin-top:12px;">
+        💡 <strong>Astuce :</strong> Demande à l'IA d'expliquer ce concept avec un exemple concret lié à <em>${courseData?.titre}</em>.
+      </p>`
+  }
+
+  // Navigation prev/next
+  const totalLecons = lecons.length
+  const totalChaps  = courseData.chapitres?.length || 1
+
+  document.getElementById('btnPrev').style.display = (ci > 0 || li > 0) ? 'inline-flex' : 'none'
+  document.getElementById('btnNext').style.display = (li < totalLecons - 1 || ci < totalChaps - 1) ? 'inline-flex' : 'none'
+  document.getElementById('btnDone').style.display = !doneLecons.has(`${ci}-${li}`) ? 'inline-flex' : 'none'
+
+  // Mettre à jour le sommaire
+  document.querySelectorAll('.chap-header').forEach((h, i) => h.classList.toggle('active', i === ci))
+  document.querySelectorAll('.lecons-list').forEach((l, i) => l.classList.toggle('show', i === ci))
+
+  // Scroll vers le haut de la leçon
+  document.getElementById('lessonCard').scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+window.nextLesson = () => {
+  const chap   = courseData.chapitres?.[chapIdx]
+  const lecons = chap?.lecons || []
+  if (leconIdx < lecons.length - 1) {
+    selectLecon(chapIdx, leconIdx + 1)
+  } else if (chapIdx < (courseData.chapitres?.length || 1) - 1) {
+    selectChap(chapIdx + 1)
+  }
+}
+
+window.prevLesson = () => {
+  if (leconIdx > 0) {
+    selectLecon(chapIdx, leconIdx - 1)
+  } else if (chapIdx > 0) {
+    const prevChap = courseData.chapitres?.[chapIdx - 1]
+    const prevLecons = prevChap?.lecons || []
+    selectLecon(chapIdx - 1, Math.max(0, prevLecons.length - 1))
+  }
+}
+
+window.markDone = () => {
+  const key = `${chapIdx}-${leconIdx}`
+  doneLecons.add(key)
+  const leconEl = document.getElementById(`lecon-${chapIdx}-${leconIdx}`)
+  if (leconEl) {
+    leconEl.classList.add('done')
+    leconEl.querySelector('.lecon-dot').style.background = 'var(--green)'
+  }
+  document.getElementById('btnDone').style.display = 'none'
+  updateProgress()
+  showToast('✅ Leçon marquée comme vue !', 'ok')
+}
+
+function updateProgress() {
+  const total = courseData?.chapitres?.reduce((acc, ch) => acc + (ch.lecons?.length || 0), 0) || 1
+  const done  = doneLecons.size
+  const pct   = Math.round((done / total) * 100)
+  document.getElementById('progressFill').style.width = `${pct}%`
+  document.getElementById('progressPct').textContent  = `${pct}%`
+}
+
+// ── IA ASSISTANT ───────────────────────────────────────────────
+function addAIMessage(text, label = 'IA') {
+  const container = document.getElementById('aiMessages')
+  const formatted = text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/`(.+?)`/g, '<code>$1</code>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/\n/g, '<br/>')
+
+  const div = document.createElement('div')
+  div.className = 'ai-msg-item'
+  div.innerHTML = `
+    <div class="msg-av ai-av-icon">AI</div>
+    <div class="msg-bubble ai">${formatted}</div>`
+  container.appendChild(div)
+  container.scrollTop = container.scrollHeight
+
+  // Ajouter à l'historique
+  aiHistory.push({ role: 'assistant', content: text })
+}
+
+function addUserMessage(text) {
+  const container = document.getElementById('aiMessages')
+  const prenom = myProfile?.prenom || 'Toi'
+  const photoHtml = myProfile?.photo_url
+    ? `<img src="${myProfile.photo_url}" alt=""/>`
+    : prenom.charAt(0).toUpperCase()
+
+  const div = document.createElement('div')
+  div.className = 'ai-msg-item user'
+  div.innerHTML = `
+    <div class="msg-av user-av-icon">${photoHtml}</div>
+    <div class="msg-bubble user">${text}</div>`
+  container.appendChild(div)
+  container.scrollTop = container.scrollHeight
+
+  aiHistory.push({ role: 'user', content: text })
+}
+
+function showAITyping() {
+  const container = document.getElementById('aiMessages')
+  const div = document.createElement('div')
+  div.className = 'ai-msg-item'
+  div.id = 'aiTyping'
+  div.innerHTML = `
+    <div class="msg-av ai-av-icon">AI</div>
+    <div class="typing-ind"><span></span><span></span><span></span></div>`
+  container.appendChild(div)
+  container.scrollTop = container.scrollHeight
+}
+
+window.sendAIQuestion = async () => {
+  const input   = document.getElementById('aiInput')
+  const sendBtn = document.getElementById('aiSendBtn')
+  const text    = input.value.trim()
+  if (!text) return
+
+  input.value = ''
+  sendBtn.disabled = true
+
+  addUserMessage(text)
+  showAITyping()
+
+  try {
+    const currentChap  = courseData?.chapitres?.[chapIdx]
+    const currentLecon = currentChap?.lecons?.[leconIdx]
+    const currentModule = typeof currentLecon === 'string' ? currentLecon : currentLecon?.titre || ''
+
+    const res = await fetch(`${BACKEND}/api/ask-ai`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        question:       text,
+        course_title:   courseData?.titre || 'ce cours',
+        course_context: courseData?.description || courseData?.resume || '',
+        current_module: currentModule,
+        chapitres:      courseData?.chapitres || [],
+        concepts_cles:  courseData?.concepts_cles || [],
+        level:          courseData?.difficulte || 'Tous niveaux',
+        history:        aiHistory.slice(-8)
+      })
+    })
+
+    document.getElementById('aiTyping')?.remove()
+
+    if (res.ok) {
+      const data = await res.json()
+      if (data.answer && data.answer.length > 5) {
+        addAIMessage(data.answer, `Répond à ta question`)
+      } else {
+        addAIMessage(`Bonne question sur **${courseData?.titre}** ! Ce point est important. Essaie d'appliquer ce concept avec un exemple pratique.`, 'Réponse')
+      }
+    } else {
+      addAIMessage('Je rencontre un problème technique. Réessaie dans quelques instants.', 'Erreur')
+    }
+  } catch (e) {
+    document.getElementById('aiTyping')?.remove()
+    addAIMessage(`Question intéressante ! Pour approfondir **"${text}"** dans le contexte de **${courseData?.titre}**, je te recommande de pratiquer avec des exercices concrets.`, 'Réponse')
+  } finally {
+    sendBtn.disabled = false
+    input.focus()
+  }
+}
+
+window.askSuggestion = (text) => {
+  document.getElementById('aiInput').value = text
+  sendAIQuestion()
+}
+
+document.getElementById('aiInput').addEventListener('keypress', e => {
+  if (e.key === 'Enter') sendAIQuestion()
+})
+
+// ── QUIZ ───────────────────────────────────────────────────────
+function renderQuiz(quiz) {
+  document.getElementById('quizQuestions').innerHTML = quiz.map((q, qi) => `
+    <div class="quiz-question" id="quiz-q-${qi}">
+      <div class="q-num">Question ${qi + 1} sur ${quiz.length}</div>
+      <div class="q-text">${q.question}</div>
+      <div class="q-options">
+        ${(q.options || []).map((opt, oi) => `
+          <div class="q-opt" data-qi="${qi}" data-oi="${oi}" onclick="selectAnswer(${qi}, ${oi})">
+            <div class="q-opt-letter">${String.fromCharCode(65 + oi)}</div>
+            <span>${opt}</span>
+          </div>`).join('')}
+      </div>
+      <div class="q-explication" id="expl-${qi}">${q.explication || ''}</div>
+    </div>`).join('')
+}
+
+window.selectAnswer = (qi, oi) => {
+  if (quizAnswers[qi] !== undefined) return // Déjà répondu
+  quizAnswers[qi] = oi
+  document.querySelectorAll(`[data-qi="${qi}"]`).forEach((opt, i) => {
+    opt.classList.toggle('selected', i === oi)
+  })
+}
+
+window.submitQuiz = () => {
+  const quiz = courseData?.quiz || []
+  if (Object.keys(quizAnswers).length < quiz.length) {
+    showToast('⚠️ Réponds à toutes les questions avant de valider.', 'err')
     return
   }
 
-  document.getElementById('chapList').innerHTML = chapitres.map((ch,ci) => `
-    <div>
-      <div class="ch-hd ${ci===0?'active':''}" onclick="toggleCh(this)">
-        <span class="ch-num">${ci+1}</span>${ch.titre}
-        <span class="ch-arr ${ci===0?'open':''}">›</span>
-      </div>
-      <div class="ch-lessons ${ci===0?'open':''}">
-        ${(ch.lecons||[]).map((l,li) => `
-          <div class="li ${ci===0&&li===0?'active':''}" onclick="selLesson(this,'${encodeURIComponent(l)}')">
-            <span class="li-dot"></span>${l}<span class="li-dur">${ch.duree_minutes||10}min</span>
-          </div>`).join('')}
-      </div>
-    </div>`).join('')
+  let score = 0
+  quiz.forEach((q, qi) => {
+    const answer  = quizAnswers[qi]
+    const correct = q.correct
+    const opts    = document.querySelectorAll(`[data-qi="${qi}"]`)
+    opts.forEach((opt, oi) => {
+      opt.classList.add('locked')
+      if (oi === correct) opt.classList.add('correct')
+      else if (oi === answer && answer !== correct) opt.classList.add('wrong')
+    })
+    if (answer === correct) score++
+    document.getElementById(`expl-${qi}`)?.classList.add('show')
+  })
 
-  renderLesson(chapitres[0]?.titre || c.titre, c.resume || `Bienvenue dans "${c.titre}". Contenu généré par l'IA depuis le PDF uploadé.`)
+  const pct    = Math.round((score / quiz.length) * 100)
+  const emoji  = pct >= 80 ? '🎉' : pct >= 60 ? '👍' : '💪'
+  const badge  = pct >= 80 ? 'background:var(--gl);color:var(--green);' : pct >= 60 ? 'background:var(--al);color:var(--accent);' : 'background:var(--rl);color:var(--red);'
+  const msg    = pct >= 80 ? 'Excellent !' : pct >= 60 ? 'Bien joué !' : 'Continue à pratiquer !'
+
+  const result = document.getElementById('quizResult')
+  result.classList.add('show')
+  result.innerHTML = `
+    <div class="qr-score">${score} / ${quiz.length}</div>
+    <div class="qr-label">${emoji} ${msg}</div>
+    <span class="qr-badge" style="${badge}">${pct}% de réussite</span>`
+
+  document.getElementById('quizSubmitBtn').style.display = 'none'
+  document.getElementById('quizResetBtn').style.display  = 'inline-flex'
+  document.getElementById('quizScoreBadge').textContent  = `${score}/${quiz.length}`
+  document.getElementById('quizScoreBadge').style.display = 'block'
+
+  // Sauvegarder le résultat
+  if (currentUser) {
+    sb.from('quiz_results').insert({
+      user_id:   currentUser.id,
+      course_id: courseId,
+      score,
+      total: quiz.length
+    }).catch(() => {})
+    if (currentUser) {
+      sb.from('profiles').update({ score_total: (myProfile?.score_total || 0) + score * 10 }).eq('id', currentUser.id).catch(() => {})
+    }
+  }
 }
 
-function renderDemo() {
-  document.getElementById('slTtl').textContent = 'Cours Learnova'
-  document.getElementById('cTitle').textContent = 'Cours Learnova'
-  document.getElementById('cDesc').textContent = 'Ce cours est généré automatiquement par l\'IA depuis le PDF uploadé dans l\'espace admin.'
-  document.getElementById('cCat').textContent = 'Formation'
-  totalLessons = 4; updateProg()
-  const chaps = [{titre:'Introduction',lecons:['Bienvenue','Objectifs']},{titre:'Contenu',lecons:['Concepts clés','Mise en pratique']}]
-  document.getElementById('chapList').innerHTML = chaps.map((ch,ci) => `
-    <div>
-      <div class="ch-hd ${ci===0?'active':''}" onclick="toggleCh(this)">
-        <span class="ch-num">${ci+1}</span>${ch.titre}<span class="ch-arr ${ci===0?'open':''}">›</span>
-      </div>
-      <div class="ch-lessons ${ci===0?'open':''}">
-        ${ch.lecons.map((l,li) => `<div class="li ${ci===0&&li===0?'active':''}" onclick="selLesson(this,'${encodeURIComponent(l)}')"><span class="li-dot"></span>${l}<span class="li-dur">10min</span></div>`).join('')}
-      </div>
-    </div>`).join('')
-  renderLesson('Bienvenue', 'Ce cours est créé par l\'IA Learnova depuis un PDF uploadé par l\'admin. Pose des questions dans "Demander à l\'IA" pour approfondir.')
+window.resetQuiz = () => {
+  quizAnswers = {}
+  document.querySelectorAll('.q-opt').forEach(o => {
+    o.classList.remove('selected','correct','wrong','locked')
+  })
+  document.querySelectorAll('.q-explication').forEach(e => e.classList.remove('show'))
+  document.getElementById('quizResult').classList.remove('show')
+  document.getElementById('quizSubmitBtn').style.display = 'inline-flex'
+  document.getElementById('quizResetBtn').style.display  = 'none'
+  document.getElementById('quizScoreBadge').style.display = 'none'
 }
 
-function renderLesson(titre, contenu) {
-  document.getElementById('lBody').innerHTML = `
-    <div class="ls">
-      <h2>${titre}</h2>
-      <p>${contenu.replace(/\n/g,'</p><p>')}</p>
-      <div class="callout"><strong>📌 Note IA</strong>Contenu analysé automatiquement. Va dans "Demander à l'IA" pour poser tes questions.</div>
-    </div>
-    <div class="l-nav">
-      <button class="btn btn-ghost btn-sm" onclick="prevLesson()">← Précédent</button>
-      <button class="btn btn-dark btn-sm" onclick="markDone()">Suivant →</button>
+// ── NOTES ──────────────────────────────────────────────────────
+async function loadNotes() {
+  if (!currentUser || !courseId) return
+  const { data } = await sb.from('notes')
+    .select('content')
+    .eq('user_id', currentUser.id)
+    .eq('course_id', courseId)
+    .single()
+  if (data?.content) document.getElementById('notesTa').value = data.content
+}
+
+window.saveNotes = async () => {
+  const content = document.getElementById('notesTa').value
+  const saved   = document.getElementById('notesSaved')
+
+  if (!currentUser) { showToast('Connecte-toi pour sauvegarder tes notes.', 'err'); return }
+
+  await sb.from('notes').upsert({
+    user_id:    currentUser.id,
+    course_id:  courseId,
+    content,
+    updated_at: new Date().toISOString()
+  })
+
+  saved.classList.add('show')
+  setTimeout(() => saved.classList.remove('show'), 2500)
+}
+
+// Auto-save notes
+document.getElementById('notesTa').addEventListener('input', () => {
+  clearTimeout(notesTimeout)
+  notesTimeout = setTimeout(() => {
+    if (currentUser) saveNotes()
+  }, 2000)
+})
+
+// ── SESSION LIÉE ───────────────────────────────────────────────
+function renderLinkedSession(session) {
+  const card = document.getElementById('linkedSessionCard')
+  card.style.display = 'block'
+  const isLive = session.statut === 'en_cours'
+  document.getElementById('linkedSessionContent').innerHTML = `
+    <div class="linked-session">
+      <div class="ls-label">${isLive ? '🔴 EN DIRECT' : '⏰ Session à venir'}</div>
+      <div class="ls-title">${session.titre}</div>
+      <div class="ls-meta">${session.date_debut || '—'} ${session.heure ? 'à ' + session.heure : ''} · ${session.nb_inscrits || 0} inscrits</div>
+      <button class="ls-btn ${isLive ? 'live' : ''}" onclick="window.location.href='${isLive ? 'live' : 'waiting'}.html?session=${session.id}'">
+        ${isLive ? '🔴 Rejoindre le live' : '→ Salle d\'attente'}
+      </button>
     </div>`
 }
 
-// ── QUIZ ──────────────────────────────────────────────────
-window.generateQuiz = async () => {
-  const titre = courseData?.titre || document.getElementById('cTitle').textContent || 'ce cours'
-  document.getElementById('quizTtl').textContent = `Quiz — ${titre}`
-  document.getElementById('quizQs').innerHTML = '<div style="text-align:center;padding:28px;color:var(--text3);">⏳ L\'IA génère vos questions...</div>'
-  try {
-    const r = await fetch(`${BACKEND}/api/generate-quiz`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ subject:titre, level:courseData?.difficulte||'Débutant', num_questions:5 })
+// ── PRÉSENCE ───────────────────────────────────────────────────
+function setupPresence() {
+  presenceCh = sb.channel(`course-presence-${courseId}`, {
+    config: { presence: { key: currentUser?.id || 'guest-' + Math.random().toString(36).substr(2,6) } }
+  })
+  presenceCh
+    .on('presence', { event: 'sync' }, () => {
+      const users = Object.values(presenceCh.presenceState()).flat()
+      updateParticipants(users)
     })
-    const d = await r.json()
-    if (d.quiz?.length) { quizData = d.quiz; renderQuiz(d.quiz); return }
-  } catch {}
-  quizData = [
-    {question:`Que retenir principalement de "${courseData?.titre||'ce cours'}" ?`,options:['Mémoriser tout','Comprendre et pratiquer','Passer vite','Rien'],correct:1,explication:'Comprendre et pratiquer est toujours la clé.'},
-    {question:'Comment approfondir un sujet ?',options:['Relire','Poser des questions à l\'IA','Mémoriser','Ignorer'],correct:1,explication:'L\'IA Learnova répond à toutes vos questions.'}
-  ]
-  renderQuiz(quizData)
+    .subscribe(async s => {
+      if (s === 'SUBSCRIBED' && myProfile) {
+        await presenceCh.track({
+          uid:    currentUser?.id,
+          prenom: myProfile?.prenom || 'Apprenant',
+          photo:  myProfile?.photo_url || null,
+          score:  myProfile?.score_total || 0
+        })
+      }
+    })
 }
 
-function renderQuiz(quiz) {
-  answered = {}; qScore = 0
-  document.getElementById('qTot').textContent = quiz.length
-  document.getElementById('qSc').textContent = 0
-  document.getElementById('qAns').textContent = 0
-  document.getElementById('qResBtn').style.display = 'none'
-  document.getElementById('quizRes').classList.remove('show')
-  document.getElementById('quizQs').style.display = 'block'
-  document.getElementById('qInfo').textContent = `0 réponse sur ${quiz.length}`
-  document.getElementById('quizQs').innerHTML = quiz.map((q,qi) => `
-    <div class="quiz-q">
-      <div class="qq-num">Question ${qi+1}/${quiz.length}</div>
-      <div class="qq-txt">${q.question}</div>
-      <div class="qq-opts">${q.options.map((o,oi)=>`<div class="qq-opt" onclick="ansQ(this,${qi},${oi},${q.correct})"><span class="qq-key">${String.fromCharCode(65+oi)}</span>${o}</div>`).join('')}</div>
-      <div class="qq-exp" id="exp-${qi}">${q.explication||''}</div>
+function joinPresence(prenom, photo) {
+  if (presenceCh) {
+    presenceCh.track({ uid: currentUser?.id, prenom, photo, score: myProfile?.score_total || 0 })
+  }
+}
+
+function updateParticipants(users) {
+  const list = document.getElementById('partsList')
+  if (!users.length) {
+    list.innerHTML = '<div style="font-size:.79rem;color:var(--text3);">Personne pour l\'instant...</div>'
+    return
+  }
+  list.innerHTML = users.map(u => `
+    <div class="part-chip">
+      <div class="part-av">
+        ${u.photo ? `<img src="${u.photo}" alt="${u.prenom}"/>` : u.prenom?.charAt(0)?.toUpperCase() || '?'}
+        <div class="part-dot"></div>
+      </div>
+      <span class="part-name">${u.prenom || '?'}</span>
+      <span class="part-pts">${u.score || 0} pts</span>
     </div>`).join('')
 }
 
-window.ansQ = (el, qi, oi, correct) => {
-  if (answered[qi] !== undefined) return
-  answered[qi] = oi
-  el.closest('.qq-opts').querySelectorAll('.qq-opt').forEach(o => o.style.pointerEvents='none')
-  el.classList.add(oi===correct?'correct':'wrong')
-  if (oi!==correct) el.closest('.quiz-q').querySelectorAll('.qq-opt')[correct].classList.add('correct')
-  else qScore++
-  const exp = document.getElementById(`exp-${qi}`)
-  if (exp) { exp.classList.add('show'); if(oi!==correct) exp.classList.add('wr') }
-  document.getElementById('qSc').textContent = qScore
-  const ac = Object.keys(answered).length
-  document.getElementById('qAns').textContent = ac
-  document.getElementById('qInfo').textContent = `${ac} réponse${ac>1?'s':''} sur ${quizData.length}`
-  document.getElementById('pScore').textContent = Math.round((qScore/quizData.length)*100)+'%'
-  if (ac === quizData.length) document.getElementById('qResBtn').style.display = 'inline-flex'
+// ── UTILS ──────────────────────────────────────────────────────
+function formatContent(text) {
+  if (!text) return ''
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/`(.+?)`/g, '<code style="background:var(--bg2);padding:1px 5px;border-radius:4px;font-family:monospace;font-size:.85em;color:var(--accent);">$1</code>')
+    .split('\n\n').map(p => `<p>${p.replace(/\n/g, '<br/>')}</p>`).join('')
 }
 
-window.showResult = () => {
-  const pct = Math.round((qScore/quizData.length)*100)
-  document.getElementById('qrPct').textContent = pct+'%'
-  document.getElementById('qrTtl').textContent = pct>=80?'Excellent ! 🎉':pct>=60?'Bon résultat !':'Continue à pratiquer 💪'
-  document.getElementById('qrSub').textContent = `${qScore} bonne${qScore>1?'s':''} réponse${qScore>1?'s':''} sur ${quizData.length}`
-  if (pct < 60) { document.getElementById('qrCircle').style.cssText='width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 11px;background:var(--rl);border:3px solid var(--red);'; document.getElementById('qrPct').style.color='var(--red)' }
-  document.getElementById('quizRes').classList.add('show')
-  document.getElementById('quizQs').style.display = 'none'
-}
-
-window.resetQuiz = () => { document.getElementById('quizQs').style.display='block'; renderQuiz(quizData) }
-
-// ── IA CHAT ───────────────────────────────────────────────
-window.askAI = async (q) => {
-  const inp = document.getElementById('aiInp')
-  const question = q || inp.value.trim(); if (!question) return
-  inp.value = ''
-
-  const conv = document.getElementById('aiConv')
-  const avH = myPhoto ? `<div class="ai-msg-av usr"><img src="${myPhoto}" alt=""/></div>` : `<div class="ai-msg-av usr">${(currentUser?.email?.[0]||'?').toUpperCase()}</div>`
-  const um = document.createElement('div')
-  um.className = 'ai-msg user'
-  um.innerHTML = `${avH}<div class="ai-bbl">${question}</div>`
-  conv.appendChild(um)
-
-  const tm = document.createElement('div')
-  tm.className = 'ai-msg'
-  tm.innerHTML = `<div class="ai-msg-av bot">AI</div><div class="ai-bbl"><div class="typing-sm"><span></span><span></span><span></span></div></div>`
-  conv.appendChild(tm); conv.scrollTop = conv.scrollHeight
-
-  try {
-    const r = await fetch(`${BACKEND}/api/ask-ai`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ question, course_title:courseData?.titre||document.getElementById('cTitle').textContent, course_context:courseData?.resume||courseData?.description||'' })
-    })
-    const d = await r.json()
-    tm.remove()
-    const am = document.createElement('div')
-    am.className = 'ai-msg'
-    am.innerHTML = `<div class="ai-msg-av bot">AI</div><div class="ai-bbl">${(d.answer||'Bonne question !').replace(/\n/g,'<br/>')}</div>`
-    conv.appendChild(am)
-  } catch {
-    tm.remove()
-    const am = document.createElement('div')
-    am.className = 'ai-msg'
-    am.innerHTML = `<div class="ai-msg-av bot">AI</div><div class="ai-bbl">Bonne question ! N'hésite pas à reformuler.</div>`
-    conv.appendChild(am)
+function showToast(msg, type = 'dark', duration = 3500) {
+  let t = document.getElementById('ln-toast')
+  if (!t) {
+    t = document.createElement('div'); t.id = 'ln-toast'
+    t.style.cssText = "position:fixed;bottom:24px;right:24px;padding:12px 20px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif;font-weight:500;box-shadow:0 20px 60px rgba(0,0,0,.2);"
+    document.body.appendChild(t)
   }
-  conv.scrollTop = conv.scrollHeight
-}
-document.getElementById('aiInp').addEventListener('keypress', e=>{ if(e.key==='Enter') askAI() })
-
-function loadSuggestions() {
-  const titre = courseData?.titre || 'ce cours'
-  const s = [`Explique le concept principal de ${titre}`, 'Donne-moi un exemple concret', 'Que dois-je retenir ?', 'Comment pratiquer ?']
-  document.getElementById('aiSuggs').innerHTML = s.map(q=>`<span class="ai-sugg" onclick="askAI('${q}')">${q}</span>`).join('')
-}
-
-// ── PROGRESSION ───────────────────────────────────────────
-window.markDone = () => {
-  const a = document.querySelector('.li.active')
-  if (a) { a.classList.remove('active'); a.classList.add('done'); lessonsDone++ }
-  updateProg(); toast('Leçon terminée ! 🎉')
-}
-
-window.prevLesson = () => toast('Tu es au début !')
-
-function updateProg() {
-  const pct = totalLessons > 0 ? Math.round((lessonsDone/totalLessons)*100) : 0
-  document.getElementById('slPF').style.width = pct+'%'
-  document.getElementById('slPct').textContent = `${pct}% complété`
-  document.getElementById('navPF').style.width = pct+'%'
-  document.getElementById('navPct').textContent = pct+'%'
-  document.getElementById('pLecons').textContent = `${lessonsDone}/${totalLessons}`
-}
-
-window.selLesson = (el, encodedLesson) => {
-  const lesson = decodeURIComponent(encodedLesson)
-  document.querySelectorAll('.li').forEach(l=>l.classList.remove('active'))
-  el.classList.add('active')
-  renderLesson(lesson, `Contenu de la leçon "${lesson}". Pose tes questions à l'IA pour approfondir ce sujet.`)
-}
-
-window.toggleCh = (el) => {
-  el.querySelector('.ch-arr').classList.toggle('open')
-  el.nextElementSibling.classList.toggle('open')
-}
-
-window.swTab = (id, el) => {
-  document.querySelectorAll('.tab-p').forEach(t=>t.classList.remove('active'))
-  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('active'))
-  document.getElementById(id).classList.add('active')
-  if (el) el.classList.add('active')
-}
-
-// ── NOTES ─────────────────────────────────────────────────
-window.saveNotes = async () => {
-  const content = document.getElementById('notesArea').value
-  if (currentUser) await sb.from('notes').upsert({ user_id:currentUser.id, course_id:courseId, content, updated_at:new Date().toISOString() })
-  toast('Notes sauvegardées ✓')
-}
-let st
-document.getElementById('notesArea').addEventListener('input', () => { clearTimeout(st); st=setTimeout(saveNotes, 2000) })
-
-function toast(msg) {
-  let t = document.getElementById('toast')
-  if (!t) { t=document.createElement('div'); t.id='toast'; t.style.cssText='position:fixed;bottom:20px;right:20px;background:#09090f;color:#fff;padding:9px 15px;border-radius:8px;font-size:.79rem;z-index:9999;transform:translateY(50px);transition:transform .3s;font-family:"DM Sans",sans-serif;'; document.body.appendChild(t) }
+  const styles = { dark:'background:#09090f;color:#fff;', ok:'background:#047857;color:#fff;', err:'background:#b91c1c;color:#fff;' }
+  t.style.cssText += styles[type] || styles.dark
   t.textContent = msg; t.style.transform = 'translateY(0)'
-  setTimeout(()=>t.style.transform='translateY(50px)', 3000)
+  clearTimeout(t._t); t._t = setTimeout(() => t.style.transform = 'translateY(80px)', duration)
 }
 
-await loadCourse()
+// Init
+loadCourse()
 </script>
 </body>
 </html>
