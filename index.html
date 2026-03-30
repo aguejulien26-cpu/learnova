@@ -18,10 +18,8 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--text);font-family:var(--b);-webkit-font-smoothing:antialiased;padding-top:62px;}
-
-/* NAV */
 .nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(255,255,255,.96);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);height:62px;}
-.nav-in{max-width:1200px;margin:0 auto;padding:0 28px;height:100%;display:flex;align-items:center;gap:20px;}
+.nav-in{max-width:1200px;margin:0 auto;padding:0 28px;height:100%;display:flex;align-items:center;gap:18px;}
 .logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
 .lm{width:30px;height:30px;border-radius:8px;background:var(--text);display:flex;align-items:center;justify-content:center;}
 .lm svg{width:14px;height:14px;}
@@ -41,27 +39,21 @@ body{background:var(--bg);color:var(--text);font-family:var(--b);-webkit-font-sm
 .nav-user-pill:hover{background:var(--bg3);}
 .nav-av{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:.74rem;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;}
 .nav-av img{width:100%;height:100%;object-fit:cover;}
-
-/* HERO */
 .hero{padding:80px 0 56px;text-align:center;position:relative;}
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(26,86,219,.055) 0%,transparent 70%);pointer-events:none;}
 .container{max-width:1200px;margin:0 auto;padding:0 28px;}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--al);border:1px solid var(--am);color:var(--accent);padding:5px 14px;border-radius:100px;font-size:.78rem;font-weight:600;margin-bottom:28px;}
-.dot-red{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.5s infinite;display:inline-block;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.5s infinite;display:inline-block;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.7);}}
 .hero h1{font-family:var(--h);font-size:clamp(2.8rem,5.5vw,4.3rem);font-weight:400;line-height:1.1;letter-spacing:-1.5px;margin-bottom:22px;}
 .hero h1 em{font-style:italic;color:var(--accent);}
 .hero-sub{font-size:1.05rem;color:var(--text2);line-height:1.75;max-width:560px;margin:0 auto 36px;font-weight:300;}
 .hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:52px;}
-
-/* STATS */
 .stats-row{display:flex;align-items:center;justify-content:center;gap:32px;padding:24px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:70px;flex-wrap:wrap;}
 .stat-item{text-align:center;}
 .stat-num{font-family:var(--h);font-size:1.7rem;color:var(--text);letter-spacing:-1px;}
 .stat-label{font-size:.74rem;color:var(--text3);margin-top:2px;}
 .stat-div{width:1px;height:36px;background:var(--border);}
-
-/* SESSIONS */
 .sessions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:80px;}
 .session-card{background:var(--bg);border:1px solid var(--border);border-radius:18px;padding:22px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;}
 .session-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.09);transform:translateY(-3px);}
@@ -78,8 +70,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--b);-webkit-font-sm
 .sc-ia{font-size:.71rem;color:var(--purple);background:var(--pl);padding:3px 9px;border-radius:100px;font-weight:500;}
 .sc-time{font-size:.71rem;color:var(--text3);margin-left:auto;}
 .sc-empty{grid-column:span 3;text-align:center;padding:60px;color:var(--text3);}
-
-/* CTA */
 .cta-wrap{background:var(--text);border-radius:24px;padding:64px;display:grid;grid-template-columns:1fr 340px;gap:48px;align-items:center;margin-bottom:80px;}
 .cta-title{font-family:var(--h);font-size:clamp(1.8rem,3vw,2.4rem);color:#fff;line-height:1.2;margin-bottom:10px;letter-spacing:-.8px;}
 .cta-sub{font-size:.9rem;color:rgba(255,255,255,.45);}
@@ -87,16 +77,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--b);-webkit-font-sm
 .cta-inp{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:13px 16px;color:#fff;font-family:var(--b);font-size:.87rem;outline:none;transition:all .2s;}
 .cta-inp:focus{border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.15);}
 .cta-inp::placeholder{color:rgba(255,255,255,.35);}
-.cta-inp.err{border-color:#f87171;}
 .cta-btn{background:#fff;color:var(--text);border:none;border-radius:10px;padding:14px;font-family:var(--b);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;}
 .cta-btn:hover{background:#f0f1f8;}
 .cta-btn:disabled{opacity:.6;pointer-events:none;}
 .cta-note{font-size:.72rem;color:rgba(255,255,255,.24);text-align:center;}
 .cta-msg{font-size:.81rem;padding:10px 14px;border-radius:9px;text-align:center;display:none;}
 .cta-msg.ok{display:block;background:rgba(4,120,87,.2);color:#6ee7b7;border:1px solid rgba(110,231,183,.3);}
-.cta-msg.err-m{display:block;background:rgba(220,38,38,.2);color:#fca5a5;}
-
-/* MODAL AUTH */
+.cta-msg.err-s{display:block;background:rgba(220,38,38,.2);color:#fca5a5;}
+/* MODAL */
 .modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(10px);}
 .modal-ov.show{display:flex;}
 .modal{background:var(--bg);border-radius:22px;padding:38px;width:440px;max-width:94vw;box-shadow:0 40px 100px rgba(0,0,0,.15);animation:mIn .25s ease;position:relative;}
@@ -111,29 +99,25 @@ body{background:var(--bg);color:var(--text);font-family:var(--b);-webkit-font-sm
 .field input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:13px 15px;font-family:var(--b);font-size:.87rem;color:var(--text);background:var(--bg2);outline:none;transition:all .2s;}
 .field input:focus{border-color:var(--accent);background:var(--bg);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
 .field input.err{border-color:var(--red);background:var(--rl);}
-.field input.ok-field{border-color:var(--green);}
 .msg-box{border-radius:9px;padding:11px 14px;font-size:.82rem;margin-bottom:12px;display:none;line-height:1.5;}
 .msg-box.err{display:block;background:var(--rl);color:var(--red);border:1px solid #fecaca;}
 .msg-box.ok{display:block;background:var(--gl);color:var(--green);border:1px solid var(--gm);}
-.submit-btn{width:100%;padding:14px;background:var(--text);color:#fff;border:none;border-radius:10px;font-family:var(--b);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
-.submit-btn:hover{background:#1a1a2e;}
-.submit-btn:disabled{opacity:.6;pointer-events:none;}
+.sub-btn{width:100%;padding:14px;background:var(--text);color:#fff;border:none;border-radius:10px;font-family:var(--b);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.sub-btn:hover{background:#1a1a2e;}
+.sub-btn:disabled{opacity:.6;pointer-events:none;}
 .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .form-note{font-size:.73rem;color:var(--text3);text-align:center;margin-top:10px;}
 .form-link{font-size:.8rem;color:var(--accent);cursor:pointer;text-align:center;margin-top:10px;display:block;}
 .form-link:hover{text-decoration:underline;}
-
 footer{border-top:1px solid var(--border);padding:32px 0 20px;}
 .footer-in{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
 .footer-in p{font-size:.77rem;color:var(--text3);}
-
 @media(max-width:900px){.sessions-grid{grid-template-columns:1fr 1fr;}.cta-wrap{grid-template-columns:1fr;}.nav-links{display:none;}.sc-empty{grid-column:span 2;}}
 @media(max-width:640px){.sessions-grid{grid-template-columns:1fr;}.sc-empty{grid-column:span 1;}.stats-row{gap:16px;}.stat-div{display:none;}.cta-wrap{padding:36px 20px;}}
 </style>
 </head>
 <body>
-
 <nav class="nav">
   <div class="nav-in">
     <a href="index.html" class="logo"><div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div><span class="ln">Learnova</span></a>
@@ -159,7 +143,7 @@ footer{border-top:1px solid var(--border);padding:32px 0 20px;}
 
 <section class="hero">
   <div class="container">
-    <div class="hero-badge"><span class="dot-red"></span> L'IA qui enseigne en direct</div>
+    <div class="hero-badge"><span class="dot"></span>L'IA qui enseigne en direct</div>
     <h1>Votre professeur IA<br/>ne dort <em>jamais.</em></h1>
     <p class="hero-sub">Learnova planifie, enseigne et évalue des centaines d'apprenants simultanément. L'IA arrive à l'heure exacte, enseigne, lance des challenges et répond à chaque question.</p>
     <div class="hero-btns">
@@ -172,7 +156,7 @@ footer{border-top:1px solid var(--border);padding:32px 0 20px;}
     <div class="stats-row">
       <div class="stat-item"><div class="stat-num" id="sOnline">—</div><div class="stat-label">En ligne maintenant</div></div>
       <div class="stat-div"></div>
-      <div class="stat-item"><div class="stat-num" id="sInscrits">—</div><div class="stat-label">Inscrits sur Learnova</div></div>
+      <div class="stat-item"><div class="stat-num" id="sInscrits">—</div><div class="stat-label">Inscrits</div></div>
       <div class="stat-div"></div>
       <div class="stat-item"><div class="stat-num" id="sSessions">—</div><div class="stat-label">Sessions créées</div></div>
       <div class="stat-div"></div>
@@ -190,7 +174,7 @@ footer{border-top:1px solid var(--border);padding:32px 0 20px;}
       <a href="community.html" class="btn btn-ghost btn-sm">Communauté →</a>
     </div>
     <div class="sessions-grid" id="sessionsGrid">
-      <div class="sc-empty">⏳ Chargement des sessions...</div>
+      <div class="sc-empty">⏳ Chargement...</div>
     </div>
   </div>
 </section>
@@ -235,304 +219,260 @@ footer{border-top:1px solid var(--border);padding:32px 0 20px;}
       <div class="mtab active" id="tabS" onclick="switchTab('signup')">Créer un compte</div>
       <div class="mtab" id="tabL" onclick="switchTab('login')">Se connecter</div>
     </div>
-
-    <!-- INSCRIPTION -->
     <div id="panelSignup">
       <div class="field"><label>Ton prénom *</label><input id="sPrenom" type="text" placeholder="Ex: Julien" maxlength="50" autocomplete="given-name"/></div>
       <div class="field"><label>Adresse email *</label><input id="sEmail" type="email" placeholder="ton@email.com" autocomplete="email"/></div>
       <div class="field"><label>Mot de passe *</label><input id="sPassword" type="password" placeholder="Minimum 6 caractères" autocomplete="new-password"/></div>
       <div class="msg-box" id="sMsg"></div>
-      <button class="submit-btn" id="sBtnSignup" onclick="doSignUp()">
+      <button class="sub-btn" id="sBtnSignup" onclick="doSignUp()">
         <span id="sBtnTxt">Créer mon compte gratuitement</span>
         <div class="spinner" id="sSpinner"></div>
       </button>
       <div class="form-note">Gratuit · Aucune carte · Aucun spam</div>
       <span class="form-link" onclick="switchTab('login')">Déjà un compte ? Se connecter →</span>
     </div>
-
-    <!-- CONNEXION -->
     <div id="panelLogin" style="display:none;">
       <div class="field"><label>Adresse email *</label><input id="lEmail" type="email" placeholder="ton@email.com" autocomplete="email"/></div>
       <div class="field"><label>Mot de passe *</label><input id="lPassword" type="password" placeholder="Ton mot de passe" autocomplete="current-password"/></div>
       <div class="msg-box" id="lMsg"></div>
-      <button class="submit-btn" id="lBtnLogin" onclick="doSignIn()">
+      <button class="sub-btn" id="lBtn" onclick="doSignIn()">
         <span id="lBtnTxt">Se connecter</span>
         <div class="spinner" id="lSpinner"></div>
       </button>
-      <span class="form-link" onclick="switchTab('signup')">Pas de compte ? S'inscrire gratuitement →</span>
+      <span class="form-link" onclick="switchTab('signup')">Pas de compte ? S'inscrire →</span>
     </div>
   </div>
 </div>
 
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
-
 const SB_URL = "https://jbshkbqchrehfhoodtuj.supabase.co"
 const SB_KEY = "sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs"
-const sb = createClient(SB_URL, SB_KEY, { auth: { autoRefreshToken: true, persistSession: true } })
+const sb = createClient(SB_URL, SB_KEY, { auth: { autoRefreshToken:true, persistSession:true } })
 
 // ── AUTH STATE ─────────────────────────────────────────────────
-sb.auth.onAuthStateChange(async (event, session) => {
-  const user = session?.user || null
-  if (user) {
-    document.getElementById('navGuest').style.display = 'none'
-    document.getElementById('navUser').style.display = 'flex'
-    const { data: p } = await sb.from('profiles').select('prenom,photo_url').eq('id', user.id).single()
-    const prenom = p?.prenom || user.user_metadata?.prenom || user.email?.split('@')[0] || 'Toi'
-    document.getElementById('navName').textContent = prenom
-    const av = document.getElementById('navAv')
-    if (p?.photo_url) av.innerHTML = `<img src="${p.photo_url}" alt=""/>`
-    else av.textContent = prenom.charAt(0).toUpperCase()
-    closeModal()
-  } else {
-    document.getElementById('navGuest').style.display = 'flex'
-    document.getElementById('navUser').style.display = 'none'
-  }
+// Vérifie si déjà connecté au chargement
+sb.auth.getSession().then(({ data: { session } }) => {
+  if (session?.user) updateNavConnected(session.user)
 })
+
+sb.auth.onAuthStateChange(async (event, session) => {
+  if (session?.user) updateNavConnected(session.user)
+  else updateNavGuest()
+})
+
+async function updateNavConnected(user) {
+  document.getElementById('navGuest').style.display = 'none'
+  document.getElementById('navUser').style.display  = 'flex'
+  const { data: p } = await sb.from('profiles').select('prenom,photo_url').eq('id', user.id).single()
+  const prenom = p?.prenom || user.user_metadata?.prenom || user.email?.split('@')[0] || 'Toi'
+  document.getElementById('navName').textContent = prenom
+  const av = document.getElementById('navAv')
+  if (p?.photo_url) av.innerHTML = `<img src="${p.photo_url}" alt=""/>`
+  else av.textContent = prenom.charAt(0).toUpperCase()
+}
+
+function updateNavGuest() {
+  document.getElementById('navGuest').style.display = 'flex'
+  document.getElementById('navUser').style.display  = 'none'
+}
 
 // ── STATS ──────────────────────────────────────────────────────
 async function loadStats() {
-  const { data: s } = await sb.from('stats').select('*').eq('id', 1).single()
+  const { data: s } = await sb.from('stats').select('*').eq('id',1).single()
   if (s) {
     animNum('sInscrits', s.total_inscrits || 0)
     animNum('sSessions', s.total_sessions || 0)
-    animNum('sCours', s.total_cours || 0)
+    animNum('sCours',    s.total_cours    || 0)
   } else {
-    ['sInscrits','sSessions','sCours'].forEach(id => { document.getElementById(id).textContent = '0' })
+    ['sInscrits','sSessions','sCours'].forEach(id => setEl(id,'0'))
   }
 }
 
-const onlineCh = sb.channel('home-online', { config: { presence: { key: 'v-' + Math.random().toString(36).substr(2,6) } } })
-onlineCh.on('presence', { event: 'sync' }, () => {
-  document.getElementById('sOnline').textContent = Object.keys(onlineCh.presenceState()).length
-}).subscribe(async s => { if (s === 'SUBSCRIBED') await onlineCh.track({ p:'home' }) })
+const onlineCh = sb.channel('home-online',{config:{presence:{key:'v-'+Math.random().toString(36).substr(2,6)}}})
+onlineCh.on('presence',{event:'sync'},()=>{ setEl('sOnline',Object.keys(onlineCh.presenceState()).length) })
+  .subscribe(async s=>{ if(s==='SUBSCRIBED') await onlineCh.track({p:'home'}) })
 
-sb.channel('stats-rt').on('postgres_changes', { event:'UPDATE', schema:'public', table:'stats' }, p => {
-  animNum('sInscrits', p.new.total_inscrits || 0)
-  animNum('sSessions', p.new.total_sessions || 0)
-  animNum('sCours', p.new.total_cours || 0)
+sb.channel('stats-rt').on('postgres_changes',{event:'UPDATE',schema:'public',table:'stats'},p=>{
+  animNum('sInscrits',p.new.total_inscrits||0)
+  animNum('sSessions',p.new.total_sessions||0)
+  animNum('sCours',p.new.total_cours||0)
 }).subscribe()
 
 function animNum(id, target) {
-  const el = document.getElementById(id); if (!el) return
-  const start = parseInt(el.textContent.replace(/\D/g,'')) || 0
-  let i = 0
-  const iv = setInterval(() => {
-    i++; el.textContent = Math.round(start + (target - start) * (i/20)).toLocaleString('fr')
-    if (i >= 20) { el.textContent = target.toLocaleString('fr'); clearInterval(iv) }
-  }, 30)
+  const el = document.getElementById(id); if(!el) return
+  const start = parseInt(el.textContent.replace(/\D/g,''))||0
+  let i=0; const iv=setInterval(()=>{
+    i++; el.textContent=Math.round(start+(target-start)*(i/20)).toLocaleString('fr')
+    if(i>=20){el.textContent=target.toLocaleString('fr');clearInterval(iv)}
+  },30)
 }
 
+function setEl(id, val) { const el=document.getElementById(id); if(el) el.textContent=val }
 loadStats()
 
 // ── SESSIONS ───────────────────────────────────────────────────
 async function loadSessions() {
-  const { data: sessions } = await sb.from('sessions').select('*').order('created_at', { ascending: false })
+  const {data:sessions} = await sb.from('sessions').select('*').order('created_at',{ascending:false})
   const grid = document.getElementById('sessionsGrid')
   if (!sessions?.length) {
-    grid.innerHTML = `<div class="sc-empty"><div style="font-size:1.8rem;margin-bottom:10px;">📅</div><strong style="display:block;margin-bottom:6px;">Aucune session pour l'instant</strong><span style="font-size:.82rem;">L'admin créera bientôt la première session.</span></div>`
+    grid.innerHTML='<div class="sc-empty"><div style="font-size:1.8rem;margin-bottom:10px">📅</div><strong style="display:block;margin-bottom:6px">Aucune session</strong><span style="font-size:.82rem">L\'admin créera bientôt la première session.</span></div>'
     return
   }
-  grid.innerHTML = ''
-  sessions.forEach(s => {
-    const badge = s.statut === 'en_cours'
-      ? `<span class="badge badge-live"><span class="dot-red"></span> En direct</span>`
-      : s.statut === 'planifie'
-      ? `<span class="badge badge-soon">⏰ ${s.heure || 'Bientôt'}</span>`
+  grid.innerHTML=''
+  sessions.forEach(s=>{
+    const badge = s.statut==='en_cours'
+      ? `<span class="badge badge-live"><span class="dot"></span> En direct</span>`
+      : s.statut==='planifie'
+      ? `<span class="badge badge-soon">⏰ ${s.heure||'Bientôt'}</span>`
       : `<span class="badge badge-done">Terminé</span>`
     const card = document.createElement('div')
-    card.className = 'session-card'
-    card.innerHTML = `
-      <div class="sc-head">${badge}<span style="font-size:.72rem;color:var(--text3);">${s.nb_inscrits||0} inscrits</span></div>
+    card.className='session-card'
+    card.innerHTML=`<div class="sc-head">${badge}<span style="font-size:.72rem;color:var(--text3)">${s.nb_inscrits||0} inscrits</span></div>
       <div class="sc-title">${s.titre}</div>
-      <div class="sc-desc">${s.description||'Session live avec l\'IA Learnova.'}</div>
+      <div class="sc-desc">${s.description||"Session live avec l'IA Learnova."}</div>
       <div class="sc-foot"><span class="sc-ia">🤖 IA Manager</span><span class="sc-time">${s.format||'—'}</span></div>`
-    card.onclick = async () => {
-      const { data: { session } } = await sb.auth.getSession()
-      if (session) window.location.href = `waiting.html?session=${s.id}`
-      else { openModal('signup'); showToast('📚 Inscris-toi pour rejoindre cette session !') }
+    card.onclick=async()=>{
+      const {data:{session}}=await sb.auth.getSession()
+      if(session) window.location.href=`waiting.html?session=${s.id}`
+      else{openModal('signup');showToast('📚 Inscris-toi pour rejoindre !')}
     }
     grid.appendChild(card)
   })
 }
-
 loadSessions()
-sb.channel('sessions-rt').on('postgres_changes', { event:'*', schema:'public', table:'sessions' }, loadSessions).subscribe()
+sb.channel('sess-rt').on('postgres_changes',{event:'*',schema:'public',table:'sessions'},loadSessions).subscribe()
 
 // ── MODAL ──────────────────────────────────────────────────────
-window.openModal = (tab = 'signup') => {
+window.openModal = (tab='signup') => {
   document.getElementById('modalOv').classList.add('show')
   switchTab(tab)
-  setTimeout(() => {
-    const el = tab === 'signup' ? document.getElementById('sPrenom') : document.getElementById('lEmail')
+  setTimeout(()=>{
+    const el = tab==='signup' ? document.getElementById('sPrenom') : document.getElementById('lEmail')
     el?.focus()
-  }, 120)
+  },120)
 }
-
-window.closeModal = () => {
-  document.getElementById('modalOv').classList.remove('show')
-  resetForms()
-}
-
+window.closeModal = () => { document.getElementById('modalOv').classList.remove('show'); resetForms() }
 window.switchTab = (tab) => {
-  document.getElementById('panelSignup').style.display = tab === 'signup' ? 'block' : 'none'
-  document.getElementById('panelLogin').style.display  = tab === 'login'  ? 'block' : 'none'
-  document.getElementById('tabS').classList.toggle('active', tab === 'signup')
-  document.getElementById('tabL').classList.toggle('active', tab === 'login')
+  document.getElementById('panelSignup').style.display = tab==='signup'?'block':'none'
+  document.getElementById('panelLogin').style.display  = tab==='login' ?'block':'none'
+  document.getElementById('tabS').classList.toggle('active',tab==='signup')
+  document.getElementById('tabL').classList.toggle('active',tab==='login')
   resetForms()
 }
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal() })
-document.getElementById('sPassword').addEventListener('keypress', e => { if(e.key==='Enter') doSignUp() })
-document.getElementById('lPassword').addEventListener('keypress', e => { if(e.key==='Enter') doSignIn() })
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal() })
+document.getElementById('sPassword').addEventListener('keypress',e=>{ if(e.key==='Enter') doSignUp() })
+document.getElementById('lPassword').addEventListener('keypress',e=>{ if(e.key==='Enter') doSignIn() })
 
 // ── INSCRIPTION ────────────────────────────────────────────────
+// CORRECTION DU SPINNER INFINI :
+// On n'attend PAS onAuthStateChange — on met à jour la nav directement après signUp réussi
 window.doSignUp = async () => {
   const prenom   = document.getElementById('sPrenom').value.trim()
   const email    = document.getElementById('sEmail').value.trim().toLowerCase()
   const password = document.getElementById('sPassword').value
   const btn      = document.getElementById('sBtnSignup')
   const btnTxt   = document.getElementById('sBtnTxt')
-  const spinner  = document.getElementById('sSpinner')
-  const msgEl    = document.getElementById('sMsg')
+  const spin     = document.getElementById('sSpinner')
 
-  // Reset
-  msgEl.className = 'msg-box'
-  clearFieldErrors(['sPrenom','sEmail','sPassword'])
+  clearMsg('sMsg'); clearErrs(['sPrenom','sEmail','sPassword'])
 
-  // Validation côté client
-  if (!prenom || prenom.length < 2) {
-    setFieldErr('sPrenom')
-    showMsgBox('sMsg', 'err', '⚠️ Entre ton prénom (minimum 2 caractères).')
-    return
-  }
-  if (!email || !email.includes('@') || !email.includes('.')) {
-    setFieldErr('sEmail')
-    showMsgBox('sMsg', 'err', '⚠️ Adresse email invalide.')
-    return
-  }
-  if (password.length < 6) {
-    setFieldErr('sPassword')
-    showMsgBox('sMsg', 'err', '⚠️ Mot de passe trop court (minimum 6 caractères).')
-    return
-  }
+  if (!prenom||prenom.length<2)    { setErr('sPrenom'); showMsg('sMsg','err','⚠️ Entre ton prénom (min. 2 caractères).'); return }
+  if (!email||!email.includes('@')) { setErr('sEmail');  showMsg('sMsg','err','⚠️ Adresse email invalide.'); return }
+  if (password.length<6)            { setErr('sPassword');showMsg('sMsg','err','⚠️ Mot de passe trop court (min. 6).'); return }
 
-  // Loading
-  btn.disabled = true; btnTxt.textContent = 'Création en cours...'; spinner.style.display = 'block'
+  btn.disabled=true; btnTxt.textContent='Création en cours...'; spin.style.display='block'
 
   try {
-    const { data, error } = await sb.auth.signUp({
-      email,
-      password,
-      options: { data: { prenom } }
-    })
+    const {data, error} = await sb.auth.signUp({ email, password, options:{data:{prenom}} })
 
+    // L'erreur Supabase est dans error, pas dans une exception
     if (error) {
-      showMsgBox('sMsg', 'err', translateErr(error.message))
+      showMsg('sMsg','err', translateErr(error.message))
       return
     }
 
-    // Créer le profil manuellement (en plus du trigger SQL)
+    // Créer le profil (en plus du trigger SQL)
     if (data.user) {
-      await sb.from('profiles').upsert({
-        id: data.user.id,
-        prenom,
-        email,
-        role: 'student',
-        score_total: 0
-      }).catch(() => {})
-      await sb.rpc('increment_stat', { stat_name: 'total_inscrits' }).catch(() => {})
+      await sb.from('profiles').upsert({ id:data.user.id, prenom, email, role:'student', score_total:0 }).catch(()=>{})
+      await sb.rpc('increment_stat',{stat_name:'total_inscrits'}).catch(()=>{})
     }
 
-    // ── SUCCÈS ──
-    // Afficher un message de succès IMMÉDIATEMENT sans attendre onAuthStateChange
-    showMsgBox('sMsg', 'ok', `🎉 Bienvenue ${prenom} ! Compte créé avec succès.`)
-    btnTxt.textContent = '✅ Compte créé !'
-    spinner.style.display = 'none'
+    // ✅ SUCCÈS — mettre à jour la nav IMMÉDIATEMENT sans attendre onAuthStateChange
+    showMsg('sMsg','ok',`🎉 Bienvenue ${prenom} ! Compte créé avec succès.`)
+    btnTxt.textContent='✅ Compte créé !'
+    spin.style.display='none'
 
-    // Fermer le modal après 1.5s et mettre à jour la nav
-    setTimeout(() => {
-      closeModal()
-      // Mettre à jour la nav manuellement
-      document.getElementById('navGuest').style.display = 'none'
-      document.getElementById('navUser').style.display  = 'flex'
-      document.getElementById('navName').textContent    = prenom
-      document.getElementById('navAv').textContent      = prenom.charAt(0).toUpperCase()
-      showToast(`🎉 Bienvenue ${prenom} !`)
-    }, 1500)
+    // Mettre à jour la nav directement
+    document.getElementById('navGuest').style.display='none'
+    document.getElementById('navUser').style.display='flex'
+    document.getElementById('navName').textContent=prenom
+    document.getElementById('navAv').textContent=prenom.charAt(0).toUpperCase()
 
-  } catch (e) {
-    showMsgBox('sMsg', 'err', '❌ Problème de connexion. Vérifie ta connexion internet.')
+    // Fermer le modal après 1.8s
+    setTimeout(()=>{ closeModal(); showToast(`🎉 Bienvenue ${prenom} sur Learnova !`) }, 1800)
+
+  } catch(e) {
+    showMsg('sMsg','err','❌ Problème de connexion. Vérifie ta connexion internet.')
   } finally {
-    // Ne pas re-activer le bouton si c'est un succès
+    // Réactiver le bouton seulement si pas un succès
     if (btnTxt.textContent !== '✅ Compte créé !') {
-      btn.disabled = false
-      btnTxt.textContent = 'Créer mon compte gratuitement'
-      spinner.style.display = 'none'
+      btn.disabled=false; btnTxt.textContent='Créer mon compte gratuitement'; spin.style.display='none'
     }
   }
 }
 
 // ── CONNEXION ──────────────────────────────────────────────────
+// CORRECTION : on met à jour la nav directement sans attendre onAuthStateChange
 window.doSignIn = async () => {
   const email    = document.getElementById('lEmail').value.trim().toLowerCase()
   const password = document.getElementById('lPassword').value
-  const btn      = document.getElementById('lBtnLogin')
+  const btn      = document.getElementById('lBtn')
   const btnTxt   = document.getElementById('lBtnTxt')
-  const spinner  = document.getElementById('lSpinner')
+  const spin     = document.getElementById('lSpinner')
 
-  document.getElementById('lMsg').className = 'msg-box'
-  clearFieldErrors(['lEmail','lPassword'])
+  clearMsg('lMsg'); clearErrs(['lEmail','lPassword'])
 
-  if (!email || !email.includes('@')) {
-    setFieldErr('lEmail')
-    showMsgBox('lMsg', 'err', '⚠️ Adresse email invalide.')
-    return
-  }
-  if (!password) {
-    setFieldErr('lPassword')
-    showMsgBox('lMsg', 'err', '⚠️ Entre ton mot de passe.')
-    return
-  }
+  if (!email||!email.includes('@')) { setErr('lEmail');    showMsg('lMsg','err','⚠️ Email invalide.'); return }
+  if (!password)                     { setErr('lPassword'); showMsg('lMsg','err','⚠️ Entre ton mot de passe.'); return }
 
-  btn.disabled = true; btnTxt.textContent = 'Connexion...'; spinner.style.display = 'block'
+  btn.disabled=true; btnTxt.textContent='Connexion...'; spin.style.display='block'
 
   try {
-    const { data, error } = await sb.auth.signInWithPassword({ email, password })
+    const {data, error} = await sb.auth.signInWithPassword({ email, password })
 
     if (error) {
-      showMsgBox('lMsg', 'err', translateErr(error.message))
-      setFieldErr('lPassword')
+      showMsg('lMsg','err', translateErr(error.message))
+      setErr('lPassword')
       return
     }
 
-    // Connexion réussie — mettre à jour la nav immédiatement
+    // ✅ SUCCÈS — mettre à jour la nav immédiatement
     const user = data.user
-    const { data: p } = await sb.from('profiles').select('prenom,photo_url').eq('id', user.id).single()
+    const {data:p} = await sb.from('profiles').select('prenom,photo_url').eq('id',user.id).single()
     const prenom = p?.prenom || user.user_metadata?.prenom || user.email?.split('@')[0] || 'Toi'
 
-    document.getElementById('navGuest').style.display = 'none'
-    document.getElementById('navUser').style.display  = 'flex'
-    document.getElementById('navName').textContent    = prenom
-    const av = document.getElementById('navAv')
-    if (p?.photo_url) av.innerHTML = `<img src="${p.photo_url}" alt=""/>`
-    else av.textContent = prenom.charAt(0).toUpperCase()
+    document.getElementById('navGuest').style.display='none'
+    document.getElementById('navUser').style.display='flex'
+    document.getElementById('navName').textContent=prenom
+    const av=document.getElementById('navAv')
+    if(p?.photo_url) av.innerHTML=`<img src="${p.photo_url}" alt=""/>`
+    else av.textContent=prenom.charAt(0).toUpperCase()
 
     closeModal()
     showToast(`👋 Bon retour, ${prenom} !`)
 
-  } catch (e) {
-    showMsgBox('lMsg', 'err', '❌ Problème de connexion. Réessaie.')
+  } catch(e) {
+    showMsg('lMsg','err','❌ Problème de connexion. Réessaie.')
   } finally {
-    btn.disabled = false; btnTxt.textContent = 'Se connecter'; spinner.style.display = 'none'
+    btn.disabled=false; btnTxt.textContent='Se connecter'; spin.style.display='none'
   }
 }
 
 // ── DÉCONNEXION ────────────────────────────────────────────────
 window.doSignOut = async () => {
   await sb.auth.signOut()
-  document.getElementById('navGuest').style.display = 'flex'
-  document.getElementById('navUser').style.display  = 'none'
+  updateNavGuest()
   showToast('À bientôt !')
 }
 
@@ -544,96 +484,65 @@ window.ctaSignUp = async () => {
   const btn      = document.getElementById('ctaBtn')
   const msgEl    = document.getElementById('ctaMsg')
 
-  msgEl.className = 'cta-msg'
-  ;['ctaPrenom','ctaEmail','ctaPassword'].forEach(id => document.getElementById(id).classList.remove('err'))
+  msgEl.className='cta-msg'
+  ;['ctaPrenom','ctaEmail','ctaPassword'].forEach(id=>document.getElementById(id).style.borderColor='')
 
-  if (!prenom || prenom.length < 2) { document.getElementById('ctaPrenom').classList.add('err'); showCtaMsg('err-m', '⚠️ Entre ton prénom.'); return }
-  if (!email || !email.includes('@')) { document.getElementById('ctaEmail').classList.add('err'); showCtaMsg('err-m', '⚠️ Email invalide.'); return }
-  if (password.length < 6) { document.getElementById('ctaPassword').classList.add('err'); showCtaMsg('err-m', '⚠️ Mot de passe trop court (min. 6).'); return }
+  if (!prenom||prenom.length<2) { showCtaMsg('err-s','⚠️ Entre ton prénom.'); return }
+  if (!email||!email.includes('@')) { showCtaMsg('err-s','⚠️ Email invalide.'); return }
+  if (password.length<6) { showCtaMsg('err-s','⚠️ Mot de passe trop court (min. 6).'); return }
 
-  btn.disabled = true; btn.textContent = 'Création...'
+  btn.disabled=true; btn.textContent='Création...'
 
   try {
-    const { data, error } = await sb.auth.signUp({ email, password, options: { data: { prenom } } })
-    if (error) { showCtaMsg('err-m', translateErr(error.message)); return }
-
-    if (data.user) {
-      await sb.from('profiles').upsert({ id: data.user.id, prenom, email, role: 'student', score_total: 0 }).catch(() => {})
-      await sb.rpc('increment_stat', { stat_name: 'total_inscrits' }).catch(() => {})
+    const {data,error}=await sb.auth.signUp({email,password,options:{data:{prenom}}})
+    if(error){showCtaMsg('err-s',translateErr(error.message));return}
+    if(data.user){
+      await sb.from('profiles').upsert({id:data.user.id,prenom,email,role:'student',score_total:0}).catch(()=>{})
+      await sb.rpc('increment_stat',{stat_name:'total_inscrits'}).catch(()=>{})
     }
-
-    showCtaMsg('ok', `🎉 Bienvenue ${prenom} ! Compte créé avec succès.`)
-    btn.textContent = '✅ Compte créé !'
-    document.getElementById('ctaPrenom').value = ''
-    document.getElementById('ctaEmail').value  = ''
-    document.getElementById('ctaPassword').value = ''
-
-    // Mettre à jour la nav
-    document.getElementById('navGuest').style.display = 'none'
-    document.getElementById('navUser').style.display  = 'flex'
-    document.getElementById('navName').textContent    = prenom
-    document.getElementById('navAv').textContent      = prenom.charAt(0).toUpperCase()
-
-  } catch (e) {
-    showCtaMsg('err-m', '❌ Problème de connexion. Réessaie.')
-    btn.disabled = false; btn.textContent = 'Rejoindre Learnova gratuitement →'
+    showCtaMsg('ok',`🎉 Bienvenue ${prenom} ! Compte créé avec succès.`)
+    btn.textContent='✅ Compte créé !'
+    document.getElementById('ctaPrenom').value=''
+    document.getElementById('ctaEmail').value=''
+    document.getElementById('ctaPassword').value=''
+    // Nav
+    document.getElementById('navGuest').style.display='none'
+    document.getElementById('navUser').style.display='flex'
+    document.getElementById('navName').textContent=prenom
+    document.getElementById('navAv').textContent=prenom.charAt(0).toUpperCase()
+  } catch(e) {
+    showCtaMsg('err-s','❌ Problème de connexion. Réessaie.')
+    btn.disabled=false; btn.textContent='Rejoindre Learnova gratuitement →'
   }
 }
 
-// ── UTILITAIRES ────────────────────────────────────────────────
-function showMsgBox(id, type, text) {
-  const el = document.getElementById(id)
-  if (el) { el.textContent = text; el.className = `msg-box ${type}` }
+// ── UTILS ──────────────────────────────────────────────────────
+function showMsg(id,type,text){const el=document.getElementById(id);if(el){el.textContent=text;el.className=`msg-box ${type}`}}
+function clearMsg(id){const el=document.getElementById(id);if(el)el.className='msg-box'}
+function setErr(id){document.getElementById(id)?.classList.add('err')}
+function clearErrs(ids){ids.forEach(id=>document.getElementById(id)?.classList.remove('err'))}
+function showCtaMsg(type,text){const el=document.getElementById('ctaMsg');el.textContent=text;el.className=`cta-msg ${type}`}
+function resetForms(){
+  clearMsg('sMsg');clearMsg('lMsg');clearErrs(['sPrenom','sEmail','sPassword','lEmail','lPassword'])
+  const btn=document.getElementById('sBtnSignup');if(btn){btn.disabled=false;document.getElementById('sBtnTxt').textContent='Créer mon compte gratuitement';document.getElementById('sSpinner').style.display='none'}
+  const lbtn=document.getElementById('lBtn');if(lbtn){lbtn.disabled=false;document.getElementById('lBtnTxt').textContent='Se connecter';document.getElementById('lSpinner').style.display='none'}
 }
 
-function showCtaMsg(type, text) {
-  const el = document.getElementById('ctaMsg')
-  el.textContent = text; el.className = `cta-msg ${type}`
-}
-
-function setFieldErr(id) {
-  document.getElementById(id)?.classList.add('err')
-}
-
-function clearFieldErrors(ids) {
-  ids.forEach(id => {
-    const el = document.getElementById(id)
-    if (el) { el.classList.remove('err'); el.classList.remove('ok-field') }
-  })
-}
-
-function resetForms() {
-  document.getElementById('sMsg').className = 'msg-box'
-  document.getElementById('lMsg').className = 'msg-box'
-  clearFieldErrors(['sPrenom','sEmail','sPassword','lEmail','lPassword'])
-  // Réinitialiser les boutons
-  const sBtn = document.getElementById('sBtnSignup')
-  const lBtn = document.getElementById('lBtnLogin')
-  if (sBtn) { sBtn.disabled = false; document.getElementById('sBtnTxt').textContent = 'Créer mon compte gratuitement'; document.getElementById('sSpinner').style.display = 'none' }
-  if (lBtn) { lBtn.disabled = false; document.getElementById('lBtnTxt').textContent = 'Se connecter'; document.getElementById('lSpinner').style.display = 'none' }
-}
-
-function translateErr(msg) {
-  if (!msg) return 'Une erreur est survenue.'
-  const m = msg.toLowerCase()
-  if (m.includes('already registered') || m.includes('user already registered')) return '❌ Cet email est déjà utilisé. Connecte-toi.'
-  if (m.includes('invalid login') || m.includes('invalid credentials')) return '❌ Email ou mot de passe incorrect.'
-  if (m.includes('email not confirmed')) return '⚠️ Vérifie ton email pour confirmer ton compte.'
-  if (m.includes('password')) return '❌ Mot de passe trop court (minimum 6 caractères).'
-  if (m.includes('too many')) return '⏳ Trop de tentatives. Attends quelques minutes.'
-  if (m.includes('network') || m.includes('fetch')) return '❌ Problème de connexion internet.'
+function translateErr(msg){
+  if(!msg) return 'Erreur inconnue.'
+  const m=msg.toLowerCase()
+  if(m.includes('already registered')||m.includes('user already registered')) return '❌ Email déjà utilisé. Connecte-toi.'
+  if(m.includes('invalid login')||m.includes('invalid credentials')||m.includes('invalid email or password')) return '❌ Email ou mot de passe incorrect.'
+  if(m.includes('email not confirmed')) return '⚠️ Vérifie ton email pour confirmer ton compte.'
+  if(m.includes('password')) return '❌ Mot de passe trop court (minimum 6 caractères).'
+  if(m.includes('too many')||m.includes('rate limit')) return '⏳ Trop de tentatives. Attends quelques minutes.'
   return '❌ Une erreur est survenue. Réessaie.'
 }
 
-function showToast(msg, duration = 3500) {
-  let t = document.getElementById('ln-toast')
-  if (!t) {
-    t = document.createElement('div'); t.id = 'ln-toast'
-    t.style.cssText = "position:fixed;bottom:24px;right:24px;background:#09090f;color:#fff;padding:12px 20px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif;font-weight:500;box-shadow:0 20px 60px rgba(0,0,0,.2);"
-    document.body.appendChild(t)
-  }
-  t.textContent = msg; t.style.transform = 'translateY(0)'
-  clearTimeout(t._t); t._t = setTimeout(() => t.style.transform = 'translateY(80px)', duration)
+function showToast(msg){
+  let t=document.getElementById('ln-toast')
+  if(!t){t=document.createElement('div');t.id='ln-toast';t.style.cssText="position:fixed;bottom:22px;right:22px;background:#09090f;color:#fff;padding:12px 20px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif;font-weight:500;box-shadow:0 16px 48px rgba(0,0,0,.22);";document.body.appendChild(t)}
+  t.textContent=msg;t.style.transform='translateY(0)';clearTimeout(t._t);t._t=setTimeout(()=>t.style.transform='translateY(80px)',3500)
 }
 </script>
 </body>
