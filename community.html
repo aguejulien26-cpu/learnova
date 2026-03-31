@@ -403,6 +403,7 @@ let currentType   = 'avis'
 let currentStars  = 1
 let postsOffset   = 0
 const PAGE_SIZE   = 10
+let isSubmitting = false  // ← AJOUT: Bloquer les doublons
 
 // ── AUTH STATE ────────────────────────────────────────────────
 sb.auth.onAuthStateChange(async (event, session) => {
@@ -418,7 +419,6 @@ sb.auth.onAuthStateChange(async (event, session) => {
     if (p?.photo_url) nav.innerHTML = `<img src="${p.photo_url}" alt=""/>`
     else nav.textContent = prenom.charAt(0).toUpperCase()
 
-    // Avatar du formulaire de post
     const npAv = document.getElementById('npAvatar')
     if (p?.photo_url) npAv.innerHTML = `<img src="${p.photo_url}" alt=""/>`
     else { npAv.textContent = prenom.charAt(0).toUpperCase() }
@@ -496,7 +496,6 @@ async function loadPosts(reset = true) {
   postsOffset += posts.length
   document.getElementById('loadMoreWrap').style.display = posts.length >= PAGE_SIZE ? 'block' : 'none'
 
-  // Charger les top contributeurs
   loadTopContribs()
 }
 
@@ -546,7 +545,7 @@ function renderPost(p) {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
         Partager
       </button>
-      ${isMyPost ? `<div class="action-sep"></div><button class="post-action-btn danger" onclick="deletePost('${p.id}', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>Supprimer</button>` : ''}
+      ${isMyPost ? `<div class="action-sep"></div><button class="post-action-btn danger" onclick="deletePost('${p.id}', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>Supprimer</button>` : ''}
     </div>
     <div class="replies-section" id="replies-${p.id}">
       <div id="replies-list-${p.id}"></div>
@@ -560,6 +559,14 @@ function renderPost(p) {
     </div>`
 
   document.getElementById('postsList').appendChild(div)
+
+  // ← CORRECTION: Ajouter listener APRÈS création du post
+  const replyInp = div.querySelector(`#rep-inp-${p.id}`)
+  if (replyInp) {
+    replyInp.addEventListener('keypress', e => {
+      if (e.key === 'Enter') sendReply(p.id)
+    })
+  }
 }
 
 // ── LIKES ─────────────────────────────────────────────────────
@@ -617,11 +624,18 @@ window.toggleReplies = async (postId, btn) => {
   }
 }
 
+// ← CORRECTION: Flag pour éviter les doublons
+let replySending = false
+
 window.sendReply = async (postId) => {
   if (!currentUser) { openModal('signup'); toast('Connecte-toi pour répondre !', 'err'); return }
+  if (replySending) return  // ← Bloquer si déjà en cours
+  
   const inp  = document.getElementById(`rep-inp-${postId}`)
   const text = inp.value.trim()
   if (!text) return
+  
+  replySending = true  // ← Marquer comme en cours
   inp.value = ''
 
   const prenom = myProfile?.prenom || currentUser.email?.split('@')[0] || 'Anonyme'
@@ -633,8 +647,15 @@ window.sendReply = async (postId) => {
     auteur_nom: prenom,
     auteur_photo: photo,
     contenu: text
-  })
-  if (error) { toast('Erreur lors de la réponse', 'err'); return }
+  }).select().single()
+
+  replySending = false  // ← Débloquer
+
+  if (error) {
+    toast('Erreur lors de la réponse: ' + error.message, 'err')
+    inp.value = text  // Restaurer le texte
+    return
+  }
 
   // Incrémenter compteur
   const { data: post } = await sb.from('community_posts').select('replies_count').eq('id', postId).single()
@@ -656,11 +677,8 @@ window.sendReply = async (postId) => {
       <div class="reply-text">${text}</div>
     </div>`
   list.appendChild(div)
+  toast('✅ Réponse publiée !', 'ok')
 }
-
-document.querySelectorAll('.reply-inp').forEach(inp => {
-  inp.addEventListener('keypress', e => { if (e.key === 'Enter') sendReply(inp.id.replace('rep-inp-', '')) })
-})
 
 // ── SUPPRIMER POST ────────────────────────────────────────────
 window.deletePost = async (postId, btn) => {
@@ -727,8 +745,10 @@ window.onTextInput = () => {
   document.getElementById('npChar').textContent = `${len} / 1000`
 }
 
+// ← CORRECTION PRINCIPALE
 window.submitPost = async () => {
   if (!currentUser) { openModal('signup'); return }
+  if (isSubmitting) return  // ← Bloquer les doublons
 
   const text = document.getElementById('npText').value.trim()
   const errEl = document.getElementById('npError')
@@ -744,7 +764,10 @@ window.submitPost = async () => {
   const btnTxt  = document.getElementById('npBtnText')
   const spinner = document.getElementById('npSpinner')
 
-  btn.disabled = true; btnTxt.textContent = 'Publication...'; spinner.style.display = 'block'
+  isSubmitting = true  // ← Bloquer
+  btn.disabled = true
+  btnTxt.textContent = 'Publication...'
+  spinner.style.display = 'block'
 
   const prenom = myProfile?.prenom || currentUser.email?.split('@')[0] || 'Anonyme'
   const photo  = myProfile?.photo_url || null
@@ -762,29 +785,33 @@ window.submitPost = async () => {
   }).select('*, profiles(prenom,photo_url)').single()
 
   spinner.style.display = 'none'
+  isSubmitting = false  // ← Débloquer
 
   if (error) {
-    errEl.textContent = 'Erreur de publication : ' + error.message
+    errEl.textContent = 'Erreur: ' + (error.message || 'Réessaie')
     errEl.classList.add('show')
-    btn.disabled = false; btnTxt.textContent = 'Publier'
+    btn.disabled = false
+    btnTxt.textContent = 'Publier'
     return
   }
 
-  // Succès
-  closeNewPost()
-  // Ajouter en tête de liste
-  const list  = document.getElementById('postsList')
-  const empty = list.querySelector('.empty-state')
-  if (empty) empty.remove()
+  if (data) {
+    // ← CORRECTION: Ajouter correctement le nouveau post
+    closeNewPost()
+    const list  = document.getElementById('postsList')
+    const empty = list.querySelector('.empty-state')
+    if (empty) empty.remove()
 
-  const tempWrap = document.createElement('div')
-  renderPost({ ...data, profiles: { prenom, photo_url: photo } })
-  const newCard = list.lastElementChild
-  list.insertBefore(newCard, list.firstChild)
+    renderPost(data)
+    const newCard = list.lastElementChild
+    list.insertBefore(newCard, list.firstChild)
 
-  loadStats()
-  btn.disabled = false; btnTxt.textContent = 'Publier'
-  toast('✅ Publication partagée !', 'ok')
+    loadStats()
+    toast('✅ Publication partagée !', 'ok')
+  }
+
+  btn.disabled = false
+  btnTxt.textContent = 'Publier'
 }
 
 // ── TOP CONTRIBUTEURS ─────────────────────────────────────────
@@ -929,7 +956,7 @@ function toast(msg, type = 'dark') {
   let t = document.getElementById('ln-toast')
   if (!t) {
     t = document.createElement('div'); t.id = 'ln-toast'
-    t.style.cssText = 'position:fixed;bottom:24px;right:24px;padding:12px 20px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s cubic-bezier(.34,1.56,.64,1);font-family:"DM Sans",sans-serif;font-weight:500;box-shadow:0 20px 60px rgba(0,0,0,.2);'
+    t.style.cssText = 'position:fixed;bottom:24px;right:24px;padding:12px 20px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s cubic-bezier(.34,1.56,.64,1);'
     document.body.appendChild(t)
   }
   const colors = { dark: 'background:#09090f;color:#fff;', ok: 'background:#047857;color:#fff;', err: 'background:#b91c1c;color:#fff;' }
@@ -940,6 +967,5 @@ function toast(msg, type = 'dark') {
 
 // Init
 loadPosts()
-</script>
-</body>
+</script></body>
 </html>
