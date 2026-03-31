@@ -413,7 +413,7 @@ window.doSignUp = async () => {
     setTimeout(()=>{ closeModal(); showToast(`🎉 Bienvenue ${prenom} sur Learnova !`) }, 1800)
 
   } catch(e) {
-    showMsg('sMsg','err','❌ Problème de connexion. Vérifie ta connexion internet.')
+    showMsg('sMsg','err','✅ connexion. Vérifie votre identité en se connecter(email,mot de passe).')
   } finally {
     // Réactiver le bouton seulement si pas un succès
     if (btnTxt.textContent !== '✅ Compte créé !') {
