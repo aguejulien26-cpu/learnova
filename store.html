@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Learnova Store — PDFs Premium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:       #05050a;
+      --surface:  #0f0f18;
+      --s2:       #16162a;
+      --s3:       #1e1e35;
+      --border:   rgba(255,255,255,0.06);
+      --gold:     #f5c842;
+      --gold2:    #e8a820;
+      --teal:     #00e5c0;
+      --pink:     #ff5fa0;
+      --text:     #eeeef8;
+      --muted:    #7777a0;
+      --radius:   18px;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+
+    body{
+      background:var(--bg);
+      color:var(--text);
+      font-family:'Outfit',sans-serif;
+      overflow-x:hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::after{
+      content:'';
+      position:fixed;inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events:none;z-index:9999;
+    }
+
+    /* ── NAV ── */
+    nav{
+      position:sticky;top:0;z-index:100;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:1.1rem 5%;
+      background:rgba(5,5,10,0.85);
+      backdrop-filter:blur(20px);
+      border-bottom:1px solid var(--border);
+    }
+    .nav-logo{
+      font-family:'Playfair Display',serif;
+      font-size:1.5rem;font-weight:900;
+      background:linear-gradient(135deg,var(--gold),var(--gold2));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+    .nav-badge{
+      display:flex;align-items:center;gap:.4rem;
+      background:rgba(245,200,66,0.1);
+      border:1px solid rgba(245,200,66,0.25);
+      color:var(--gold);
+      padding:.3rem .9rem;border-radius:999px;
+      font-size:.76rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    }
+    .nav-badge span{
+      width:6px;height:6px;background:var(--gold);border-radius:50%;
+      animation:blink 1.4s ease infinite;
+    }
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+    /* ── HERO ── */
+    .hero{
+      position:relative;
+      min-height:92vh;
+      display:flex;align-items:center;
+      padding:6rem 5% 4rem;
+      overflow:hidden;
+    }
+    .hero-bg{
+      position:absolute;inset:0;
+      background:
+        radial-gradient(ellipse 70% 60% at 10% 50%,rgba(245,200,66,.09) 0%,transparent 65%),
+        radial-gradient(ellipse 50% 50% at 90% 20%,rgba(0,229,192,.07) 0%,transparent 60%),
+        radial-gradient(ellipse 60% 80% at 50% 100%,rgba(255,95,160,.05) 0%,transparent 60%);
+      pointer-events:none;
+    }
+    .hero-grid{
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:4rem;align-items:center;
+      max-width:1200px;margin:0 auto;width:100%;
+      position:relative;z-index:1;
+    }
+    .hero-tag{
+      display:inline-flex;align-items:center;gap:.5rem;
+      background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.2);
+      color:var(--gold);padding:.35rem 1rem;border-radius:999px;
+      font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+      margin-bottom:1.5rem;
+    }
+    .hero h1{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2.6rem,5vw,4.2rem);
+      font-weight:900;line-height:1.08;
+      letter-spacing:-.02em;margin-bottom:1.3rem;
+    }
+    .hero h1 em{
+      font-style:italic;
+      background:linear-gradient(135deg,var(--gold),var(--pink));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+    .hero-sub{
+      font-size:1.08rem;color:var(--muted);line-height:1.65;
+      margin-bottom:2rem;max-width:480px;
+    }
+    .hero-actions{display:flex;gap:1rem;flex-wrap:wrap;}
+    .btn-gold{
+      background:linear-gradient(135deg,var(--gold),var(--gold2));
+      color:#0a0800;font-weight:700;font-size:.95rem;
+      padding:.85rem 2rem;border-radius:12px;
+      border:none;cursor:pointer;
+      text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;
+      transition:transform .2s,box-shadow .2s;
+      box-shadow:0 4px 24px rgba(245,200,66,.25);
+    }
+    .btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(245,200,66,.4);}
+    .btn-outline{
+      background:transparent;
+      border:1px solid var(--border);
+      color:var(--text);font-size:.95rem;
+      padding:.85rem 1.8rem;border-radius:12px;
+      cursor:pointer;text-decoration:none;
+      display:inline-flex;align-items:center;gap:.5rem;
+      transition:border-color .2s,background .2s;
+    }
+    .btn-outline:hover{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.04);}
+
+    /* Hero social proof */
+    .hero-proof{
+      display:flex;align-items:center;gap:1.2rem;
+      margin-top:2rem;flex-wrap:wrap;
+    }
+    .proof-avatars{display:flex;}
+    .proof-avatars span{
+      width:32px;height:32px;border-radius:50%;
+      background:linear-gradient(135deg,var(--gold),var(--pink));
+      border:2px solid var(--bg);
+      display:flex;align-items:center;justify-content:center;
+      font-size:.75rem;font-weight:700;color:#0a0800;
+      margin-left:-8px;
+    }
+    .proof-avatars span:first-child{margin-left:0;}
+    .proof-text{font-size:.82rem;color:var(--muted);}
+    .proof-text strong{color:var(--text);}
+
+    /* Hero mockup */
+    .hero-mockup{
+      position:relative;
+      display:flex;justify-content:center;
+    }
+    .mockup-stack{position:relative;width:320px;height:400px;}
+    .mockup-card{
+      position:absolute;
+      width:240px;height:310px;
+      border-radius:20px;
+      overflow:hidden;
+      border:1px solid var(--border);
+      box-shadow:0 20px 60px rgba(0,0,0,.6);
+    }
+    .mockup-card img{width:100%;height:100%;object-fit:cover;}
+    .mockup-card .placeholder-thumb{
+      width:100%;height:100%;
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+      gap:.5rem;font-size:3rem;
+    }
+    .mc-1{left:0;top:0;transform:rotate(-5deg);z-index:1;
+      background:linear-gradient(160deg,#1e1e35,#2a2a48);}
+    .mc-2{left:60px;top:40px;z-index:2;
+      background:linear-gradient(160deg,#16162a,#1e1e3a);}
+    .mc-3{left:120px;top:20px;transform:rotate(6deg);z-index:3;
+      background:linear-gradient(160deg,#1e2a35,#162430);}
+    .mockup-float{
+      position:absolute;bottom:-10px;right:-20px;z-index:10;
+      background:var(--s2);border:1px solid rgba(245,200,66,.2);
+      border-radius:14px;padding:.8rem 1.1rem;
+      display:flex;align-items:center;gap:.6rem;
+      font-size:.82rem;
+      box-shadow:0 8px 24px rgba(0,0,0,.4);
+      animation:floatY 3s ease-in-out infinite;
+    }
+    @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    .mockup-float-icon{font-size:1.4rem;}
+    .mockup-float strong{color:var(--gold);display:block;font-size:.9rem;}
+    .mockup-float span{color:var(--muted);}
+
+    /* ── TRUST BAR ── */
+    .trust-bar{
+      background:var(--surface);
+      border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+      padding:1.5rem 5%;
+    }
+    .trust-inner{
+      max-width:1100px;margin:0 auto;
+      display:flex;justify-content:space-around;flex-wrap:wrap;gap:1.5rem;
+    }
+    .trust-item{
+      display:flex;align-items:center;gap:.7rem;
+      font-size:.85rem;color:var(--muted);
+    }
+    .trust-item svg{color:var(--gold);}
+    .trust-item strong{color:var(--text);}
+
+    /* ── SECTION HEADER ── */
+    .section{padding:5rem 5%;}
+    .sec-header{text-align:center;margin-bottom:3.5rem;}
+    .sec-tag{
+      display:inline-block;
+      background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.15);
+      color:var(--gold);padding:.3rem .9rem;border-radius:999px;
+      font-size:.73rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+      margin-bottom:1rem;
+    }
+    .sec-header h2{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;
+      line-height:1.15;margin-bottom:.8rem;
+    }
+    .sec-header h2 em{
+      font-style:italic;
+      background:linear-gradient(135deg,var(--gold),var(--teal));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+    .sec-header p{color:var(--muted);font-size:1rem;max-width:480px;margin:0 auto;}
+
+    /* ── SEARCH + FILTER ── */
+    .store-controls{
+      max-width:1100px;margin:0 auto 2.5rem;
+      display:flex;gap:1rem;flex-wrap:wrap;
+    }
+    .search-wrap{flex:1;min-width:220px;position:relative;}
+    .search-wrap svg{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--muted);}
+    .search-input{
+      width:100%;background:var(--surface);
+      border:1px solid var(--border);border-radius:12px;
+      color:var(--text);font-family:'Outfit',sans-serif;font-size:.9rem;
+      padding:.75rem 1rem .75rem 2.7rem;outline:none;
+      transition:border-color .2s;
+    }
+    .search-input::placeholder{color:var(--muted);}
+    .search-input:focus{border-color:rgba(245,200,66,.4);}
+    .filter-btn{
+      background:var(--surface);border:1px solid var(--border);
+      color:var(--muted);border-radius:12px;
+      padding:.75rem 1.2rem;font-family:'Outfit',sans-serif;
+      font-size:.85rem;cursor:pointer;
+      transition:color .2s,border-color .2s,background .2s;
+      white-space:nowrap;
+    }
+    .filter-btn.active,.filter-btn:hover{
+      color:var(--gold);border-color:rgba(245,200,66,.35);
+      background:rgba(245,200,66,.07);
+    }
+
+    /* ── PDF GRID ── */
+    .pdf-grid{
+      max-width:1100px;margin:0 auto;
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));
+      gap:1.8rem;
+    }
+
+    /* ── PDF CARD ── */
+    .pdf-card{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      overflow:hidden;
+      display:flex;flex-direction:column;
+      transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;
+      animation:fadeUp .5s ease both;
+      cursor:pointer;
+    }
+    .pdf-card:hover{
+      transform:translateY(-6px);
+      box-shadow:0 16px 50px rgba(0,0,0,.5),0 0 0 1px rgba(245,200,66,.12);
+      border-color:rgba(245,200,66,.15);
+    }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+    .card-thumb{
+      height:200px;position:relative;overflow:hidden;flex-shrink:0;
+    }
+    .card-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+    .pdf-card:hover .card-thumb img{transform:scale(1.06);}
+    .card-thumb-ph{
+      width:100%;height:100%;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:.5rem;font-size:3rem;
+    }
+    .card-thumb-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(to top,rgba(5,5,10,.8) 0%,transparent 50%);
+    }
+    .card-badge{
+      position:absolute;top:.8rem;left:.8rem;
+      background:var(--gold);color:#0a0800;
+      font-size:.68rem;font-weight:700;
+      padding:.2rem .65rem;border-radius:999px;
+      text-transform:uppercase;letter-spacing:.06em;
+    }
+    .card-badge.new{background:var(--teal);color:#003a30;}
+    .card-badge.best{background:var(--pink);color:#fff;}
+    .card-buyers{
+      position:absolute;bottom:.8rem;right:.8rem;
+      background:rgba(5,5,10,.75);backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,.1);
+      color:var(--muted);font-size:.73rem;
+      padding:.25rem .6rem;border-radius:999px;
+      display:flex;align-items:center;gap:.3rem;
+    }
+    .card-buyers strong{color:var(--text);}
+
+    .card-body{padding:1.4rem;display:flex;flex-direction:column;flex:1;}
+    .card-cat{
+      font-size:.7rem;font-weight:600;text-transform:uppercase;
+      letter-spacing:.07em;color:var(--teal);margin-bottom:.5rem;
+    }
+    .card-title{
+      font-family:'Playfair Display',serif;
+      font-size:1.1rem;font-weight:700;line-height:1.3;
+      margin-bottom:.5rem;
+    }
+    .card-desc{
+      font-size:.83rem;color:var(--muted);line-height:1.55;
+      margin-bottom:1rem;flex:1;
+      display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+    }
+    .card-features{
+      display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.1rem;
+    }
+    .feature-pill{
+      background:var(--s2);border:1px solid var(--border);
+      font-size:.7rem;color:var(--muted);
+      padding:.2rem .6rem;border-radius:999px;
+      display:flex;align-items:center;gap:.25rem;
+    }
+    .card-rating{
+      display:flex;align-items:center;gap:.4rem;
+      margin-bottom:1rem;
+    }
+    .stars{color:var(--gold);font-size:.85rem;letter-spacing:.05em;}
+    .rating-num{font-size:.8rem;color:var(--muted);}
+    .card-footer{
+      display:flex;align-items:center;justify-content:space-between;
+      padding-top:1rem;border-top:1px solid var(--border);gap:.8rem;
+    }
+    .price-wrap{}
+    .price-old{font-size:.78rem;color:var(--muted);text-decoration:line-through;}
+    .price-new{
+      font-family:'Playfair Display',serif;
+      font-size:1.5rem;font-weight:700;color:var(--gold);
+    }
+    .price-currency{font-size:.8rem;font-weight:400;color:var(--muted);}
+    .btn-buy{
+      flex-shrink:0;
+      background:linear-gradient(135deg,var(--gold),var(--gold2));
+      color:#0a0800;font-weight:700;font-size:.85rem;
+      padding:.65rem 1.3rem;border-radius:10px;border:none;
+      cursor:pointer;
+      display:flex;align-items:center;gap:.4rem;
+      transition:transform .2s,box-shadow .2s;
+      box-shadow:0 3px 12px rgba(245,200,66,.2);
+    }
+    .btn-buy:hover{transform:scale(1.04);box-shadow:0 6px 20px rgba(245,200,66,.4);}
+
+    /* ── EMPTY ── */
+    .empty-state{
+      grid-column:1/-1;text-align:center;padding:5rem 2rem;
+    }
+    .empty-icon{font-size:3.5rem;display:block;margin-bottom:1rem;
+      animation:floatY 3s ease infinite;}
+    .empty-state h3{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:.5rem;}
+    .empty-state p{color:var(--muted);}
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-section{background:var(--surface);padding:5rem 5%;}
+    .testi-grid{
+      max-width:1100px;margin:0 auto;
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;
+    }
+    .testi-card{
+      background:var(--s2);border:1px solid var(--border);
+      border-radius:16px;padding:1.5rem;
+      display:flex;flex-direction:column;gap:1rem;
+    }
+    .testi-stars{color:var(--gold);font-size:1rem;}
+    .testi-text{color:var(--muted);font-size:.88rem;line-height:1.6;font-style:italic;}
+    .testi-text::before{content:'"';}
+    .testi-text::after{content:'"';}
+    .testi-author{display:flex;align-items:center;gap:.7rem;}
+    .testi-avatar{
+      width:36px;height:36px;border-radius:50%;
+      background:linear-gradient(135deg,var(--gold),var(--pink));
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;font-size:.85rem;color:#0a0800;
+      flex-shrink:0;
+    }
+    .testi-name{font-size:.85rem;font-weight:600;}
+    .testi-role{font-size:.75rem;color:var(--muted);}
+
+    /* ── FAQ ── */
+    .faq-section{padding:5rem 5%;max-width:800px;margin:0 auto;}
+    .faq-item{
+      border-bottom:1px solid var(--border);
+    }
+    .faq-q{
+      width:100%;background:none;border:none;color:var(--text);
+      font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:500;
+      padding:1.2rem 0;cursor:pointer;
+      display:flex;justify-content:space-between;align-items:center;
+      gap:1rem;text-align:left;
+    }
+    .faq-q svg{flex-shrink:0;transition:transform .25s;}
+    .faq-q.open svg{transform:rotate(45deg);}
+    .faq-a{
+      font-size:.87rem;color:var(--muted);line-height:1.65;
+      max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s;
+    }
+    .faq-a.open{max-height:300px;padding-bottom:1.2rem;}
+
+    /* ── FOOTER ── */
+    footer{
+      background:var(--surface);
+      border-top:1px solid var(--border);
+      padding:3rem 5%;
+      text-align:center;
+    }
+    footer .footer-logo{
+      font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;
+      background:linear-gradient(135deg,var(--gold),var(--gold2));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      margin-bottom:.5rem;display:block;
+    }
+    footer p{color:var(--muted);font-size:.82rem;}
+
+    /* ── MODAL ── */
+    .modal-overlay{
+      position:fixed;inset:0;z-index:1000;
+      background:rgba(0,0,0,.8);backdrop-filter:blur(10px);
+      display:flex;align-items:center;justify-content:center;
+      padding:1.5rem;
+      opacity:0;pointer-events:none;
+      transition:opacity .3s;
+    }
+    .modal-overlay.open{opacity:1;pointer-events:all;}
+    .modal{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:24px;
+      width:100%;max-width:520px;
+      max-height:90vh;overflow-y:auto;
+      transform:scale(.95);
+      transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+    }
+    .modal-overlay.open .modal{transform:scale(1);}
+    .modal-header{
+      padding:1.8rem 2rem 1rem;
+      display:flex;align-items:flex-start;justify-content:space-between;
+      border-bottom:1px solid var(--border);
+    }
+    .modal-close{
+      background:var(--s2);border:1px solid var(--border);color:var(--muted);
+      width:34px;height:34px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;font-size:1.1rem;flex-shrink:0;
+      transition:color .2s;
+    }
+    .modal-close:hover{color:var(--text);}
+    .modal-body{padding:1.5rem 2rem 2rem;}
+    .modal-thumb{
+      width:100%;height:180px;border-radius:12px;
+      object-fit:cover;margin-bottom:1.2rem;
+    }
+    .modal-thumb-ph{
+      width:100%;height:180px;border-radius:12px;
+      background:var(--s2);display:flex;align-items:center;justify-content:center;
+      font-size:3.5rem;margin-bottom:1.2rem;
+    }
+    .modal-cat{
+      font-size:.72rem;font-weight:600;text-transform:uppercase;
+      letter-spacing:.07em;color:var(--teal);margin-bottom:.4rem;
+    }
+    .modal-title{
+      font-family:'Playfair Display',serif;
+      font-size:1.5rem;font-weight:700;line-height:1.2;margin-bottom:.7rem;
+    }
+    .modal-desc{color:var(--muted);font-size:.88rem;line-height:1.65;margin-bottom:1.2rem;}
+    .modal-features{margin-bottom:1.3rem;}
+    .modal-features h4{font-size:.82rem;font-weight:600;margin-bottom:.6rem;color:var(--text);}
+    .modal-feature-item{
+      display:flex;align-items:center;gap:.5rem;
+      font-size:.83rem;color:var(--muted);margin-bottom:.4rem;
+    }
+    .modal-feature-item svg{color:var(--teal);flex-shrink:0;}
+    .modal-price-row{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:1rem 0;border-top:1px solid var(--border);margin-top:.5rem;
+    }
+    .modal-price{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--gold);}
+    .modal-price sub{font-size:.75rem;font-weight:400;color:var(--muted);}
+    .btn-buy-big{
+      width:100%;
+      background:linear-gradient(135deg,var(--gold),var(--gold2));
+      color:#0a0800;font-weight:700;font-size:1rem;
+      padding:1rem;border-radius:12px;border:none;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;gap:.5rem;
+      margin-top:1rem;
+      transition:opacity .2s,transform .2s;
+      box-shadow:0 6px 24px rgba(245,200,66,.3);
+    }
+    .btn-buy-big:hover{opacity:.9;transform:scale(.99);}
+    .modal-secure{
+      display:flex;align-items:center;justify-content:center;gap:.4rem;
+      font-size:.75rem;color:var(--muted);margin-top:.8rem;
+    }
+
+    /* ── CHECKOUT FORM ── */
+    .checkout-step{display:none;}
+    .checkout-step.active{display:block;}
+    .form-group{margin-bottom:1.1rem;}
+    .form-label{font-size:.8rem;font-weight:500;color:var(--muted);margin-bottom:.4rem;display:block;}
+    .form-input{
+      width:100%;background:var(--s2);border:1px solid var(--border);
+      border-radius:10px;color:var(--text);
+      font-family:'Outfit',sans-serif;font-size:.9rem;
+      padding:.75rem 1rem;outline:none;
+      transition:border-color .2s;
+    }
+    .form-input:focus{border-color:rgba(245,200,66,.45);}
+    .form-input::placeholder{color:var(--muted);}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
+
+    /* Processing */
+    .processing-state{text-align:center;padding:2rem 0;}
+    .spinner{
+      width:48px;height:48px;border-radius:50%;margin:0 auto 1.2rem;
+      border:3px solid var(--s3);
+      border-top-color:var(--gold);
+      animation:spin .8s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .processing-state h3{font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:.4rem;}
+    .processing-state p{color:var(--muted);font-size:.85rem;}
+
+    /* Success */
+    .success-state{text-align:center;padding:2rem 0;}
+    .success-icon{font-size:3.5rem;display:block;margin-bottom:1rem;}
+    .success-state h3{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:.5rem;}
+    .success-state p{color:var(--muted);font-size:.88rem;margin-bottom:1.5rem;}
+    .btn-download{
+      display:inline-flex;align-items:center;gap:.5rem;
+      background:linear-gradient(135deg,var(--teal),#00b89a);
+      color:#003a30;font-weight:700;font-size:.95rem;
+      padding:.85rem 2rem;border-radius:12px;border:none;cursor:pointer;
+      transition:opacity .2s;
+    }
+    .btn-download:hover{opacity:.88;}
+
+    /* ── TOAST ── */
+    .toast{
+      position:fixed;bottom:2rem;right:2rem;z-index:9000;
+      background:var(--s2);border:1px solid var(--border);
+      color:var(--text);font-size:.85rem;
+      padding:.8rem 1.3rem;border-radius:12px;
+      display:flex;align-items:center;gap:.5rem;
+      transform:translateY(80px);opacity:0;
+      transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .3s;
+      pointer-events:none;max-width:300px;
+    }
+    .toast.show{transform:translateY(0);opacity:1;}
+
+    /* ── LOADING SKELETONS ── */
+    .sk-card{
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:var(--radius);overflow:hidden;
+      animation:shimmer 1.6s ease infinite;
+    }
+    .sk-thumb{height:200px;background:var(--s2);}
+    .sk-body{padding:1.4rem;display:flex;flex-direction:column;gap:.7rem;}
+    .sk-line{height:11px;background:var(--s2);border-radius:6px;}
+    .sk-line.s{width:40%;}
+    .sk-line.m{width:70%;}
+    @keyframes shimmer{0%,100%{opacity:1}50%{opacity:.45}}
+
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease;}
+    .reveal.visible{opacity:1;transform:none;}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){
+      .hero-grid{grid-template-columns:1fr;}
+      .hero-mockup{display:none;}
+    }
+    @media(max-width:600px){
+      nav{padding:1rem 1.5rem;}
+      .hero{padding:4rem 1.5rem 3rem;}
+      .section{padding:3.5rem 1.5rem;}
+      .testimonials-section{padding:3.5rem 1.5rem;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Learnova</div>
+  <div class="nav-badge">
+    <span></span>
+    PDFs Premium
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid">
+    <div>
+      <div class="hero-tag">📚 Formation digitale</div>
+      <h1>Des PDFs qui <em>transforment</em> ta carrière</h1>
+      <p class="hero-sub">Des guides premium conçus pour t'apporter des résultats concrets. Télécharge, applique, évolue.</p>
+      <div class="hero-actions">
+        <a href="#store" class="btn-gold">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          Voir les PDFs
+        </a>
+        <a href="#testimonials" class="btn-outline">Témoignages →</a>
+      </div>
+      <div class="hero-proof">
+        <div class="proof-avatars">
+          <span>A</span><span>M</span><span>K</span><span>S</span><span>+</span>
+        </div>
+        <p class="proof-text"><strong id="heroCount">0</strong> apprenants ont déjà téléchargé</p>
+      </div>
+    </div>
+    <div class="hero-mockup">
+      <div class="mockup-stack">
+        <div class="mockup-card mc-1">
+          <div class="placeholder-thumb" style="background:linear-gradient(160deg,#1a1a3a,#2d2d5a)">📊</div>
+        </div>
+        <div class="mockup-card mc-2">
+          <div class="placeholder-thumb" style="background:linear-gradient(160deg,#1a2a1a,#2d4a2d)">💡</div>
+        </div>
+        <div class="mockup-card mc-3">
+          <div class="placeholder-thumb" style="background:linear-gradient(160deg,#2a1a1a,#4a2d2d)">🚀</div>
+        </div>
+        <div class="mockup-float">
+          <span class="mockup-float-icon">🎉</span>
+          <div>
+            <strong>Nouveau PDF !</strong>
+            <span>Vient d'être ajouté</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span><strong>Paiement sécurisé</strong> via FedaPay</span>
+    </div>
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      <span><strong>Livraison instantanée</strong> par email</span>
+    </div>
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span><strong>Garantie</strong> satisfaction 7 jours</span>
+    </div>
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span><strong>Accès immédiat</strong> après achat</span>
+    </div>
+  </div>
+</div>
+
+<!-- STORE SECTION -->
+<section class="section" id="store">
+  <div class="sec-header reveal">
+    <div class="sec-tag">📖 Notre catalogue</div>
+    <h2>Tous nos PDFs <em>Premium</em></h2>
+    <p>Chaque guide est soigneusement conçu pour te donner les outils dont tu as besoin.</p>
+  </div>
+
+  <div class="store-controls reveal">
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-input" id="searchInput" placeholder="Rechercher un PDF…"/>
+    </div>
+    <button class="filter-btn active" data-cat="all">Tous</button>
+    <div id="catFilters"></div>
+  </div>
+
+  <!-- Loading skeletons -->
+  <div class="pdf-grid" id="loadingGrid">
+    <div class="sk-card"><div class="sk-thumb"></div><div class="sk-body"><div class="sk-line s"></div><div class="sk-line m"></div><div class="sk-line"></div></div></div>
+    <div class="sk-card"><div class="sk-thumb"></div><div class="sk-body"><div class="sk-line s"></div><div class="sk-line m"></div><div class="sk-line"></div></div></div>
+    <div class="sk-card"><div class="sk-thumb"></div><div class="sk-body"><div class="sk-line s"></div><div class="sk-line m"></div><div class="sk-line"></div></div></div>
+  </div>
+
+  <div class="pdf-grid" id="pdfGrid" style="display:none;"></div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" id="testimonials">
+  <div class="sec-header reveal">
+    <div class="sec-tag">💬 Avis clients</div>
+    <h2>Ce qu'ils <em>disent</em></h2>
+  </div>
+  <div class="testi-grid" id="testiGrid">
+    <!-- Static testimonials -->
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Un guide incroyablement bien structuré. J'ai appliqué les conseils dès le premier jour et les résultats ont été visibles rapidement.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">A</div>
+        <div><div class="testi-name">Aminata D.</div><div class="testi-role">Entrepreneuse</div></div>
+      </div>
+    </div>
+    <div class="testi-card reveal" style="animation-delay:.1s">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Je recommande à 100%. Le contenu est dense et pratique, pas de blabla inutile. Exactement ce que je cherchais.</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:linear-gradient(135deg,var(--teal),#00b89a);color:#003a30;">M</div>
+        <div><div class="testi-name">Mamadou K.</div><div class="testi-role">Développeur</div></div>
+      </div>
+    </div>
+    <div class="testi-card reveal" style="animation-delay:.2s">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Livraison instantanée, contenu premium. Le meilleur investissement pour ma formation cette année.</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:linear-gradient(135deg,var(--pink),#e040a0);color:#fff;">S</div>
+        <div><div class="testi-name">Salimata B.</div><div class="testi-role">Étudiante</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section reveal">
+  <div class="sec-header">
+    <div class="sec-tag">❓ FAQ</div>
+    <h2>Questions <em>fréquentes</em></h2>
+  </div>
+  <div id="faqList">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Comment reçois-je mon PDF après achat ?
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="faq-a">Après confirmation du paiement via FedaPay, tu reçois immédiatement un email avec le lien de téléchargement. Vérifie tes spams si tu ne le vois pas dans les 5 minutes.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Quels modes de paiement sont acceptés ?
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="faq-a">Nous acceptons Mobile Money (MTN, Moov, Wave, Orange Money), cartes bancaires Visa/Mastercard, et tous les moyens disponibles sur FedaPay selon ton pays.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Puis-je obtenir un remboursement ?
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="faq-a">Oui ! Si tu n'es pas satisfait dans les 7 jours suivant l'achat, contacte-nous et nous procéderons au remboursement sans questions.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Combien de fois puis-je télécharger mon PDF ?
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="faq-a">Accès illimité. Tu peux télécharger ton PDF autant de fois que tu veux, sur tous tes appareils. Le lien reste actif indéfiniment.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Learnova</span>
+  <p>© 2025 Learnova — Tous droits réservés</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-cat" id="mCat"></div>
+        <div class="modal-title" id="mTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Step 1: Details -->
+      <div class="checkout-step active" id="step1">
+        <div id="mThumbWrap"></div>
+        <div class="modal-desc" id="mDesc"></div>
+        <div class="modal-features" id="mFeatures"></div>
+        <div class="modal-price-row">
+          <div>
+            <div class="price-old" id="mOldPrice"></div>
+            <div class="modal-price" id="mPrice"></div>
+          </div>
+          <div style="text-align:right;font-size:.78rem;color:var(--muted);">
+            <div>💳 Paiement sécurisé</div>
+            <div>⚡ Accès immédiat</div>
+          </div>
+        </div>
+        <button class="btn-buy-big" onclick="goToCheckout()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Acheter maintenant
+        </button>
+        <div class="modal-secure">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Paiement 100% sécurisé • Accès instantané • Garantie 7 jours
+        </div>
+      </div>
+
+      <!-- Step 2: Checkout form -->
+      <div class="checkout-step" id="step2">
+        <h3 style="font-family:'Playfair Display',serif;margin-bottom:1.2rem;font-size:1.2rem;">Tes informations</h3>
+        <div class="form-group">
+          <label class="form-label">Prénom & Nom *</label>
+          <input type="text" class="form-input" id="buyerName" placeholder="Mamadou Koné"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email (pour recevoir ton PDF) *</label>
+          <input type="email" class="form-input" id="buyerEmail" placeholder="toi@gmail.com"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Téléphone (Mobile Money)</label>
+          <input type="tel" class="form-input" id="buyerPhone" placeholder="+229 XX XX XX XX"/>
+        </div>
+        <div style="background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:1.2rem;">
+          <div style="display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);margin-bottom:.3rem;">
+            <span>PDF sélectionné</span>
+            <span id="summaryTitle" style="color:var(--text);">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:1.1rem;font-weight:700;">
+            <span>Total</span>
+            <span style="color:var(--gold);" id="summaryPrice">—</span>
+          </div>
+        </div>
+        <button class="btn-buy-big" onclick="submitPayment()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Payer via FedaPay
+        </button>
+        <button onclick="goToStep(1)" style="width:100%;background:none;border:none;color:var(--muted);font-size:.82rem;margin-top:.8rem;cursor:pointer;">← Retour</button>
+      </div>
+
+      <!-- Step 3: Processing -->
+      <div class="checkout-step" id="step3">
+        <div class="processing-state">
+          <div class="spinner"></div>
+          <h3>Traitement en cours…</h3>
+          <p>Connexion à FedaPay sécurisée. Ne ferme pas cette fenêtre.</p>
+        </div>
+      </div>
+
+      <!-- Step 4: Success -->
+      <div class="checkout-step" id="step4">
+        <div class="success-state">
+          <span class="success-icon">🎉</span>
+          <h3>Paiement réussi !</h3>
+          <p>Ton PDF est en route vers <strong id="successEmail"></strong>. Vérifie ta boîte mail (et les spams).</p>
+          <button class="btn-download" id="downloadBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Télécharger maintenant
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span id="toastMsg"></span>
+</div>
+
+<!-- SUPABASE + FEDAPAY -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
+<script>
+// ─── CONFIG ───────────────────────────────────────────────
+const SUPABASE_URL    = 'https://YOUR_PROJECT.supabase.co'; // ← remplace
+const SUPABASE_ANON   = 'YOUR_ANON_KEY';                   // ← remplace
+const FEDAPAY_PUB_KEY = 'YOUR_FEDAPAY_PUBLIC_KEY';         // ← remplace (pk_sandbox_... ou pk_live_...)
+const FEDAPAY_ENV     = 'sandbox';                          // ← 'sandbox' ou 'live'
+
+// ─── INIT ─────────────────────────────────────────────────
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+let allPdfs      = [];
+let currentPdf   = null;
+let activeFilter = 'all';
+
+// ─── LOAD PDFS ────────────────────────────────────────────
+async function loadPdfs() {
+  const { data, error } = await sb
+    .from('pdf_products')
+    .select('*')
+    .eq('published', true)
+    .order('created_at', { ascending: false });
+
+  document.getElementById('loadingGrid').style.display = 'none';
+  document.getElementById('pdfGrid').style.display = 'grid';
+
+  if (error) { console.error(error); return; }
+  allPdfs = data || [];
+
+  // Compte héros
+  const totalBuyers = allPdfs.reduce((a,c)=>a+(c.buyers_count||0),0);
+  animateCount('heroCount', totalBuyers);
+
+  buildCatFilters();
+  renderPdfs(allPdfs);
+}
+
+// ─── REALTIME ─────────────────────────────────────────────
+function setupRealtime() {
+  sb.channel('pdf_products')
+    .on('postgres_changes',{event:'*',schema:'public',table:'pdf_products'},()=>{
+      loadPdfs();
+      showToast('🆕 Nouveau PDF disponible !');
+    })
+    .subscribe();
+}
+
+// ─── CATEGORY FILTERS ────────────────────────────────────
+function buildCatFilters() {
+  const cats = [...new Set(allPdfs.map(p=>p.category).filter(Boolean))];
+  const wrap = document.getElementById('catFilters');
+  wrap.innerHTML = cats.map(c=>`
+    <button class="filter-btn" data-cat="${c}" onclick="setFilter('${c}',this)">${c}</button>
+  `).join('');
+}
+
+function setFilter(cat, btn) {
+  activeFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilter();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelector('[data-cat="all"]')?.addEventListener('click',function(){
+    activeFilter='all';
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    applyFilter();
+  });
+});
+
+function applyFilter() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  let list = allPdfs.filter(p=>{
+    const matchCat = activeFilter==='all'||p.category===activeFilter;
+    const matchQ   = !q||(p.title||'').toLowerCase().includes(q)||(p.description||'').toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+  renderPdfs(list);
+}
+
+document.getElementById('searchInput')?.addEventListener('input', applyFilter);
+
+// ─── RENDER ───────────────────────────────────────────────
+const EMOJIS = ['📊','💡','🚀','🎯','🧠','⚡','📈','🔑','💼','🌟'];
+
+function renderPdfs(list) {
+  const grid = document.getElementById('pdfGrid');
+  if (!list.length) {
+    grid.innerHTML=`<div class="empty-state"><span class="empty-icon">📭</span><h3>Aucun PDF trouvé</h3><p>Essaie un autre filtre.</p></div>`;
+    return;
+  }
+  grid.innerHTML = list.map((p,i)=>{
+    const emoji = EMOJIS[i % EMOJIS.length];
+    const hasBg = p.color_gradient || null;
+    const bgStyle = hasBg ? `background:${hasBg}` : `background:linear-gradient(160deg,#1a1a3a,#2a2a50)`;
+    const thumbHtml = p.image_url
+      ? `<img src="${p.image_url}" alt="${esc(p.title)}" loading="lazy"/>`
+      : `<div class="card-thumb-ph" style="${bgStyle}">${emoji}</div>`;
+
+    const badgeHtml = p.badge ? `<div class="card-badge ${p.badge==='Nouveau'?'new':p.badge==='Best-seller'?'best':''}">${p.badge}</div>` : '';
+    const buyersHtml = p.buyers_count>0 ? `<div class="card-buyers"><strong>${p.buyers_count}</strong> acheteurs</div>` : '';
+    const oldPriceHtml = p.price_old ? `<div class="price-old">${p.price_old} FCFA</div>` : '';
+    const featuresHtml = (p.features||[]).slice(0,3).map(f=>`
+      <span class="feature-pill">✓ ${esc(f)}</span>`).join('');
+
+    return `
+      <div class="pdf-card" style="animation-delay:${i*.07}s" onclick="openModal(${JSON.stringify(p).replace(/"/g,'&quot;')})">
+        <div class="card-thumb">
+          ${thumbHtml}
+          <div class="card-thumb-overlay"></div>
+          ${badgeHtml}
+          ${buyersHtml}
+        </div>
+        <div class="card-body">
+          ${p.category?`<div class="card-cat">${esc(p.category)}</div>`:''}
+          <div class="card-title">${esc(p.title)}</div>
+          <div class="card-desc">${esc(p.description||'')}</div>
+          <div class="card-features">${featuresHtml}</div>
+          <div class="card-rating">
+            <span class="stars">${'★'.repeat(Math.round(p.rating||5))}</span>
+            <span class="rating-num">${(p.rating||5).toFixed(1)} (${p.reviews_count||0} avis)</span>
+          </div>
+          <div class="card-footer">
+            <div class="price-wrap">
+              ${oldPriceHtml}
+              <div class="price-new">${formatPrice(p.price)}<span class="price-currency"> FCFA</span></div>
+            </div>
+            <button class="btn-buy" onclick="event.stopPropagation();openModal(${JSON.stringify(p).replace(/"/g,'&quot;')})">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Acheter
+            </button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ─── MODAL ────────────────────────────────────────────────
+function openModal(pdf) {
+  currentPdf = pdf;
+  goToStep(1);
+
+  document.getElementById('mCat').textContent   = pdf.category || '';
+  document.getElementById('mTitle').textContent = pdf.title || '';
+  document.getElementById('mDesc').textContent  = pdf.description || '';
+  document.getElementById('mPrice').innerHTML   = `${formatPrice(pdf.price)}<sub> FCFA</sub>`;
+  document.getElementById('mOldPrice').textContent = pdf.price_old ? `${pdf.price_old} FCFA` : '';
+
+  // Thumb
+  const tw = document.getElementById('mThumbWrap');
+  if (pdf.image_url) {
+    tw.innerHTML=`<img src="${pdf.image_url}" class="modal-thumb" alt="${esc(pdf.title)}"/>`;
+  } else {
+    const emojis=['📊','💡','🚀','🎯','🧠'];
+    tw.innerHTML=`<div class="modal-thumb-ph">${emojis[Math.floor(Math.random()*emojis.length)]}</div>`;
+  }
+
+  // Features
+  const feats = pdf.features || [];
+  document.getElementById('mFeatures').innerHTML = feats.length
+    ? `<h4>Ce que tu obtiens :</h4>${feats.map(f=>`
+        <div class="modal-feature-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          ${esc(f)}
+        </div>`).join('')}`
+    : '';
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  currentPdf = null;
+}
+
+function closeModalOnBg(e) {
+  if (e.target===document.getElementById('modalOverlay')) closeModal();
+}
+
+function goToStep(n) {
+  document.querySelectorAll('.checkout-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+}
+
+function goToCheckout() {
+  if (!currentPdf) return;
+  document.getElementById('summaryTitle').textContent = currentPdf.title;
+  document.getElementById('summaryPrice').textContent = formatPrice(currentPdf.price)+' FCFA';
+  goToStep(2);
+}
+
+// ─── PAYMENT ──────────────────────────────────────────────
+async function submitPayment() {
+  const name  = document.getElementById('buyerName').value.trim();
+  const email = document.getElementById('buyerEmail').value.trim();
+  const phone = document.getElementById('buyerPhone').value.trim();
+
+  if (!name || !email) { showToast('⚠️ Remplis ton nom et email'); return; }
+  if (!email.includes('@')) { showToast('⚠️ Email invalide'); return; }
+
+  goToStep(3);
+
+  try {
+    FedaPay.init({
+      public_key: FEDAPAY_PUB_KEY,
+      transaction: {
+        amount:      currentPdf.price,
+        description: `Achat PDF : ${currentPdf.title}`,
+        currency:    { iso: 'XOF' },
+        customer: {
+          firstname: name.split(' ')[0] || name,
+          lastname:  name.split(' ').slice(1).join(' ') || '',
+          email:     email,
+          phone_number: { number: phone || '', country: 'bj' }
+        }
+      },
+      environment: FEDAPAY_ENV,
+      onComplete: async (resp) => {
+        if (resp.reason === FedaPay.DIALOG_DISMISSED) {
+          goToStep(2);
+          showToast('❌ Paiement annulé');
+          return;
+        }
+        if (resp.transaction && resp.transaction.status === 'approved') {
+          await onPaymentSuccess(resp.transaction, email, name, currentPdf);
+        } else {
+          goToStep(2);
+          showToast('❌ Paiement échoué. Réessaie.');
+        }
+      }
+    });
+    FedaPay.open();
+    goToStep(2); // revient au form pendant que le widget est ouvert
+  } catch(err) {
+    console.error(err);
+    goToStep(2);
+    showToast('❌ Erreur FedaPay. Réessaie.');
+  }
+}
+
+async function onPaymentSuccess(transaction, email, name, pdf) {
+  goToStep(3);
+
+  // Enregistre l'achat dans Supabase
+  try {
+    await sb.from('pdf_purchases').insert({
+      pdf_id:         pdf.id,
+      buyer_email:    email,
+      buyer_name:     name,
+      amount:         pdf.price,
+      transaction_id: transaction.id,
+      status:         'completed'
+    });
+
+    // Incrémente buyers_count
+    await sb.rpc('increment_buyers_count', { pdf_id: pdf.id });
+  } catch(err) {
+    console.error('Supabase save error:', err);
+  }
+
+  // Affiche succès
+  document.getElementById('successEmail').textContent = email;
+  document.getElementById('downloadBtn').onclick = () => window.open(pdf.pdf_url, '_blank');
+  document.getElementById('downloadBtn').style.display = pdf.pdf_url ? 'inline-flex' : 'none';
+
+  goToStep(4);
+  showToast('🎉 Paiement réussi ! Vérifie ton email.');
+}
+
+// ─── HELPERS ──────────────────────────────────────────────
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function formatPrice(n){ return Number(n||0).toLocaleString('fr-FR'); }
+
+function animateCount(id, target) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  let cur=0; const step=Math.max(1,Math.ceil(target/60));
+  const t = setInterval(()=>{ cur=Math.min(cur+step,target); el.textContent=cur; if(cur>=target)clearInterval(t); },30);
+}
+
+function showToast(msg, duration=3000) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), duration);
+}
+
+function toggleFaq(btn) {
+  const a = btn.nextElementSibling;
+  const isOpen = a.classList.contains('open');
+  document.querySelectorAll('.faq-a.open').forEach(el=>{el.classList.remove('open');el.previousElementSibling.classList.remove('open');});
+  if (!isOpen) { a.classList.add('open'); btn.classList.add('open'); }
+}
+
+// ─── SCROLL REVEAL ────────────────────────────────────────
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ─── BOOT ─────────────────────────────────────────────────
+loadPdfs();
+setupRealtime();
+</script>
+</body>
+</html>
