@@ -1,0 +1,1026 @@
+!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Learnova Admin — Gestion PDFs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#07070f;--surface:#0f0f1c;--s2:#161626;--s3:#1e1e32;
+      --border:rgba(255,255,255,0.07);
+      --gold:#f5c842;--gold2:#e8a820;
+      --teal:#00e5c0;--pink:#ff5fa0;--red:#ff4466;
+      --text:#eeeef8;--muted:#6666a0;
+      --success:#00e5c0;--danger:#ff4466;
+      --r:14px;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh;display:flex;overflow-x:hidden;}
+
+    /* ── SIDEBAR ── */
+    .sidebar{
+      width:240px;flex-shrink:0;background:var(--surface);
+      border-right:1px solid var(--border);
+      display:flex;flex-direction:column;
+      position:sticky;top:0;height:100vh;
+      padding:0;z-index:50;
+    }
+    .sidebar-logo{
+      padding:1.5rem 1.5rem 1.2rem;
+      border-bottom:1px solid var(--border);
+    }
+    .logo-text{
+      font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;
+      background:linear-gradient(135deg,var(--gold),var(--gold2));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+    .logo-sub{font-size:.72rem;color:var(--muted);margin-top:.15rem;}
+    .sidebar-nav{flex:1;padding:1.2rem .8rem;display:flex;flex-direction:column;gap:.3rem;}
+    .nav-item{
+      display:flex;align-items:center;gap:.7rem;
+      padding:.7rem .9rem;border-radius:10px;
+      font-size:.88rem;font-weight:500;color:var(--muted);
+      cursor:pointer;transition:background .2s,color .2s;
+      text-decoration:none;
+    }
+    .nav-item:hover,.nav-item.active{background:var(--s2);color:var(--text);}
+    .nav-item.active{background:rgba(245,200,66,.1);color:var(--gold);}
+    .sidebar-bottom{
+      padding:1rem .8rem;border-top:1px solid var(--border);
+      display:flex;flex-direction:column;gap:.3rem;
+    }
+    .btn-view-store{
+      display:flex;align-items:center;gap:.6rem;
+      background:linear-gradient(135deg,var(--gold),var(--gold2));
+      color:#0a0800;font-weight:600;font-size:.82rem;
+      padding:.65rem 1rem;border-radius:10px;border:none;cursor:pointer;
+      transition:opacity .2s;text-decoration:none;
+    }
+    .btn-view-store:hover{opacity:.88;}
+
+    /* ── MAIN ── */
+    main{flex:1;overflow-y:auto;min-height:100vh;}
+
+    /* ── TOPBAR ── */
+    .topbar{
+      position:sticky;top:0;z-index:40;
+      background:rgba(7,7,15,0.9);backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:1rem 2rem;
+    }
+    .topbar-title{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;}
+    .topbar-right{display:flex;align-items:center;gap:.8rem;}
+    .topbar-badge{
+      display:flex;align-items:center;gap:.35rem;
+      background:rgba(0,229,192,0.1);border:1px solid rgba(0,229,192,.2);
+      color:var(--teal);padding:.3rem .8rem;border-radius:999px;
+      font-size:.73rem;font-weight:600;letter-spacing:.05em;
+    }
+    .topbar-badge span{width:6px;height:6px;background:var(--teal);border-radius:50%;animation:blink 1.5s ease infinite;}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+    /* ── CONTENT ── */
+    .content{padding:2rem;}
+
+    /* ── STATS CARDS ── */
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-bottom:2rem;}
+    .stat-card{
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:var(--r);padding:1.3rem 1.4rem;
+      display:flex;align-items:center;gap:1rem;
+    }
+    .stat-icon{
+      width:44px;height:44px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;font-size:1.3rem;
+      flex-shrink:0;
+    }
+    .stat-card:nth-child(1) .stat-icon{background:rgba(245,200,66,.12);}
+    .stat-card:nth-child(2) .stat-icon{background:rgba(0,229,192,.1);}
+    .stat-card:nth-child(3) .stat-icon{background:rgba(255,95,160,.1);}
+    .stat-card:nth-child(4) .stat-icon{background:rgba(108,99,255,.1);}
+    .stat-info{}
+    .stat-num{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:700;line-height:1;}
+    .stat-label{font-size:.75rem;color:var(--muted);margin-top:.15rem;}
+
+    /* ── SECTION HEADER ── */
+    .sec-row{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:1.5rem;flex-wrap:wrap;gap:.8rem;
+    }
+    .sec-row h2{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;}
+
+    /* ── BTN ── */
+    .btn{
+      display:inline-flex;align-items:center;gap:.45rem;
+      padding:.65rem 1.2rem;border-radius:10px;border:none;
+      font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:600;
+      cursor:pointer;transition:opacity .2s,transform .15s;
+    }
+    .btn:hover{opacity:.88;transform:scale(.98);}
+    .btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0800;}
+    .btn-ghost{background:var(--s2);border:1px solid var(--border);color:var(--text);}
+    .btn-danger{background:rgba(255,68,102,.12);border:1px solid rgba(255,68,102,.2);color:var(--red);}
+    .btn-success{background:rgba(0,229,192,.1);border:1px solid rgba(0,229,192,.2);color:var(--teal);}
+    .btn-sm{padding:.4rem .8rem;font-size:.78rem;}
+
+    /* ── TABLE ── */
+    .table-wrap{
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:var(--r);overflow:hidden;margin-bottom:2rem;
+    }
+    .table-search{
+      padding:1rem 1.2rem;border-bottom:1px solid var(--border);
+      display:flex;gap:.8rem;
+    }
+    .table-search input{
+      flex:1;background:var(--s2);border:1px solid var(--border);
+      border-radius:9px;color:var(--text);font-family:'Outfit',sans-serif;
+      font-size:.88rem;padding:.6rem 1rem;outline:none;
+      transition:border-color .2s;
+    }
+    .table-search input:focus{border-color:rgba(245,200,66,.4);}
+    .table-search input::placeholder{color:var(--muted);}
+    table{width:100%;border-collapse:collapse;}
+    thead th{
+      text-align:left;font-size:.73rem;font-weight:600;
+      text-transform:uppercase;letter-spacing:.07em;color:var(--muted);
+      padding:.9rem 1.2rem;border-bottom:1px solid var(--border);
+      background:var(--s2);
+    }
+    tbody tr{transition:background .15s;border-bottom:1px solid var(--border);}
+    tbody tr:last-child{border-bottom:none;}
+    tbody tr:hover{background:var(--s2);}
+    td{padding:.9rem 1.2rem;vertical-align:middle;font-size:.85rem;}
+    .td-thumb{
+      width:52px;height:52px;border-radius:10px;object-fit:cover;
+      flex-shrink:0;background:var(--s3);
+    }
+    .td-thumb-ph{
+      width:52px;height:52px;border-radius:10px;
+      background:var(--s3);display:flex;align-items:center;justify-content:center;
+      font-size:1.4rem;
+    }
+    .td-name{font-weight:600;max-width:180px;}
+    .td-desc{color:var(--muted);font-size:.78rem;max-width:200px;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .td-cat{
+      display:inline-block;background:rgba(0,229,192,.08);border:1px solid rgba(0,229,192,.15);
+      color:var(--teal);font-size:.7rem;font-weight:600;
+      padding:.18rem .6rem;border-radius:999px;
+    }
+    .price-cell{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:var(--gold);}
+    .toggle-wrap{display:flex;align-items:center;gap:.5rem;}
+    .toggle{
+      width:40px;height:22px;border-radius:999px;
+      position:relative;cursor:pointer;transition:background .2s;
+      border:none;flex-shrink:0;
+    }
+    .toggle.on{background:var(--teal);}
+    .toggle.off{background:var(--s3);}
+    .toggle::after{
+      content:'';position:absolute;top:3px;
+      width:16px;height:16px;border-radius:50%;background:#fff;
+      transition:left .2s;
+    }
+    .toggle.on::after{left:21px;}
+    .toggle.off::after{left:3px;}
+    .toggle-label{font-size:.75rem;color:var(--muted);}
+    .td-actions{display:flex;gap:.4rem;flex-wrap:wrap;}
+
+    /* ── EMPTY TABLE ── */
+    .table-empty{text-align:center;padding:3rem;color:var(--muted);}
+    .table-empty-icon{font-size:2.5rem;display:block;margin-bottom:.8rem;}
+
+    /* ── MODAL ── */
+    .modal-overlay{
+      position:fixed;inset:0;z-index:200;
+      background:rgba(0,0,0,.75);backdrop-filter:blur(10px);
+      display:flex;align-items:center;justify-content:center;padding:1.5rem;
+      opacity:0;pointer-events:none;transition:opacity .25s;
+    }
+    .modal-overlay.open{opacity:1;pointer-events:all;}
+    .modal{
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:20px;width:100%;max-width:640px;
+      max-height:90vh;overflow-y:auto;
+      transform:scale(.95);transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+    }
+    .modal-overlay.open .modal{transform:scale(1);}
+    .modal-head{
+      padding:1.5rem 2rem;border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;
+      position:sticky;top:0;background:var(--surface);z-index:2;
+    }
+    .modal-head h3{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;}
+    .modal-close{
+      background:var(--s2);border:1px solid var(--border);color:var(--muted);
+      width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+      cursor:pointer;font-size:1rem;transition:color .2s;
+    }
+    .modal-close:hover{color:var(--text);}
+    .modal-form{padding:1.8rem 2rem;}
+
+    /* FORM */
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    .form-group{margin-bottom:1.1rem;}
+    .form-group.full{grid-column:1/-1;}
+    label{font-size:.78rem;font-weight:500;color:var(--muted);margin-bottom:.4rem;display:block;}
+    .form-input,.form-select,.form-textarea{
+      width:100%;background:var(--s2);border:1px solid var(--border);
+      border-radius:10px;color:var(--text);
+      font-family:'Outfit',sans-serif;font-size:.9rem;
+      padding:.75rem 1rem;outline:none;
+      transition:border-color .2s;
+    }
+    .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:rgba(245,200,66,.45);}
+    .form-input::placeholder,.form-textarea::placeholder{color:var(--muted);}
+    .form-select{appearance:none;-webkit-appearance:none;cursor:pointer;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236666a0' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat:no-repeat;background-position:right .9rem center;padding-right:2.4rem;}
+    .form-select option{background:var(--s2);}
+    .form-textarea{resize:vertical;min-height:90px;line-height:1.5;}
+
+    /* Image upload */
+    .upload-zone{
+      border:2px dashed var(--border);border-radius:12px;
+      padding:1.5rem;text-align:center;cursor:pointer;
+      transition:border-color .2s,background .2s;
+    }
+    .upload-zone:hover{border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.03);}
+    .upload-zone.drag{border-color:var(--gold);background:rgba(245,200,66,.06);}
+    .upload-icon{font-size:2rem;display:block;margin-bottom:.5rem;}
+    .upload-zone p{font-size:.82rem;color:var(--muted);}
+    .upload-zone strong{color:var(--gold);}
+    .upload-preview{
+      width:100%;height:140px;object-fit:cover;
+      border-radius:10px;margin-top:.8rem;display:none;
+    }
+    .upload-url-row{display:flex;gap:.5rem;margin-top:.7rem;}
+    .upload-url-row input{flex:1;}
+
+    /* Features tags */
+    .features-input-row{display:flex;gap:.5rem;margin-bottom:.6rem;}
+    .features-input-row input{flex:1;}
+    .features-tags{display:flex;flex-wrap:wrap;gap:.4rem;min-height:30px;}
+    .feat-tag{
+      display:flex;align-items:center;gap:.3rem;
+      background:var(--s3);border:1px solid var(--border);
+      font-size:.75rem;color:var(--text);
+      padding:.25rem .6rem;border-radius:999px;
+    }
+    .feat-tag button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.85rem;line-height:1;padding:0;}
+    .feat-tag button:hover{color:var(--red);}
+
+    /* Color picker row */
+    .color-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;}
+    .color-swatch{
+      width:28px;height:28px;border-radius:8px;cursor:pointer;
+      border:2px solid transparent;transition:transform .15s,border-color .15s;
+    }
+    .color-swatch.active,.color-swatch:hover{transform:scale(1.15);border-color:rgba(255,255,255,.5);}
+    .form-hint{font-size:.73rem;color:var(--muted);margin-top:.3rem;}
+
+    /* Badge select */
+    .badge-options{display:flex;gap:.5rem;flex-wrap:wrap;}
+    .badge-opt{
+      background:var(--s2);border:1px solid var(--border);
+      color:var(--muted);font-size:.75rem;font-weight:600;
+      padding:.3rem .7rem;border-radius:999px;cursor:pointer;
+      transition:all .2s;
+    }
+    .badge-opt.active{border-color:var(--gold);color:var(--gold);background:rgba(245,200,66,.1);}
+
+    /* Saving spinner */
+    .btn-saving{opacity:.6;pointer-events:none;}
+    .btn-saving::after{content:'…';}
+
+    /* ── RECENT ORDERS ── */
+    .orders-table-wrap{
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:var(--r);overflow:hidden;
+    }
+    .order-status{
+      display:inline-block;font-size:.7rem;font-weight:600;
+      padding:.2rem .65rem;border-radius:999px;
+    }
+    .status-completed{background:rgba(0,229,192,.1);color:var(--teal);border:1px solid rgba(0,229,192,.2);}
+    .status-pending{background:rgba(245,200,66,.1);color:var(--gold);border:1px solid rgba(245,200,66,.2);}
+    .status-failed{background:rgba(255,68,102,.1);color:var(--red);border:1px solid rgba(255,68,102,.2);}
+
+    /* ── TOAST ── */
+    .toast{
+      position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+      background:var(--s2);border:1px solid var(--border);
+      color:var(--text);font-size:.85rem;
+      padding:.75rem 1.2rem;border-radius:12px;
+      display:flex;align-items:center;gap:.5rem;
+      transform:translateY(80px);opacity:0;
+      transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .3s;
+      pointer-events:none;max-width:300px;
+    }
+    .toast.show{transform:translateY(0);opacity:1;}
+
+    /* ── DELETE CONFIRM ── */
+    .confirm-overlay{
+      position:fixed;inset:0;z-index:300;
+      background:rgba(0,0,0,.8);backdrop-filter:blur(10px);
+      display:flex;align-items:center;justify-content:center;
+      opacity:0;pointer-events:none;transition:opacity .2s;
+    }
+    .confirm-overlay.open{opacity:1;pointer-events:all;}
+    .confirm-box{
+      background:var(--surface);border:1px solid rgba(255,68,102,.2);
+      border-radius:18px;padding:2rem;max-width:380px;text-align:center;
+      transform:scale(.95);transition:transform .25s;
+    }
+    .confirm-overlay.open .confirm-box{transform:scale(1);}
+    .confirm-icon{font-size:2.5rem;display:block;margin-bottom:1rem;}
+    .confirm-box h3{font-family:'Syne',sans-serif;font-size:1.1rem;margin-bottom:.5rem;}
+    .confirm-box p{color:var(--muted);font-size:.85rem;margin-bottom:1.5rem;}
+    .confirm-actions{display:flex;gap:.8rem;justify-content:center;}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:1000px){
+      .sidebar{display:none;}
+      .stats-row{grid-template-columns:1fr 1fr;}
+    }
+    @media(max-width:600px){
+      .content{padding:1rem;}
+      .stats-row{grid-template-columns:1fr;}
+      .form-grid{grid-template-columns:1fr;}
+      .topbar{padding:.8rem 1rem;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">Learnova</div>
+    <div class="logo-sub">Admin Panel</div>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="admin.html" class="nav-item">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Tableau de bord
+    </a>
+    <a href="admin-store.html" class="nav-item active">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      Boutique PDFs
+    </a>
+    <a href="admin.html" class="nav-item">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Cours
+    </a>
+  </nav>
+  <div class="sidebar-bottom">
+    <a href="store.html" target="_blank" class="btn-view-store">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Voir la boutique
+    </a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main>
+  <div class="topbar">
+    <span class="topbar-title">Gestion des PDFs Premium</span>
+    <div class="topbar-right">
+      <div class="topbar-badge"><span></span> Temps réel</div>
+      <button class="btn btn-primary" onclick="openAddModal()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Ajouter PDF
+      </button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- STATS -->
+    <div class="stats-row" id="statsRow">
+      <div class="stat-card">
+        <div class="stat-icon">📄</div>
+        <div class="stat-info"><div class="stat-num" id="statTotal">—</div><div class="stat-label">PDFs publiés</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-info"><div class="stat-num" id="statRevenue">—</div><div class="stat-label">Revenus (FCFA)</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🛒</div>
+        <div class="stat-info"><div class="stat-num" id="statOrders">—</div><div class="stat-label">Commandes</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-info"><div class="stat-num" id="statBuyers">—</div><div class="stat-label">Acheteurs</div></div>
+      </div>
+    </div>
+
+    <!-- PDF LIST -->
+    <div class="sec-row">
+      <h2>Tous les PDFs</h2>
+      <div style="display:flex;gap:.6rem;">
+        <button class="btn btn-ghost btn-sm" onclick="exportCsv()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Exporter CSV
+        </button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-search">
+        <input type="text" id="tableSearch" placeholder="Rechercher…" oninput="filterTable()"/>
+      </div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Aperçu</th>
+              <th>Titre</th>
+              <th>Catégorie</th>
+              <th>Prix</th>
+              <th>Ventes</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="pdfTableBody">
+            <tr><td colspan="7" class="table-empty"><span class="table-empty-icon">⏳</span>Chargement…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- RECENT ORDERS -->
+    <div class="sec-row">
+      <h2>Commandes récentes</h2>
+      <button class="btn btn-ghost btn-sm" onclick="loadOrders()">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        Rafraîchir
+      </button>
+    </div>
+    <div class="orders-table-wrap">
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Email acheteur</th>
+              <th>PDF acheté</th>
+              <th>Montant</th>
+              <th>Statut</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="ordersBody">
+            <tr><td colspan="5" class="table-empty"><span class="table-empty-icon">📭</span>Aucune commande encore</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ADD/EDIT MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalBg(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalHeadTitle">Ajouter un PDF</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <form class="modal-form" onsubmit="savePdf(event)">
+      <div class="form-grid">
+        <!-- Titre -->
+        <div class="form-group full">
+          <label>Titre du PDF *</label>
+          <input type="text" class="form-input" id="fTitle" placeholder="Ex: Guide complet du Marketing Digital" required/>
+        </div>
+        <!-- Description -->
+        <div class="form-group full">
+          <label>Description *</label>
+          <textarea class="form-textarea" id="fDesc" placeholder="Décris le contenu et les bénéfices du PDF…" required></textarea>
+        </div>
+        <!-- Catégorie -->
+        <div class="form-group">
+          <label>Catégorie</label>
+          <input type="text" class="form-input" id="fCat" placeholder="Marketing, Tech, Finance…" list="catList"/>
+          <datalist id="catList">
+            <option value="Marketing"/>
+            <option value="Finance"/>
+            <option value="Technologie"/>
+            <option value="Business"/>
+            <option value="Développement personnel"/>
+          </datalist>
+        </div>
+        <!-- Badge -->
+        <div class="form-group">
+          <label>Badge promo</label>
+          <div class="badge-options" id="badgeOptions">
+            <div class="badge-opt" data-v="" onclick="selectBadge(this)">Aucun</div>
+            <div class="badge-opt" data-v="Nouveau" onclick="selectBadge(this)">🆕 Nouveau</div>
+            <div class="badge-opt" data-v="Best-seller" onclick="selectBadge(this)">🔥 Best-seller</div>
+            <div class="badge-opt" data-v="Promo" onclick="selectBadge(this)">💥 Promo</div>
+          </div>
+          <input type="hidden" id="fBadge"/>
+        </div>
+        <!-- Prix -->
+        <div class="form-group">
+          <label>Prix (FCFA) *</label>
+          <input type="number" class="form-input" id="fPrice" placeholder="5000" min="0" required/>
+        </div>
+        <!-- Prix barré -->
+        <div class="form-group">
+          <label>Prix barré (optionnel)</label>
+          <input type="number" class="form-input" id="fPriceOld" placeholder="8000" min="0"/>
+        </div>
+        <!-- Note -->
+        <div class="form-group">
+          <label>Note moyenne</label>
+          <input type="number" class="form-input" id="fRating" placeholder="4.8" min="1" max="5" step=".1"/>
+        </div>
+        <!-- Avis -->
+        <div class="form-group">
+          <label>Nombre d'avis</label>
+          <input type="number" class="form-input" id="fReviews" placeholder="24" min="0"/>
+        </div>
+      </div>
+
+      <!-- IMAGE DE COUVERTURE -->
+      <div class="form-group">
+        <label>Image de couverture</label>
+        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fImgFile').click()" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+          <span class="upload-icon">🖼️</span>
+          <p><strong>Clique</strong> ou glisse une image ici</p>
+          <p style="margin-top:.2rem;font-size:.73rem;">JPG, PNG, WebP — max 3 MB</p>
+          <img class="upload-preview" id="imgPreview"/>
+        </div>
+        <input type="file" id="fImgFile" accept="image/*" style="display:none" onchange="previewImage(this)"/>
+        <div class="upload-url-row">
+          <input type="text" class="form-input" id="fImgUrl" placeholder="Ou colle une URL d'image…" oninput="previewUrl(this.value)"/>
+        </div>
+        <div class="form-hint">💡 L'image s'affiche sur la boutique publique pour attirer l'attention</div>
+      </div>
+
+      <!-- COULEUR DE FOND (fallback si pas d'image) -->
+      <div class="form-group">
+        <label>Couleur de fond (si pas d'image)</label>
+        <div class="color-row" id="colorRow">
+          <div class="color-swatch active" data-v="linear-gradient(160deg,#1a1a3a,#2a2a50)" style="background:linear-gradient(160deg,#1a1a3a,#2a2a50)" onclick="selectColor(this)"></div>
+          <div class="color-swatch" data-v="linear-gradient(160deg,#1a2a1a,#2d4a2d)" style="background:linear-gradient(160deg,#1a2a1a,#2d4a2d)" onclick="selectColor(this)"></div>
+          <div class="color-swatch" data-v="linear-gradient(160deg,#2a1a1a,#4a2d2d)" style="background:linear-gradient(160deg,#2a1a1a,#4a2d2d)" onclick="selectColor(this)"></div>
+          <div class="color-swatch" data-v="linear-gradient(160deg,#1a1a2a,#2a1a4a)" style="background:linear-gradient(160deg,#1a1a2a,#2a1a4a)" onclick="selectColor(this)"></div>
+          <div class="color-swatch" data-v="linear-gradient(160deg,#1a2a2a,#1a3a3a)" style="background:linear-gradient(160deg,#1a2a2a,#1a3a3a)" onclick="selectColor(this)"></div>
+          <div class="color-swatch" data-v="linear-gradient(160deg,#2a2a1a,#3a3a1a)" style="background:linear-gradient(160deg,#2a2a1a,#3a3a1a)" onclick="selectColor(this)"></div>
+        </div>
+        <input type="hidden" id="fColor" value="linear-gradient(160deg,#1a1a3a,#2a2a50)"/>
+      </div>
+
+      <!-- POINTS FORTS -->
+      <div class="form-group">
+        <label>Points forts (ce que l'acheteur obtient)</label>
+        <div class="features-input-row">
+          <input type="text" class="form-input" id="featInput" placeholder="Ex: 80 pages de contenu pratique" onkeydown="if(event.key==='Enter'){event.preventDefault();addFeature()}"/>
+          <button type="button" class="btn btn-ghost btn-sm" onclick="addFeature()">+ Ajouter</button>
+        </div>
+        <div class="features-tags" id="featuresTags"></div>
+        <div class="form-hint">Appuie Entrée ou clique + pour ajouter chaque point fort</div>
+      </div>
+
+      <!-- URL DU PDF -->
+      <div class="form-group">
+        <label>URL du fichier PDF *</label>
+        <input type="url" class="form-input" id="fPdfUrl" placeholder="https://supabase.co/storage/…/mon-guide.pdf" required/>
+        <div class="form-hint">Lien Supabase Storage ou tout autre lien direct vers le PDF</div>
+      </div>
+
+      <!-- PUBLIÉ -->
+      <div class="form-group" style="display:flex;align-items:center;gap:.8rem;">
+        <button type="button" class="toggle off" id="publishedToggle" onclick="togglePublished(this)"></button>
+        <div>
+          <div style="font-size:.88rem;font-weight:500;" id="publishedLabel">Non publié</div>
+          <div style="font-size:.73rem;color:var(--muted);">Visible sur la boutique publique</div>
+        </div>
+      </div>
+
+      <input type="hidden" id="fId"/>
+
+      <div style="display:flex;gap:.8rem;margin-top:1.5rem;">
+        <button type="submit" class="btn btn-primary" id="saveBtn" style="flex:1;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Enregistrer
+        </button>
+        <button type="button" class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM -->
+<div class="confirm-overlay" id="confirmOverlay" onclick="closeConfirmBg(event)">
+  <div class="confirm-box">
+    <span class="confirm-icon">🗑️</span>
+    <h3>Supprimer ce PDF ?</h3>
+    <p>Cette action est irréversible. Le PDF sera retiré de la boutique.</p>
+    <div class="confirm-actions">
+      <button class="btn btn-danger" onclick="confirmDelete()">Supprimer</button>
+      <button class="btn btn-ghost" onclick="closeConfirm()">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><span id="toastMsg"></span></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ─── CONFIG ───────────────────────────────────────────────────────
+const SUPABASE_URL  = 'https://YOUR_PROJECT.supabase.co'; // ← remplace
+const SUPABASE_ANON = 'YOUR_ANON_KEY';                   // ← remplace
+
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+let allPdfs = [];
+let deleteTarget = null;
+let features = [];
+let selectedBadge = '';
+let selectedColor = 'linear-gradient(160deg,#1a1a3a,#2a2a50)';
+let isPublished = false;
+
+// ─── LOAD ─────────────────────────────────────────────────────────
+async function loadPdfs() {
+  const { data, error } = await sb
+    .from('pdf_products')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) { showToast('❌ Erreur chargement : '+error.message); return; }
+  allPdfs = data || [];
+  renderStats();
+  renderTable(allPdfs);
+}
+
+async function loadOrders() {
+  const { data, error } = await sb
+    .from('pdf_purchases')
+    .select('*, pdf_products(title)')
+    .order('created_at', { ascending: false })
+    .limit(20);
+
+  const tbody = document.getElementById('ordersBody');
+  if (error || !data?.length) {
+    tbody.innerHTML = `<tr><td colspan="5" class="table-empty"><span class="table-empty-icon">📭</span>Aucune commande</td></tr>`;
+    return;
+  }
+
+  // Update stats
+  const totalRev = data.filter(o=>o.status==='completed').reduce((a,c)=>a+(c.amount||0),0);
+  document.getElementById('statRevenue').textContent = totalRev.toLocaleString('fr-FR');
+  document.getElementById('statOrders').textContent  = data.length;
+
+  tbody.innerHTML = data.map(o=>`
+    <tr>
+      <td>${esc(o.buyer_email)}</td>
+      <td>${esc(o.pdf_products?.title||'—')}</td>
+      <td style="color:var(--gold);font-weight:600;">${(o.amount||0).toLocaleString('fr-FR')} FCFA</td>
+      <td><span class="order-status status-${o.status||'pending'}">${o.status||'pending'}</span></td>
+      <td style="color:var(--muted);font-size:.78rem;">${formatDate(o.created_at)}</td>
+    </tr>`).join('');
+}
+
+// ─── REALTIME ─────────────────────────────────────────────────────
+function setupRealtime() {
+  sb.channel('admin:pdf_products')
+    .on('postgres_changes',{event:'*',schema:'public',table:'pdf_products'},()=>{
+      loadPdfs();
+      showToast('🔄 Données mises à jour');
+    })
+    .subscribe();
+  sb.channel('admin:pdf_purchases')
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'pdf_purchases'},()=>{
+      loadOrders();
+      showToast('💰 Nouvelle commande !');
+    })
+    .subscribe();
+}
+
+// ─── STATS ────────────────────────────────────────────────────────
+function renderStats() {
+  const pub = allPdfs.filter(p=>p.published).length;
+  const buyers = allPdfs.reduce((a,c)=>a+(c.buyers_count||0),0);
+  document.getElementById('statTotal').textContent  = pub;
+  document.getElementById('statBuyers').textContent = buyers;
+}
+
+// ─── TABLE ────────────────────────────────────────────────────────
+function renderTable(list) {
+  const tbody = document.getElementById('pdfTableBody');
+  if (!list.length) {
+    tbody.innerHTML=`<tr><td colspan="7" class="table-empty"><span class="table-empty-icon">📭</span>Aucun PDF. Clique "Ajouter PDF" pour commencer.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = list.map(p=>`
+    <tr>
+      <td>
+        ${p.image_url
+          ? `<img src="${esc(p.image_url)}" class="td-thumb" alt=""/>`
+          : `<div class="td-thumb-ph" style="background:${p.color_gradient||'var(--s3)'}">📄</div>`
+        }
+      </td>
+      <td>
+        <div class="td-name">${esc(p.title)}</div>
+        <div class="td-desc">${esc(p.description||'')}</div>
+      </td>
+      <td>${p.category?`<span class="td-cat">${esc(p.category)}</span>`:'—'}</td>
+      <td class="price-cell">${(p.price||0).toLocaleString('fr-FR')} <span style="color:var(--muted);font-size:.75rem;font-weight:400;">FCFA</span></td>
+      <td style="font-size:.85rem;">${p.buyers_count||0} <span style="color:var(--muted);">ventes</span></td>
+      <td>
+        <button class="toggle ${p.published?'on':'off'}" onclick="togglePublish('${p.id}',this)" title="${p.published?'Dépublier':'Publier'}"></button>
+      </td>
+      <td>
+        <div class="td-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openEditModal(${JSON.stringify(p).replace(/"/g,'&quot;')})">✏️ Éditer</button>
+          <button class="btn btn-danger btn-sm" onclick="openDeleteConfirm('${p.id}')">🗑️</button>
+          <a href="store.html" target="_blank" class="btn btn-success btn-sm">👁️</a>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function filterTable() {
+  const q = document.getElementById('tableSearch').value.toLowerCase();
+  const filtered = allPdfs.filter(p=>
+    (p.title||'').toLowerCase().includes(q)||
+    (p.category||'').toLowerCase().includes(q)
+  );
+  renderTable(filtered);
+}
+
+// ─── TOGGLE PUBLISH ───────────────────────────────────────────────
+async function togglePublish(id, btn) {
+  const pdf = allPdfs.find(p=>p.id===id);
+  if (!pdf) return;
+  const newVal = !pdf.published;
+  const { error } = await sb.from('pdf_products').update({published:newVal}).eq('id',id);
+  if (error) { showToast('❌ Erreur : '+error.message); return; }
+  pdf.published = newVal;
+  btn.className = 'toggle '+(newVal?'on':'off');
+  showToast(newVal ? '✅ PDF publié !' : '⏸️ PDF dépublié');
+}
+
+// ─── EXPORT CSV ───────────────────────────────────────────────────
+function exportCsv() {
+  const rows = [['Titre','Catégorie','Prix','Ventes','Publié'],...allPdfs.map(p=>[p.title,p.category||'',p.price||0,p.buyers_count||0,p.published?'Oui':'Non'])];
+  const csv = rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv],{type:'text/csv'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='pdfs-learnova.csv';a.click();
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────
+function openAddModal() {
+  document.getElementById('modalHeadTitle').textContent = 'Ajouter un PDF';
+  document.getElementById('fId').value = '';
+  document.getElementById('fTitle').value = '';
+  document.getElementById('fDesc').value = '';
+  document.getElementById('fCat').value = '';
+  document.getElementById('fPrice').value = '';
+  document.getElementById('fPriceOld').value = '';
+  document.getElementById('fRating').value = '4.8';
+  document.getElementById('fReviews').value = '0';
+  document.getElementById('fPdfUrl').value = '';
+  document.getElementById('fImgUrl').value = '';
+  document.getElementById('imgPreview').style.display = 'none';
+  features = [];
+  renderFeatureTags();
+  setPublishedUI(false);
+  selectBadgeVal('');
+  selectColorVal('linear-gradient(160deg,#1a1a3a,#2a2a50)');
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function openEditModal(p) {
+  document.getElementById('modalHeadTitle').textContent = 'Modifier le PDF';
+  document.getElementById('fId').value      = p.id;
+  document.getElementById('fTitle').value   = p.title||'';
+  document.getElementById('fDesc').value    = p.description||'';
+  document.getElementById('fCat').value     = p.category||'';
+  document.getElementById('fPrice').value   = p.price||'';
+  document.getElementById('fPriceOld').value= p.price_old||'';
+  document.getElementById('fRating').value  = p.rating||4.8;
+  document.getElementById('fReviews').value = p.reviews_count||0;
+  document.getElementById('fPdfUrl').value  = p.pdf_url||'';
+  document.getElementById('fImgUrl').value  = p.image_url||'';
+
+  if (p.image_url) {
+    const prev = document.getElementById('imgPreview');
+    prev.src = p.image_url;
+    prev.style.display = 'block';
+  } else {
+    document.getElementById('imgPreview').style.display = 'none';
+  }
+
+  features = [...(p.features||[])];
+  renderFeatureTags();
+  setPublishedUI(p.published||false);
+  selectBadgeVal(p.badge||'');
+  selectColorVal(p.color_gradient||'linear-gradient(160deg,#1a1a3a,#2a2a50)');
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalBg(e) { if(e.target===document.getElementById('modalOverlay'))closeModal(); }
+
+// ─── SAVE ─────────────────────────────────────────────────────────
+async function savePdf(e) {
+  e.preventDefault();
+  const btn = document.getElementById('saveBtn');
+  btn.classList.add('btn-saving');
+  btn.textContent = 'Enregistrement';
+
+  const id       = document.getElementById('fId').value;
+  const imgUrl   = document.getElementById('fImgUrl').value.trim();
+  const fileInput = document.getElementById('fImgFile');
+
+  let finalImgUrl = imgUrl;
+
+  // Upload image vers Supabase Storage si fichier sélectionné
+  if (fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    const ext  = file.name.split('.').pop();
+    const path = `pdf-covers/${Date.now()}.${ext}`;
+    const { data: upData, error: upErr } = await sb.storage.from('course-assets').upload(path, file, {upsert:true});
+    if (upErr) { showToast('❌ Upload image : '+upErr.message); btn.classList.remove('btn-saving'); btn.textContent='Enregistrer'; return; }
+    const { data: urlData } = sb.storage.from('course-assets').getPublicUrl(path);
+    finalImgUrl = urlData.publicUrl;
+  }
+
+  const payload = {
+    title:          document.getElementById('fTitle').value.trim(),
+    description:    document.getElementById('fDesc').value.trim(),
+    category:       document.getElementById('fCat').value.trim()||null,
+    price:          parseInt(document.getElementById('fPrice').value)||0,
+    price_old:      parseInt(document.getElementById('fPriceOld').value)||null,
+    rating:         parseFloat(document.getElementById('fRating').value)||4.8,
+    reviews_count:  parseInt(document.getElementById('fReviews').value)||0,
+    pdf_url:        document.getElementById('fPdfUrl').value.trim(),
+    image_url:      finalImgUrl||null,
+    color_gradient: selectedColor,
+    badge:          selectedBadge||null,
+    features:       features,
+    published:      isPublished,
+  };
+
+  let error;
+  if (id) {
+    ({ error } = await sb.from('pdf_products').update(payload).eq('id', id));
+  } else {
+    ({ error } = await sb.from('pdf_products').insert(payload));
+  }
+
+  btn.classList.remove('btn-saving');
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Enregistrer';
+
+  if (error) { showToast('❌ Erreur : '+error.message); return; }
+
+  showToast(id ? '✅ PDF mis à jour !' : '🎉 PDF ajouté !');
+  closeModal();
+  loadPdfs();
+}
+
+// ─── DELETE ───────────────────────────────────────────────────────
+function openDeleteConfirm(id) {
+  deleteTarget = id;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+function closeConfirm() {
+  document.getElementById('confirmOverlay').classList.remove('open');
+  deleteTarget = null;
+}
+function closeConfirmBg(e) { if(e.target===document.getElementById('confirmOverlay'))closeConfirm(); }
+
+async function confirmDelete() {
+  if (!deleteTarget) return;
+  const { error } = await sb.from('pdf_products').delete().eq('id', deleteTarget);
+  if (error) { showToast('❌ Erreur suppression'); return; }
+  showToast('🗑️ PDF supprimé');
+  closeConfirm();
+  loadPdfs();
+}
+
+// ─── FEATURES ─────────────────────────────────────────────────────
+function addFeature() {
+  const inp = document.getElementById('featInput');
+  const v   = inp.value.trim();
+  if (!v || features.includes(v)) return;
+  features.push(v);
+  inp.value = '';
+  renderFeatureTags();
+}
+function removeFeature(i) {
+  features.splice(i,1);
+  renderFeatureTags();
+}
+function renderFeatureTags() {
+  document.getElementById('featuresTags').innerHTML = features.map((f,i)=>
+    `<div class="feat-tag">${esc(f)}<button onclick="removeFeature(${i})" type="button">✕</button></div>`
+  ).join('');
+}
+
+// ─── IMAGE PREVIEW ────────────────────────────────────────────────
+function previewImage(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  const prev = document.getElementById('imgPreview');
+  prev.src = url;
+  prev.style.display = 'block';
+}
+function previewUrl(url) {
+  const prev = document.getElementById('imgPreview');
+  if (url) { prev.src = url; prev.style.display = 'block'; }
+  else prev.style.display = 'none';
+}
+
+// Drag & drop
+function onDragOver(e) { e.preventDefault(); document.getElementById('uploadZone').classList.add('drag'); }
+function onDragLeave() { document.getElementById('uploadZone').classList.remove('drag'); }
+function onDrop(e) {
+  e.preventDefault();
+  document.getElementById('uploadZone').classList.remove('drag');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    document.getElementById('fImgFile').files = dt.files;
+    previewImage(document.getElementById('fImgFile'));
+  }
+}
+
+// ─── BADGE ────────────────────────────────────────────────────────
+function selectBadge(el) {
+  selectedBadge = el.dataset.v;
+  document.querySelectorAll('.badge-opt').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('fBadge').value = selectedBadge;
+}
+function selectBadgeVal(v) {
+  selectedBadge = v;
+  document.querySelectorAll('.badge-opt').forEach(b=>{
+    b.classList.toggle('active', b.dataset.v === v);
+  });
+}
+
+// ─── COLOR ────────────────────────────────────────────────────────
+function selectColor(el) {
+  selectedColor = el.dataset.v;
+  document.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('fColor').value = selectedColor;
+}
+function selectColorVal(v) {
+  selectedColor = v;
+  document.querySelectorAll('.color-swatch').forEach(s=>{
+    s.classList.toggle('active', s.dataset.v === v);
+  });
+}
+
+// ─── PUBLISHED ────────────────────────────────────────────────────
+function togglePublished(btn) {
+  isPublished = !isPublished;
+  setPublishedUI(isPublished);
+}
+function setPublishedUI(val) {
+  isPublished = val;
+  const btn = document.getElementById('publishedToggle');
+  const lbl = document.getElementById('publishedLabel');
+  btn.className = 'toggle '+(val?'on':'off');
+  lbl.textContent = val ? 'Publié — visible sur la boutique' : 'Non publié';
+}
+
+// ─── HELPERS ──────────────────────────────────────────────────────
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function formatDate(iso){ return iso ? new Date(iso).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : ''; }
+
+function showToast(msg, duration=3200) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), duration);
+}
+
+// ─── BOOT ─────────────────────────────────────────────────────────
+loadPdfs();
+loadOrders();
+setupRealtime();
+</script>
+</body>
+</html>
