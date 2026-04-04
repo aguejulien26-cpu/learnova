@@ -1,847 +1,1082 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Learnova — Cours disponibles</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #0a0a0f;
-      --surface: #12121a;
-      --surface2: #1a1a26;
-      --border: rgba(255,255,255,0.07);
-      --accent: #6c63ff;
-      --accent2: #ff6b9d;
-      --accent3: #00d9c0;
-      --text: #f0f0f8;
-      --muted: #8888aa;
-      --card-glow: rgba(108, 99, 255, 0.12);
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Learnova — Salle d'attente</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+<style>
+/* ─── VARIABLES LIGHT / DARK ─────────────────────────── */
+:root {
+  --bg:      #fafaf8; --bg2:    #f2f1ee; --bg3:    #e8e6e0;
+  --panel:   #ffffff; --border: #e0ddd6;
+  --text:    #0f0e0c; --text2:  #4a4840; --text3:  #9a9890;
+  --accent:  #1a56db; --al:     #eff3ff; --am:     #bfcffb;
+  --green:   #057a55; --gl:     #edfaf4; --gm:     #9fe0c4;
+  --red:     #c81c1c; --rl:     #fff1f1;
+  --purple:  #6d28d9; --pl:     #f5f0ff;
+  --gold:    #92400e; --goldl:  #fef3c7;
+  --h: 'Fraunces', Georgia, serif;
+  --b: 'DM Sans', sans-serif;
+  --sh:  0 1px 4px rgba(0,0,0,.06);
+  --sh2: 0 8px 32px rgba(0,0,0,.1);
+}
+[data-theme="dark"] {
+  --bg:     #0c0c0f; --bg2:    #141418; --bg3:    #1e1e24;
+  --panel:  #18181e; --border: #2a2a36;
+  --text:   #f0f0f4; --text2:  #b8b8c8; --text3:  #6868808;
+  --al:     #1a2040; --am:     #2a3870;
+  --gl:     #0d2a1e; --gm:     #1a4d36;
+  --rl:     #2a0f0f;
+  --pl:     #1e1240;
+  --goldl:  #2a1e08;
+  --sh:  0 1px 4px rgba(0,0,0,.3);
+  --sh2: 0 8px 32px rgba(0,0,0,.5);
+}
+[data-theme="dark"] .text3-fix { color: #68688a !important; }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text); font-family: var(--b);
+  -webkit-font-smoothing: antialiased; min-height: 100vh;
+  transition: background .3s, color .3s;
+}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+/* ─── DARK MODE TOGGLE ─────────────────────────────── */
+.theme-toggle {
+  position: fixed; bottom: 24px; right: 24px; z-index: 999;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--panel); border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: var(--sh2); transition: all .2s;
+  font-size: 1.1rem;
+}
+.theme-toggle:hover { transform: scale(1.08); }
 
-    /* BG MESH */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 20% -10%, rgba(108,99,255,0.15) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(0,217,192,0.1) 0%, transparent 60%);
-      pointer-events: none;
-      z-index: 0;
-    }
+/* ─── NAV ──────────────────────────────────────────── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  height: 60px; background: rgba(var(--bg-rgb, 250,250,248),.94);
+  background: var(--panel); opacity: 1;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 28px; gap: 16px;
+}
+[data-theme="dark"] .nav { background: rgba(24,24,30,.96); }
+.logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.logo-mark { width: 28px; height: 28px; border-radius: 7px; background: var(--text); display: flex; align-items: center; justify-content: center; }
+.logo-mark svg { width: 13px; height: 13px; }
+.logo-name { font-family: var(--h); font-size: 1.05rem; color: var(--text); font-weight: 600; }
+.nav-r { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 16px; border-radius: 8px;
+  font-family: var(--b); font-weight: 500; font-size: .82rem;
+  cursor: pointer; border: none; transition: all .18s; text-decoration: none;
+}
+.btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--text2); }
+.btn-ghost:hover { background: var(--bg2); }
+.btn-dark { background: var(--text); color: var(--bg); }
+.btn-dark:hover { opacity: .88; }
+.btn-red { background: var(--red); color: #fff; }
+.btn-red:hover { opacity: .88; }
+.btn-sm { padding: 5px 12px; font-size: .77rem; }
 
-    /* HEADER */
-    header {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.5rem 4rem;
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(12px);
-      background: rgba(10,10,15,0.7);
-      position: sticky;
-      top: 0;
-    }
+/* ─── HERO ──────────────────────────────────────────── */
+.hero-zone {
+  text-align: center; padding: 48px 24px 36px;
+  background: linear-gradient(180deg, var(--bg) 0%, transparent 100%);
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--al); border: 1px solid var(--am);
+  color: var(--accent); padding: 5px 16px; border-radius: 100px;
+  font-size: .76rem; font-weight: 600; margin-bottom: 20px;
+}
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); animation: pd 1.5s infinite; }
+@keyframes pd { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(1.6);} }
+.hero-title {
+  font-family: var(--h); font-size: clamp(2rem,4vw,3rem);
+  font-weight: 600; letter-spacing: -.8px; line-height: 1.15;
+  margin-bottom: 10px;
+}
+.hero-sub { font-size: .92rem; color: var(--text3); margin-bottom: 0; }
 
-    .logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.6rem;
-      background: linear-gradient(135deg, var(--accent), var(--accent3));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -0.02em;
-    }
+/* ─── COUNTDOWN ─────────────────────────────────────── */
+.countdown-section {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 28px 0 20px;
+}
+.cd-block { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.cd-num {
+  font-family: var(--h); font-size: clamp(2rem,4vw,2.8rem);
+  line-height: 1; font-weight: 600; letter-spacing: -2px;
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px 18px; min-width: 72px;
+  text-align: center; box-shadow: var(--sh);
+  transition: transform .1s;
+}
+.cd-num.tick { transform: scale(1.06); }
+.cd-unit { font-size: .67rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); }
+.cd-sep { font-family: var(--h); font-size: 2.2rem; color: var(--text3); margin-bottom: 18px; font-weight: 300; }
 
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
+/* ─── SESSIONS GRID ─────────────────────────────────── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.section-label {
+  font-size: .68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.2px; color: var(--text3); margin-bottom: 18px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-label::after { content:''; flex:1; height:1px; background:var(--border); }
 
-    .badge-live {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(0,217,192,0.12);
-      border: 1px solid rgba(0,217,192,0.3);
-      color: var(--accent3);
-      padding: 0.3rem 0.8rem;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-    }
+/* FILTRES */
+.filters-row { display: flex; gap: 8px; margin-bottom: 22px; flex-wrap: wrap; }
+.filter-chip {
+  padding: 6px 14px; border-radius: 100px;
+  border: 1.5px solid var(--border); background: var(--panel);
+  font-size: .79rem; font-weight: 500; color: var(--text2);
+  cursor: pointer; transition: all .15s; font-family: var(--b);
+}
+.filter-chip:hover { border-color: var(--accent); color: var(--accent); }
+.filter-chip.active { background: var(--text); color: var(--bg); border-color: var(--text); }
 
-    .badge-live .dot {
-      width: 7px;
-      height: 7px;
-      background: var(--accent3);
-      border-radius: 50%;
-      animation: pulse 1.5s ease infinite;
-    }
+/* SESSIONS GRID */
+.sessions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); gap: 18px; margin-bottom: 40px; }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.7); }
-    }
+.sess-card {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 18px; overflow: hidden; cursor: pointer;
+  transition: all .22s; box-shadow: var(--sh);
+  display: flex; flex-direction: column;
+}
+.sess-card:hover { box-shadow: var(--sh2); transform: translateY(-3px); }
+.sess-card.live-card { border-color: var(--red); box-shadow: 0 0 0 2px rgba(200,28,28,.15), var(--sh2); }
+.sess-card-top { padding: 20px 20px 14px; flex: 1; }
+.sess-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.sess-status { display: flex; align-items: center; gap: 5px; font-size: .71rem; font-weight: 700; padding: 3px 10px; border-radius: 100px; }
+.st-live { background: var(--rl); color: var(--red); }
+.st-soon { background: var(--goldl); color: var(--gold); }
+.st-done { background: var(--bg2); color: var(--text3); border: 1px solid var(--border); }
+.sess-inscrits { font-size: .72rem; color: var(--text3); }
+.sess-title { font-family: var(--h); font-size: 1.05rem; font-weight: 600; line-height: 1.3; margin-bottom: 7px; }
+.sess-desc { font-size: .8rem; color: var(--text2); line-height: 1.65; margin-bottom: 14px; }
+.sess-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+.sess-tag {
+  font-size: .7rem; font-weight: 600; padding: 3px 9px;
+  border-radius: 100px; background: var(--bg2); color: var(--text3);
+}
+.sess-tag.ai-tag { background: var(--pl); color: var(--purple); }
+.sess-tag.course-tag { background: var(--gl); color: var(--green); }
 
-    /* HERO */
-    .hero {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 5rem 2rem 3rem;
-    }
+/* COURS LIÉS À LA SESSION */
+.sess-courses {
+  border-top: 1px solid var(--border); padding: 12px 20px;
+  display: flex; gap: 7px; flex-wrap: wrap; align-items: center;
+}
+.sc-label-sm { font-size: .67rem; font-weight: 600; color: var(--text3); margin-right: 3px; }
+.course-chip {
+  display: flex; align-items: center; gap: 4px;
+  background: var(--gl); color: var(--green); border: 1px solid var(--gm);
+  padding: 3px 9px; border-radius: 100px; font-size: .71rem; font-weight: 600;
+}
+.sess-footer {
+  border-top: 1px solid var(--border); padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg2);
+}
+[data-theme="dark"] .sess-footer { background: var(--bg3); }
+.sess-time { font-size: .77rem; color: var(--text3); }
+.join-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 7px 16px; border-radius: 9px;
+  font-family: var(--b); font-size: .8rem; font-weight: 700;
+  border: none; cursor: pointer; transition: all .2s;
+}
+.join-btn-dark { background: var(--text); color: var(--bg); }
+.join-btn-dark:hover { opacity: .85; }
+.join-btn-red { background: var(--red); color: #fff; }
+.join-btn-red:hover { opacity: .88; }
 
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(108,99,255,0.12);
-      border: 1px solid rgba(108,99,255,0.25);
-      color: #a89fff;
-      padding: 0.35rem 1rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
+/* ─── COURSES SECTION ───────────────────────────────── */
+.courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 16px; margin-bottom: 48px; }
+.course-card {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 16px; padding: 18px; transition: all .2s; box-shadow: var(--sh);
+  text-decoration: none; color: var(--text); display: flex; flex-direction: column; gap: 10px;
+}
+.course-card:hover { box-shadow: var(--sh2); transform: translateY(-2px); }
+.course-emoji { font-size: 1.8rem; }
+.course-cat {
+  font-size: .68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .8px; color: var(--accent);
+}
+.course-name { font-family: var(--h); font-size: .98rem; font-weight: 600; line-height: 1.3; }
+.course-desc { font-size: .79rem; color: var(--text3); line-height: 1.6; flex: 1; }
+.course-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+.course-meta-sm { font-size: .73rem; color: var(--text3); }
+.course-badge-sm { font-size: .69rem; font-weight: 700; padding: 2px 8px; border-radius: 100px; background: var(--al); color: var(--accent); }
 
-    .hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-      margin-bottom: 1rem;
-    }
+/* ─── EMPTY STATE ───────────────────────────────────── */
+.empty-zone {
+  text-align: center; padding: 60px 20px; color: var(--text3);
+}
+.empty-icon { font-size: 2.8rem; margin-bottom: 14px; }
+.empty-title { font-family: var(--h); font-size: 1.2rem; color: var(--text); margin-bottom: 6px; }
 
-    .hero h1 span {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+/* ─── JOIN MODAL ────────────────────────────────────── */
+.modal-ov {
+  position: fixed; inset: 0; background: rgba(0,0,0,.6);
+  z-index: 1000; display: none; align-items: center; justify-content: center;
+  backdrop-filter: blur(12px);
+}
+.modal-ov.show { display: flex; }
+.modal {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 22px; padding: 36px; width: 420px; max-width: 95vw;
+  box-shadow: 0 40px 100px rgba(0,0,0,.25); animation: mIn .3s ease;
+}
+@keyframes mIn { from{opacity:0;transform:scale(.92) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);} }
+.modal-title { font-family: var(--h); font-size: 1.4rem; font-weight: 600; margin-bottom: 5px; }
+.modal-sub { font-size: .83rem; color: var(--text3); margin-bottom: 22px; line-height: 1.55; }
+.photo-zone {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 16px; background: var(--bg2); border: 1.5px dashed var(--border);
+  border-radius: 14px; cursor: pointer; transition: all .2s; margin-bottom: 14px;
+}
+.photo-zone:hover { border-color: var(--accent); background: var(--al); }
+.photo-prev {
+  width: 68px; height: 68px; border-radius: 50%; overflow: hidden;
+  background: var(--bg3); display: flex; align-items: center; justify-content: center;
+}
+.photo-prev img { width: 100%; height: 100%; object-fit: cover; }
+.photo-prev svg { width: 28px; height: 28px; color: var(--text3); }
+.photo-hint { font-size: .75rem; color: var(--text3); text-align: center; }
+.minp {
+  width: 100%; border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 13px 15px; font-family: var(--b); font-size: .87rem;
+  color: var(--text); background: var(--bg2); outline: none; transition: all .2s;
+  margin-bottom: 12px;
+}
+.minp:focus { border-color: var(--accent); background: var(--panel); }
+[data-theme="dark"] .minp { background: var(--bg3); }
+.merr { font-size: .79rem; color: var(--red); background: var(--rl); border: 1px solid #fca5a5; padding: 8px 13px; border-radius: 8px; margin-bottom: 10px; display: none; }
+.merr.show { display: block; }
+.mbtn {
+  width: 100%; padding: 14px; background: var(--text); color: var(--bg);
+  border: none; border-radius: 10px; font-family: var(--b);
+  font-size: .9rem; font-weight: 700; cursor: pointer; transition: all .2s;
+}
+.mbtn:hover { opacity: .88; }
 
-    .hero p {
-      color: var(--muted);
-      font-size: 1.05rem;
-      max-width: 480px;
-      margin: 0 auto 2.5rem;
-      line-height: 1.6;
-    }
+/* ─── SHARE LINK ────────────────────────────────────── */
+.share-zone { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 18px 20px; margin-bottom: 32px; }
+.share-title { font-size: .83rem; font-weight: 700; margin-bottom: 3px; }
+.share-sub { font-size: .75rem; color: var(--text3); margin-bottom: 12px; }
+.share-row { display: flex; gap: 8px; }
+.share-inp { flex: 1; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 13px; font-size: .79rem; font-family: monospace; color: var(--text2); outline: none; }
+.copy-btn { padding: 10px 18px; background: var(--text); color: var(--bg); border: none; border-radius: 8px; cursor: pointer; font-family: var(--b); font-size: .79rem; font-weight: 700; white-space: nowrap; }
 
-    /* STATS BAR */
-    .stats-bar {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 2.5rem;
-      padding: 1.2rem 2rem;
-      margin: 0 auto 3rem;
-      max-width: 600px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-    }
-
-    .stat {
-      text-align: center;
-    }
-
-    .stat-num {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .stat-label {
-      font-size: 0.72rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-top: 0.1rem;
-    }
-
-    .stat-divider {
-      width: 1px;
-      height: 36px;
-      background: var(--border);
-    }
-
-    /* SEARCH + FILTER */
-    .controls {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      max-width: 1100px;
-      margin: 0 auto 2.5rem;
-      padding: 0 2rem;
-      flex-wrap: wrap;
-    }
-
-    .search-wrap {
-      flex: 1;
-      min-width: 220px;
-      position: relative;
-    }
-
-    .search-wrap svg {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted);
-    }
-
-    .search-input {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      padding: 0.75rem 1rem 0.75rem 2.8rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .search-input::placeholder { color: var(--muted); }
-    .search-input:focus { border-color: rgba(108,99,255,0.5); }
-
-    .sort-select {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.88rem;
-      padding: 0.75rem 1.2rem;
-      outline: none;
-      cursor: pointer;
-      appearance: none;
-      -webkit-appearance: none;
-      padding-right: 2.2rem;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238888aa' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 0.8rem center;
-    }
-
-    /* GRID */
-    .grid-section {
-      position: relative;
-      z-index: 1;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 2rem 6rem;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
-    }
-
-    /* COURSE CARD */
-    .course-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-      animation: fadeUp 0.4s ease both;
-    }
-
-    .course-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px var(--card-glow);
-      border-color: rgba(108,99,255,0.3);
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .card-thumb {
-      height: 160px;
-      position: relative;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    .card-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s ease;
-    }
-
-    .course-card:hover .card-thumb img {
-      transform: scale(1.04);
-    }
-
-    .card-thumb-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.5rem;
-    }
-
-    .card-body {
-      padding: 1.4rem;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-
-    .card-category {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      padding: 0.25rem 0.7rem;
-      border-radius: 999px;
-      margin-bottom: 0.75rem;
-      background: rgba(108,99,255,0.15);
-      color: #a89fff;
-      border: 1px solid rgba(108,99,255,0.2);
-    }
-
-    .card-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 700;
-      line-height: 1.3;
-      margin-bottom: 0.5rem;
-      color: var(--text);
-    }
-
-    .card-desc {
-      font-size: 0.84rem;
-      color: var(--muted);
-      line-height: 1.55;
-      margin-bottom: 1rem;
-      flex: 1;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .card-meta {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.1rem;
-      flex-wrap: wrap;
-    }
-
-    .meta-item {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-
-    .meta-item svg { flex-shrink: 0; }
-
-    .card-actions {
-      display: flex;
-      gap: 0.6rem;
-    }
-
-    .btn-primary {
-      flex: 1;
-      background: linear-gradient(135deg, var(--accent), #8b7aff);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.88rem;
-      font-weight: 500;
-      padding: 0.65rem 1rem;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.15s;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-    }
-
-    .btn-primary:hover { opacity: 0.88; transform: scale(0.98); }
-
-    .btn-copy {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.88rem;
-      padding: 0.65rem 0.9rem;
-      cursor: pointer;
-      transition: color 0.2s, border-color 0.2s, background 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      white-space: nowrap;
-    }
-
-    .btn-copy:hover {
-      color: var(--accent3);
-      border-color: rgba(0,217,192,0.35);
-      background: rgba(0,217,192,0.07);
-    }
-
-    .btn-copy.copied {
-      color: var(--accent3);
-      border-color: rgba(0,217,192,0.5);
-    }
-
-    /* EMPTY STATE */
-    .empty-state {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 5rem 2rem;
-    }
-
-    .empty-icon {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-      display: block;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    .empty-state h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    .empty-state p {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    /* LOADING */
-    .loading-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .skeleton-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-      animation: shimmer 1.5s infinite;
-    }
-
-    .sk-thumb { height: 160px; background: var(--surface2); }
-    .sk-body { padding: 1.4rem; display: flex; flex-direction: column; gap: 0.7rem; }
-    .sk-line { height: 12px; background: var(--surface2); border-radius: 6px; }
-    .sk-line.short { width: 55%; }
-    .sk-line.medium { width: 75%; }
-
-    @keyframes shimmer {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    /* TOAST */
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      background: var(--surface2);
-      border: 1px solid rgba(0,217,192,0.35);
-      color: var(--text);
-      padding: 0.75rem 1.2rem;
-      border-radius: 12px;
-      font-size: 0.88rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      z-index: 9999;
-      transform: translateY(80px);
-      opacity: 0;
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
-      pointer-events: none;
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    /* SECTION HEADER */
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .section-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .results-count {
-      font-size: 0.82rem;
-      color: var(--muted);
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 640px) {
-      header { padding: 1.2rem 1.5rem; }
-      .hero { padding: 3rem 1.5rem 2rem; }
-      .stats-bar { gap: 1.2rem; }
-      .controls { padding: 0 1.5rem; }
-      .grid-section { padding: 0 1.5rem 4rem; }
-    }
-  </style>
+@media(max-width:640px){
+  .countdown-section{gap:5px;}
+  .cd-num{font-size:1.8rem;min-width:56px;padding:10px 12px;}
+  .cd-sep{font-size:1.6rem;}
+}
+</style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="logo">Learnova</div>
-    <div class="header-right">
-      <div class="badge-live">
-        <span class="dot"></span>
-        Mis à jour en temps réel
+<button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Changer le thème">🌙</button>
+
+<nav class="nav">
+  <a href="index.html" class="logo">
+    <div class="logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div>
+    <span class="logo-name">Learnova</span>
+  </a>
+  <div class="nav-r">
+    <a href="store.html" class="btn btn-ghost btn-sm">🛒 Store</a>
+    <a href="community.html" class="btn btn-ghost btn-sm">Communauté</a>
+    <a href="index.html" class="btn btn-ghost btn-sm">← Accueil</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero-zone" id="heroZone">
+  <div class="hero-badge"><span class="live-dot"></span>Sessions Learnova</div>
+  <h1 class="hero-title">Toutes les sessions<br/>et cours disponibles</h1>
+  <p class="hero-sub">Rejoins une session live ou explore les cours à ton rythme.</p>
+</div>
+
+<!-- COUNTDOWN (affiché si session unique ciblée) -->
+<div class="countdown-section" id="cdSection" style="display:none">
+  <div class="cd-block"><div class="cd-num" id="cdJ">00</div><div class="cd-unit">Jours</div></div>
+  <div class="cd-sep">:</div>
+  <div class="cd-block"><div class="cd-num" id="cdH">00</div><div class="cd-unit">Heures</div></div>
+  <div class="cd-sep">:</div>
+  <div class="cd-block"><div class="cd-num" id="cdM">00</div><div class="cd-unit">Minutes</div></div>
+  <div class="cd-sep">:</div>
+  <div class="cd-block"><div class="cd-num" id="cdS">00</div><div class="cd-unit">Secondes</div></div>
+</div>
+
+<!-- CONTENU PRINCIPAL -->
+<div class="container">
+
+  <!-- SESSIONS -->
+  <div class="section-label">Sessions live</div>
+  <div class="filters-row">
+    <div class="filter-chip active" onclick="filterSess('all',this)">Toutes</div>
+    <div class="filter-chip" onclick="filterSess('en_cours',this)">🔴 En direct</div>
+    <div class="filter-chip" onclick="filterSess('planifie',this)">⏰ À venir</div>
+    <div class="filter-chip" onclick="filterSess('termine',this)">✓ Terminées</div>
+  </div>
+  <div class="sessions-grid" id="sessionsGrid">
+    <div class="empty-zone"><div class="empty-icon">⏳</div><div>Chargement des sessions...</div></div>
+  </div>
+
+  <!-- COURS PUBLIÉS -->
+  <div class="section-label">Cours disponibles</div>
+  <div class="courses-grid" id="coursesGrid">
+    <div class="empty-zone"><div>Chargement...</div></div>
+  </div>
+
+  <!-- PARTAGER -->
+  <div class="share-zone" id="shareZone" style="display:none">
+    <div class="share-title">📎 Partager cette page</div>
+    <div class="share-sub">Invitez vos amis à rejoindre Learnova.</div>
+    <div class="share-row">
+      <input class="share-inp" id="shareInp" readonly/>
+      <button class="copy-btn" onclick="copyLink()">Copier</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL REJOINDRE -->
+<div class="modal-ov" id="joinModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle">Rejoindre la session</div>
+    <div class="modal-sub" id="modalSub">Entre ton prénom et ajoute ta photo pour apparaître parmi les participants.</div>
+    <div class="photo-zone" onclick="document.getElementById('photoFile').click()">
+      <div class="photo-prev" id="photoPrev">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </div>
+      <div class="photo-hint">Clique pour ajouter ta photo 📸 <span style="opacity:.6">(optionnel)</span></div>
+      <input type="file" id="photoFile" accept="image/*" style="display:none" onchange="onPhoto(this)"/>
     </div>
-  </header>
+    <input class="minp" id="joinPrenom" type="text" placeholder="Ton prénom *" maxlength="50" autocomplete="given-name"/>
+    <div class="merr" id="joinErr"></div>
+    <button class="mbtn" onclick="confirmJoin()">Rejoindre maintenant →</button>
+  </div>
+</div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-eyebrow">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
-      Catalogue de cours
-    </div>
-    <h1>Apprends à ton <span>propre rythme</span></h1>
-    <p>Explore tous nos cours disponibles. Accède, apprends, et progresse à tout moment.</p>
-  </section>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+const SB_URL = "https://jbshkbqchrehfhoodtuj.supabase.co"
+const SB_KEY = "sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs"
+const sb = createClient(SB_URL, SB_KEY, { auth: { persistSession: true } })
 
-  <!-- STATS -->
-  <div class="stats-bar" id="statsBar">
-    <div class="stat">
-      <div class="stat-num" id="totalCourses">—</div>
-      <div class="stat-label">Cours publiés</div>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat">
-      <div class="stat-num" id="totalCategories">—</div>
-      <div class="stat-label">Catégories</div>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat">
-      <div class="stat-num" id="totalLessons">—</div>
-      <div class="stat-label">Leçons totales</div>
+const urlParams   = new URLSearchParams(window.location.search)
+const targetSessId = urlParams.get('session')
+
+let allSessions   = []
+let allCourses    = []
+let currentFilter = 'all'
+let targetSession = null
+let photoBase64   = null
+let joinTarget    = null  // la session choisie pour rejoindre
+
+// ── DARK MODE ─────────────────────────────────────────────────
+const saved = localStorage.getItem('ln_theme') || 'light'
+document.documentElement.setAttribute('data-theme', saved)
+document.getElementById('themeBtn').textContent = saved === 'dark' ? '☀️' : '🌙'
+
+window.toggleTheme = () => {
+  const cur  = document.documentElement.getAttribute('data-theme')
+  const next = cur === 'dark' ? 'light' : 'dark'
+  document.documentElement.setAttribute('data-theme', next)
+  document.getElementById('themeBtn').textContent = next === 'dark' ? '☀️' : '🌙'
+  localStorage.setItem('ln_theme', next)
+}
+
+// ── SHARE ─────────────────────────────────────────────────────
+document.getElementById('shareInp').value = window.location.href
+document.getElementById('shareZone').style.display = 'block'
+window.copyLink = () => {
+  navigator.clipboard.writeText(window.location.href).catch(() => {})
+  toast('🔗 Lien copié !')
+}
+
+// ── LOAD ──────────────────────────────────────────────────────
+async function loadAll() {
+  const [{ data: sessions }, { data: courses }] = await Promise.all([
+    sb.from('sessions').select('*, courses(id, titre, chapitres, quiz, difficulte, categorie, duree_totale)').order('created_at', { ascending: false }),
+    sb.from('courses').select('*').order('created_at', { ascending: false })
+  ])
+
+  allSessions = sessions || []
+  allCourses  = courses  || []
+
+  renderSessions(allSessions)
+  renderCourses(allCourses)
+
+  // Si URL ciblée sur une session précise, scroll + countdown
+  if (<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Learnova — Salle d'attente</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+<style>
+/* ─── VARIABLES LIGHT / DARK ─────────────────────────── */
+:root {
+  --bg:      #fafaf8; --bg2:    #f2f1ee; --bg3:    #e8e6e0;
+  --panel:   #ffffff; --border: #e0ddd6;
+  --text:    #0f0e0c; --text2:  #4a4840; --text3:  #9a9890;
+  --accent:  #1a56db; --al:     #eff3ff; --am:     #bfcffb;
+  --green:   #057a55; --gl:     #edfaf4; --gm:     #9fe0c4;
+  --red:     #c81c1c; --rl:     #fff1f1;
+  --purple:  #6d28d9; --pl:     #f5f0ff;
+  --gold:    #92400e; --goldl:  #fef3c7;
+  --h: 'Fraunces', Georgia, serif;
+  --b: 'DM Sans', sans-serif;
+  --sh:  0 1px 4px rgba(0,0,0,.06);
+  --sh2: 0 8px 32px rgba(0,0,0,.1);
+}
+[data-theme="dark"] {
+  --bg:     #0c0c0f; --bg2:    #141418; --bg3:    #1e1e24;
+  --panel:  #18181e; --border: #2a2a36;
+  --text:   #f0f0f4; --text2:  #b8b8c8; --text3:  #6868808;
+  --al:     #1a2040; --am:     #2a3870;
+  --gl:     #0d2a1e; --gm:     #1a4d36;
+  --rl:     #2a0f0f;
+  --pl:     #1e1240;
+  --goldl:  #2a1e08;
+  --sh:  0 1px 4px rgba(0,0,0,.3);
+  --sh2: 0 8px 32px rgba(0,0,0,.5);
+}
+[data-theme="dark"] .text3-fix { color: #68688a !important; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text); font-family: var(--b);
+  -webkit-font-smoothing: antialiased; min-height: 100vh;
+  transition: background .3s, color .3s;
+}
+
+/* ─── DARK MODE TOGGLE ─────────────────────────────── */
+.theme-toggle {
+  position: fixed; bottom: 24px; right: 24px; z-index: 999;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--panel); border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: var(--sh2); transition: all .2s;
+  font-size: 1.1rem;
+}
+.theme-toggle:hover { transform: scale(1.08); }
+
+/* ─── NAV ──────────────────────────────────────────── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  height: 60px; background: rgba(var(--bg-rgb, 250,250,248),.94);
+  background: var(--panel); opacity: 1;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 28px; gap: 16px;
+}
+[data-theme="dark"] .nav { background: rgba(24,24,30,.96); }
+.logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.logo-mark { width: 28px; height: 28px; border-radius: 7px; background: var(--text); display: flex; align-items: center; justify-content: center; }
+.logo-mark svg { width: 13px; height: 13px; }
+.logo-name { font-family: var(--h); font-size: 1.05rem; color: var(--text); font-weight: 600; }
+.nav-r { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 16px; border-radius: 8px;
+  font-family: var(--b); font-weight: 500; font-size: .82rem;
+  cursor: pointer; border: none; transition: all .18s; text-decoration: none;
+}
+.btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--text2); }
+.btn-ghost:hover { background: var(--bg2); }
+.btn-dark { background: var(--text); color: var(--bg); }
+.btn-dark:hover { opacity: .88; }
+.btn-red { background: var(--red); color: #fff; }
+.btn-red:hover { opacity: .88; }
+.btn-sm { padding: 5px 12px; font-size: .77rem; }
+
+/* ─── HERO ──────────────────────────────────────────── */
+.hero-zone {
+  text-align: center; padding: 48px 24px 36px;
+  background: linear-gradient(180deg, var(--bg) 0%, transparent 100%);
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--al); border: 1px solid var(--am);
+  color: var(--accent); padding: 5px 16px; border-radius: 100px;
+  font-size: .76rem; font-weight: 600; margin-bottom: 20px;
+}
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); animation: pd 1.5s infinite; }
+@keyframes pd { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(1.6);} }
+.hero-title {
+  font-family: var(--h); font-size: clamp(2rem,4vw,3rem);
+  font-weight: 600; letter-spacing: -.8px; line-height: 1.15;
+  margin-bottom: 10px;
+}
+.hero-sub { font-size: .92rem; color: var(--text3); margin-bottom: 0; }
+
+/* ─── COUNTDOWN ─────────────────────────────────────── */
+.countdown-section {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 28px 0 20px;
+}
+.cd-block { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.cd-num {
+  font-family: var(--h); font-size: clamp(2rem,4vw,2.8rem);
+  line-height: 1; font-weight: 600; letter-spacing: -2px;
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px 18px; min-width: 72px;
+  text-align: center; box-shadow: var(--sh);
+  transition: transform .1s;
+}
+.cd-num.tick { transform: scale(1.06); }
+.cd-unit { font-size: .67rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); }
+.cd-sep { font-family: var(--h); font-size: 2.2rem; color: var(--text3); margin-bottom: 18px; font-weight: 300; }
+
+/* ─── SESSIONS GRID ─────────────────────────────────── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.section-label {
+  font-size: .68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.2px; color: var(--text3); margin-bottom: 18px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+/* FILTRES */
+.filters-row { display: flex; gap: 8px; margin-bottom: 22px; flex-wrap: wrap; }
+.filter-chip {
+  padding: 6px 14px; border-radius: 100px;
+  border: 1.5px solid var(--border); background: var(--panel);
+  font-size: .79rem; font-weight: 500; color: var(--text2);
+  cursor: pointer; transition: all .15s; font-family: var(--b);
+}
+.filter-chip:hover { border-color: var(--accent); color: var(--accent); }
+.filter-chip.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+/* SESSIONS GRID */
+.sessions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); gap: 18px; margin-bottom: 40px; }
+
+.sess-card {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 18px; overflow: hidden; cursor: pointer;
+  transition: all .22s; box-shadow: var(--sh);
+  display: flex; flex-direction: column;
+}
+.sess-card:hover { box-shadow: var(--sh2); transform: translateY(-3px); }
+.sess-card.live-card { border-color: var(--red); box-shadow: 0 0 0 2px rgba(200,28,28,.15), var(--sh2); }
+.sess-card-top { padding: 20px 20px 14px; flex: 1; }
+.sess-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.sess-status { display: flex; align-items: center; gap: 5px; font-size: .71rem; font-weight: 700; padding: 3px 10px; border-radius: 100px; }
+.st-live { background: var(--rl); color: var(--red); }
+.st-soon { background: var(--goldl); color: var(--gold); }
+.st-done { background: var(--bg2); color: var(--text3); border: 1px solid var(--border); }
+.sess-inscrits { font-size: .72rem; color: var(--text3); }
+.sess-title { font-family: var(--h); font-size: 1.05rem; font-weight: 600; line-height: 1.3; margin-bottom: 7px; }
+.sess-desc { font-size: .8rem; color: var(--text2); line-height: 1.65; margin-bottom: 14px; }
+.sess-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+.sess-tag {
+  font-size: .7rem; font-weight: 600; padding: 3px 9px;
+  border-radius: 100px; background: var(--bg2); color: var(--text3);
+}
+.sess-tag.ai-tag { background: var(--pl); color: var(--purple); }
+.sess-tag.course-tag { background: var(--gl); color: var(--green); }
+
+/* COURS LIÉS À LA SESSION */
+.sess-courses {
+  border-top: 1px solid var(--border); padding: 12px 20px;
+  display: flex; gap: 7px; flex-wrap: wrap; align-items: center;
+}
+.sc-label-sm { font-size: .67rem; font-weight: 600; color: var(--text3); margin-right: 3px; }
+.course-chip {
+  display: flex; align-items: center; gap: 4px;
+  background: var(--gl); color: var(--green); border: 1px solid var(--gm);
+  padding: 3px 9px; border-radius: 100px; font-size: .71rem; font-weight: 600;
+}
+.sess-footer {
+  border-top: 1px solid var(--border); padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg2);
+}
+[data-theme="dark"] .sess-footer { background: var(--bg3); }
+.sess-time { font-size: .77rem; color: var(--text3); }
+.join-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 7px 16px; border-radius: 9px;
+  font-family: var(--b); font-size: .8rem; font-weight: 700;
+  border: none; cursor: pointer; transition: all .2s;
+}
+.join-btn-dark { background: var(--text); color: var(--bg); }
+.join-btn-dark:hover { opacity: .85; }
+.join-btn-red { background: var(--red); color: #fff; }
+.join-btn-red:hover { opacity: .88; }
+
+/* ─── COURSES SECTION ───────────────────────────────── */
+.courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 16px; margin-bottom: 48px; }
+.course-card {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 16px; padding: 18px; transition: all .2s; box-shadow: var(--sh);
+  text-decoration: none; color: var(--text); display: flex; flex-direction: column; gap: 10px;
+}
+.course-card:hover { box-shadow: var(--sh2); transform: translateY(-2px); }
+.course-emoji { font-size: 1.8rem; }
+.course-cat {
+  font-size: .68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .8px; color: var(--accent);
+}
+.course-name { font-family: var(--h); font-size: .98rem; font-weight: 600; line-height: 1.3; }
+.course-desc { font-size: .79rem; color: var(--text3); line-height: 1.6; flex: 1; }
+.course-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+.course-meta-sm { font-size: .73rem; color: var(--text3); }
+.course-badge-sm { font-size: .69rem; font-weight: 700; padding: 2px 8px; border-radius: 100px; background: var(--al); color: var(--accent); }
+
+/* ─── EMPTY STATE ───────────────────────────────────── */
+.empty-zone {
+  text-align: center; padding: 60px 20px; color: var(--text3);
+}
+.empty-icon { font-size: 2.8rem; margin-bottom: 14px; }
+.empty-title { font-family: var(--h); font-size: 1.2rem; color: var(--text); margin-bottom: 6px; }
+
+/* ─── JOIN MODAL ────────────────────────────────────── */
+.modal-ov {
+  position: fixed; inset: 0; background: rgba(0,0,0,.6);
+  z-index: 1000; display: none; align-items: center; justify-content: center;
+  backdrop-filter: blur(12px);
+}
+.modal-ov.show { display: flex; }
+.modal {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 22px; padding: 36px; width: 420px; max-width: 95vw;
+  box-shadow: 0 40px 100px rgba(0,0,0,.25); animation: mIn .3s ease;
+}
+@keyframes mIn { from{opacity:0;transform:scale(.92) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);} }
+.modal-title { font-family: var(--h); font-size: 1.4rem; font-weight: 600; margin-bottom: 5px; }
+.modal-sub { font-size: .83rem; color: var(--text3); margin-bottom: 22px; line-height: 1.55; }
+.photo-zone {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 16px; background: var(--bg2); border: 1.5px dashed var(--border);
+  border-radius: 14px; cursor: pointer; transition: all .2s; margin-bottom: 14px;
+}
+.photo-zone:hover { border-color: var(--accent); background: var(--al); }
+.photo-prev {
+  width: 68px; height: 68px; border-radius: 50%; overflow: hidden;
+  background: var(--bg3); display: flex; align-items: center; justify-content: center;
+}
+.photo-prev img { width: 100%; height: 100%; object-fit: cover; }
+.photo-prev svg { width: 28px; height: 28px; color: var(--text3); }
+.photo-hint { font-size: .75rem; color: var(--text3); text-align: center; }
+.minp {
+  width: 100%; border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 13px 15px; font-family: var(--b); font-size: .87rem;
+  color: var(--text); background: var(--bg2); outline: none; transition: all .2s;
+  margin-bottom: 12px;
+}
+.minp:focus { border-color: var(--accent); background: var(--panel); }
+[data-theme="dark"] .minp { background: var(--bg3); }
+.merr { font-size: .79rem; color: var(--red); background: var(--rl); border: 1px solid #fca5a5; padding: 8px 13px; border-radius: 8px; margin-bottom: 10px; display: none; }
+.merr.show { display: block; }
+.mbtn {
+  width: 100%; padding: 14px; background: var(--text); color: var(--bg);
+  border: none; border-radius: 10px; font-family: var(--b);
+  font-size: .9rem; font-weight: 700; cursor: pointer; transition: all .2s;
+}
+.mbtn:hover { opacity: .88; }
+
+/* ─── SHARE LINK ────────────────────────────────────── */
+.share-zone { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 18px 20px; margin-bottom: 32px; }
+.share-title { font-size: .83rem; font-weight: 700; margin-bottom: 3px; }
+.share-sub { font-size: .75rem; color: var(--text3); margin-bottom: 12px; }
+.share-row { display: flex; gap: 8px; }
+.share-inp { flex: 1; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 13px; font-size: .79rem; font-family: monospace; color: var(--text2); outline: none; }
+.copy-btn { padding: 10px 18px; background: var(--text); color: var(--bg); border: none; border-radius: 8px; cursor: pointer; font-family: var(--b); font-size: .79rem; font-weight: 700; white-space: nowrap; }
+
+@media(max-width:640px){
+  .countdown-section{gap:5px;}
+  .cd-num{font-size:1.8rem;min-width:56px;padding:10px 12px;}
+  .cd-sep{font-size:1.6rem;}
+}
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Changer le thème">🌙</button>
+
+<nav class="nav">
+  <a href="index.html" class="logo">
+    <div class="logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div>
+    <span class="logo-name">Learnova</span>
+  </a>
+  <div class="nav-r">
+    <a href="store.html" class="btn btn-ghost btn-sm">🛒 Store</a>
+    <a href="community.html" class="btn btn-ghost btn-sm">Communauté</a>
+    <a href="index.html" class="btn btn-ghost btn-sm">← Accueil</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero-zone" id="heroZone">
+  <div class="hero-badge"><span class="live-dot"></span>Sessions Learnova</div>
+  <h1 class="hero-title">Toutes les sessions<br/>et cours disponibles</h1>
+  <p class="hero-sub">Rejoins une session live ou explore les cours à ton rythme.</p>
+</div>
+
+<!-- COUNTDOWN (affiché si session unique ciblée) -->
+<div class="countdown-section" id="cdSection" style="display:none">
+  <div class="cd-block"><div class="cd-num" id="cdJ">00</div><div class="cd-unit">Jours</div></div>
+  <div class="cd-sep">:</div>
+  <div class="cd-block"><div class="cd-num" id="cdH">00</div><div class="cd-unit">Heures</div></div>
+  <div class="cd-sep">:</div>
+  <div class="cd-block"><div class="cd-num" id="cdM">00</div><div class="cd-unit">Minutes</div></div>
+  <div class="cd-sep">:</div>
+  <div class="cd-block"><div class="cd-num" id="cdS">00</div><div class="cd-unit">Secondes</div></div>
+</div>
+
+<!-- CONTENU PRINCIPAL -->
+<div class="container">
+
+  <!-- SESSIONS -->
+  <div class="section-label">Sessions live</div>
+  <div class="filters-row">
+    <div class="filter-chip active" onclick="filterSess('all',this)">Toutes</div>
+    <div class="filter-chip" onclick="filterSess('en_cours',this)">🔴 En direct</div>
+    <div class="filter-chip" onclick="filterSess('planifie',this)">⏰ À venir</div>
+    <div class="filter-chip" onclick="filterSess('termine',this)">✓ Terminées</div>
+  </div>
+  <div class="sessions-grid" id="sessionsGrid">
+    <div class="empty-zone"><div class="empty-icon">⏳</div><div>Chargement des sessions...</div></div>
+  </div>
+
+  <!-- COURS PUBLIÉS -->
+  <div class="section-label">Cours disponibles</div>
+  <div class="courses-grid" id="coursesGrid">
+    <div class="empty-zone"><div>Chargement...</div></div>
+  </div>
+
+  <!-- PARTAGER -->
+  <div class="share-zone" id="shareZone" style="display:none">
+    <div class="share-title">📎 Partager cette page</div>
+    <div class="share-sub">Invitez vos amis à rejoindre Learnova.</div>
+    <div class="share-row">
+      <input class="share-inp" id="shareInp" readonly/>
+      <button class="copy-btn" onclick="copyLink()">Copier</button>
     </div>
   </div>
 
-  <!-- CONTROLS -->
-  <div class="controls">
-    <div class="search-wrap">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
-      <input type="text" class="search-input" id="searchInput" placeholder="Rechercher un cours…" />
+</div>
+
+<!-- MODAL REJOINDRE -->
+<div class="modal-ov" id="joinModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle">Rejoindre la session</div>
+    <div class="modal-sub" id="modalSub">Entre ton prénom et ajoute ta photo pour apparaître parmi les participants.</div>
+    <div class="photo-zone" onclick="document.getElementById('photoFile').click()">
+      <div class="photo-prev" id="photoPrev">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="photo-hint">Clique pour ajouter ta photo 📸 <span style="opacity:.6">(optionnel)</span></div>
+      <input type="file" id="photoFile" accept="image/*" style="display:none" onchange="onPhoto(this)"/>
     </div>
-    <select class="sort-select" id="sortSelect">
-      <option value="newest">Plus récents</option>
-      <option value="oldest">Plus anciens</option>
-      <option value="alpha">A → Z</option>
-    </select>
+    <input class="minp" id="joinPrenom" type="text" placeholder="Ton prénom *" maxlength="50" autocomplete="given-name"/>
+    <div class="merr" id="joinErr"></div>
+    <button class="mbtn" onclick="confirmJoin()">Rejoindre maintenant →</button>
   </div>
+</div>
 
-  <!-- GRID -->
-  <div class="grid-section">
-    <div class="section-header">
-      <span class="section-title">Tous les cours</span>
-      <span class="results-count" id="resultsCount"></span>
-    </div>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+const SB_URL = "https://jbshkbqchrehfhoodtuj.supabase.co"
+const SB_KEY = "sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs"
+const sb = createClient(SB_URL, SB_KEY, { auth: { persistSession: true } })
 
-    <!-- Loading skeletons -->
-    <div class="loading-grid" id="loadingGrid">
-      <div class="skeleton-card"><div class="sk-thumb"></div><div class="sk-body"><div class="sk-line short"></div><div class="sk-line medium"></div><div class="sk-line"></div></div></div>
-      <div class="skeleton-card"><div class="sk-thumb"></div><div class="sk-body"><div class="sk-line short"></div><div class="sk-line medium"></div><div class="sk-line"></div></div></div>
-      <div class="skeleton-card"><div class="sk-thumb"></div><div class="sk-body"><div class="sk-line short"></div><div class="sk-line medium"></div><div class="sk-line"></div></div></div>
-    </div>
+const urlParams   = new URLSearchParams(window.location.search)
+const targetSessId = urlParams.get('session')
 
-    <div class="grid" id="courseGrid" style="display:none;"></div>
-  </div>
+let allSessions   = []
+let allCourses    = []
+let currentFilter = 'all'
+let targetSession = null
+let photoBase64   = null
+let joinTarget    = null  // la session choisie pour rejoindre
 
-  <!-- TOAST -->
-  <div class="toast" id="toast">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00d9c0" stroke-width="2.5">
-      <polyline points="20 6 9 17 4 12"/>
-    </svg>
-    <span id="toastMsg">Lien copié !</span>
-  </div>
+// ── DARK MODE ─────────────────────────────────────────────────
+const saved = localStorage.getItem('ln_theme') || 'light'
+document.documentElement.setAttribute('data-theme', saved)
+document.getElementById('themeBtn').textContent = saved === 'dark' ? '☀️' : '🌙'
 
-  <!-- SUPABASE -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    // ─── CONFIG ─────────────────────────────────────────────────────────
-    const SUPABASE_URL = 'https://jbshkbqchrehfhoodtuj.supabase.co';     // ← remplace
-    const SUPABASE_ANON_KEY = 'sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs';                   // ← remplace
-    const COURSE_BASE_URL = window.location.origin + '/course.html'; // ajuste si besoin
+window.toggleTheme = () => {
+  const cur  = document.documentElement.getAttribute('data-theme')
+  const next = cur === 'dark' ? 'light' : 'dark'
+  document.documentElement.setAttribute('data-theme', next)
+  document.getElementById('themeBtn').textContent = next === 'dark' ? '☀️' : '🌙'
+  localStorage.setItem('ln_theme', next)
+}
 
-    // ─── INIT ────────────────────────────────────────────────────────────
-    const { createClient } = supabase;
-    const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// ── SHARE ─────────────────────────────────────────────────────
+document.getElementById('shareInp').value = window.location.href
+document.getElementById('shareZone').style.display = 'block'
+window.copyLink = () => {
+  navigator.clipboard.writeText(window.location.href).catch(() => {})
+  toast('🔗 Lien copié !')
+}
 
-    let allCourses = [];
+// ── LOAD ──────────────────────────────────────────────────────
+async function loadAll() {
+  const [{ data: sessions }, { data: courses }] = await Promise.all([
+    sb.from('sessions').select('*, courses(id, titre, chapitres, quiz, difficulte, categorie, duree_totale)').order('created_at', { ascending: false }),
+    sb.from('courses').select('*').order('created_at', { ascending: false })
+  ])
 
-    // Palette de couleurs pour les catégories
-    const CATEGORY_COLORS = [
-      { bg: 'rgba(108,99,255,0.15)', color: '#a89fff', border: 'rgba(108,99,255,0.2)' },
-      { bg: 'rgba(255,107,157,0.15)', color: '#ff9ec4', border: 'rgba(255,107,157,0.2)' },
-      { bg: 'rgba(0,217,192,0.12)', color: '#00d9c0', border: 'rgba(0,217,192,0.2)' },
-      { bg: 'rgba(255,183,77,0.15)', color: '#ffd280', border: 'rgba(255,183,77,0.2)' },
-      { bg: 'rgba(99,201,255,0.15)', color: '#7dd3f5', border: 'rgba(99,201,255,0.2)' },
-    ];
+  allSessions = sessions || []
+  allCourses  = courses  || []
 
-    const THUMB_FALLBACKS = ['🚀','📚','💡','🎯','🧠','⚡','🌟','🔬','🎨','💻'];
+  renderSessions(allSessions)
+  renderCourses(allCourses)
 
-    function getCategoryColor(cat) {
-      let hash = 0;
-      for (let c of (cat || '')) hash = (hash * 31 + c.charCodeAt(0)) % CATEGORY_COLORS.length;
-      return CATEGORY_COLORS[hash];
-    }
-
-    function getFallbackEmoji(title) {
-      let hash = 0;
-      for (let c of (title || '')) hash = (hash * 31 + c.charCodeAt(0)) % THUMB_FALLBACKS.length;
-      return THUMB_FALLBACKS[hash];
-    }
-
-    // ─── LOAD COURSES ────────────────────────────────────────────────────
-    async function loadCourses() {
-      const { data, error } = await sb
-        .from('courses')
-        .select('id, title, description, category, thumbnail_url, lesson_count, created_at, slug')
-        .eq('published', true)
-        .order('created_at', { ascending: false });
-
-      document.getElementById('loadingGrid').style.display = 'none';
-      document.getElementById('courseGrid').style.display = 'grid';
-
-      if (error) { console.error(error); return; }
-
-      allCourses = data || [];
-      updateStats();
-      renderCourses(allCourses);
-    }
-
-    // ─── REALTIME ────────────────────────────────────────────────────────
-    function setupRealtime() {
-      sb.channel('public:courses')
-        .on('postgres_changes', {
-          event: '*',
-          schema: 'public',
-          table: 'courses',
-          filter: 'published=eq.true'
-        }, () => {
-          loadCourses(); // rechargement auto dès qu'un cours est publié/modifié
-        })
-        .subscribe();
-    }
-
-    // ─── STATS ───────────────────────────────────────────────────────────
-    function updateStats() {
-      const total = allCourses.length;
-      const cats = new Set(allCourses.map(c => c.category).filter(Boolean)).size;
-      const lessons = allCourses.reduce((acc, c) => acc + (c.lesson_count || 0), 0);
-
-      animateNum('totalCourses', total);
-      animateNum('totalCategories', cats || '—');
-      animateNum('totalLessons', lessons);
-    }
-
-    function animateNum(id, target) {
-      if (typeof target !== 'number') { document.getElementById(id).textContent = target; return; }
-      const el = document.getElementById(id);
-      let start = 0;
-      const step = Math.ceil(target / 30);
-      const timer = setInterval(() => {
-        start = Math.min(start + step, target);
-        el.textContent = start;
-        if (start >= target) clearInterval(timer);
-      }, 30);
-    }
-
-    // ─── RENDER ──────────────────────────────────────────────────────────
-    function renderCourses(courses) {
-      const grid = document.getElementById('courseGrid');
-      document.getElementById('resultsCount').textContent =
-        courses.length === 0 ? '' : `${courses.length} cours`;
-
-      if (courses.length === 0) {
-        grid.innerHTML = `
-          <div class="empty-state">
-            <span class="empty-icon">📭</span>
-            <h3>Aucun cours trouvé</h3>
-            <p>Essaie un autre mot-clé ou reviens bientôt !</p>
-          </div>`;
-        return;
+  // Si URL ciblée sur une session précise, scroll + countdown
+  if (targetSessId) {
+    targetSession = allSessions.find(s => s.id === targetSessId)
+    if (targetSession) {
+      if (targetSession.date_debut && targetSession.heure) {
+        document.getElementById('cdSection').style.display = 'flex'
+        startCountdown(targetSession.date_debut, targetSession.heure)
       }
-
-      grid.innerHTML = courses.map((course, i) => {
-        const cc = getCategoryColor(course.category);
-        const courseUrl = course.slug
-          ? `${COURSE_BASE_URL}?slug=${course.slug}`
-          : `${COURSE_BASE_URL}?id=${course.id}`;
-        const hasThumb = !!course.thumbnail_url;
-        const emoji = getFallbackEmoji(course.title);
-        const thumbBg = `hsl(${Math.abs(course.id?.charCodeAt(0) || 0) % 360}, 40%, 18%)`;
-
-        return `
-          <div class="course-card" style="animation-delay:${i * 0.06}s">
-            <div class="card-thumb">
-              ${hasThumb
-                ? `<img src="${course.thumbnail_url}" alt="${escHtml(course.title)}" loading="lazy" />`
-                : `<div class="card-thumb-placeholder" style="background:${thumbBg}">${emoji}</div>`
-              }
-            </div>
-            <div class="card-body">
-              ${course.category
-                ? `<span class="card-category" style="background:${cc.bg};color:${cc.color};border-color:${cc.border}">${escHtml(course.category)}</span>`
-                : ''
-              }
-              <div class="card-title">${escHtml(course.title)}</div>
-              ${course.description
-                ? `<div class="card-desc">${escHtml(course.description)}</div>`
-                : ''
-              }
-              <div class="card-meta">
-                ${course.lesson_count != null
-                  ? `<span class="meta-item">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                      ${course.lesson_count} leçon${course.lesson_count > 1 ? 's' : ''}
-                    </span>`
-                  : ''
-                }
-                <span class="meta-item">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                  ${formatDate(course.created_at)}
-                </span>
-              </div>
-              <div class="card-actions">
-                <a href="${courseUrl}" class="btn-primary">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                  Commencer
-                </a>
-                <button class="btn-copy" onclick="copyLink('${courseUrl}', this)" title="Copier le lien">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                  Lien
-                </button>
-              </div>
-            </div>
-          </div>`;
-      }).join('');
+      setTimeout(() => {
+        document.getElementById(`sess-${targetSessId}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 600)
     }
+  }
 
-    // ─── COPY LINK ───────────────────────────────────────────────────────
-    function copyLink(url, btn) {
-      navigator.clipboard.writeText(url).then(() => {
-        btn.classList.add('copied');
-        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copié !`;
-        showToast('🔗 Lien copié dans le presse-papier !');
-        setTimeout(() => {
-          btn.classList.remove('copied');
-          btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Lien`;
-        }, 2500);
-      });
+  // Realtime sessions
+  sb.channel('wait-rt')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'sessions' }, async () => {
+      const { data: s } = await sb.from('sessions').select('*, courses(id,titre,chapitres,quiz,difficulte,categorie,duree_totale)').order('created_at', { ascending: false })
+      allSessions = s || []
+      renderSessions(allSessions)
+    })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'courses' }, async () => {
+      const { data: c } = await sb.from('courses').select('*').order('created_at', { ascending: false })
+      allCourses = c || []
+      renderCourses(allCourses)
+    })
+    .subscribe()
+}
+
+// ── RENDER SESSIONS ───────────────────────────────────────────
+function renderSessions(sessions) {
+  const grid   = document.getElementById('sessionsGrid')
+  const list   = currentFilter === 'all' ? sessions : sessions.filter(s => s.statut === currentFilter)
+
+  if (!list.length) {
+    grid.innerHTML = `<div class="empty-zone" style="grid-column:1/-1">
+      <div class="empty-icon">📅</div>
+      <div class="empty-title">Aucune session</div>
+      <div style="font-size:.82rem;margin-top:4px">L'admin créera bientôt des sessions.</div>
+    </div>`
+    return
+  }
+
+  grid.innerHTML = list.map(s => {
+    const isLive   = s.statut === 'en_cours'
+    const isDone   = s.statut === 'termine'
+    const isTarget = s.id === targetSessId
+
+    const statusHtml = isLive
+      ? `<span class="sess-status st-live"><span class="live-dot"></span> En direct</span>`
+      : isDone
+      ? `<span class="sess-status st-done">✓ Terminée</span>`
+      : `<span class="sess-status st-soon">⏰ ${s.heure || 'Bientôt'}</span>`
+
+    const courseChip = s.courses?.titre
+      ? `<div class="sess-courses">
+           <span class="sc-label-sm">Cours :</span>
+           <a href="course.html?course=${s.courses.id}" class="course-chip" onclick="event.stopPropagation()">
+             📚 ${s.courses.titre.substring(0, 24)}
+           </a>
+         </div>`
+      : ''
+
+    const joinBtnHtml = isDone
+      ? `<span style="font-size:.76rem;color:var(--text3)">Terminée</span>`
+      : isLive
+      ? `<button class="join-btn join-btn-red" onclick="event.stopPropagation();openJoin('${s.id}')">🔴 Rejoindre live</button>`
+      : `<button class="join-btn join-btn-dark" onclick="event.stopPropagation();openJoin('${s.id}')">→ S'inscrire</button>`
+
+    return `<div class="sess-card ${isLive ? 'live-card' : ''} ${isTarget ? 'target-card' : ''}" id="sess-${s.id}">
+      <div class="sess-card-top">
+        <div class="sess-card-header">${statusHtml}<span class="sess-inscrits">${s.nb_inscrits || 0} inscrits</span></div>
+        <div class="sess-title">${s.titre}</div>
+        <div class="sess-desc">${s.description || 'Session IA Learnova.'}</div>
+        <div class="sess-meta">
+          <span class="sess-tag ai-tag">🤖 IA Live</span>
+          <span class="sess-tag">${s.format || 'session unique'}</span>
+          ${s.courses?.difficulte ? `<span class="sess-tag">${s.courses.difficulte}</span>` : ''}
+        </div>
+      </div>
+      ${courseChip}
+      <div class="sess-footer">
+        <span class="sess-time">${s.date_debut || '—'} ${s.heure ? '· ' + s.heure : ''}</span>
+        ${joinBtnHtml}
+      </div>
+    </div>`
+  }).join('')
+}
+
+window.filterSess = (type, el) => {
+  currentFilter = type
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'))
+  el.classList.add('active')
+  renderSessions(allSessions)
+}
+
+// ── RENDER COURSES ────────────────────────────────────────────
+function renderCourses(courses) {
+  const grid = document.getElementById('coursesGrid')
+  if (!courses.length) {
+    grid.innerHTML = `<div class="empty-zone" style="grid-column:1/-1">
+      <div class="empty-icon">📚</div>
+      <div class="empty-title">Aucun cours publié</div>
+      <div style="font-size:.82rem;margin-top:4px">L'admin publiera des cours bientôt.</div>
+    </div>`
+    return
+  }
+
+  const emojis = { 'Programmation':'💻','Design':'🎨','Marketing':'📣','Business':'💼','Langues':'🌍','Data Science':'📊','Autre':'📘' }
+
+  grid.innerHTML = courses.map(c => `
+    <a href="course.html?course=${c.id}" class="course-card">
+      <div class="course-emoji">${emojis[c.categorie] || '📘'}</div>
+      <div class="course-cat">${c.categorie || 'Formation'}</div>
+      <div class="course-name">${c.titre}</div>
+      <div class="course-desc">${(c.resume || c.description || 'Cours disponible sur Learnova.').substring(0, 90)}...</div>
+      <div class="course-footer">
+        <span class="course-meta-sm">${c.chapitres?.length || 0} chap. · ${c.quiz?.length || 0} questions</span>
+        <span class="course-badge-sm">${c.difficulte || 'Tous niveaux'}</span>
+      </div>
+    </a>`).join('')
+}
+
+// ── COUNTDOWN ─────────────────────────────────────────────────
+function startCountdown(dateStr, timeStr) {
+  function tick() {
+    const target = new Date(`${dateStr}T${timeStr}:00`)
+    const diff   = target - new Date()
+    if (diff <= 0) {
+      ['cdJ','cdH','cdM','cdS'].forEach(id => { const e=document.getElementById(id); if(e)e.textContent='00' })
+      return
     }
-
-    // ─── TOAST ───────────────────────────────────────────────────────────
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      document.getElementById('toastMsg').textContent = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2800);
+    const vals = {
+      cdJ: String(Math.floor(diff/86400000)).padStart(2,'0'),
+      cdH: String(Math.floor((diff%86400000)/3600000)).padStart(2,'0'),
+      cdM: String(Math.floor((diff%3600000)/60000)).padStart(2,'0'),
+      cdS: String(Math.floor((diff%60000)/1000)).padStart(2,'0')
     }
+    Object.entries(vals).forEach(([id,val]) => {
+      const el = document.getElementById(id)
+      if (el && el.textContent !== val) {
+        el.textContent = val; el.classList.add('tick')
+        setTimeout(() => el.classList.remove('tick'), 120)
+      }
+    })
+  }
+  tick(); setInterval(tick, 1000)
+}
 
-    // ─── SEARCH + SORT ───────────────────────────────────────────────────
-    function filterAndSort() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      const sort = document.getElementById('sortSelect').value;
+// ── MODAL REJOINDRE ───────────────────────────────────────────
+window.openJoin = (sessId) => {
+  joinTarget = allSessions.find(s => s.id === sessId)
+  if (!joinTarget) return
 
-      let list = allCourses.filter(c =>
-        (c.title || '').toLowerCase().includes(q) ||
-        (c.description || '').toLowerCase().includes(q) ||
-        (c.category || '').toLowerCase().includes(q)
-      );
+  document.getElementById('modalTitle').textContent = joinTarget.statut === 'en_cours'
+    ? `🔴 Rejoindre "${joinTarget.titre}"`
+    : `📝 S'inscrire — "${joinTarget.titre}"`
+  document.getElementById('modalSub').textContent = joinTarget.statut === 'en_cours'
+    ? 'Entre ton prénom pour rejoindre le live maintenant !'
+    : `Session le ${joinTarget.date_debut || '—'} à ${joinTarget.heure || '—'}. Inscris-toi pour recevoir le lien.`
 
-      if (sort === 'oldest') list.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-      else if (sort === 'alpha') list.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
-      else list.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+  // Pré-remplir le prénom si connu
+  const saved = sessionStorage.getItem('ln_prenom')
+  if (saved) document.getElementById('joinPrenom').value = saved
 
-      renderCourses(list);
-    }
+  document.getElementById('joinModal').classList.add('show')
+  setTimeout(() => document.getElementById('joinPrenom').focus(), 100)
+}
 
-    document.getElementById('searchInput').addEventListener('input', filterAndSort);
-    document.getElementById('sortSelect').addEventListener('change', filterAndSort);
+window.closeModal = () => {
+  document.getElementById('joinModal').classList.remove('show')
+  document.getElementById('joinErr').classList.remove('show')
+}
 
-    // ─── HELPERS ─────────────────────────────────────────────────────────
-    function escHtml(s) {
-      return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
+window.onPhoto = (inp) => {
+  const f = inp.files[0]; if (!f) return
+  if (f.size > 3*1024*1024) { toast('Photo trop grande (max 3MB)', 'err'); return }
+  const r = new FileReader()
+  r.onload = e => {
+    photoBase64 = e.target.result
+    sessionStorage.setItem('ln_photo', photoBase64)
+    document.getElementById('photoPrev').innerHTML = `<img src="${photoBase64}" alt=""/>`
+  }
+  r.readAsDataURL(f)
+}
 
-    function formatDate(iso) {
-      if (!iso) return '';
-      return new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
-    }
+window.confirmJoin = async () => {
+  const prenom = document.getElementById('joinPrenom').value.trim()
+  const errEl  = document.getElementById('joinErr')
+  errEl.classList.remove('show')
 
-    // ─── BOOT ────────────────────────────────────────────────────────────
-    loadCourses();
-    setupRealtime();
-  </script>
+  if (!prenom || prenom.length < 2) {
+    errEl.textContent = 'Entre ton prénom (min. 2 caractères).'
+    errEl.classList.add('show'); return
+  }
+
+  sessionStorage.setItem('ln_prenom', prenom)
+  if (photoBase64) sessionStorage.setItem('ln_photo', photoBase64)
+
+  // Incrémenter les inscrits
+  if (joinTarget) {
+    await sb.from('sessions').update({
+      nb_inscrits: (joinTarget.nb_inscrits || 0) + 1
+    }).eq('id', joinTarget.id).catch(() => {})
+  }
+
+  closeModal()
+
+  const sessId = joinTarget?.id
+  const dest   = joinTarget?.statut === 'en_cours' ? 'live' : 'waiting'
+  const params = new URLSearchParams()
+  if (sessId) params.set('session', sessId)
+  params.set('prenom', encodeURIComponent(prenom))
+
+  if (joinTarget?.statut === 'en_cours') {
+    window.location.href = `live.html?${params.toString()}`
+  } else {
+    toast(`✅ Inscrit(e) ! La session démarre le ${joinTarget?.date_debut || '—'} à ${joinTarget?.heure || '—'}.`)
+  }
+}
+
+document.getElementById('joinPrenom').addEventListener('keypress', e => { if (e.key === 'Enter') confirmJoin() })
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal() })
+
+function toast(msg, type = 'ok') {
+  let t = document.getElementById('ln-toast')
+  if (!t) {
+    t = document.createElement('div'); t.id = 'ln-toast'
+    t.style.cssText = "position:fixed;bottom:80px;right:24px;padding:11px 20px;border-radius:11px;font-size:.83rem;z-index:9999;transform:translateY(60px);transition:all .35s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif;font-weight:500;box-shadow:0 16px 48px rgba(0,0,0,.2);"
+    document.body.appendChild(t)
+  }
+  const bg = { ok: '#057a55', err: '#c81c1c', dark: '#0f0e0c' }
+  t.style.background = bg[type] || bg.ok; t.style.color = '#fff'
+  t.textContent = msg; t.style.transform = 'translateY(0)'
+  clearTimeout(t._t); t._t = setTimeout(() => t.style.transform = 'translateY(60px)', 4000)
+}
+
+loadAll()
+</script>
 </body>
 </html>
