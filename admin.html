@@ -825,7 +825,6 @@ window.uploadPDF = async () => {
     const { data: course, error: courseErr } = await sb.from('courses').insert({
       titre: title,
       description: desc || data.resume || '',
-      categorie: cat,
       difficulte: level,
       duree_totale: data.duree_totale || '—',
       resume: data.resume || '',
