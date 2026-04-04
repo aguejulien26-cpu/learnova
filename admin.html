@@ -594,7 +594,7 @@ function renderSessionsTable(sessions, tableId, limit) {
       <td><div class="td-main">${s.titre}</div><div class="td-sub">${s.format || '—'}</div></td>
       <td>${courseLie}</td>
       ${isAll ? `<td>${s.format || '—'}</td>` : ''}
-      <td><div class="td-sub">${s.date_debut || '—'} ${s.heure ? 'à ' + s.heure : ''}</div></td>
+      <td><div class="td-sub">${s.created_at || '—'} ${s.heure ? 'à ' + s.heure : ''}</div></td>
       <td>${badge}</td>
       <td><strong>${s.nb_inscrits || 0}</strong></td>
       ${isAll ? `<td><button class="btn btn-ghost btn-sm" onclick="copyText('${waitUrl}')">Lien</button></td>` : ''}
