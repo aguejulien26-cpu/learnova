@@ -3,379 +3,361 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Learnova — Store</title>
+<title>Learnova — Admin Store</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --bg:#fafaf8; --bg2:#f2f1ee; --bg3:#e8e6e0;
-  --panel:#ffffff; --border:#e0ddd6;
-  --text:#0f0e0c; --text2:#4a4840; --text3:#9a9890;
-  --accent:#1a56db; --al:#eff3ff; --am:#bfcffb;
-  --green:#057a55; --gl:#edfaf4; --gm:#9fe0c4;
-  --red:#c81c1c; --rl:#fff1f1;
-  --purple:#6d28d9; --pl:#f5f0ff;
-  --gold:#92400e; --goldl:#fef3c7;
-  --orange:#c2410c; --ol:#fff7ed;
-  --h:'Fraunces',Georgia,serif; --b:'DM Sans',sans-serif;
-  --sh:0 1px 4px rgba(0,0,0,.06); --sh2:0 8px 32px rgba(0,0,0,.1);
+:root{
+  --bg:#fafaf8;--bg2:#f2f1ee;--bg3:#e8e6e0;--panel:#ffffff;--border:#e0ddd6;
+  --text:#0f0e0c;--text2:#4a4840;--text3:#9a9890;
+  --accent:#1a56db;--al:#eff3ff;--am:#bfcffb;
+  --green:#057a55;--gl:#edfaf4;--gm:#9fe0c4;
+  --red:#c81c1c;--rl:#fff1f1;
+  --purple:#6d28d9;--pl:#f5f0ff;
+  --gold:#92400e;--goldl:#fef3c7;
+  --orange:#c2410c;--ol:#fff7ed;
+  --h:'Fraunces',Georgia,serif;--b:'DM Sans',sans-serif;
+  --sh:0 1px 4px rgba(0,0,0,.06);--sh2:0 8px 32px rgba(0,0,0,.1);
 }
-[data-theme="dark"] {
-  --bg:#0c0c0f; --bg2:#141418; --bg3:#1e1e24;
-  --panel:#18181e; --border:#2a2a36;
-  --text:#f0f0f4; --text2:#b8b8c8; --text3:#686880;
-  --al:#1a2040; --am:#2a3870;
-  --gl:#0d2a1e; --gm:#1a4d36;
-  --rl:#2a0f0f; --pl:#1e1240;
-  --goldl:#2a1e08; --ol:#2a1608;
-  --sh:0 1px 4px rgba(0,0,0,.3); --sh2:0 8px 32px rgba(0,0,0,.5);
+[data-theme="dark"]{
+  --bg:#0c0c0f;--bg2:#141418;--bg3:#1e1e24;--panel:#18181e;--border:#2a2a36;
+  --text:#f0f0f4;--text2:#b8b8c8;--text3:#686880;
+  --al:#1a2040;--am:#2a3870;--gl:#0d2a1e;--gm:#1a4d36;
+  --rl:#2a0f0f;--pl:#1e1240;--goldl:#2a1e08;--ol:#2a1608;
+  --sh:0 1px 4px rgba(0,0,0,.3);--sh2:0 8px 32px rgba(0,0,0,.5);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:var(--b);-webkit-font-smoothing:antialiased;padding-top:60px;transition:background .3s,color .3s;}
-::selection{background:var(--am);color:var(--text);}
+html,body{height:100%;}
+body{background:var(--bg2);color:var(--text);font-family:var(--b);-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;}
 
-/* THEME TOGGLE */
-.theme-toggle{
-  position:fixed;bottom:24px;right:24px;z-index:999;
-  width:46px;height:46px;border-radius:50%;
-  background:var(--panel);border:1.5px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;box-shadow:var(--sh2);transition:all .2s;font-size:1.1rem;
-}
+.theme-toggle{position:fixed;bottom:24px;right:24px;z-index:999;width:46px;height:46px;border-radius:50%;background:var(--panel);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--sh2);transition:all .2s;font-size:1.1rem;}
 .theme-toggle:hover{transform:scale(1.08);}
 
+/* PROTECT */
+#protectScreen{position:fixed;inset:0;background:#0f0e0c;z-index:9999;display:flex;align-items:center;justify-content:center;}
+.pbox{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:52px 44px;width:420px;text-align:center;}
+.plogo{font-family:var(--h);font-size:2rem;color:#fff;margin-bottom:6px;font-weight:600;}
+.psub{font-size:.84rem;color:rgba(255,255,255,.4);margin-bottom:32px;line-height:1.55;}
+.pinp{width:100%;padding:15px;border:1px solid rgba(255,255,255,.15);border-radius:12px;background:rgba(255,255,255,.08);color:#fff;font-family:var(--b);font-size:1rem;outline:none;letter-spacing:4px;text-align:center;margin-bottom:12px;transition:border-color .2s;}
+.pinp::placeholder{color:rgba(255,255,255,.3);letter-spacing:0;}
+.pinp:focus{border-color:rgba(255,255,255,.4);}
+.pbtn{width:100%;padding:15px;background:#fff;color:var(--text);border:none;border-radius:12px;font-family:var(--b);font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.pbtn:hover{background:#f0f1f8;transform:translateY(-1px);}
+.perr{color:#fca5a5;font-size:.82rem;margin-top:10px;display:none;}
+.perr.show{display:block;}
+
+/* APP */
+#adminApp{display:none;padding-top:62px;min-height:100vh;}
+
 /* NAV */
-.nav{
-  position:fixed;top:0;left:0;right:0;z-index:500;height:60px;
-  background:var(--panel);border-bottom:1px solid var(--border);
-  display:flex;align-items:center;padding:0 28px;gap:16px;
-  transition:background .3s;
-}
+.nav{position:fixed;top:0;left:0;right:0;z-index:500;height:62px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:12px;transition:background .3s;}
 [data-theme="dark"] .nav{background:rgba(24,24,30,.96);}
-.logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
 .lm{width:28px;height:28px;border-radius:7px;background:var(--text);display:flex;align-items:center;justify-content:center;}
 .lm svg{width:13px;height:13px;}
-.ln{font-family:var(--h);font-size:1.05rem;color:var(--text);font-weight:600;}
-.nav-links{display:flex;gap:2px;list-style:none;}
-.nav-links a{padding:5px 11px;border-radius:7px;color:var(--text3);font-size:.82rem;font-weight:500;text-decoration:none;transition:all .15s;}
-.nav-links a:hover,.nav-links a.active{background:var(--bg2);color:var(--text);}
+.ln{font-family:var(--h);font-size:1.1rem;color:var(--text);font-weight:600;}
+.abadge{font-size:.68rem;font-weight:700;background:var(--rl);color:var(--red);padding:3px 10px;border-radius:100px;}
+.storebadge{font-size:.68rem;font-weight:700;background:var(--goldl);color:var(--gold);padding:3px 10px;border-radius:100px;}
 .nav-r{margin-left:auto;display:flex;align-items:center;gap:8px;}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:8px;font-family:var(--b);font-weight:500;font-size:.82rem;cursor:pointer;border:none;transition:all .18s;text-decoration:none;white-space:nowrap;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:9px;font-family:var(--b);font-weight:500;font-size:.82rem;cursor:pointer;border:none;transition:all .18s;text-decoration:none;white-space:nowrap;}
 .btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--text2);}
 .btn-ghost:hover{background:var(--bg2);}
 .btn-dark{background:var(--text);color:var(--bg);}
 .btn-dark:hover{opacity:.88;}
+.btn-accent{background:var(--accent);color:#fff;}
+.btn-accent:hover{background:#1448c0;}
+.btn-red{background:var(--red);color:#fff;}
+.btn-green{background:var(--green);color:#fff;}
 .btn-sm{padding:5px 12px;font-size:.77rem;border-radius:7px;}
-.cart-btn{position:relative;}
-.cart-count{
-  position:absolute;top:-5px;right:-5px;
-  width:18px;height:18px;border-radius:50%;
-  background:var(--red);color:#fff;font-size:.6rem;font-weight:700;
-  display:none;align-items:center;justify-content:center;
-}
-.cart-count.show{display:flex;}
 
-/* HERO STORE */
-.store-hero{
-  background:linear-gradient(135deg,var(--text) 0%,#1a1a2e 60%,#0f1729 100%);
-  padding:56px 0 44px;text-align:center;color:#fff;
-  position:relative;overflow:hidden;
-}
-.store-hero::before{
-  content:'';position:absolute;top:-80px;right:-80px;
-  width:320px;height:320px;border-radius:50%;
-  background:radial-gradient(circle,rgba(26,86,219,.3) 0%,transparent 70%);
-}
-.store-hero::after{
-  content:'';position:absolute;bottom:-60px;left:-40px;
-  width:200px;height:200px;border-radius:50%;
-  background:radial-gradient(circle,rgba(109,40,217,.25) 0%,transparent 70%);
-}
-.container{max-width:1200px;margin:0 auto;padding:0 28px;}
-.sh-badge{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
-  padding:5px 16px;border-radius:100px;font-size:.74rem;font-weight:600;
-  margin-bottom:18px;position:relative;
-}
-.sh-title{font-family:var(--h);font-size:clamp(2rem,4vw,2.9rem);font-weight:600;letter-spacing:-.8px;line-height:1.15;margin-bottom:10px;position:relative;}
-.sh-sub{font-size:.9rem;color:rgba(255,255,255,.55);position:relative;}
-.sh-stats{display:flex;align-items:center;justify-content:center;gap:32px;margin-top:28px;flex-wrap:wrap;position:relative;}
-.sh-stat-num{font-family:var(--h);font-size:1.5rem;font-weight:600;}
-.sh-stat-label{font-size:.7rem;color:rgba(255,255,255,.45);margin-top:2px;}
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:228px 1fr;min-height:calc(100vh - 62px);}
+.sidebar{background:var(--panel);border-right:1px solid var(--border);padding:14px 0;position:sticky;top:62px;height:calc(100vh - 62px);overflow-y:auto;}
+.sb-sect{font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);padding:10px 18px 5px;margin-top:6px;}
+.sb-item{display:flex;align-items:center;gap:9px;padding:9px 18px;font-size:.82rem;color:var(--text2);cursor:pointer;transition:all .15s;border-right:2px solid transparent;}
+.sb-item:hover{background:var(--bg2);color:var(--text);}
+.sb-item.active{color:var(--accent);background:var(--al);border-right-color:var(--accent);font-weight:500;}
+.sb-item svg{width:15px;height:15px;flex-shrink:0;}
+.sb-bdg{margin-left:auto;font-size:.63rem;font-weight:700;padding:2px 7px;border-radius:100px;background:var(--accent);color:#fff;}
 
-/* LAYOUT STORE */
-.store-layout{display:grid;grid-template-columns:240px 1fr;gap:24px;padding:32px 0;}
+/* MAIN */
+.main{padding:26px;overflow-y:auto;}
+.tab-p{display:none;}
+.tab-p.active{display:block;}
+.page-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.page-title{font-family:var(--h);font-size:1.55rem;letter-spacing:-.5px;font-weight:600;}
+.page-actions{display:flex;gap:8px;}
 
-/* SIDEBAR FILTRES */
-.store-sidebar{
-  position:sticky;top:80px;height:fit-content;
-  background:var(--panel);border:1px solid var(--border);
-  border-radius:16px;padding:20px;
-}
-.filter-title{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);margin-bottom:12px;margin-top:16px;}
-.filter-title:first-child{margin-top:0;}
-.filter-opt{
-  display:flex;align-items:center;gap:8px;padding:7px 10px;
-  border-radius:8px;cursor:pointer;transition:background .12s;font-size:.82rem;
-}
-.filter-opt:hover{background:var(--bg2);}
-.filter-opt input[type="checkbox"]{accent-color:var(--accent);width:14px;height:14px;}
-.filter-opt.active-filter{color:var(--accent);font-weight:600;}
-.price-slider{width:100%;margin:8px 0;}
-.search-inp{
-  width:100%;border:1.5px solid var(--border);border-radius:9px;
-  padding:9px 12px;font-family:var(--b);font-size:.82rem;
-  color:var(--text);background:var(--bg2);outline:none;transition:all .2s;
-  margin-bottom:8px;
-}
-.search-inp:focus{border-color:var(--accent);background:var(--panel);}
-[data-theme="dark"] .search-inp{background:var(--bg3);}
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
+.stat-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:19px;transition:all .2s;}
+.stat-card:hover{box-shadow:var(--sh2);transform:translateY(-2px);}
+.sc-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:13px;}
+.sc-icon svg{width:17px;height:17px;}
+.sc-num{font-family:var(--h);font-size:1.75rem;letter-spacing:-1px;line-height:1;margin-bottom:4px;}
+.sc-label{font-size:.72rem;color:var(--text3);}
 
-/* PRODUCTS GRID */
-.products-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
-.products-count{font-size:.83rem;color:var(--text3);}
-.sort-select{
-  border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;
-  font-family:var(--b);font-size:.8rem;color:var(--text2);
-  background:var(--panel);outline:none;cursor:pointer;
-}
-.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;}
+/* CARD */
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;}
+.card-title{font-size:.93rem;font-weight:700;margin-bottom:4px;}
+.card-sub{font-size:.79rem;color:var(--text3);margin-bottom:18px;line-height:1.55;}
 
-/* PRODUCT CARD */
-.product-card{
-  background:var(--panel);border:1px solid var(--border);
-  border-radius:18px;overflow:hidden;transition:all .22s;
-  box-shadow:var(--sh);cursor:pointer;
-}
-.product-card:hover{box-shadow:var(--sh2);transform:translateY(-3px);}
-.product-card.featured{border-color:var(--accent);box-shadow:0 0 0 2px rgba(26,86,219,.15),var(--sh2);}
-.prod-img{
-  height:160px;display:flex;align-items:center;justify-content:center;
-  font-size:3.5rem;position:relative;
-  background:linear-gradient(135deg,var(--bg2),var(--bg3));
-}
-[data-theme="dark"] .prod-img{background:linear-gradient(135deg,var(--bg3),#252530);}
-.prod-badge{
-  position:absolute;top:10px;left:10px;
-  font-size:.67rem;font-weight:700;padding:3px 9px;border-radius:100px;
-}
-.badge-new{background:var(--accent);color:#fff;}
-.badge-pop{background:var(--orange);color:#fff;}
-.badge-sale{background:var(--red);color:#fff;}
-.badge-free{background:var(--green);color:#fff;}
-.prod-body{padding:16px;}
-.prod-cat{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);margin-bottom:7px;}
-.prod-name{font-family:var(--h);font-size:.98rem;font-weight:600;line-height:1.3;margin-bottom:7px;}
-.prod-desc{font-size:.78rem;color:var(--text3);line-height:1.6;margin-bottom:12px;}
-.prod-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px;}
-.prod-tag{font-size:.67rem;font-weight:600;padding:2px 8px;border-radius:100px;background:var(--bg2);color:var(--text3);}
-.prod-footer{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:12px 16px;border-top:1px solid var(--border);background:var(--bg);
-  gap:10px;
-}
-[data-theme="dark"] .prod-footer{background:var(--bg2);}
-.prod-price{
-  display:flex;align-items:baseline;gap:6px;
-}
-.price-main{font-family:var(--h);font-size:1.2rem;font-weight:600;color:var(--text);}
-.price-old{font-size:.78rem;color:var(--text3);text-decoration:line-through;}
-.price-free{font-family:var(--h);font-size:1.1rem;font-weight:600;color:var(--green);}
-.add-btn{
-  padding:8px 16px;border-radius:9px;font-family:var(--b);font-size:.8rem;font-weight:700;
-  border:none;cursor:pointer;transition:all .2s;white-space:nowrap;
-}
-.add-btn-dark{background:var(--text);color:var(--bg);}
-.add-btn-dark:hover{opacity:.85;}
-.add-btn-free{background:var(--green);color:#fff;}
-.add-btn-free:hover{opacity:.88;}
-.add-btn.added{background:var(--gl);color:var(--green);border:1px solid var(--gm);}
+/* FORM */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-full{grid-column:span 2;}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field label{font-size:.79rem;font-weight:600;color:var(--text2);}
+.field input,.field select,.field textarea{border:1.5px solid var(--border);border-radius:10px;padding:11px 13px;font-family:var(--b);font-size:.84rem;color:var(--text);background:var(--bg2);outline:none;transition:all .2s;width:100%;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);background:var(--panel);}
+[data-theme="dark"] .field input,[data-theme="dark"] .field select,[data-theme="dark"] .field textarea{background:var(--bg3);}
+.field textarea{resize:vertical;min-height:76px;line-height:1.6;}
 
-/* CART DRAWER */
-.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:800;display:none;backdrop-filter:blur(8px);}
-.cart-overlay.show{display:block;}
-.cart-drawer{
-  position:fixed;top:0;right:0;bottom:0;width:380px;max-width:95vw;
-  background:var(--panel);border-left:1px solid var(--border);z-index:801;
-  display:flex;flex-direction:column;
-  transform:translateX(100%);transition:transform .3s cubic-bezier(.34,.01,.26,1.01);
-  box-shadow:var(--sh2);
-}
-.cart-drawer.open{transform:translateX(0);}
-.cart-header{
-  padding:18px 20px;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.cart-title{font-family:var(--h);font-size:1.15rem;font-weight:600;}
-.cart-close{
-  width:32px;height:32px;border-radius:8px;border:1px solid var(--border);
-  background:var(--bg2);cursor:pointer;display:flex;align-items:center;
-  justify-content:center;color:var(--text3);font-size:1.1rem;transition:all .15s;
-}
-.cart-close:hover{background:var(--bg3);}
-.cart-items{flex:1;overflow-y:auto;padding:16px;}
-.cart-item{
-  display:flex;align-items:center;gap:12px;padding:12px 0;
-  border-bottom:1px solid var(--border);
-}
-.cart-item:last-child{border-bottom:none;}
-.cart-item-emoji{width:42px;height:42px;border-radius:10px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
-.cart-item-name{font-size:.84rem;font-weight:600;flex:1;line-height:1.3;}
-.cart-item-price{font-size:.86rem;font-weight:700;color:var(--accent);flex-shrink:0;}
-.cart-item-rm{width:24px;height:24px;border-radius:6px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:.8rem;transition:all .15s;flex-shrink:0;}
-.cart-item-rm:hover{background:var(--rl);color:var(--red);border-color:#fecaca;}
-.cart-empty{text-align:center;padding:48px 20px;color:var(--text3);}
-.cart-empty-icon{font-size:2.5rem;margin-bottom:12px;}
-.cart-footer{padding:16px 20px;border-top:1px solid var(--border);}
-.cart-total{display:flex;align-items:center;justify-content:space-between;font-size:.87rem;margin-bottom:14px;}
-.cart-total-price{font-family:var(--h);font-size:1.35rem;font-weight:600;color:var(--text);}
-.checkout-btn{
-  width:100%;padding:14px;background:var(--text);color:var(--bg);
-  border:none;border-radius:11px;font-family:var(--b);
-  font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;
-}
-.checkout-btn:hover{opacity:.88;}
+/* TABLE */
+.table-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:20px;}
+.table-hd{padding:15px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.table-hd h3{font-size:.88rem;font-weight:700;}
+table{width:100%;border-collapse:collapse;}
+th{padding:9px 16px;text-align:left;font-size:.65rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;background:var(--bg2);border-bottom:1px solid var(--border);}
+td{padding:13px 16px;border-bottom:1px solid var(--border);font-size:.82rem;vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--bg2);}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:.69rem;font-weight:700;padding:3px 9px;border-radius:100px;}
+.badge-pub{background:var(--gl);color:var(--green);}
+.badge-draft{background:var(--goldl);color:var(--gold);}
+.badge-free{background:var(--al);color:var(--accent);}
+.badge-paid{background:var(--pl);color:var(--purple);}
+.act-btns{display:flex;gap:5px;}
+.act-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--panel);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;}
+.act-btn:hover{background:var(--bg3);}
+.act-btn.danger:hover{background:var(--rl);border-color:#fecaca;}
+.act-btn svg{width:12px;height:12px;color:var(--text2);}
+.act-btn.danger:hover svg{color:var(--red);}
 
-/* TABS CATÉGORIES */
-.cat-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px;}
-.cat-tab{
-  padding:7px 16px;border-radius:100px;font-size:.8rem;font-weight:500;
-  border:1.5px solid var(--border);background:var(--panel);color:var(--text2);
-  cursor:pointer;transition:all .15s;font-family:var(--b);
-}
-.cat-tab:hover{border-color:var(--accent);color:var(--accent);}
-.cat-tab.active{background:var(--text);color:var(--bg);border-color:var(--text);}
+/* PRODUIT CARD (liste) */
+.prod-row{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);transition:background .15s;}
+.prod-row:hover{background:var(--bg2);}
+.prod-row:last-child{border-bottom:none;}
+.prod-emoji{width:44px;height:44px;border-radius:11px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:1.35rem;flex-shrink:0;}
+.prod-info{flex:1;min-width:0;}
+.prod-name-s{font-size:.85rem;font-weight:700;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.prod-meta-s{font-size:.73rem;color:var(--text3);}
+.prod-actions{display:flex;gap:6px;align-items:center;flex-shrink:0;}
 
-/* PROMO BANNER */
-.promo-banner{
-  background:linear-gradient(135deg,var(--accent),var(--purple));
-  border-radius:16px;padding:20px 24px;margin-bottom:28px;
-  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;
-  color:#fff;
-}
-.pb-text h3{font-family:var(--h);font-size:1.1rem;font-weight:600;margin-bottom:3px;}
-.pb-text p{font-size:.8rem;opacity:.8;}
-.pb-btn{padding:9px 22px;background:#fff;color:var(--accent);border:none;border-radius:9px;font-family:var(--b);font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;}
-.pb-btn:hover{background:rgba(255,255,255,.88);}
+/* SPINNER */
+.spinner{width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
 
-@media(max-width:900px){.store-layout{grid-template-columns:1fr;}.store-sidebar{display:none;}.nav-links{display:none;}}
-@media(max-width:640px){.sh-stats{gap:18px;}}
+/* REVENUE CHART */
+.rev-chart{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:20px;}
+.rev-title{font-size:.88rem;font-weight:700;margin-bottom:16px;}
+.rev-bars{display:flex;align-items:flex-end;gap:8px;height:80px;}
+.rev-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.rev-bar{width:100%;border-radius:5px 5px 0 0;background:var(--al);min-height:4px;transition:height .5s ease;position:relative;}
+.rev-bar.accent{background:var(--accent);}
+.rev-bar:hover{opacity:.8;}
+.rev-month{font-size:.64rem;color:var(--text3);text-align:center;}
+.rev-total{font-family:var(--h);font-size:1.4rem;font-weight:600;margin-top:12px;}
+.rev-sub{font-size:.75rem;color:var(--text3);}
+
+/* COMMANDES */
+.order-row{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid var(--border);}
+.ord-av{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;font-size:.82rem;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;}
+.ord-av img{width:100%;height:100%;object-fit:cover;}
+.ord-info{flex:1;}
+.ord-name{font-size:.84rem;font-weight:600;}
+.ord-meta{font-size:.73rem;color:var(--text3);margin-top:1px;}
+.ord-price{font-size:.84rem;font-weight:700;color:var(--accent);flex-shrink:0;}
+.ord-status{font-size:.69rem;font-weight:700;padding:2px 8px;border-radius:100px;flex-shrink:0;}
+.os-paid{background:var(--gl);color:var(--green);}
+.os-pending{background:var(--goldl);color:var(--gold);}
+.os-free{background:var(--al);color:var(--accent);}
+
+@media(max-width:960px){.layout{grid-template-columns:1fr;}.sidebar{display:none;}.stats-grid{grid-template-columns:1fr 1fr;}.form-grid{grid-template-columns:1fr;}.form-full{grid-column:span 1;}}
 </style>
 </head>
 <body>
 
 <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Changer le thème">🌙</button>
 
-<!-- NAV -->
-<nav class="nav">
-  <a href="index.html" class="logo"><div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div><span class="ln">Learnova</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Accueil</a></li>
-    <li><a href="waiting.html">Sessions</a></li>
-    <li><a href="community.html">Communauté</a></li>
-    <li><a href="store.html" class="active">Store</a></li>
-  </ul>
-  <div class="nav-r">
-    <button class="btn btn-ghost btn-sm cart-btn" onclick="openCart()" id="cartBtn">
-      🛒 Panier
-      <span class="cart-count" id="cartCount">0</span>
-    </button>
-  </div>
-</nav>
-
-<!-- HERO -->
-<div class="store-hero">
-  <div class="container">
-    <div class="sh-badge">🛒 Learnova Store</div>
-    <div class="sh-title">Boostez votre<br/>apprentissage</div>
-    <div class="sh-sub">Cours premium, abonnements, ressources exclusives et bien plus.</div>
-    <div class="sh-stats">
-      <div><div class="sh-stat-num" id="stProductCount">—</div><div class="sh-stat-label">Produits</div></div>
-      <div style="width:1px;height:32px;background:rgba(255,255,255,.15)"></div>
-      <div><div class="sh-stat-num" id="stCourseCount">—</div><div class="sh-stat-label">Cours disponibles</div></div>
-      <div style="width:1px;height:32px;background:rgba(255,255,255,.15)"></div>
-      <div><div class="sh-stat-num">0€</div><div class="sh-stat-label">Accès de base</div></div>
-    </div>
+<!-- PROTECT -->
+<div id="protectScreen">
+  <div class="pbox">
+    <div class="plogo">🛒 Learnova Store Admin</div>
+    <div class="psub">Gestion de la boutique.<br/>Accès sécurisé uniquement.</div>
+    <input class="pinp" id="adminPin" type="password" placeholder="Mot de passe admin"/>
+    <button class="pbtn" onclick="checkPin()">Accéder →</button>
+    <div class="perr" id="pinErr">❌ Mot de passe incorrect.</div>
   </div>
 </div>
 
-<div class="container">
-  <div class="store-layout">
+<!-- APP -->
+<div id="adminApp">
+  <nav class="nav">
+    <a href="index.html" class="logo"><div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div><span class="ln">Learnova</span></a>
+    <span class="abadge">ADMIN</span>
+    <span class="storebadge">STORE</span>
+    <div class="nav-r">
+      <a href="admin.html" class="btn btn-ghost btn-sm">← Admin principal</a>
+      <a href="store.html" target="_blank" class="btn btn-ghost btn-sm">Voir le store →</a>
+      <button class="btn btn-red btn-sm" onclick="lockAdmin()">🔒 Verrouiller</button>
+    </div>
+  </nav>
 
-    <!-- SIDEBAR -->
-    <aside class="store-sidebar">
-      <div class="filter-title">Rechercher</div>
-      <input class="search-inp" id="searchInp" type="text" placeholder="Rechercher..." oninput="applyFilters()"/>
-
-      <div class="filter-title">Catégories</div>
-      <div class="filter-opt" onclick="toggleCat('Cours',this)"><input type="checkbox" id="catCours"/> Cours en ligne</div>
-      <div class="filter-opt" onclick="toggleCat('Abonnement',this)"><input type="checkbox" id="catAbo"/> Abonnements</div>
-      <div class="filter-opt" onclick="toggleCat('Ressource',this)"><input type="checkbox" id="catRes"/> Ressources</div>
-      <div class="filter-opt" onclick="toggleCat('Session',this)"><input type="checkbox" id="catSess"/> Sessions live</div>
-      <div class="filter-opt" onclick="toggleCat('Bundle',this)"><input type="checkbox" id="catBundle"/> Bundles</div>
-
-      <div class="filter-title">Prix</div>
-      <div class="filter-opt" onclick="togglePrice('free',this)"><input type="checkbox" id="priceFree"/> Gratuit</div>
-      <div class="filter-opt" onclick="togglePrice('paid',this)"><input type="checkbox" id="pricePaid"/> Payant</div>
-
-      <div class="filter-title">Niveau</div>
-      <div class="filter-opt" onclick="toggleLevel('Débutant',this)"><input type="checkbox"/> Débutant</div>
-      <div class="filter-opt" onclick="toggleLevel('Intermédiaire',this)"><input type="checkbox"/> Intermédiaire</div>
-      <div class="filter-opt" onclick="toggleLevel('Avancé',this)"><input type="checkbox"/> Avancé</div>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sb-sect">Store</div>
+      <div class="sb-item active" onclick="showTab('t-dash',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</div>
+      <div class="sb-item" onclick="showTab('t-products',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Produits <span class="sb-bdg" id="bdgProducts">0</span></div>
+      <div class="sb-item" onclick="showTab('t-add',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Ajouter un produit</div>
+      <div class="sb-item" onclick="showTab('t-orders',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Commandes <span class="sb-bdg" id="bdgOrders">0</span></div>
+      <div class="sb-sect">Analyse</div>
+      <div class="sb-item" onclick="showTab('t-revenue',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Revenus</div>
+      <div class="sb-item" onclick="showTab('t-settings',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Paramètres store</div>
     </aside>
 
-    <!-- PRODUITS -->
-    <div>
-      <!-- PROMO BANNER -->
-      <div class="promo-banner">
-        <div class="pb-text">
-          <h3>🎓 Pack Learnova Pro — Accès illimité</h3>
-          <p>Tous les cours, toutes les sessions live, support prioritaire</p>
+    <div class="main">
+
+      <!-- DASHBOARD -->
+      <div id="t-dash" class="tab-p active">
+        <div class="page-hd">
+          <h1 class="page-title">Store — Tableau de bord</h1>
+          <div class="page-actions">
+            <button class="btn btn-ghost btn-sm" onclick="refreshAll()">↻ Actualiser</button>
+            <button class="btn btn-accent btn-sm" onclick="showTab('t-add',null)">+ Produit</button>
+          </div>
         </div>
-        <button class="pb-btn" onclick="addToCart({id:'pro',name:'Pack Pro',price:29.99,emoji:'⭐',cat:'Abonnement'})">Obtenir pour 29,99€/mois</button>
+
+        <div class="stats-grid">
+          <div class="stat-card"><div class="sc-icon" style="background:var(--al)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg></div><div class="sc-num" id="dProducts">—</div><div class="sc-label">Produits publiés</div></div>
+          <div class="stat-card"><div class="sc-icon" style="background:var(--gl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><div class="sc-num" id="dOrders">—</div><div class="sc-label">Commandes</div></div>
+          <div class="stat-card"><div class="sc-icon" style="background:var(--goldl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div class="sc-num" id="dRevenue">—</div><div class="sc-label">Revenu total</div></div>
+          <div class="stat-card"><div class="sc-icon" style="background:var(--pl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="sc-num" id="dClients">—</div><div class="sc-label">Clients uniques</div></div>
+        </div>
+
+        <div class="rev-chart">
+          <div class="rev-title">Activité mensuelle</div>
+          <div class="rev-bars" id="revBars"></div>
+          <div class="rev-total" id="revTotal">—</div>
+          <div class="rev-sub">Revenu total estimé (démo)</div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-hd"><h3>Produits récents</h3><button class="btn btn-accent btn-sm" onclick="showTab('t-add',null)">+ Ajouter</button></div>
+          <div id="dashProductsList"><div style="padding:22px;text-align:center;color:var(--text3)">Chargement...</div></div>
+        </div>
       </div>
 
-      <!-- CATÉGORIE TABS -->
-      <div class="cat-tabs" id="catTabs">
-        <div class="cat-tab active" onclick="setCatTab('all',this)">Tout</div>
-        <div class="cat-tab" onclick="setCatTab('Cours',this)">📚 Cours</div>
-        <div class="cat-tab" onclick="setCatTab('Session',this)">🎙️ Sessions</div>
-        <div class="cat-tab" onclick="setCatTab('Abonnement',this)">⭐ Abonnements</div>
-        <div class="cat-tab" onclick="setCatTab('Ressource',this)">📄 Ressources</div>
-        <div class="cat-tab" onclick="setCatTab('Bundle',this)">🎁 Bundles</div>
+      <!-- PRODUITS -->
+      <div id="t-products" class="tab-p">
+        <div class="page-hd"><h1 class="page-title">Tous les produits</h1><button class="btn btn-accent btn-sm" onclick="showTab('t-add',null)">+ Ajouter</button></div>
+        <div class="table-card">
+          <div class="table-hd"><h3 id="productsCount">Produits</h3></div>
+          <div id="productsList"><div style="padding:22px;text-align:center;color:var(--text3)">Chargement...</div></div>
+        </div>
       </div>
 
-      <div class="products-header">
-        <div class="products-count" id="productsCount">Chargement...</div>
-        <select class="sort-select" id="sortSelect" onchange="applyFilters()">
-          <option value="new">Plus récents</option>
-          <option value="price-asc">Prix croissant</option>
-          <option value="price-desc">Prix décroissant</option>
-          <option value="popular">Populaire</option>
-        </select>
+      <!-- AJOUTER PRODUIT -->
+      <div id="t-add" class="tab-p">
+        <div class="page-hd"><h1 class="page-title">Ajouter un produit</h1></div>
+        <div class="card">
+          <div class="card-title">Informations du produit</div>
+          <div class="card-sub">Créez un produit payant ou gratuit. Les cours publiés depuis l'admin principal sont automatiquement ajoutés comme produits gratuits.</div>
+          <div class="form-grid">
+            <div class="field"><label>Nom du produit *</label><input id="pName" type="text" placeholder="Ex: Pack Développeur Web"/></div>
+            <div class="field"><label>Catégorie *</label>
+              <select id="pCat">
+                <option value="Cours">📚 Cours en ligne</option>
+                <option value="Abonnement">⭐ Abonnement</option>
+                <option value="Ressource">📄 Ressource</option>
+                <option value="Session">🎙️ Session live</option>
+                <option value="Bundle">🎁 Bundle</option>
+              </select>
+            </div>
+            <div class="field"><label>Prix (€) — 0 = Gratuit</label><input id="pPrice" type="number" min="0" step="0.01" value="0" placeholder="0.00"/></div>
+            <div class="field"><label>Prix barré (€) — optionnel</label><input id="pOldPrice" type="number" min="0" step="0.01" placeholder="Prix original"/></div>
+            <div class="field"><label>Niveau</label>
+              <select id="pLevel">
+                <option value="Tous niveaux">Tous niveaux</option>
+                <option value="Débutant">Débutant</option>
+                <option value="Intermédiaire">Intermédiaire</option>
+                <option value="Avancé">Avancé</option>
+              </select>
+            </div>
+            <div class="field"><label>Badge</label>
+              <select id="pBadge">
+                <option value="">Aucun badge</option>
+                <option value="new">🆕 Nouveau</option>
+                <option value="pop">🔥 Populaire</option>
+                <option value="sale">💰 Promo</option>
+                <option value="free">✅ Gratuit</option>
+              </select>
+            </div>
+            <div class="field"><label>Emoji / Icône</label><input id="pEmoji" type="text" value="📚" maxlength="4" placeholder="📚"/></div>
+            <div class="field"><label>Tags (séparés par virgule)</label><input id="pTags" type="text" placeholder="web, débutant, complet"/></div>
+            <div class="field form-full"><label>Description *</label><textarea id="pDesc" placeholder="Description du produit visible sur le store..."></textarea></div>
+            <div class="field form-full"><label>Lien d'accès (optionnel)</label><input id="pLink" type="text" placeholder="course.html?course=... ou URL externe"/></div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:18px;">
+            <button class="btn btn-dark" style="flex:1" id="addProdBtn" onclick="saveProduct()">
+              <span id="addProdTxt">Publier le produit</span>
+              <div class="spinner" id="addProdSpin"></div>
+            </button>
+            <button class="btn btn-ghost" onclick="resetForm()">Réinitialiser</button>
+          </div>
+        </div>
+
+        <!-- CONVERSION DES COURS SUPABASE -->
+        <div class="card">
+          <div class="card-title">Cours Supabase disponibles</div>
+          <div class="card-sub">Ces cours sont publiés depuis l'admin principal. Ils sont automatiquement visibles sur le store. Tu peux les mettre en avant ici.</div>
+          <div id="supabaseCoursesForStore"><div style="text-align:center;padding:20px;color:var(--text3)">Chargement...</div></div>
+        </div>
       </div>
 
-      <div class="products-grid" id="productsGrid">
-        <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text3)">Chargement...</div>
+      <!-- COMMANDES -->
+      <div id="t-orders" class="tab-p">
+        <div class="page-hd"><h1 class="page-title">Commandes</h1></div>
+        <div class="table-card">
+          <div class="table-hd"><h3 id="ordersCount">Commandes</h3></div>
+          <div id="ordersList"><div style="padding:22px;text-align:center;color:var(--text3)">Chargement des commandes...</div></div>
+        </div>
       </div>
+
+      <!-- REVENUS -->
+      <div id="t-revenue" class="tab-p">
+        <div class="page-hd"><h1 class="page-title">Revenus & Analytiques</h1></div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="sc-icon" style="background:var(--goldl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div class="sc-num" id="rTotal">—</div><div class="sc-label">Revenu total</div></div>
+          <div class="stat-card"><div class="sc-icon" style="background:var(--gl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="sc-num" id="rMensuel">—</div><div class="sc-label">Ce mois-ci</div></div>
+          <div class="stat-card"><div class="sc-icon" style="background:var(--al)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg></div><div class="sc-num" id="rClients">—</div><div class="sc-label">Clients</div></div>
+          <div class="stat-card"><div class="sc-icon" style="background:var(--pl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/></svg></div><div class="sc-num" id="rTopProd">—</div><div class="sc-label">Produit phare</div></div>
+        </div>
+        <div class="rev-chart" style="margin-top:0">
+          <div class="rev-title">Tendance des revenus — 6 mois</div>
+          <div class="rev-bars" id="revBars2"></div>
+        </div>
+      </div>
+
+      <!-- PARAMÈTRES -->
+      <div id="t-settings" class="tab-p">
+        <div class="page-hd"><h1 class="page-title">Paramètres du store</h1></div>
+        <div class="card">
+          <div class="card-title">Configuration générale</div>
+          <div class="card-sub">Personnalisez l'apparence et les fonctionnalités de votre boutique.</div>
+          <div class="form-grid">
+            <div class="field"><label>Nom du store</label><input type="text" value="Learnova Store"/></div>
+            <div class="field"><label>Devise</label><select><option>EUR (€)</option><option>USD ($)</option><option>GBP (£)</option><option>XOF (FCFA)</option></select></div>
+            <div class="field"><label>Email de contact</label><input type="email" placeholder="contact@learnova.io"/></div>
+            <div class="field"><label>Politique de remboursement</label><select><option>30 jours</option><option>14 jours</option><option>7 jours</option><option>Aucun remboursement</option></select></div>
+            <div class="field form-full"><label>Message d'accueil du store</label><textarea placeholder="Bienvenue sur le Learnova Store..."></textarea></div>
+          </div>
+          <div style="margin-top:16px;display:flex;gap:10px;">
+            <button class="btn btn-dark">Enregistrer les paramètres</button>
+            <button class="btn btn-ghost" onclick="window.open('store.html','_blank')">Voir le store →</button>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </div>
-</div>
-
-<!-- CART OVERLAY -->
-<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
-<div class="cart-drawer" id="cartDrawer">
-  <div class="cart-header">
-    <div class="cart-title">🛒 Mon panier</div>
-    <button class="cart-close" onclick="closeCart()">×</button>
-  </div>
-  <div class="cart-items" id="cartItems">
-    <div class="cart-empty"><div class="cart-empty-icon">🛒</div><div style="font-size:.83rem">Ton panier est vide.</div></div>
-  </div>
-  <div class="cart-footer">
-    <div class="cart-total"><span style="font-size:.87rem;font-weight:600">Total</span><span class="cart-total-price" id="cartTotal">0,00€</span></div>
-    <button class="checkout-btn" onclick="checkout()">Procéder au paiement →</button>
   </div>
 </div>
 
@@ -383,7 +365,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--b);-webkit-font-sm
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 const SB_URL = "https://jbshkbqchrehfhoodtuj.supabase.co"
 const SB_KEY = "sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs"
+const ADMIN_PASS = "Learnova@Admin2025"
 const sb = createClient(SB_URL, SB_KEY, { auth: { persistSession: true } })
+
+let products  = []
+let sbCourses = []
 
 // ── DARK MODE ─────────────────────────────────────────────────
 const saved = localStorage.getItem('ln_theme') || 'light'
@@ -397,253 +383,240 @@ window.toggleTheme = () => {
   localStorage.setItem('ln_theme', next)
 }
 
-// ── ÉTAT ──────────────────────────────────────────────────────
-let allProducts  = []
-let cart         = JSON.parse(localStorage.getItem('ln_cart') || '[]')
-let activeCatTab = 'all'
-let activeCats   = new Set()
-let activePrices = new Set()
-let activeLevels = new Set()
+// ── PROTECT ───────────────────────────────────────────────────
+window.checkPin = () => {
+  const pin = document.getElementById('adminPin').value
+  if (pin === ADMIN_PASS) {
+    document.getElementById('protectScreen').style.display = 'none'
+    document.getElementById('adminApp').style.display = 'block'
+    sessionStorage.setItem('ln_admin', '1')
+    initStore()
+  } else {
+    const err = document.getElementById('pinErr'); err.classList.add('show')
+    document.getElementById('adminPin').value = ''
+    setTimeout(() => err.classList.remove('show'), 3000)
+  }
+}
 
-const EMOJIS = { 'Programmation':'💻','Design':'🎨','Marketing':'📣','Business':'💼','Langues':'🌍','Data Science':'📊','Autre':'📘','Cours':'📚','Abonnement':'⭐','Ressource':'📄','Session':'🎙️','Bundle':'🎁' }
+window.lockAdmin = () => {
+  sessionStorage.removeItem('ln_admin')
+  document.getElementById('protectScreen').style.display = 'flex'
+  document.getElementById('adminApp').style.display = 'none'
+  document.getElementById('adminPin').value = ''
+}
 
-// ── CHARGER LES PRODUITS ──────────────────────────────────────
-async function loadProducts() {
-  // Cours de Supabase → transformés en produits
-  const { data: courses } = await sb.from('courses')
-    .select('*').order('created_at', { ascending: false })
+document.getElementById('adminPin').addEventListener('keypress', e => { if (e.key === 'Enter') checkPin() })
+if (sessionStorage.getItem('ln_admin') === '1') {
+  document.getElementById('protectScreen').style.display = 'none'
+  document.getElementById('adminApp').style.display = 'block'
+  initStore()
+}
 
-  const { data: sessions } = await sb.from('sessions')
-    .select('*').eq('statut', 'planifie').order('date_debut', { ascending: true }).limit(5)
+// ── INIT ──────────────────────────────────────────────────────
+async function initStore() {
+  await loadFromSupabase()
+  loadLocalProducts()
+  renderDashboard()
+  renderRevChart()
+  renderOrders()
+  setupRealtime()
+}
 
-  // Produits statiques (abonnements, ressources)
-  const staticProducts = [
-    {
-      id: 'pro-monthly', name: 'Learnova Pro — Mensuel', desc: 'Accès illimité à tous les cours, sessions live prioritaires, support IA avancé.',
-      price: 29.99, oldPrice: null, cat: 'Abonnement', level: null, tags: ['mensuel','illimité','IA'],
-      emoji: '⭐', badge: 'pop', featured: true, nb_apprenants: 847
-    },
-    {
-      id: 'pro-annual', name: 'Learnova Pro — Annuel', desc: '2 mois offerts ! Tout ce que Pro mensuel inclut, au meilleur tarif.',
-      price: 249, oldPrice: 359, cat: 'Abonnement', level: null, tags: ['annuel','économique','meilleur'],
-      emoji: '🏆', badge: 'sale', featured: false, nb_apprenants: 312
-    },
-    {
-      id: 'res-notes', name: 'Pack Fiches Synthèse', desc: '50+ fiches de synthèse sur les concepts fondamentaux. Format PDF imprimable.',
-      price: 0, oldPrice: null, cat: 'Ressource', level: 'Débutant', tags: ['PDF','synthèse','gratuit'],
-      emoji: '📄', badge: 'free', featured: false, nb_apprenants: 1240
-    },
-    {
-      id: 'bundle-dev', name: 'Bundle Développeur Web', desc: '5 cours complets : HTML/CSS, JS, Python, React et Node.js. Tout inclus.',
-      price: 79, oldPrice: 149, cat: 'Bundle', level: 'Débutant', tags: ['web','dev','bundle'],
-      emoji: '🎁', badge: 'sale', featured: false, nb_apprenants: 432
-    },
-    {
-      id: 'res-ia', name: 'Guide IA & Productivité', desc: 'Maîtrisez ChatGPT, Claude et les outils IA pour booster votre productivité.',
-      price: 12, oldPrice: null, cat: 'Ressource', level: 'Tous niveaux', tags: ['IA','productivité','guide'],
-      emoji: '🤖', badge: 'new', featured: false, nb_apprenants: 623
-    },
-    {
-      id: 'bundle-design', name: 'Bundle Design Complet', desc: 'Figma, UI/UX, Branding, Typography et Motion Design. Le parcours complet.',
-      price: 59, oldPrice: 99, cat: 'Bundle', level: 'Intermédiaire', tags: ['design','figma','UI/UX'],
-      emoji: '🎨', badge: 'pop', featured: false, nb_apprenants: 289
-    },
+window.refreshAll = () => { loadFromSupabase(); renderDashboard(); toast('Actualisé !', 'ok') }
+
+async function loadFromSupabase() {
+  const { data: courses } = await sb.from('courses').select('*').order('created_at', { ascending: false })
+  const { data: profiles } = await sb.from('profiles').select('*').order('created_at', { ascending: false })
+  sbCourses = courses || []
+
+  setEl('dClients', (profiles?.length || 0))
+  setEl('rClients', (profiles?.length || 0))
+
+  renderSupabaseCoursesForStore()
+}
+
+function loadLocalProducts() {
+  // Produits locaux (peuvent venir d'un futur Supabase table "products")
+  const EMOJIS = { 'Cours':'📚','Abonnement':'⭐','Ressource':'📄','Session':'🎙️','Bundle':'🎁' }
+  products = [
+    { id:'pro-monthly', name:'Learnova Pro Mensuel', cat:'Abonnement', price:29.99, badge:'pop', status:'pub', sold:312, emoji:'⭐' },
+    { id:'pro-annual',  name:'Learnova Pro Annuel',  cat:'Abonnement', price:249,   badge:'sale',status:'pub', sold:89,  emoji:'🏆' },
+    { id:'res-notes',   name:'Pack Fiches Synthèse', cat:'Ressource',  price:0,     badge:'free',status:'pub', sold:1240,emoji:'📄' },
+    { id:'bundle-dev',  name:'Bundle Développeur',   cat:'Bundle',     price:79,    badge:'sale',status:'pub', sold:432, emoji:'🎁' },
+    { id:'res-ia',      name:'Guide IA & Productivité',cat:'Ressource',price:12,    badge:'new', status:'pub', sold:623, emoji:'🤖' },
   ]
 
-  // Transformer les cours Supabase en produits
-  const courseProducts = (courses || []).map(c => ({
-    id: `course-${c.id}`, supabaseId: c.id, name: c.titre,
-    desc: (c.resume || c.description || 'Cours disponible sur Learnova.').substring(0, 100),
-    price: 0, oldPrice: null, cat: 'Cours',
-    level: c.difficulte || 'Tous niveaux',
-    tags: [c.categorie || 'Formation', `${c.chapitres?.length || 0} chap.`, `${c.quiz?.length || 0} quiz`],
-    emoji: EMOJIS[c.categorie] || '📚', badge: 'free',
-    featured: false, nb_apprenants: c.nb_apprenants || 0,
-    link: `course.html?course=${c.id}`
-  }))
-
-  // Transformer les sessions Supabase en produits
-  const sessionProducts = (sessions || []).map(s => ({
-    id: `session-${s.id}`, supabaseId: s.id, name: s.titre,
-    desc: (s.description || 'Session live avec l\'IA Learnova.').substring(0, 100),
-    price: 0, oldPrice: null, cat: 'Session',
-    level: 'Tous niveaux',
-    tags: ['Live', s.format || 'session unique', `${s.nb_inscrits || 0} inscrits`],
-    emoji: '🎙️', badge: 'free', featured: false, nb_apprenants: s.nb_inscrits || 0,
-    link: `waiting.html?session=${s.id}`
-  }))
-
-  allProducts = [...staticProducts, ...courseProducts, ...sessionProducts]
-
-  document.getElementById('stProductCount').textContent = allProducts.length
-  document.getElementById('stCourseCount').textContent  = courseProducts.length
-
-  applyFilters()
-  updateCart()
-}
-
-// ── FILTRES ───────────────────────────────────────────────────
-window.setCatTab = (cat, el) => {
-  activeCatTab = cat
-  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'))
-  el.classList.add('active')
-  applyFilters()
-}
-
-window.toggleCat = (cat, el) => {
-  const cb = el.querySelector('input')
-  if (activeCats.has(cat)) { activeCats.delete(cat); cb.checked = false; el.classList.remove('active-filter') }
-  else { activeCats.add(cat); cb.checked = true; el.classList.add('active-filter') }
-  applyFilters()
-}
-
-window.togglePrice = (price, el) => {
-  const cb = el.querySelector('input')
-  if (activePrices.has(price)) { activePrices.delete(price); cb.checked = false }
-  else { activePrices.add(price); cb.checked = true }
-  applyFilters()
-}
-
-window.toggleLevel = (level, el) => {
-  const cb = el.querySelector('input')
-  if (activeLevels.has(level)) { activeLevels.delete(level); cb.checked = false }
-  else { activeLevels.add(level); cb.checked = true }
-  applyFilters()
-}
-
-window.applyFilters = () => {
-  const search = document.getElementById('searchInp').value.toLowerCase()
-  const sort   = document.getElementById('sortSelect').value
-
-  let filtered = allProducts.filter(p => {
-    if (activeCatTab !== 'all' && p.cat !== activeCatTab) return false
-    if (activeCats.size > 0 && !activeCats.has(p.cat)) return false
-    if (activePrices.size > 0) {
-      const isFree = p.price === 0
-      if (!( (activePrices.has('free') && isFree) || (activePrices.has('paid') && !isFree) )) return false
-    }
-    if (activeLevels.size > 0 && p.level && !activeLevels.has(p.level)) return false
-    if (search && !p.name.toLowerCase().includes(search) && !p.desc.toLowerCase().includes(search)) return false
-    return true
+  // Ajouter les cours Supabase comme produits
+  sbCourses.forEach(c => {
+    products.push({
+      id: `course-${c.id}`, name: c.titre, cat: 'Cours',
+      price: 0, badge: 'free', status: 'pub',
+      sold: c.nb_apprenants || 0, emoji: '📚', supabaseId: c.id
+    })
   })
 
-  // Tri
-  if (sort === 'price-asc')  filtered.sort((a,b) => a.price - b.price)
-  if (sort === 'price-desc') filtered.sort((a,b) => b.price - a.price)
-  if (sort === 'popular')    filtered.sort((a,b) => (b.nb_apprenants||0) - (a.nb_apprenants||0))
-  if (sort === 'new')        filtered.reverse()
+  const total = products.length
+  setEl('bdgProducts', total)
+  setEl('dProducts', total)
+  setEl('productsCount', `${total} produits`)
+  setEl('dOrders', products.reduce((s, p) => s + (p.sold || 0), 0))
+  setEl('bdgOrders', products.reduce((s, p) => s + (p.sold || 0), 0))
 
-  document.getElementById('productsCount').textContent = `${filtered.length} produit${filtered.length > 1 ? 's' : ''}`
-  renderProducts(filtered)
+  const revenue = products.reduce((s, p) => s + (p.price * (p.sold || 0)), 0)
+  const fmt = n => n >= 1000 ? (n/1000).toFixed(1) + 'k€' : n.toFixed(0) + '€'
+  setEl('dRevenue', fmt(revenue))
+  setEl('rTotal', fmt(revenue))
+  setEl('rMensuel', fmt(revenue * 0.18))
+  setEl('rTopProd', products.sort((a,b) => b.sold - a.sold)[0]?.name?.substring(0,12) + '...' || '—')
+
+  renderProductsList()
 }
 
-// ── RENDU PRODUITS ────────────────────────────────────────────
-function renderProducts(products) {
-  const grid = document.getElementById('productsGrid')
-  if (!products.length) {
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text3)">
-      <div style="font-size:2.5rem;margin-bottom:12px">🔍</div>
-      <div style="font-family:var(--h);font-size:1.1rem;color:var(--text);margin-bottom:6px">Aucun résultat</div>
-      <div style="font-size:.82rem">Essaie d'autres filtres ou termes de recherche.</div>
-    </div>`
+function renderDashboard() {
+  renderProductsList()
+}
+
+function renderProductsList() {
+  const list = products.slice(0, 6)
+  const html = (items) => items.length
+    ? items.map(p => `
+        <div class="prod-row">
+          <div class="prod-emoji">${p.emoji}</div>
+          <div class="prod-info">
+            <div class="prod-name-s">${p.name}</div>
+            <div class="prod-meta-s">${p.cat} · ${p.sold || 0} ventes/accès · ${p.price === 0 ? 'Gratuit' : p.price + '€'}</div>
+          </div>
+          <div class="prod-actions">
+            <span class="badge ${p.price === 0 ? 'badge-free' : 'badge-paid'}">${p.price === 0 ? 'Gratuit' : p.price + '€'}</span>
+            <span class="badge badge-pub">Publié</span>
+            ${p.supabaseId ? `<a href="course.html?course=${p.supabaseId}" class="btn btn-ghost btn-sm" target="_blank">Voir</a>` : ''}
+            <button class="act-btn danger" onclick="delProduct('${p.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+          </div>
+        </div>`).join('')
+    : '<div style="padding:28px;text-align:center;color:var(--text3)">Aucun produit.</div>'
+
+  document.getElementById('dashProductsList').innerHTML = html(list)
+  document.getElementById('productsList').innerHTML = html(products)
+}
+
+function renderSupabaseCoursesForStore() {
+  const container = document.getElementById('supabaseCoursesForStore')
+  if (!sbCourses.length) {
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text3)">Aucun cours publié depuis l\'admin principal.</div>'
     return
   }
-
-  const badgeHtml = { new:'badge-new', pop:'badge-pop', sale:'badge-sale', free:'badge-free' }
-  const badgeText = { new:'Nouveau', pop:'Populaire', sale:'Promo', free:'Gratuit' }
-
-  const inCart = new Set(cart.map(i => i.id))
-
-  grid.innerHTML = products.map(p => {
-    const priceHtml = p.price === 0
-      ? `<span class="price-free">Gratuit</span>`
-      : `<div class="prod-price"><span class="price-main">${p.price.toFixed(2).replace('.',',')}€</span>${p.oldPrice ? `<span class="price-old">${p.oldPrice.toFixed(2).replace('.',',')}€</span>` : ''}</div>`
-
-    const addHtml = p.link
-      ? `<a href="${p.link}" class="add-btn add-btn-free" style="text-decoration:none">Accéder →</a>`
-      : inCart.has(p.id)
-      ? `<button class="add-btn added" onclick="removeFromCart('${p.id}')">✓ Dans le panier</button>`
-      : p.price === 0
-      ? `<button class="add-btn add-btn-free" onclick="addToCart(${JSON.stringify(p).replace(/"/g,"'")})">Ajouter</button>`
-      : `<button class="add-btn add-btn-dark" onclick="addToCart(${JSON.stringify(p).replace(/"/g,"'")})">Ajouter au panier</button>`
-
-    return `<div class="product-card ${p.featured ? 'featured' : ''}">
-      <div class="prod-img">
-        ${p.emoji || '📘'}
-        ${p.badge ? `<span class="prod-badge ${badgeHtml[p.badge]}">${badgeText[p.badge]}</span>` : ''}
+  container.innerHTML = sbCourses.map(c => `
+    <div class="prod-row">
+      <div class="prod-emoji">📚</div>
+      <div class="prod-info">
+        <div class="prod-name-s">${c.titre}</div>
+        <div class="prod-meta-s">${c.categorie || 'Formation'} · ${c.chapitres?.length || 0} chapitres · ${c.quiz?.length || 0} questions · ${c.difficulte || 'Tous niveaux'}</div>
       </div>
-      <div class="prod-body">
-        <div class="prod-cat">${p.cat}</div>
-        <div class="prod-name">${p.name}</div>
-        <div class="prod-desc">${p.desc}</div>
-        <div class="prod-tags">${(p.tags||[]).map(t => `<span class="prod-tag">${t}</span>`).join('')}</div>
+      <div class="prod-actions">
+        <span class="badge badge-free">Gratuit</span>
+        <span class="badge badge-pub">Publié</span>
+        <a href="course.html?course=${c.id}" class="btn btn-ghost btn-sm" target="_blank">Voir</a>
+        <button class="btn btn-accent btn-sm" onclick="copyText('${window.location.origin}/course.html?course=${c.id}')">Partager</button>
       </div>
-      <div class="prod-footer">${priceHtml}${addHtml}</div>
+    </div>`).join('')
+}
+
+function renderOrders() {
+  const orders = [
+    { name:'Marie D.', product:'Pack Pro Mensuel', price:29.99, status:'paid', time:'Il y a 2h', initials:'M' },
+    { name:'Thomas K.', product:'Bundle Dev Web', price:79, status:'paid', time:'Il y a 4h', initials:'T' },
+    { name:'Fatou S.', product:'Guide IA', price:12, status:'paid', time:'Il y a 8h', initials:'F' },
+    { name:'Lucas R.', product:'Pack Fiches', price:0, status:'free', time:'Hier', initials:'L' },
+    { name:'Awa B.', product:'Pack Pro Annuel', price:249, status:'paid', time:'Il y a 2j', initials:'A' },
+  ]
+  setEl('bdgOrders', orders.length); setEl('dOrders', orders.length); setEl('ordersCount', `${orders.length} commandes`)
+  document.getElementById('ordersList').innerHTML = orders.map(o => `
+    <div class="order-row">
+      <div class="ord-av">${o.initials}</div>
+      <div class="ord-info">
+        <div class="ord-name">${o.name}</div>
+        <div class="ord-meta">${o.product} · ${o.time}</div>
+      </div>
+      <div class="ord-price">${o.price === 0 ? 'Gratuit' : o.price + '€'}</div>
+      <span class="ord-status ${o.status === 'paid' ? 'os-paid' : 'os-free'}">${o.status === 'paid' ? '✓ Payé' : 'Gratuit'}</span>
+    </div>`).join('')
+}
+
+function renderRevChart() {
+  const months = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc']
+  const data   = [12,28,35,45,62,80,74,58,91,105,88,120]
+  const max    = Math.max(...data)
+
+  const barsHtml = data.map((v, i) => {
+    const pct = Math.round((v / max) * 100)
+    const isLast = i === data.length - 1
+    return `<div class="rev-bar-wrap">
+      <div class="rev-bar ${isLast ? 'accent' : ''}" style="height:${pct}%"></div>
+      <div class="rev-month">${months[i].substring(0,3)}</div>
     </div>`
   }).join('')
+
+  document.querySelectorAll('#revBars, #revBars2').forEach(el => { if (el) el.innerHTML = barsHtml })
 }
 
-// ── PANIER ────────────────────────────────────────────────────
-window.addToCart = (product) => {
-  const p = typeof product === 'string' ? JSON.parse(product.replace(/'/g,'"')) : product
-  if (!cart.find(i => i.id === p.id)) {
-    cart.push({ id: p.id, name: p.name, price: p.price, emoji: p.emoji || '📦' })
-    saveCart(); updateCart(); applyFilters()
-    toast(`✅ "${p.name}" ajouté au panier !`)
-    openCart()
+// ── AJOUTER PRODUIT ───────────────────────────────────────────
+window.saveProduct = () => {
+  const name  = document.getElementById('pName').value.trim()
+  const desc  = document.getElementById('pDesc').value.trim()
+  const cat   = document.getElementById('pCat').value
+  const price = parseFloat(document.getElementById('pPrice').value) || 0
+  const emoji = document.getElementById('pEmoji').value || '📦'
+
+  if (!name) { toast('Entre un nom pour le produit.', 'err'); return }
+  if (!desc) { toast('Ajoute une description.', 'err'); return }
+
+  const newProduct = {
+    id:    'custom-' + Date.now(), name, cat, price,
+    badge: price === 0 ? 'free' : document.getElementById('pBadge').value || 'new',
+    status: 'pub', sold: 0, emoji
   }
+
+  products.unshift(newProduct)
+  setEl('bdgProducts', products.length)
+  setEl('dProducts',   products.length)
+  renderProductsList()
+  resetForm()
+  toast(`✅ "${name}" publié sur le store !`, 'ok')
+  showTab('t-products', null)
 }
 
-window.removeFromCart = (id) => {
-  cart = cart.filter(i => i.id !== id)
-  saveCart(); updateCart(); applyFilters(); renderCartItems()
+window.resetForm = () => {
+  ['pName','pDesc','pLink','pTags','pOldPrice'].forEach(id => { const el = document.getElementById(id); if (el) el.value = '' })
+  document.getElementById('pPrice').value = '0'
+  document.getElementById('pEmoji').value = '📚'
 }
 
-function saveCart() { localStorage.setItem('ln_cart', JSON.stringify(cart)) }
-
-function updateCart() {
-  const count = cart.length
-  const countEl = document.getElementById('cartCount')
-  countEl.textContent = count
-  countEl.classList.toggle('show', count > 0)
+window.delProduct = (id) => {
+  if (!confirm('Supprimer ce produit ?')) return
+  products = products.filter(p => p.id !== id)
+  setEl('bdgProducts', products.length); setEl('dProducts', products.length)
+  renderProductsList(); toast('Produit supprimé.', 'ok')
 }
 
-function renderCartItems() {
-  const container = document.getElementById('cartItems')
-  if (!cart.length) {
-    container.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🛒</div><div style="font-size:.83rem">Ton panier est vide.</div></div>`
-    document.getElementById('cartTotal').textContent = '0,00€'
-    return
-  }
-  container.innerHTML = cart.map(item => `
-    <div class="cart-item">
-      <div class="cart-item-emoji">${item.emoji}</div>
-      <div class="cart-item-name">${item.name}</div>
-      <div class="cart-item-price">${item.price === 0 ? 'Gratuit' : item.price.toFixed(2).replace('.',',') + '€'}</div>
-      <button class="cart-item-rm" onclick="removeFromCart('${item.id}')">×</button>
-    </div>`).join('')
-  const total = cart.reduce((s, i) => s + i.price, 0)
-  document.getElementById('cartTotal').textContent = total.toFixed(2).replace('.',',') + '€'
+// ── TABS ──────────────────────────────────────────────────────
+window.showTab = (id, el) => {
+  document.querySelectorAll('.tab-p').forEach(t => t.classList.remove('active'))
+  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'))
+  document.getElementById(id)?.classList.add('active')
+  if (el) el.classList.add('active')
+  if (id === 't-orders') renderOrders()
+  if (id === 't-add')    loadFromSupabase()
 }
 
-window.openCart = () => {
-  renderCartItems()
-  document.getElementById('cartOverlay').classList.add('show')
-  document.getElementById('cartDrawer').classList.add('open')
-}
-window.closeCart = () => {
-  document.getElementById('cartOverlay').classList.remove('show')
-  document.getElementById('cartDrawer').classList.remove('open')
+function setupRealtime() {
+  sb.channel('store-rt')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'courses' }, () => { loadFromSupabase(); loadLocalProducts() })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, loadFromSupabase)
+    .subscribe()
 }
 
-window.checkout = () => {
-  if (!cart.length) { toast('Ton panier est vide !', 'err'); return }
-  const paid = cart.filter(i => i.price > 0)
-  const free = cart.filter(i => i.price === 0)
-  if (free.length) toast(`✅ ${free.length} élément(s) gratuit(s) ajouté(s) à ton compte !`)
-  if (paid.length) toast('💳 Paiement sécurisé en cours... (démo)')
-  setTimeout(() => { cart = []; saveCart(); updateCart(); closeCart(); applyFilters(); toast('🎉 Commande validée !') }, 1500)
-}
+function setEl(id, val) { const el = document.getElementById(id); if (el) el.textContent = val }
+window.copyText = (text) => { navigator.clipboard.writeText(text).catch(() => {}); toast('🔗 Copié !', 'ok') }
 
 function toast(msg, type = 'ok') {
   let t = document.getElementById('ln-toast')
@@ -657,8 +630,7 @@ function toast(msg, type = 'ok') {
   t.textContent = msg; t.style.transform = 'translateY(0)'
   clearTimeout(t._t); t._t = setTimeout(() => t.style.transform = 'translateY(60px)', 4000)
 }
-
-loadProducts()
+window.showToast = toast
 </script>
 </body>
 </html>
