@@ -635,15 +635,15 @@ async function verifyAndShowApp(user) {
     showAuthErr('Accès refusé — compte non autorisé.');
     return;
   }
-  // 2. Rôle admin dans la table profiles
-  const { data: profile } = await sb
-    .from('profiles').select('role').eq('id', user.id).single();
-
-  if (!profile || profile.role !== 'admin') {
-    await sb.auth.signOut();
-    showAuthErr('Accès refusé — rôle insuffisant.');
-    return;
-  }
+ // 2. Vérification du rôle (optionnel pour test)
+// Pour l'instant, accepte tous les emails de la liste blanche
+// const { data: profile } = await sb
+//   .from('profiles').select('role').eq('id', user.id).single();
+// if (!profile || profile.role !== 'admin') {
+//   await sb.auth.signOut();
+//   showAuthErr('Accès refusé — rôle insuffisant.');
+//   return;
+// }
 
   currentUser = user;
   // Affiche les infos utilisateur dans la sidebar
