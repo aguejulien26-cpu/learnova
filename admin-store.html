@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --bg:#fafaf8;--bg2:#f2f1ee;--bg3:#e8e6e0;--panel:#ffffff;--border:#e0ddd6;
+  --bg:#fafaf8;--bg2:#f2f1ee;--bg3:#e8e6e0;--panel:#fff;--border:#e0ddd6;
   --text:#0f0e0c;--text2:#4a4840;--text3:#9a9890;
   --accent:#1a56db;--al:#eff3ff;--am:#bfcffb;
   --green:#057a55;--gl:#edfaf4;--gm:#9fe0c4;
@@ -16,32 +16,32 @@
   --gold:#92400e;--goldl:#fef3c7;
   --orange:#c2410c;--ol:#fff7ed;
   --h:'Fraunces',Georgia,serif;--b:'DM Sans',sans-serif;
-  --sh:0 1px 4px rgba(0,0,0,.06);--sh2:0 8px 32px rgba(0,0,0,.1);
+  --sh:0 1px 6px rgba(0,0,0,.07);--sh2:0 10px 40px rgba(0,0,0,.12);
 }
 [data-theme="dark"]{
-  --bg:#0c0c0f;--bg2:#141418;--bg3:#1e1e24;--panel:#18181e;--border:#2a2a36;
-  --text:#f0f0f4;--text2:#b8b8c8;--text3:#686880;
-  --al:#1a2040;--am:#2a3870;--gl:#0d2a1e;--gm:#1a4d36;
-  --rl:#2a0f0f;--pl:#1e1240;--goldl:#2a1e08;--ol:#2a1608;
-  --sh:0 1px 4px rgba(0,0,0,.3);--sh2:0 8px 32px rgba(0,0,0,.5);
+  --bg:#0d0d11;--bg2:#141419;--bg3:#1c1c24;--panel:#18181f;--border:#28283a;
+  --text:#eeeef4;--text2:#a8a8c0;--text3:#606078;
+  --al:#16203a;--am:#243070;--gl:#0c2018;--gm:#184030;
+  --rl:#280e0e;--pl:#1a1040;--goldl:#281a04;--ol:#221408;
+  --sh:0 1px 6px rgba(0,0,0,.4);--sh2:0 10px 40px rgba(0,0,0,.6);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;}
 body{background:var(--bg2);color:var(--text);font-family:var(--b);-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;}
 
-.theme-toggle{position:fixed;bottom:24px;right:24px;z-index:999;width:46px;height:46px;border-radius:50%;background:var(--panel);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--sh2);transition:all .2s;font-size:1.1rem;}
-.theme-toggle:hover{transform:scale(1.08);}
+.theme-btn{position:fixed;bottom:24px;right:24px;z-index:999;width:46px;height:46px;border-radius:50%;background:var(--panel);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--sh2);transition:all .2s;font-size:1.15rem;}
+.theme-btn:hover{transform:scale(1.1);}
 
 /* PROTECT */
-#protectScreen{position:fixed;inset:0;background:#0f0e0c;z-index:9999;display:flex;align-items:center;justify-content:center;}
+#protectScreen{position:fixed;inset:0;background:#0d0d11;z-index:9999;display:flex;align-items:center;justify-content:center;}
 .pbox{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:52px 44px;width:420px;text-align:center;}
-.plogo{font-family:var(--h);font-size:2rem;color:#fff;margin-bottom:6px;font-weight:600;}
+.plogo{font-family:var(--h);font-size:2rem;color:#fff;font-weight:600;margin-bottom:6px;}
 .psub{font-size:.84rem;color:rgba(255,255,255,.4);margin-bottom:32px;line-height:1.55;}
 .pinp{width:100%;padding:15px;border:1px solid rgba(255,255,255,.15);border-radius:12px;background:rgba(255,255,255,.08);color:#fff;font-family:var(--b);font-size:1rem;outline:none;letter-spacing:4px;text-align:center;margin-bottom:12px;transition:border-color .2s;}
 .pinp::placeholder{color:rgba(255,255,255,.3);letter-spacing:0;}
 .pinp:focus{border-color:rgba(255,255,255,.4);}
 .pbtn{width:100%;padding:15px;background:#fff;color:var(--text);border:none;border-radius:12px;font-family:var(--b);font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;}
-.pbtn:hover{background:#f0f1f8;transform:translateY(-1px);}
+.pbtn:hover{background:#f0f1f8;}
 .perr{color:#fca5a5;font-size:.82rem;margin-top:10px;display:none;}
 .perr.show{display:block;}
 
@@ -50,19 +50,20 @@ body{background:var(--bg2);color:var(--text);font-family:var(--b);-webkit-font-s
 
 /* NAV */
 .nav{position:fixed;top:0;left:0;right:0;z-index:500;height:62px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:12px;transition:background .3s;}
-[data-theme="dark"] .nav{background:rgba(24,24,30,.96);}
+[data-theme="dark"] .nav{background:rgba(24,24,31,.97);}
 .logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
-.lm{width:28px;height:28px;border-radius:7px;background:var(--text);display:flex;align-items:center;justify-content:center;}
-.lm svg{width:13px;height:13px;}
-.ln{font-family:var(--h);font-size:1.1rem;color:var(--text);font-weight:600;}
-.abadge{font-size:.68rem;font-weight:700;background:var(--rl);color:var(--red);padding:3px 10px;border-radius:100px;}
-.storebadge{font-size:.68rem;font-weight:700;background:var(--goldl);color:var(--gold);padding:3px 10px;border-radius:100px;}
+.logo-mark{width:28px;height:28px;border-radius:7px;background:var(--text);display:flex;align-items:center;justify-content:center;}
+.logo-mark svg{width:13px;height:13px;}
+.logo-name{font-family:var(--h);font-size:1.1rem;color:var(--text);font-weight:600;}
+.badge-chip{font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:100px;}
+.bc-admin{background:var(--rl);color:var(--red);}
+.bc-store{background:var(--goldl);color:var(--gold);}
 .nav-r{margin-left:auto;display:flex;align-items:center;gap:8px;}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:9px;font-family:var(--b);font-weight:500;font-size:.82rem;cursor:pointer;border:none;transition:all .18s;text-decoration:none;white-space:nowrap;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:9px;font-family:var(--b);font-weight:500;font-size:.82rem;cursor:pointer;border:none;transition:all .2s;text-decoration:none;white-space:nowrap;}
 .btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--text2);}
 .btn-ghost:hover{background:var(--bg2);}
 .btn-dark{background:var(--text);color:var(--bg);}
-.btn-dark:hover{opacity:.88;}
+.btn-dark:hover{opacity:.86;}
 .btn-accent{background:var(--accent);color:#fff;}
 .btn-accent:hover{background:#1448c0;}
 .btn-red{background:var(--red);color:#fff;}
@@ -70,7 +71,7 @@ body{background:var(--bg2);color:var(--text);font-family:var(--b);-webkit-font-s
 .btn-sm{padding:5px 12px;font-size:.77rem;border-radius:7px;}
 
 /* LAYOUT */
-.layout{display:grid;grid-template-columns:228px 1fr;min-height:calc(100vh - 62px);}
+.layout{display:grid;grid-template-columns:230px 1fr;min-height:calc(100vh - 62px);}
 .sidebar{background:var(--panel);border-right:1px solid var(--border);padding:14px 0;position:sticky;top:62px;height:calc(100vh - 62px);overflow-y:auto;}
 .sb-sect{font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);padding:10px 18px 5px;margin-top:6px;}
 .sb-item{display:flex;align-items:center;gap:9px;padding:9px 18px;font-size:.82rem;color:var(--text2);cursor:pointer;transition:all .15s;border-right:2px solid transparent;}
@@ -78,6 +79,8 @@ body{background:var(--bg2);color:var(--text);font-family:var(--b);-webkit-font-s
 .sb-item.active{color:var(--accent);background:var(--al);border-right-color:var(--accent);font-weight:500;}
 .sb-item svg{width:15px;height:15px;flex-shrink:0;}
 .sb-bdg{margin-left:auto;font-size:.63rem;font-weight:700;padding:2px 7px;border-radius:100px;background:var(--accent);color:#fff;}
+.sb-bdg.red{background:var(--red);}
+.sb-bdg.green{background:var(--green);}
 
 /* MAIN */
 .main{padding:26px;overflow-y:auto;}
@@ -85,11 +88,11 @@ body{background:var(--bg2);color:var(--text);font-family:var(--b);-webkit-font-s
 .tab-p.active{display:block;}
 .page-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
 .page-title{font-family:var(--h);font-size:1.55rem;letter-spacing:-.5px;font-weight:600;}
-.page-actions{display:flex;gap:8px;}
+.page-actions{display:flex;gap:8px;flex-wrap:wrap;}
 
 /* STATS */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
-.stat-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:19px;transition:all .2s;}
+.stat-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:19px;transition:all .2s;box-shadow:var(--sh);}
 .stat-card:hover{box-shadow:var(--sh2);transform:translateY(-2px);}
 .sc-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:13px;}
 .sc-icon svg{width:17px;height:17px;}
@@ -97,7 +100,7 @@ body{background:var(--bg2);color:var(--text);font-family:var(--b);-webkit-font-s
 .sc-label{font-size:.72rem;color:var(--text3);}
 
 /* CARD */
-.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:var(--sh);}
 .card-title{font-size:.93rem;font-weight:700;margin-bottom:4px;}
 .card-sub{font-size:.79rem;color:var(--text3);margin-bottom:18px;line-height:1.55;}
 
@@ -109,22 +112,44 @@ body{background:var(--bg2);color:var(--text);font-family:var(--b);-webkit-font-s
 .field input,.field select,.field textarea{border:1.5px solid var(--border);border-radius:10px;padding:11px 13px;font-family:var(--b);font-size:.84rem;color:var(--text);background:var(--bg2);outline:none;transition:all .2s;width:100%;}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);background:var(--panel);}
 [data-theme="dark"] .field input,[data-theme="dark"] .field select,[data-theme="dark"] .field textarea{background:var(--bg3);}
-.field textarea{resize:vertical;min-height:76px;line-height:1.6;}
+.field textarea{resize:vertical;min-height:78px;line-height:1.6;}
+.field input.err-inp{border-color:var(--red);}
+
+/* IMAGE UPLOAD */
+.img-upload-zone{
+  border:2px dashed var(--border);border-radius:12px;padding:28px;
+  text-align:center;cursor:pointer;transition:all .2s;background:var(--bg2);
+}
+.img-upload-zone:hover,.img-upload-zone.over{border-color:var(--accent);background:var(--al);}
+[data-theme="dark"] .img-upload-zone{background:var(--bg3);}
+.img-previews{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+.img-preview-item{position:relative;width:80px;height:80px;border-radius:10px;overflow:hidden;border:1px solid var(--border);}
+.img-preview-item img{width:100%;height:100%;object-fit:cover;}
+.img-preview-rm{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:rgba(200,28,28,.9);color:#fff;border:none;cursor:pointer;font-size:.7rem;display:flex;align-items:center;justify-content:center;}
 
 /* TABLE */
-.table-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:20px;}
-.table-hd{padding:15px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.table-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:20px;box-shadow:var(--sh);}
+.table-hd{padding:15px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
 .table-hd h3{font-size:.88rem;font-weight:700;}
 table{width:100%;border-collapse:collapse;}
 th{padding:9px 16px;text-align:left;font-size:.65rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;background:var(--bg2);border-bottom:1px solid var(--border);}
 td{padding:13px 16px;border-bottom:1px solid var(--border);font-size:.82rem;vertical-align:middle;}
 tr:last-child td{border-bottom:none;}
 tr:hover td{background:var(--bg2);}
+.td-m{font-weight:600;}
+.td-s{font-size:.71rem;color:var(--text3);margin-top:2px;}
+
+/* BADGES */
 .badge{display:inline-flex;align-items:center;gap:4px;font-size:.69rem;font-weight:700;padding:3px 9px;border-radius:100px;}
 .badge-pub{background:var(--gl);color:var(--green);}
 .badge-draft{background:var(--goldl);color:var(--gold);}
-.badge-free{background:var(--al);color:var(--accent);}
-.badge-paid{background:var(--pl);color:var(--purple);}
+.badge-paid{background:var(--al);color:var(--accent);}
+.badge-free{background:var(--gl);color:var(--green);}
+.badge-pending{background:var(--goldl);color:var(--gold);}
+.badge-delivered{background:var(--gl);color:var(--green);}
+.badge-failed{background:var(--rl);color:var(--red);}
+
+/* ACT BTNS */
 .act-btns{display:flex;gap:5px;}
 .act-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--panel);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;}
 .act-btn:hover{background:var(--bg3);}
@@ -132,57 +157,67 @@ tr:hover td{background:var(--bg2);}
 .act-btn svg{width:12px;height:12px;color:var(--text2);}
 .act-btn.danger:hover svg{color:var(--red);}
 
-/* PRODUIT CARD (liste) */
-.prod-row{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);transition:background .15s;}
-.prod-row:hover{background:var(--bg2);}
-.prod-row:last-child{border-bottom:none;}
-.prod-emoji{width:44px;height:44px;border-radius:11px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:1.35rem;flex-shrink:0;}
-.prod-info{flex:1;min-width:0;}
-.prod-name-s{font-size:.85rem;font-weight:700;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.prod-meta-s{font-size:.73rem;color:var(--text3);}
-.prod-actions{display:flex;gap:6px;align-items:center;flex-shrink:0;}
+/* PRODUCT PREVIEW CARD */
+.prod-preview-row{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);transition:background .15s;}
+.prod-preview-row:hover{background:var(--bg2);}
+.prod-preview-row:last-child{border-bottom:none;}
+.pp-img{width:52px;height:52px;border-radius:10px;object-fit:cover;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;overflow:hidden;}
+.pp-img img{width:100%;height:100%;object-fit:cover;}
+.pp-info{flex:1;min-width:0;}
+.pp-name{font-size:.86rem;font-weight:700;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pp-meta{font-size:.73rem;color:var(--text3);}
+.pp-actions{display:flex;gap:6px;align-items:center;flex-shrink:0;}
+
+/* ORDER ROW */
+.order-row{display:flex;align-items:center;gap:12px;padding:13px 20px;border-bottom:1px solid var(--border);}
+.ord-av{width:36px;height:36px;border-radius:50%;background:var(--accent);color:#fff;font-size:.82rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ord-info{flex:1;min-width:0;}
+.ord-name{font-size:.84rem;font-weight:600;}
+.ord-sub{font-size:.73rem;color:var(--text3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ord-price{font-family:var(--h);font-size:1rem;font-weight:600;color:var(--accent);flex-shrink:0;}
+.ord-actions{display:flex;gap:5px;flex-shrink:0;}
+
+/* DELIVERY */
+.delivery-badge{display:inline-flex;align-items:center;gap:4px;font-size:.71rem;font-weight:700;padding:3px 9px;border-radius:100px;cursor:pointer;}
+.db-waiting{background:var(--goldl);color:var(--gold);}
+.db-sent{background:var(--gl);color:var(--green);}
+.db-failed{background:var(--rl);color:var(--red);}
 
 /* SPINNER */
 .spinner{width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
 /* REVENUE CHART */
-.rev-chart{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:20px;}
-.rev-title{font-size:.88rem;font-weight:700;margin-bottom:16px;}
-.rev-bars{display:flex;align-items:flex-end;gap:8px;height:80px;}
-.rev-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
-.rev-bar{width:100%;border-radius:5px 5px 0 0;background:var(--al);min-height:4px;transition:height .5s ease;position:relative;}
-.rev-bar.accent{background:var(--accent);}
-.rev-bar:hover{opacity:.8;}
-.rev-month{font-size:.64rem;color:var(--text3);text-align:center;}
-.rev-total{font-family:var(--h);font-size:1.4rem;font-weight:600;margin-top:12px;}
-.rev-sub{font-size:.75rem;color:var(--text3);}
+.rev-chart{display:flex;align-items:flex-end;gap:6px;height:72px;padding:4px 0;}
+.rev-bar-w{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.rev-bar{width:100%;border-radius:4px 4px 0 0;background:var(--al);min-height:3px;transition:height .5s ease;}
+.rev-bar.hi{background:var(--accent);}
+.rev-month{font-size:.6rem;color:var(--text3);}
 
-/* COMMANDES */
-.order-row{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid var(--border);}
-.ord-av{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;font-size:.82rem;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;}
-.ord-av img{width:100%;height:100%;object-fit:cover;}
-.ord-info{flex:1;}
-.ord-name{font-size:.84rem;font-weight:600;}
-.ord-meta{font-size:.73rem;color:var(--text3);margin-top:1px;}
-.ord-price{font-size:.84rem;font-weight:700;color:var(--accent);flex-shrink:0;}
-.ord-status{font-size:.69rem;font-weight:700;padding:2px 8px;border-radius:100px;flex-shrink:0;}
-.os-paid{background:var(--gl);color:var(--green);}
-.os-pending{background:var(--goldl);color:var(--gold);}
-.os-free{background:var(--al);color:var(--accent);}
+/* SETTINGS TOGGLE */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);}
+.toggle-row:last-child{border-bottom:none;}
+.toggle-label{font-size:.86rem;font-weight:500;}
+.toggle-sub{font-size:.75rem;color:var(--text3);margin-top:2px;}
+.toggle-switch{position:relative;width:42px;height:24px;flex-shrink:0;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:var(--bg3);border-radius:100px;cursor:pointer;transition:all .2s;border:1px solid var(--border);}
+.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:2px;top:2px;border-radius:50%;background:#fff;transition:all .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.toggle-switch input:checked + .toggle-slider{background:var(--green);border-color:var(--green);}
+.toggle-switch input:checked + .toggle-slider::before{transform:translateX(18px);}
 
 @media(max-width:960px){.layout{grid-template-columns:1fr;}.sidebar{display:none;}.stats-grid{grid-template-columns:1fr 1fr;}.form-grid{grid-template-columns:1fr;}.form-full{grid-column:span 1;}}
 </style>
 </head>
 <body>
 
-<button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Changer le thème">🌙</button>
+<button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
 
 <!-- PROTECT -->
 <div id="protectScreen">
   <div class="pbox">
-    <div class="plogo">🛒 Learnova Store Admin</div>
-    <div class="psub">Gestion de la boutique.<br/>Accès sécurisé uniquement.</div>
+    <div class="plogo">🛒 Store Admin</div>
+    <div class="psub">Gestion de la boutique Learnova.<br/>Accès sécurisé.</div>
     <input class="pinp" id="adminPin" type="password" placeholder="Mot de passe admin"/>
     <button class="pbtn" onclick="checkPin()">Accéder →</button>
     <div class="perr" id="pinErr">❌ Mot de passe incorrect.</div>
@@ -192,12 +227,15 @@ tr:hover td{background:var(--bg2);}
 <!-- APP -->
 <div id="adminApp">
   <nav class="nav">
-    <a href="index.html" class="logo"><div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div><span class="ln">Learnova</span></a>
-    <span class="abadge">ADMIN</span>
-    <span class="storebadge">STORE</span>
+    <a href="index.html" class="logo">
+      <div class="logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div>
+      <span class="logo-name">Learnova</span>
+    </a>
+    <span class="badge-chip bc-admin">ADMIN</span>
+    <span class="badge-chip bc-store">STORE</span>
     <div class="nav-r">
-      <a href="admin.html" class="btn btn-ghost btn-sm">← Admin principal</a>
-      <a href="store.html" target="_blank" class="btn btn-ghost btn-sm">Voir le store →</a>
+      <a href="admin.html" class="btn btn-ghost btn-sm">← Admin</a>
+      <a href="store.html" target="_blank" class="btn btn-ghost btn-sm">Voir store ↗</a>
       <button class="btn btn-red btn-sm" onclick="lockAdmin()">🔒 Verrouiller</button>
     </div>
   </nav>
@@ -206,20 +244,22 @@ tr:hover td{background:var(--bg2);}
     <aside class="sidebar">
       <div class="sb-sect">Store</div>
       <div class="sb-item active" onclick="showTab('t-dash',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</div>
-      <div class="sb-item" onclick="showTab('t-products',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Produits <span class="sb-bdg" id="bdgProducts">0</span></div>
-      <div class="sb-item" onclick="showTab('t-add',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Ajouter un produit</div>
-      <div class="sb-item" onclick="showTab('t-orders',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Commandes <span class="sb-bdg" id="bdgOrders">0</span></div>
-      <div class="sb-sect">Analyse</div>
+      <div class="sb-item" onclick="showTab('t-products',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>Produits <span class="sb-bdg" id="bdgProducts">0</span></div>
+      <div class="sb-item" onclick="showTab('t-add',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Ajouter produit</div>
+      <div class="sb-sect">Ventes</div>
+      <div class="sb-item" onclick="showTab('t-orders',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Commandes <span class="sb-bdg red" id="bdgOrders">0</span></div>
+      <div class="sb-item" onclick="showTab('t-deliveries',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>Livraisons <span class="sb-bdg" id="bdgDeliveries">0</span></div>
+      <div class="sb-sect">Autres</div>
       <div class="sb-item" onclick="showTab('t-revenue',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Revenus</div>
-      <div class="sb-item" onclick="showTab('t-settings',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Paramètres store</div>
+      <div class="sb-item" onclick="showTab('t-settings',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33A1.65 1.65 0 0013 15.06V15a2 2 0 00-4 0v.06A1.65 1.65 0 007.82 16.4a1.65 1.65 0 00-1.82-.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 003.5 11.5V11a2 2 0 010-2v-.09A1.65 1.65 0 003.5 7.08a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 2.6v-.12A2 2 0 0113 2.5v.09A1.65 1.65 0 0015.5 4.5a1.65 1.65 0 001.82.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9v.06a2 2 0 010 2v.06z"/></svg>Paramètres</div>
     </aside>
 
     <div class="main">
 
-      <!-- DASHBOARD -->
+      <!-- ══ DASHBOARD ══════════════════════════════════════ -->
       <div id="t-dash" class="tab-p active">
         <div class="page-hd">
-          <h1 class="page-title">Store — Tableau de bord</h1>
+          <h1 class="page-title">Tableau de bord Store</h1>
           <div class="page-actions">
             <button class="btn btn-ghost btn-sm" onclick="refreshAll()">↻ Actualiser</button>
             <button class="btn btn-accent btn-sm" onclick="showTab('t-add',null)">+ Produit</button>
@@ -228,131 +268,223 @@ tr:hover td{background:var(--bg2);}
 
         <div class="stats-grid">
           <div class="stat-card"><div class="sc-icon" style="background:var(--al)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg></div><div class="sc-num" id="dProducts">—</div><div class="sc-label">Produits publiés</div></div>
-          <div class="stat-card"><div class="sc-icon" style="background:var(--gl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><div class="sc-num" id="dOrders">—</div><div class="sc-label">Commandes</div></div>
+          <div class="stat-card"><div class="sc-icon" style="background:var(--gl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8"><path d="M9 11l3 3L22 4"/></svg></div><div class="sc-num" id="dOrders">—</div><div class="sc-label">Commandes totales</div></div>
           <div class="stat-card"><div class="sc-icon" style="background:var(--goldl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div class="sc-num" id="dRevenue">—</div><div class="sc-label">Revenu total</div></div>
-          <div class="stat-card"><div class="sc-icon" style="background:var(--pl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="sc-num" id="dClients">—</div><div class="sc-label">Clients uniques</div></div>
+          <div class="stat-card"><div class="sc-icon" style="background:var(--rl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 0111.19 18.85a19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div><div class="sc-num" id="dPending">—</div><div class="sc-label">Livraisons en attente</div></div>
         </div>
 
-        <div class="rev-chart">
-          <div class="rev-title">Activité mensuelle</div>
-          <div class="rev-bars" id="revBars"></div>
-          <div class="rev-total" id="revTotal">—</div>
-          <div class="rev-sub">Revenu total estimé (démo)</div>
+        <!-- CHART -->
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <div>
+              <div class="card-title">Activité des ventes</div>
+              <div style="font-size:.77rem;color:var(--text3)">12 derniers mois</div>
+            </div>
+            <div style="font-family:var(--h);font-size:1.4rem;font-weight:600" id="chartTotal">—</div>
+          </div>
+          <div class="rev-chart" id="revChart"></div>
         </div>
 
         <div class="table-card">
           <div class="table-hd"><h3>Produits récents</h3><button class="btn btn-accent btn-sm" onclick="showTab('t-add',null)">+ Ajouter</button></div>
-          <div id="dashProductsList"><div style="padding:22px;text-align:center;color:var(--text3)">Chargement...</div></div>
+          <div id="dashProductsList"><div style="padding:20px;text-align:center;color:var(--text3)">Chargement...</div></div>
         </div>
-      </div>
 
-      <!-- PRODUITS -->
-      <div id="t-products" class="tab-p">
-        <div class="page-hd"><h1 class="page-title">Tous les produits</h1><button class="btn btn-accent btn-sm" onclick="showTab('t-add',null)">+ Ajouter</button></div>
         <div class="table-card">
-          <div class="table-hd"><h3 id="productsCount">Produits</h3></div>
-          <div id="productsList"><div style="padding:22px;text-align:center;color:var(--text3)">Chargement...</div></div>
+          <div class="table-hd"><h3>Commandes récentes</h3><button class="btn btn-ghost btn-sm" onclick="showTab('t-orders',null)">Voir tout</button></div>
+          <div id="dashOrdersList"><div style="padding:20px;text-align:center;color:var(--text3)">Chargement...</div></div>
         </div>
       </div>
 
-      <!-- AJOUTER PRODUIT -->
+      <!-- ══ PRODUITS ═══════════════════════════════════════ -->
+      <div id="t-products" class="tab-p">
+        <div class="page-hd">
+          <h1 class="page-title">Produits</h1>
+          <div class="page-actions">
+            <input type="text" id="prodSearch" placeholder="Rechercher..." style="border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;font-family:var(--b);font-size:.82rem;background:var(--bg2);color:var(--text);outline:none;" oninput="filterProducts()"/>
+            <button class="btn btn-accent btn-sm" onclick="showTab('t-add',null)">+ Ajouter</button>
+          </div>
+        </div>
+        <div class="table-card">
+          <div class="table-hd"><h3 id="productsCountLabel">Produits</h3></div>
+          <div id="allProductsList"><div style="padding:20px;text-align:center;color:var(--text3)">Chargement...</div></div>
+        </div>
+      </div>
+
+      <!-- ══ AJOUTER / MODIFIER PRODUIT ════════════════════ -->
       <div id="t-add" class="tab-p">
-        <div class="page-hd"><h1 class="page-title">Ajouter un produit</h1></div>
+        <div class="page-hd">
+          <h1 class="page-title" id="addFormTitle">Ajouter un produit</h1>
+          <button class="btn btn-ghost btn-sm" onclick="resetProductForm();showTab('t-products',null)">← Annuler</button>
+        </div>
+
         <div class="card">
           <div class="card-title">Informations du produit</div>
-          <div class="card-sub">Créez un produit payant ou gratuit. Les cours publiés depuis l'admin principal sont automatiquement ajoutés comme produits gratuits.</div>
+          <div class="card-sub">Remplis tous les champs. Les produits publiés apparaissent immédiatement sur le store.</div>
+
+          <input type="hidden" id="editProductId"/>
+
           <div class="form-grid">
-            <div class="field"><label>Nom du produit *</label><input id="pName" type="text" placeholder="Ex: Pack Développeur Web"/></div>
-            <div class="field"><label>Catégorie *</label>
-              <select id="pCat">
-                <option value="Cours">📚 Cours en ligne</option>
-                <option value="Abonnement">⭐ Abonnement</option>
-                <option value="Ressource">📄 Ressource</option>
-                <option value="Session">🎙️ Session live</option>
-                <option value="Bundle">🎁 Bundle</option>
-              </select>
+            <div class="field"><label>Nom du produit *</label><input id="pNom" type="text" placeholder="Ex: Maîtrisez Python en 30 jours"/></div>
+            <div class="field"><label>Catégorie *</label><select id="pCat"><option value="">— Sélectionner —</option></select></div>
+            <div class="field"><label>Prix * (0 = Gratuit)</label><input id="pPrix" type="number" min="0" step="0.01" value="0" placeholder="4500"/></div>
+            <div class="field"><label>Prix barré (optionnel)</label><input id="pPrixBarre" type="number" min="0" step="0.01" placeholder="9000"/></div>
+            <div class="field"><label>Devise</label>
+              <select id="pDevise"><option value="XOF">XOF (FCFA)</option><option value="EUR">EUR (€)</option><option value="USD">USD ($)</option></select>
             </div>
-            <div class="field"><label>Prix (€) — 0 = Gratuit</label><input id="pPrice" type="number" min="0" step="0.01" value="0" placeholder="0.00"/></div>
-            <div class="field"><label>Prix barré (€) — optionnel</label><input id="pOldPrice" type="number" min="0" step="0.01" placeholder="Prix original"/></div>
             <div class="field"><label>Niveau</label>
-              <select id="pLevel">
-                <option value="Tous niveaux">Tous niveaux</option>
-                <option value="Débutant">Débutant</option>
-                <option value="Intermédiaire">Intermédiaire</option>
-                <option value="Avancé">Avancé</option>
-              </select>
+              <select id="pNiveau"><option>Tous niveaux</option><option>Débutant</option><option>Intermédiaire</option><option>Avancé</option></select>
             </div>
+            <div class="field"><label>Emoji / Icône</label><input id="pEmoji" type="text" value="📚" maxlength="4"/></div>
             <div class="field"><label>Badge</label>
-              <select id="pBadge">
-                <option value="">Aucun badge</option>
-                <option value="new">🆕 Nouveau</option>
-                <option value="pop">🔥 Populaire</option>
-                <option value="sale">💰 Promo</option>
-                <option value="free">✅ Gratuit</option>
-              </select>
+              <select id="pBadge"><option value="">Aucun badge</option><option value="new">🆕 Nouveau</option><option value="popular">🔥 Populaire</option><option value="sale">💰 Promo</option><option value="free">✅ Gratuit</option></select>
             </div>
-            <div class="field"><label>Emoji / Icône</label><input id="pEmoji" type="text" value="📚" maxlength="4" placeholder="📚"/></div>
-            <div class="field"><label>Tags (séparés par virgule)</label><input id="pTags" type="text" placeholder="web, débutant, complet"/></div>
-            <div class="field form-full"><label>Description *</label><textarea id="pDesc" placeholder="Description du produit visible sur le store..."></textarea></div>
-            <div class="field form-full"><label>Lien d'accès (optionnel)</label><input id="pLink" type="text" placeholder="course.html?course=... ou URL externe"/></div>
+            <div class="field"><label>Nombre de pages (PDF)</label><input id="pPages" type="number" min="0" placeholder="150"/></div>
+            <div class="field"><label>Tags (virgule pour séparer)</label><input id="pTags" type="text" placeholder="Python, Débutant, PDF"/></div>
+            <div class="field form-full"><label>Description courte *</label><input id="pDesc" type="text" placeholder="Guide complet PDF de 150 pages pour apprendre Python de zéro."/></div>
+            <div class="field form-full"><label>Description longue (détails du produit)</label><textarea id="pDescLong" placeholder="Description complète affichée dans la fenêtre de détail du produit..."></textarea></div>
           </div>
-          <div style="display:flex;gap:10px;margin-top:18px;">
-            <button class="btn btn-dark" style="flex:1" id="addProdBtn" onclick="saveProduct()">
-              <span id="addProdTxt">Publier le produit</span>
-              <div class="spinner" id="addProdSpin"></div>
+
+          <!-- IMAGES -->
+          <div style="margin-top:18px;">
+            <div class="field"><label>Images du produit (URL ou upload)</label></div>
+            <div class="img-upload-zone" id="imgDropZone" onclick="document.getElementById('imgFileInput').click()" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="onImgDrop(event)">
+              <div style="font-size:2rem;margin-bottom:8px">🖼️</div>
+              <div style="font-size:.88rem;font-weight:600;margin-bottom:4px">Glisse tes images ici</div>
+              <div style="font-size:.77rem;color:var(--text3)">ou clique pour sélectionner · JPG, PNG, WebP · Max 5MB/image</div>
+              <input type="file" id="imgFileInput" accept="image/*" multiple style="display:none" onchange="onImgSelect(this.files)"/>
+            </div>
+            <div style="margin-top:8px;display:flex;gap:8px;">
+              <input type="text" id="imgUrlInput" placeholder="Ou colle une URL d'image..." style="flex:1;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-family:var(--b);font-size:.82rem;background:var(--bg2);color:var(--text);outline:none;"/>
+              <button class="btn btn-ghost btn-sm" onclick="addImageUrl()">+ Ajouter URL</button>
+            </div>
+            <div class="img-previews" id="imgPreviews"></div>
+          </div>
+
+          <!-- FICHIER PDF -->
+          <div style="margin-top:18px;">
+            <div class="card-title" style="margin-bottom:4px">📎 Fichier à envoyer après achat</div>
+            <div style="font-size:.79rem;color:var(--text3);margin-bottom:12px">Ce fichier sera envoyé automatiquement par email ou SMS après un achat confirmé.</div>
+            <div class="form-grid">
+              <div class="field"><label>URL du fichier PDF (Supabase Storage, Google Drive, etc.)</label><input id="pFichierUrl" type="text" placeholder="https://... (lien direct de téléchargement)"/></div>
+              <div class="field"><label>Nom du fichier affiché</label><input id="pFichierNom" type="text" placeholder="python-guide-complet.pdf"/></div>
+            </div>
+            <div style="font-size:.78rem;color:var(--accent);margin-top:6px;background:var(--al);padding:10px 14px;border-radius:9px;">
+              💡 <strong>Conseil :</strong> Héberge le PDF sur <a href="https://supabase.com/storage" target="_blank" style="color:var(--accent)">Supabase Storage</a>, génère une URL publique et colle-la ici. Le fichier sera livré automatiquement.
+            </div>
+          </div>
+
+          <!-- OPTIONS -->
+          <div style="margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <label style="display:flex;align-items:center;gap:8px;font-size:.83rem;cursor:pointer"><input type="checkbox" id="pEnVedette" style="accent-color:var(--accent)"/> Mettre en vedette</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:.83rem;cursor:pointer"><input type="checkbox" id="pEstGratuit" onchange="toggleGratuit()"/> Produit gratuit</label>
+          </div>
+
+          <div style="margin-top:10px;"><div class="field"><label>Statut</label><select id="pStatut"><option value="publie">Publié (visible sur le store)</option><option value="brouillon">Brouillon (caché)</option></select></div></div>
+
+          <div style="display:flex;gap:10px;margin-top:22px;">
+            <button class="btn btn-dark" style="flex:1" id="saveProductBtn" onclick="saveProduct()">
+              <span id="saveProdTxt">Publier le produit</span>
+              <div class="spinner" id="saveSpin"></div>
             </button>
-            <button class="btn btn-ghost" onclick="resetForm()">Réinitialiser</button>
+            <button class="btn btn-ghost" onclick="resetProductForm()">Réinitialiser</button>
           </div>
         </div>
-
-        <!-- CONVERSION DES COURS SUPABASE -->
-        <div class="card">
-          <div class="card-title">Cours Supabase disponibles</div>
-          <div class="card-sub">Ces cours sont publiés depuis l'admin principal. Ils sont automatiquement visibles sur le store. Tu peux les mettre en avant ici.</div>
-          <div id="supabaseCoursesForStore"><div style="text-align:center;padding:20px;color:var(--text3)">Chargement...</div></div>
-        </div>
       </div>
 
-      <!-- COMMANDES -->
+      <!-- ══ COMMANDES ═══════════════════════════════════════ -->
       <div id="t-orders" class="tab-p">
-        <div class="page-hd"><h1 class="page-title">Commandes</h1></div>
+        <div class="page-hd">
+          <h1 class="page-title">Commandes</h1>
+          <div class="page-actions">
+            <select id="orderFilter" style="border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;font-family:var(--b);font-size:.82rem;background:var(--bg2);color:var(--text);outline:none;" onchange="loadOrders()">
+              <option value="">Toutes les commandes</option>
+              <option value="paye">Payées</option>
+              <option value="gratuit">Gratuites</option>
+              <option value="en_attente">En attente</option>
+              <option value="echoue">Échouées</option>
+            </select>
+          </div>
+        </div>
         <div class="table-card">
-          <div class="table-hd"><h3 id="ordersCount">Commandes</h3></div>
-          <div id="ordersList"><div style="padding:22px;text-align:center;color:var(--text3)">Chargement des commandes...</div></div>
+          <div class="table-hd"><h3 id="ordersCountLabel">Commandes</h3></div>
+          <table>
+            <thead><tr><th>Client</th><th>Produit</th><th>Montant</th><th>Statut</th><th>Livraison</th><th>Date</th><th>Actions</th></tr></thead>
+            <tbody id="ordersTableBody"><tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3)">Chargement...</td></tr></tbody>
+          </table>
         </div>
       </div>
 
-      <!-- REVENUS -->
+      <!-- ══ LIVRAISONS ══════════════════════════════════════ -->
+      <div id="t-deliveries" class="tab-p">
+        <div class="page-hd">
+          <h1 class="page-title">Livraisons</h1>
+          <div class="page-actions">
+            <button class="btn btn-ghost btn-sm" onclick="loadDeliveries()">↻ Actualiser</button>
+            <button class="btn btn-accent btn-sm" onclick="retryAllFailed()">↺ Renvoyer les échoués</button>
+          </div>
+        </div>
+        <div class="table-card">
+          <div class="table-hd"><h3 id="delivLabel">Livraisons</h3></div>
+          <table>
+            <thead><tr><th>Destinataire</th><th>Produit</th><th>Méthode</th><th>Statut</th><th>Tentatives</th><th>Date</th><th>Actions</th></tr></thead>
+            <tbody id="delivTableBody"><tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3)">Chargement...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ REVENUS ═════════════════════════════════════════ -->
       <div id="t-revenue" class="tab-p">
         <div class="page-hd"><h1 class="page-title">Revenus & Analytiques</h1></div>
         <div class="stats-grid">
           <div class="stat-card"><div class="sc-icon" style="background:var(--goldl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div class="sc-num" id="rTotal">—</div><div class="sc-label">Revenu total</div></div>
-          <div class="stat-card"><div class="sc-icon" style="background:var(--gl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="sc-num" id="rMensuel">—</div><div class="sc-label">Ce mois-ci</div></div>
-          <div class="stat-card"><div class="sc-icon" style="background:var(--al)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg></div><div class="sc-num" id="rClients">—</div><div class="sc-label">Clients</div></div>
-          <div class="stat-card"><div class="sc-icon" style="background:var(--pl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/></svg></div><div class="sc-num" id="rTopProd">—</div><div class="sc-label">Produit phare</div></div>
+          <div class="stat-card"><div class="sc-icon" style="background:var(--gl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="sc-num" id="rMois">—</div><div class="sc-label">Ce mois</div></div>
+          <div class="stat-card"><div class="sc-icon" style="background:var(--al)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/></svg></div><div class="sc-num" id="rTopProd">—</div><div class="sc-label">Top produit</div></div>
+          <div class="stat-card"><div class="sc-icon" style="background:var(--pl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5"/><circle cx="9" cy="7" r="4"/></svg></div><div class="sc-num" id="rClients">—</div><div class="sc-label">Clients uniques</div></div>
         </div>
-        <div class="rev-chart" style="margin-top:0">
-          <div class="rev-title">Tendance des revenus — 6 mois</div>
-          <div class="rev-bars" id="revBars2"></div>
+        <div class="card" style="margin-top:4px">
+          <div class="card-title">Top produits</div>
+          <div id="topProductsRevList"><div style="text-align:center;padding:20px;color:var(--text3)">Chargement...</div></div>
         </div>
       </div>
 
-      <!-- PARAMÈTRES -->
+      <!-- ══ PARAMÈTRES ══════════════════════════════════════ -->
       <div id="t-settings" class="tab-p">
         <div class="page-hd"><h1 class="page-title">Paramètres du store</h1></div>
         <div class="card">
-          <div class="card-title">Configuration générale</div>
-          <div class="card-sub">Personnalisez l'apparence et les fonctionnalités de votre boutique.</div>
+          <div class="card-title">Configuration FedaPay</div>
+          <div class="card-sub">Configurez vos clés API FedaPay pour activer les paiements Mobile Money et carte bancaire.</div>
           <div class="form-grid">
-            <div class="field"><label>Nom du store</label><input type="text" value="Learnova Store"/></div>
-            <div class="field"><label>Devise</label><select><option>EUR (€)</option><option>USD ($)</option><option>GBP (£)</option><option>XOF (FCFA)</option></select></div>
-            <div class="field"><label>Email de contact</label><input type="email" placeholder="contact@learnova.io"/></div>
-            <div class="field"><label>Politique de remboursement</label><select><option>30 jours</option><option>14 jours</option><option>7 jours</option><option>Aucun remboursement</option></select></div>
-            <div class="field form-full"><label>Message d'accueil du store</label><textarea placeholder="Bienvenue sur le Learnova Store..."></textarea></div>
+            <div class="field"><label>Clé publique FedaPay (Public Key)</label><input type="text" id="setFedaPublic" placeholder="pk_live_..."/></div>
+            <div class="field"><label>Clé secrète FedaPay (Secret Key)</label><input type="password" id="setFedaSecret" placeholder="sk_live_..."/></div>
           </div>
-          <div style="margin-top:16px;display:flex;gap:10px;">
-            <button class="btn btn-dark">Enregistrer les paramètres</button>
-            <button class="btn btn-ghost" onclick="window.open('store.html','_blank')">Voir le store →</button>
+          <div style="background:var(--ol);border:1px solid rgba(194,65,12,.2);border-radius:10px;padding:13px 16px;margin-top:12px;font-size:.8rem;color:var(--orange)">
+            ⚠️ <strong>Important :</strong> La clé secrète doit être stockée dans les variables d'environnement de ton backend Render, jamais dans le code HTML. La clé publique seule est utilisée ici côté client.
+          </div>
+          <div style="margin-top:16px;"><button class="btn btn-dark" onclick="saveSettings()">Enregistrer les clés</button></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Options du store</div>
+          <div class="toggle-row">
+            <div><div class="toggle-label">Store actif</div><div class="toggle-sub">Le store est visible par les visiteurs</div></div>
+            <label class="toggle-switch"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div><div class="toggle-label">Livraison par email</div><div class="toggle-sub">Envoyer le fichier PDF par email après achat</div></div>
+            <label class="toggle-switch"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div><div class="toggle-label">Livraison par SMS/WhatsApp</div><div class="toggle-sub">Envoyer le lien de téléchargement par SMS</div></div>
+            <label class="toggle-switch"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div><div class="toggle-label">Afficher les produits gratuits</div><div class="toggle-sub">Rendre visibles les produits à 0 FCFA</div></div>
+            <label class="toggle-switch"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div><div class="toggle-label">Mode sandbox FedaPay</div><div class="toggle-sub">Activer pour les tests (désactiver en production)</div></div>
+            <label class="toggle-switch"><input type="checkbox"/><span class="toggle-slider"></span></label>
           </div>
         </div>
       </div>
@@ -363,20 +495,24 @@ tr:hover td{background:var(--bg2);}
 
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
-const SB_URL = "https://jbshkbqchrehfhoodtuj.supabase.co"
-const SB_KEY = "sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs"
-const ADMIN_PASS = "Learnova@Admin2025"
+const SB_URL      = "https://jbshkbqchrehfhoodtuj.supabase.co"
+const SB_KEY      = "sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs"
+const BACKEND     = "https://learnova-backend-28pl.onrender.com"
+const ADMIN_PASS  = "Learnova@Admin2025"
 const sb = createClient(SB_URL, SB_KEY, { auth: { persistSession: true } })
 
-let products  = []
-let sbCourses = []
+let allProducts  = []
+let allOrders    = []
+let allDelivs    = []
+let imageUrls    = []
+let editingId    = null
 
-// ── DARK MODE ─────────────────────────────────────────────────
-const saved = localStorage.getItem('ln_theme') || 'light'
-document.documentElement.setAttribute('data-theme', saved)
-document.getElementById('themeBtn').textContent = saved === 'dark' ? '☀️' : '🌙'
+// ── THEME ─────────────────────────────────────────────────────
+const savedTheme = localStorage.getItem('ln_theme') || 'light'
+document.documentElement.setAttribute('data-theme', savedTheme)
+document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '☀️' : '🌙'
 window.toggleTheme = () => {
-  const cur = document.documentElement.getAttribute('data-theme')
+  const cur  = document.documentElement.getAttribute('data-theme')
   const next = cur === 'dark' ? 'light' : 'dark'
   document.documentElement.setAttribute('data-theme', next)
   document.getElementById('themeBtn').textContent = next === 'dark' ? '☀️' : '🌙'
@@ -390,212 +526,434 @@ window.checkPin = () => {
     document.getElementById('protectScreen').style.display = 'none'
     document.getElementById('adminApp').style.display = 'block'
     sessionStorage.setItem('ln_admin', '1')
-    initStore()
+    initAdminStore()
   } else {
     const err = document.getElementById('pinErr'); err.classList.add('show')
     document.getElementById('adminPin').value = ''
     setTimeout(() => err.classList.remove('show'), 3000)
   }
 }
-
 window.lockAdmin = () => {
   sessionStorage.removeItem('ln_admin')
   document.getElementById('protectScreen').style.display = 'flex'
   document.getElementById('adminApp').style.display = 'none'
-  document.getElementById('adminPin').value = ''
 }
-
 document.getElementById('adminPin').addEventListener('keypress', e => { if (e.key === 'Enter') checkPin() })
 if (sessionStorage.getItem('ln_admin') === '1') {
   document.getElementById('protectScreen').style.display = 'none'
   document.getElementById('adminApp').style.display = 'block'
-  initStore()
+  initAdminStore()
 }
 
 // ── INIT ──────────────────────────────────────────────────────
-async function initStore() {
-  await loadFromSupabase()
-  loadLocalProducts()
-  renderDashboard()
-  renderRevChart()
-  renderOrders()
+async function initAdminStore() {
+  await Promise.all([loadCategories(), loadProducts(), loadOrders(), loadDeliveries()])
+  renderChart()
   setupRealtime()
 }
 
-window.refreshAll = () => { loadFromSupabase(); renderDashboard(); toast('Actualisé !', 'ok') }
+window.refreshAll = () => { loadProducts(); loadOrders(); loadDeliveries(); toast('Actualisé !', 'ok') }
 
-async function loadFromSupabase() {
-  const { data: courses } = await sb.from('courses').select('*').order('created_at', { ascending: false })
-  const { data: profiles } = await sb.from('profiles').select('*').order('created_at', { ascending: false })
-  sbCourses = courses || []
-
-  setEl('dClients', (profiles?.length || 0))
-  setEl('rClients', (profiles?.length || 0))
-
-  renderSupabaseCoursesForStore()
+function setupRealtime() {
+  sb.channel('adminstore-rt')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'store_products' }, () => loadProducts())
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'store_orders' }, () => { loadOrders(); loadDeliveries() })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'store_deliveries' }, () => loadDeliveries())
+    .subscribe()
 }
 
-function loadLocalProducts() {
-  // Produits locaux (peuvent venir d'un futur Supabase table "products")
-  const EMOJIS = { 'Cours':'📚','Abonnement':'⭐','Ressource':'📄','Session':'🎙️','Bundle':'🎁' }
-  products = [
-    { id:'pro-monthly', name:'Learnova Pro Mensuel', cat:'Abonnement', price:29.99, badge:'pop', status:'pub', sold:312, emoji:'⭐' },
-    { id:'pro-annual',  name:'Learnova Pro Annuel',  cat:'Abonnement', price:249,   badge:'sale',status:'pub', sold:89,  emoji:'🏆' },
-    { id:'res-notes',   name:'Pack Fiches Synthèse', cat:'Ressource',  price:0,     badge:'free',status:'pub', sold:1240,emoji:'📄' },
-    { id:'bundle-dev',  name:'Bundle Développeur',   cat:'Bundle',     price:79,    badge:'sale',status:'pub', sold:432, emoji:'🎁' },
-    { id:'res-ia',      name:'Guide IA & Productivité',cat:'Ressource',price:12,    badge:'new', status:'pub', sold:623, emoji:'🤖' },
-  ]
-
-  // Ajouter les cours Supabase comme produits
-  sbCourses.forEach(c => {
-    products.push({
-      id: `course-${c.id}`, name: c.titre, cat: 'Cours',
-      price: 0, badge: 'free', status: 'pub',
-      sold: c.nb_apprenants || 0, emoji: '📚', supabaseId: c.id
-    })
-  })
-
-  const total = products.length
-  setEl('bdgProducts', total)
-  setEl('dProducts', total)
-  setEl('productsCount', `${total} produits`)
-  setEl('dOrders', products.reduce((s, p) => s + (p.sold || 0), 0))
-  setEl('bdgOrders', products.reduce((s, p) => s + (p.sold || 0), 0))
-
-  const revenue = products.reduce((s, p) => s + (p.price * (p.sold || 0)), 0)
-  const fmt = n => n >= 1000 ? (n/1000).toFixed(1) + 'k€' : n.toFixed(0) + '€'
-  setEl('dRevenue', fmt(revenue))
-  setEl('rTotal', fmt(revenue))
-  setEl('rMensuel', fmt(revenue * 0.18))
-  setEl('rTopProd', products.sort((a,b) => b.sold - a.sold)[0]?.name?.substring(0,12) + '...' || '—')
-
-  renderProductsList()
+// ── CATÉGORIES ────────────────────────────────────────────────
+async function loadCategories() {
+  const { data: cats } = await sb.from('store_categories').select('*').order('ordre')
+  const sel = document.getElementById('pCat')
+  sel.innerHTML = '<option value="">— Catégorie —</option>'
+  ;(cats || []).forEach(c => { sel.innerHTML += `<option value="${c.nom}">${c.emoji} ${c.nom}</option>` })
 }
 
-function renderDashboard() {
-  renderProductsList()
+// ── PRODUITS ──────────────────────────────────────────────────
+async function loadProducts() {
+  const { data: prods } = await sb.from('store_products').select('*').order('created_at', { ascending: false })
+  allProducts = prods || []
+  const count = allProducts.length
+  setEl('bdgProducts', count); setEl('dProducts', count)
+  setEl('productsCountLabel', `${count} produit${count > 1 ? 's' : ''}`)
+  renderProductsList(allProducts)
+  renderDashProductsList()
+  renderRevenue()
 }
 
-function renderProductsList() {
-  const list = products.slice(0, 6)
-  const html = (items) => items.length
-    ? items.map(p => `
-        <div class="prod-row">
-          <div class="prod-emoji">${p.emoji}</div>
-          <div class="prod-info">
-            <div class="prod-name-s">${p.name}</div>
-            <div class="prod-meta-s">${p.cat} · ${p.sold || 0} ventes/accès · ${p.price === 0 ? 'Gratuit' : p.price + '€'}</div>
-          </div>
-          <div class="prod-actions">
-            <span class="badge ${p.price === 0 ? 'badge-free' : 'badge-paid'}">${p.price === 0 ? 'Gratuit' : p.price + '€'}</span>
-            <span class="badge badge-pub">Publié</span>
-            ${p.supabaseId ? `<a href="course.html?course=${p.supabaseId}" class="btn btn-ghost btn-sm" target="_blank">Voir</a>` : ''}
-            <button class="act-btn danger" onclick="delProduct('${p.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
-          </div>
-        </div>`).join('')
-    : '<div style="padding:28px;text-align:center;color:var(--text3)">Aucun produit.</div>'
-
-  document.getElementById('dashProductsList').innerHTML = html(list)
-  document.getElementById('productsList').innerHTML = html(products)
+function renderProductsList(products) {
+  const container = document.getElementById('allProductsList')
+  if (!products.length) { container.innerHTML = '<div style="padding:28px;text-align:center;color:var(--text3)">Aucun produit. Ajoutes-en un !</div>'; return }
+  container.innerHTML = products.map(p => buildProductRow(p)).join('')
 }
 
-function renderSupabaseCoursesForStore() {
-  const container = document.getElementById('supabaseCoursesForStore')
-  if (!sbCourses.length) {
-    container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text3)">Aucun cours publié depuis l\'admin principal.</div>'
-    return
-  }
-  container.innerHTML = sbCourses.map(c => `
-    <div class="prod-row">
-      <div class="prod-emoji">📚</div>
-      <div class="prod-info">
-        <div class="prod-name-s">${c.titre}</div>
-        <div class="prod-meta-s">${c.categorie || 'Formation'} · ${c.chapitres?.length || 0} chapitres · ${c.quiz?.length || 0} questions · ${c.difficulte || 'Tous niveaux'}</div>
-      </div>
-      <div class="prod-actions">
-        <span class="badge badge-free">Gratuit</span>
-        <span class="badge badge-pub">Publié</span>
-        <a href="course.html?course=${c.id}" class="btn btn-ghost btn-sm" target="_blank">Voir</a>
-        <button class="btn btn-accent btn-sm" onclick="copyText('${window.location.origin}/course.html?course=${c.id}')">Partager</button>
-      </div>
-    </div>`).join('')
+function buildProductRow(p) {
+  const imgs  = p.images || []
+  const imgH  = imgs.length ? `<img src="${imgs[0]}" alt="${p.nom}" style="width:100%;height:100%;object-fit:cover;" onerror="this.outerHTML='${p.emoji||'📦'}'"/>` : (p.emoji || '📦')
+  const priceF = p.est_gratuit || p.prix == 0 ? 'Gratuit' : `${Number(p.prix).toLocaleString('fr')} ${p.devise || 'XOF'}`
+  return `<div class="prod-preview-row">
+    <div class="pp-img">${imgH}</div>
+    <div class="pp-info">
+      <div class="pp-name">${p.nom}</div>
+      <div class="pp-meta">${p.categorie_nom || '—'} · ${priceF} · ${p.nb_ventes || 0} ventes · ${p.statut === 'publie' ? '✅ Publié' : '✏️ Brouillon'}</div>
+    </div>
+    <div class="pp-actions">
+      <span class="badge ${p.statut === 'publie' ? 'badge-pub' : 'badge-draft'}">${p.statut === 'publie' ? 'Publié' : 'Brouillon'}</span>
+      <span class="badge ${p.est_gratuit || p.prix == 0 ? 'badge-free' : 'badge-paid'}">${p.est_gratuit || p.prix == 0 ? 'Gratuit' : 'Payant'}</span>
+      <button class="btn btn-ghost btn-sm" onclick="editProduct('${p.id}')">✏️ Modifier</button>
+      <button class="act-btn danger" onclick="deleteProduct('${p.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+    </div>
+  </div>`
 }
 
-function renderOrders() {
-  const orders = [
-    { name:'Marie D.', product:'Pack Pro Mensuel', price:29.99, status:'paid', time:'Il y a 2h', initials:'M' },
-    { name:'Thomas K.', product:'Bundle Dev Web', price:79, status:'paid', time:'Il y a 4h', initials:'T' },
-    { name:'Fatou S.', product:'Guide IA', price:12, status:'paid', time:'Il y a 8h', initials:'F' },
-    { name:'Lucas R.', product:'Pack Fiches', price:0, status:'free', time:'Hier', initials:'L' },
-    { name:'Awa B.', product:'Pack Pro Annuel', price:249, status:'paid', time:'Il y a 2j', initials:'A' },
-  ]
-  setEl('bdgOrders', orders.length); setEl('dOrders', orders.length); setEl('ordersCount', `${orders.length} commandes`)
-  document.getElementById('ordersList').innerHTML = orders.map(o => `
-    <div class="order-row">
-      <div class="ord-av">${o.initials}</div>
-      <div class="ord-info">
-        <div class="ord-name">${o.name}</div>
-        <div class="ord-meta">${o.product} · ${o.time}</div>
-      </div>
-      <div class="ord-price">${o.price === 0 ? 'Gratuit' : o.price + '€'}</div>
-      <span class="ord-status ${o.status === 'paid' ? 'os-paid' : 'os-free'}">${o.status === 'paid' ? '✓ Payé' : 'Gratuit'}</span>
-    </div>`).join('')
+function renderDashProductsList() {
+  document.getElementById('dashProductsList').innerHTML = allProducts.slice(0, 5).map(p => buildProductRow(p)).join('')
+    || '<div style="padding:20px;text-align:center;color:var(--text3)">Aucun produit.</div>'
 }
 
-function renderRevChart() {
-  const months = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc']
-  const data   = [12,28,35,45,62,80,74,58,91,105,88,120]
-  const max    = Math.max(...data)
-
-  const barsHtml = data.map((v, i) => {
-    const pct = Math.round((v / max) * 100)
-    const isLast = i === data.length - 1
-    return `<div class="rev-bar-wrap">
-      <div class="rev-bar ${isLast ? 'accent' : ''}" style="height:${pct}%"></div>
-      <div class="rev-month">${months[i].substring(0,3)}</div>
-    </div>`
-  }).join('')
-
-  document.querySelectorAll('#revBars, #revBars2').forEach(el => { if (el) el.innerHTML = barsHtml })
+window.filterProducts = () => {
+  const q = document.getElementById('prodSearch').value.toLowerCase()
+  renderProductsList(allProducts.filter(p => p.nom.toLowerCase().includes(q) || (p.description||'').toLowerCase().includes(q)))
 }
 
-// ── AJOUTER PRODUIT ───────────────────────────────────────────
-window.saveProduct = () => {
-  const name  = document.getElementById('pName').value.trim()
-  const desc  = document.getElementById('pDesc').value.trim()
-  const cat   = document.getElementById('pCat').value
-  const price = parseFloat(document.getElementById('pPrice').value) || 0
-  const emoji = document.getElementById('pEmoji').value || '📦'
+window.editProduct = (id) => {
+  const p = allProducts.find(x => x.id === id)
+  if (!p) return
+  editingId = id
+  document.getElementById('addFormTitle').textContent = `Modifier — ${p.nom}`
+  document.getElementById('editProductId').value = id
+  document.getElementById('pNom').value         = p.nom || ''
+  document.getElementById('pCat').value         = p.categorie_nom || ''
+  document.getElementById('pPrix').value        = p.prix || 0
+  document.getElementById('pPrixBarre').value   = p.prix_barre || ''
+  document.getElementById('pDevise').value      = p.devise || 'XOF'
+  document.getElementById('pNiveau').value      = p.niveau || 'Tous niveaux'
+  document.getElementById('pEmoji').value       = p.emoji || '📚'
+  document.getElementById('pBadge').value       = p.badge || ''
+  document.getElementById('pPages').value       = p.nb_pages || ''
+  document.getElementById('pTags').value        = (p.tags || []).join(', ')
+  document.getElementById('pDesc').value        = p.description || ''
+  document.getElementById('pDescLong').value    = p.description_longue || ''
+  document.getElementById('pFichierUrl').value  = p.fichier_url || ''
+  document.getElementById('pFichierNom').value  = p.fichier_nom || ''
+  document.getElementById('pEnVedette').checked = p.en_vedette || false
+  document.getElementById('pEstGratuit').checked = p.est_gratuit || false
+  document.getElementById('pStatut').value      = p.statut || 'publie'
+  imageUrls = p.images || []
+  renderImagePreviews()
+  document.getElementById('saveProdTxt').textContent = 'Mettre à jour'
+  showTab('t-add', null)
+}
 
-  if (!name) { toast('Entre un nom pour le produit.', 'err'); return }
-  if (!desc) { toast('Ajoute une description.', 'err'); return }
+window.deleteProduct = async (id) => {
+  if (!confirm('Supprimer ce produit ? Cette action est irréversible.')) return
+  await sb.from('store_products').delete().eq('id', id)
+  toast('Produit supprimé.', 'ok'); loadProducts()
+}
 
-  const newProduct = {
-    id:    'custom-' + Date.now(), name, cat, price,
-    badge: price === 0 ? 'free' : document.getElementById('pBadge').value || 'new',
-    status: 'pub', sold: 0, emoji
+// ── SAUVEGARDER PRODUIT ────────────────────────────────────────
+window.saveProduct = async () => {
+  const nom      = document.getElementById('pNom').value.trim()
+  const cat      = document.getElementById('pCat').value
+  const prix     = parseFloat(document.getElementById('pPrix').value) || 0
+  const desc     = document.getElementById('pDesc').value.trim()
+  if (!nom)  { toast('Entre un nom.', 'err'); return }
+  if (!cat)  { toast('Sélectionne une catégorie.', 'err'); return }
+  if (!desc) { toast('Entre une description.', 'err'); return }
+
+  const btn  = document.getElementById('saveProductBtn')
+  const spin = document.getElementById('saveSpin')
+  btn.disabled = true; spin.style.display = 'block'
+
+  const payload = {
+    nom,
+    categorie_nom:      cat,
+    prix,
+    prix_barre:         parseFloat(document.getElementById('pPrixBarre').value) || null,
+    devise:             document.getElementById('pDevise').value || 'XOF',
+    est_gratuit:        document.getElementById('pEstGratuit').checked || prix === 0,
+    niveau:             document.getElementById('pNiveau').value,
+    emoji:              document.getElementById('pEmoji').value || '📦',
+    badge:              document.getElementById('pBadge').value || '',
+    nb_pages:           parseInt(document.getElementById('pPages').value) || null,
+    tags:               document.getElementById('pTags').value.split(',').map(t => t.trim()).filter(Boolean),
+    description:        desc,
+    description_longue: document.getElementById('pDescLong').value,
+    images:             imageUrls,
+    fichier_url:        document.getElementById('pFichierUrl').value.trim() || null,
+    fichier_nom:        document.getElementById('pFichierNom').value.trim() || null,
+    en_vedette:         document.getElementById('pEnVedette').checked,
+    statut:             document.getElementById('pStatut').value,
+    updated_at:         new Date().toISOString()
   }
 
-  products.unshift(newProduct)
-  setEl('bdgProducts', products.length)
-  setEl('dProducts',   products.length)
-  renderProductsList()
-  resetForm()
-  toast(`✅ "${name}" publié sur le store !`, 'ok')
+  let error = null
+  if (editingId) {
+    const res = await sb.from('store_products').update(payload).eq('id', editingId)
+    error = res.error
+  } else {
+    const res = await sb.from('store_products').insert(payload)
+    error = res.error
+  }
+
+  spin.style.display = 'none'; btn.disabled = false
+
+  if (error) { toast('Erreur Supabase : ' + error.message, 'err'); return }
+
+  toast(editingId ? '✅ Produit mis à jour !' : '✅ Produit publié sur le store !', 'ok')
+  resetProductForm()
+  loadProducts()
   showTab('t-products', null)
 }
 
-window.resetForm = () => {
-  ['pName','pDesc','pLink','pTags','pOldPrice'].forEach(id => { const el = document.getElementById(id); if (el) el.value = '' })
-  document.getElementById('pPrice').value = '0'
+window.resetProductForm = () => {
+  editingId = null; imageUrls = []
+  document.getElementById('addFormTitle').textContent = 'Ajouter un produit'
+  document.getElementById('saveProdTxt').textContent  = 'Publier le produit'
+  document.getElementById('editProductId').value = ''
+  ;['pNom','pPrix','pPrixBarre','pTags','pDesc','pDescLong','pFichierUrl','pFichierNom'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = id === 'pPrix' ? '0' : ''
+  })
   document.getElementById('pEmoji').value = '📚'
+  document.getElementById('pEnVedette').checked = false
+  document.getElementById('pEstGratuit').checked = false
+  document.getElementById('pStatut').value = 'publie'
+  document.getElementById('pBadge').value  = ''
+  document.getElementById('imgDropZone').classList.remove('over')
+  renderImagePreviews()
 }
 
-window.delProduct = (id) => {
-  if (!confirm('Supprimer ce produit ?')) return
-  products = products.filter(p => p.id !== id)
-  setEl('bdgProducts', products.length); setEl('dProducts', products.length)
-  renderProductsList(); toast('Produit supprimé.', 'ok')
+window.toggleGratuit = () => {
+  const checked = document.getElementById('pEstGratuit').checked
+  if (checked) document.getElementById('pPrix').value = '0'
+}
+
+// ── IMAGES ────────────────────────────────────────────────────
+window.onImgSelect = (files) => {
+  Array.from(files).forEach(file => {
+    if (file.size > 5 * 1024 * 1024) { toast('Image trop grande (max 5MB).', 'err'); return }
+    const reader = new FileReader()
+    reader.onload = e => {
+      imageUrls.push(e.target.result) // base64 (pour la démo — utilise Supabase Storage en prod)
+      renderImagePreviews()
+    }
+    reader.readAsDataURL(file)
+  })
+  document.getElementById('imgDropZone').classList.remove('over')
+}
+
+window.onImgDrop = (e) => {
+  e.preventDefault()
+  document.getElementById('imgDropZone').classList.remove('over')
+  onImgSelect(e.dataTransfer.files)
+}
+
+window.addImageUrl = () => {
+  const url = document.getElementById('imgUrlInput').value.trim()
+  if (!url) return
+  imageUrls.push(url)
+  document.getElementById('imgUrlInput').value = ''
+  renderImagePreviews()
+}
+
+function renderImagePreviews() {
+  const container = document.getElementById('imgPreviews')
+  container.innerHTML = imageUrls.map((url, i) => `
+    <div class="img-preview-item">
+      <img src="${url}" alt="Image ${i+1}" onerror="this.src=''"/>
+      <button class="img-preview-rm" onclick="removeImage(${i})">×</button>
+    </div>`).join('')
+}
+
+window.removeImage = (i) => { imageUrls.splice(i, 1); renderImagePreviews() }
+
+// ── COMMANDES ─────────────────────────────────────────────────
+async function loadOrders() {
+  const filter = document.getElementById('orderFilter')?.value || ''
+  let q = sb.from('store_orders').select('*, store_products(nom,emoji)').order('created_at', { ascending: false })
+  if (filter) q = q.eq('statut', filter)
+  const { data: orders } = await q
+  allOrders = orders || []
+  const count = allOrders.length
+  setEl('bdgOrders', count); setEl('dOrders', count); setEl('ordersCountLabel', `${count} commande${count > 1 ? 's' : ''}`)
+  renderOrdersTable()
+  renderDashOrders()
+}
+
+window.loadOrders = loadOrders
+
+function renderOrdersTable() {
+  const tbody = document.getElementById('ordersTableBody')
+  if (!allOrders.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:22px;color:var(--text3)">Aucune commande.</td></tr>'; return }
+  tbody.innerHTML = allOrders.map(o => {
+    const statPill = o.statut === 'paye' || o.statut === 'gratuit'
+      ? `<span class="badge badge-paid">${o.statut === 'gratuit' ? 'Gratuit' : 'Payée'}</span>`
+      : o.statut === 'en_attente'
+      ? `<span class="badge badge-pending">En attente</span>`
+      : `<span class="badge badge-failed">Échoué</span>`
+    const delivPill = o.livraison_statut === 'livre'
+      ? `<span class="badge badge-delivered">✅ Livré</span>`
+      : o.livraison_statut === 'en_cours'
+      ? `<span class="badge badge-pending">En cours</span>`
+      : `<span class="badge badge-failed">Non livré</span>`
+    const date = new Date(o.created_at).toLocaleDateString('fr', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' })
+    return `<tr>
+      <td><div class="td-m">${o.client_prenom}</div><div class="td-s">${o.client_email || o.client_telephone || '—'}</div></td>
+      <td><div class="td-m">${o.store_products?.emoji || '📦'} ${o.product_nom}</div></td>
+      <td><strong>${o.produit_prix == 0 ? 'Gratuit' : Number(o.product_prix).toLocaleString('fr') + ' ' + (o.devise||'XOF')}</strong></td>
+      <td>${statPill}</td>
+      <td>${delivPill}</td>
+      <td style="font-size:.78rem;color:var(--text3)">${date}</td>
+      <td><div class="act-btns">
+        <button class="act-btn" title="Renvoyer la livraison" onclick="resendDelivery('${o.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 0111.19 18.85a19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3"/><polyline points="16 2 22 2 22 8"/><line x1="22" y1="2" x2="15" y2="9"/></svg></button>
+        <button class="act-btn danger" onclick="deleteOrder('${o.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+      </div></td>
+    </tr>`
+  }).join('')
+}
+
+function renderDashOrders() {
+  document.getElementById('dashOrdersList').innerHTML = allOrders.slice(0, 5).map(o => `
+    <div class="order-row">
+      <div class="ord-av">${o.client_prenom?.charAt(0)?.toUpperCase() || '?'}</div>
+      <div class="ord-info">
+        <div class="ord-name">${o.client_prenom}</div>
+        <div class="ord-sub">${o.product_nom} · ${o.client_email || o.client_telephone || '—'}</div>
+      </div>
+      <div class="ord-price">${o.product_prix == 0 ? 'Gratuit' : Number(o.product_prix).toLocaleString('fr') + ' ' + (o.devise||'XOF')}</div>
+      <span class="badge ${o.statut === 'paye' || o.statut === 'gratuit' ? 'badge-paid' : 'badge-pending'}">${o.statut === 'gratuit' ? 'Gratuit' : o.statut}</span>
+    </div>`).join('') || '<div style="padding:20px;text-align:center;color:var(--text3)">Aucune commande.</div>'
+}
+
+window.resendDelivery = async (orderId) => {
+  const order = allOrders.find(o => o.id === orderId)
+  if (!order) return
+  const prod = allProducts.find(p => p.id === order.product_id)
+  try {
+    await fetch(`${BACKEND}/api/store/deliver`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        order_id:     orderId,
+        product_id:   order.product_id,
+        product_nom:  order.product_nom,
+        fichier_url:  prod?.fichier_url,
+        destinataire: order.client_email || order.client_telephone,
+        methode:      order.livraison_methode || 'email',
+        prenom:       order.client_prenom,
+        email:        order.client_email
+      })
+    })
+    toast(`📧 Livraison renvoyée à ${order.client_email || order.client_telephone}`, 'ok')
+    await sb.from('store_orders').update({ livraison_statut: 'en_cours' }).eq('id', orderId)
+    loadOrders()
+  } catch { toast('Erreur lors de l\'envoi.', 'err') }
+}
+
+window.deleteOrder = async (id) => {
+  if (!confirm('Supprimer cette commande ?')) return
+  await sb.from('store_orders').delete().eq('id', id)
+  toast('Commande supprimée.', 'ok'); loadOrders()
+}
+
+// ── LIVRAISONS ────────────────────────────────────────────────
+async function loadDeliveries() {
+  const { data: delivs } = await sb.from('store_deliveries')
+    .select('*, store_orders(client_prenom,product_nom,client_email)')
+    .order('created_at', { ascending: false })
+  allDelivs = delivs || []
+  const pending = allDelivs.filter(d => d.statut === 'en_attente').length
+  setEl('bdgDeliveries', allDelivs.length); setEl('dPending', pending); setEl('delivLabel', `${allDelivs.length} livraison${allDelivs.length > 1 ? 's' : ''}`)
+  const tbody = document.getElementById('delivTableBody')
+  if (!allDelivs.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:22px;color:var(--text3)">Aucune livraison.</td></tr>'; return }
+  tbody.innerHTML = allDelivs.map(d => {
+    const statCls = d.statut === 'envoye' ? 'db-sent' : d.statut === 'echec' ? 'db-failed' : 'db-waiting'
+    const statLbl = d.statut === 'envoye' ? '✅ Envoyé' : d.statut === 'echec' ? '❌ Échec' : '⏳ En attente'
+    const date = new Date(d.created_at).toLocaleDateString('fr', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' })
+    return `<tr>
+      <td><div class="td-m">${d.destinataire}</div><div class="td-s">${d.store_orders?.client_prenom || '—'}</div></td>
+      <td>${d.store_orders?.product_nom || '—'}</td>
+      <td>${d.methode === 'email' ? '📧 Email' : '📱 SMS'}</td>
+      <td><span class="delivery-badge ${statCls}">${statLbl}</span></td>
+      <td>${d.tentatives || 0}</td>
+      <td style="font-size:.78rem;color:var(--text3)">${date}</td>
+      <td><div class="act-btns">
+        <button class="act-btn" title="Renvoyer" onclick="retryDelivery('${d.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button>
+      </div></td>
+    </tr>`
+  }).join('')
+}
+window.loadDeliveries = loadDeliveries
+
+window.retryDelivery = async (delivId) => {
+  const deliv = allDelivs.find(d => d.id === delivId)
+  if (!deliv) return
+  await sb.from('store_deliveries').update({ statut: 'en_attente', tentatives: (deliv.tentatives || 0) + 1, dernier_essai: new Date().toISOString() }).eq('id', delivId)
+  // Déclencher le backend
+  try { await fetch(`${BACKEND}/api/store/retry-delivery`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ delivery_id: delivId }) }) } catch {}
+  toast('Livraison relancée !', 'ok'); loadDeliveries()
+}
+
+window.retryAllFailed = async () => {
+  const failed = allDelivs.filter(d => d.statut === 'echec' || d.statut === 'en_attente')
+  for (const d of failed) await retryDelivery(d.id)
+  toast(`${failed.length} livraison(s) relancée(s).`, 'ok')
+}
+
+// ── REVENUS ───────────────────────────────────────────────────
+function renderRevenue() {
+  const paidOrders = allOrders.filter(o => o.statut === 'paye')
+  const total = paidOrders.reduce((s, o) => s + parseFloat(o.product_prix || 0), 0)
+  const clients = new Set(paidOrders.map(o => o.client_email || o.client_telephone)).size
+  const topProd = allProducts.sort((a,b) => (b.nb_ventes||0) - (a.nb_ventes||0))[0]
+  const fmt = n => n >= 1000 ? (n/1000).toFixed(0) + 'k' : n.toFixed(0)
+
+  setEl('dRevenue', fmt(total) + ' F')
+  setEl('rTotal', fmt(total) + ' F')
+  setEl('rMois', fmt(total * .22) + ' F')
+  setEl('rClients', clients)
+  setEl('rTopProd', topProd?.nom?.substring(0, 14) + '…' || '—')
+
+  // Top produits
+  const sorted = [...allProducts].sort((a,b) => (b.nb_ventes||0) - (a.nb_ventes||0)).slice(0, 5)
+  document.getElementById('topProductsRevList').innerHTML = sorted.length
+    ? sorted.map((p, i) => `
+        <div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);">
+          <div style="width:22px;text-align:center;font-weight:700;color:var(--text3);font-size:.84rem">${i+1}</div>
+          <div style="font-size:1.2rem">${p.emoji}</div>
+          <div style="flex:1"><div style="font-size:.84rem;font-weight:600">${p.nom}</div><div style="font-size:.72rem;color:var(--text3)">${p.nb_ventes||0} ventes</div></div>
+          <div style="font-family:var(--h);font-size:.95rem;font-weight:600;color:var(--accent)">${p.est_gratuit||p.prix==0 ? 'Gratuit' : Number(p.prix*(p.nb_ventes||0)).toLocaleString('fr') + ' ' + (p.devise||'XOF')}</div>
+        </div>`).join('')
+    : '<div style="text-align:center;padding:20px;color:var(--text3)">Aucune vente encore.</div>'
+}
+
+function renderChart() {
+  const months = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc']
+  const data   = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  allOrders.filter(o => o.statut === 'paye').forEach(o => {
+    const m = new Date(o.created_at).getMonth()
+    data[m] += parseFloat(o.product_prix || 0)
+  })
+  const max = Math.max(...data, 1)
+  const total = data.reduce((s, v) => s + v, 0)
+  setEl('chartTotal', total > 0 ? total.toLocaleString('fr') + ' F' : '— F')
+  const container = document.getElementById('revChart')
+  if (container) {
+    container.innerHTML = data.map((v, i) => `
+      <div class="rev-bar-w">
+        <div class="rev-bar ${i === new Date().getMonth() ? 'hi' : ''}" style="height:${Math.max(4, Math.round((v/max)*100))}%"></div>
+        <div class="rev-month">${months[i].substr(0,1)}</div>
+      </div>`).join('')
+  }
+}
+
+// ── PARAMÈTRES ────────────────────────────────────────────────
+window.saveSettings = () => {
+  const pub = document.getElementById('setFedaPublic').value.trim()
+  const sec = document.getElementById('setFedaSecret').value.trim()
+  if (pub) localStorage.setItem('ln_feda_pub', pub)
+  toast('✅ Paramètres sauvegardés localement. Ajoute la clé secrète dans les variables Render.', 'ok')
 }
 
 // ── TABS ──────────────────────────────────────────────────────
@@ -604,31 +962,25 @@ window.showTab = (id, el) => {
   document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'))
   document.getElementById(id)?.classList.add('active')
   if (el) el.classList.add('active')
-  if (id === 't-orders') renderOrders()
-  if (id === 't-add')    loadFromSupabase()
-}
-
-function setupRealtime() {
-  sb.channel('store-rt')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'courses' }, () => { loadFromSupabase(); loadLocalProducts() })
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, loadFromSupabase)
-    .subscribe()
+  if (id === 't-orders')     loadOrders()
+  if (id === 't-deliveries') loadDeliveries()
+  if (id === 't-revenue')    renderRevenue()
+  if (id === 't-dash')       { loadProducts(); loadOrders() }
 }
 
 function setEl(id, val) { const el = document.getElementById(id); if (el) el.textContent = val }
-window.copyText = (text) => { navigator.clipboard.writeText(text).catch(() => {}); toast('🔗 Copié !', 'ok') }
 
 function toast(msg, type = 'ok') {
   let t = document.getElementById('ln-toast')
   if (!t) {
     t = document.createElement('div'); t.id = 'ln-toast'
-    t.style.cssText = "position:fixed;bottom:80px;right:24px;padding:11px 20px;border-radius:11px;font-size:.83rem;z-index:9999;transform:translateY(60px);transition:all .35s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif;font-weight:500;box-shadow:0 16px 48px rgba(0,0,0,.2);"
+    t.style.cssText = "position:fixed;bottom:80px;right:24px;padding:11px 20px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(60px);transition:all .35s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif;font-weight:500;box-shadow:0 16px 48px rgba(0,0,0,.22);max-width:300px;"
     document.body.appendChild(t)
   }
   const bg = { ok:'#057a55', err:'#c81c1c', dark:'#0f0e0c' }
   t.style.background = bg[type] || bg.ok; t.style.color = '#fff'
   t.textContent = msg; t.style.transform = 'translateY(0)'
-  clearTimeout(t._t); t._t = setTimeout(() => t.style.transform = 'translateY(60px)', 4000)
+  clearTimeout(t._t); t._t = setTimeout(() => t.style.transform = 'translateY(60px)', 4500)
 }
 window.showToast = toast
 </script>
