@@ -1,450 +1,304 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Learnova — Administration</title>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
 <style>
-:root{
-  --bg:#fff;--bg2:#f8f9fc;--bg3:#eef1f8;--border:#e8eaf2;
-  --text:#09090f;--text2:#454560;--text3:#9090b0;
-  --accent:#1a56db;--al:#eef2ff;--am:#c7d7fd;
-  --green:#047857;--gl:#ecfdf5;--gm:#a7f3d0;
-  --red:#b91c1c;--rl:#fef2f2;
-  --purple:#6d28d9;--pl:#f5f3ff;
-  --gold:#92400e;--goldl:#fef3c7;
-  --h:'Instrument Serif',serif;--b:'DM Sans',sans-serif;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;}
-body{background:var(--bg2);color:var(--text);font-family:var(--b);-webkit-font-smoothing:antialiased;}
-
-/* PROTECT */
-#protectScreen{position:fixed;inset:0;background:var(--text);z-index:9999;display:flex;align-items:center;justify-content:center;}
-.protect-box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:52px 48px;width:400px;text-align:center;}
-.protect-logo{font-family:var(--h);font-size:2rem;color:#fff;margin-bottom:6px;}
-.protect-sub{font-size:.84rem;color:rgba(255,255,255,.4);margin-bottom:32px;line-height:1.5;}
-.protect-inp{width:100%;padding:15px;border:1px solid rgba(255,255,255,.15);border-radius:11px;background:rgba(255,255,255,.08);color:#fff;font-family:var(--b);font-size:1rem;outline:none;letter-spacing:4px;text-align:center;margin-bottom:12px;transition:border-color .2s;}
-.protect-inp::placeholder{color:rgba(255,255,255,.3);letter-spacing:0;}
-.protect-inp:focus{border-color:rgba(255,255,255,.35);}
-.protect-btn{width:100%;padding:15px;background:#fff;color:var(--text);border:none;border-radius:11px;font-family:var(--b);font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;}
-.protect-btn:hover{background:#f0f1f8;}
-.protect-err{color:#fca5a5;font-size:.82rem;margin-top:10px;display:none;}
-.protect-err.show{display:block;}
-.protect-note{font-size:.72rem;color:rgba(255,255,255,.18);margin-top:16px;}
-
-/* APP */
-#adminApp{display:none;padding-top:64px;min-height:100vh;}
-
-/* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(255,255,255,.96);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);height:64px;}
-.nav-inner{max-width:1400px;margin:0 auto;padding:0 24px;height:100%;display:flex;align-items:center;gap:12px;}
+:root{--bg:#fafaf8;--bg2:#f2f1ee;--bg3:#e8e6e0;--panel:#fff;--border:#e0ddd6;--text:#0f0e0c;--text2:#4a4840;--text3:#9a9890;--accent:#1a56db;--al:#eff3ff;--am:#bfcffb;--green:#057a55;--gl:#edfaf4;--gm:#9fe0c4;--red:#c81c1c;--rl:#fff1f1;--purple:#6d28d9;--pl:#f5f0ff;--gold:#92400e;--goldl:#fef3c7;--h:'Fraunces',Georgia,serif;--b:'DM Sans',sans-serif;--sh:0 1px 6px rgba(0,0,0,.07);--sh2:0 8px 32px rgba(0,0,0,.12);}
+[data-theme="dark"]{--bg:#0d0d11;--bg2:#141419;--bg3:#1c1c24;--panel:#18181f;--border:#28283a;--text:#eeeef4;--text2:#a8a8c0;--text3:#606078;--al:#16203a;--am:#243070;--gl:#0c2018;--gm:#184030;--rl:#280e0e;--pl:#1a1040;--goldl:#281a04;--sh:0 1px 6px rgba(0,0,0,.4);--sh2:0 8px 32px rgba(0,0,0,.6);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;}
+body{background:var(--bg2);color:var(--text);font-family:var(--b);-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;}
+.theme-btn{position:fixed;bottom:24px;right:24px;z-index:999;width:46px;height:46px;border-radius:50%;background:var(--panel);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--sh2);font-size:1.15rem;transition:all .2s;}
+.theme-btn:hover{transform:scale(1.1);}
+#protectScreen{position:fixed;inset:0;background:#0d0d11;z-index:9999;display:flex;align-items:center;justify-content:center;}
+.pbox{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:52px 44px;width:420px;text-align:center;}
+.plogo{font-family:var(--h);font-size:2rem;color:#fff;font-weight:600;margin-bottom:6px;}
+.psub{font-size:.84rem;color:rgba(255,255,255,.4);margin-bottom:32px;}
+.pinp{width:100%;padding:15px;border:1px solid rgba(255,255,255,.15);border-radius:12px;background:rgba(255,255,255,.08);color:#fff;font-family:var(--b);font-size:1rem;outline:none;letter-spacing:4px;text-align:center;margin-bottom:12px;}
+.pinp::placeholder{color:rgba(255,255,255,.3);letter-spacing:0;}
+.pinp:focus{border-color:rgba(255,255,255,.4);}
+.pbtn{width:100%;padding:15px;background:#fff;color:#0f0e0c;border:none;border-radius:12px;font-family:var(--b);font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.pbtn:hover{background:#f0f1f8;}
+.perr{color:#fca5a5;font-size:.82rem;margin-top:10px;display:none;}
+.perr.show{display:block;}
+#adminApp{display:none;padding-top:62px;min-height:100vh;}
+.nav{position:fixed;top:0;left:0;right:0;z-index:500;height:62px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:12px;transition:background .3s;}
+[data-theme="dark"] .nav{background:rgba(24,24,31,.97);}
 .logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
-.logo-mark{width:30px;height:30px;border-radius:8px;background:var(--text);display:flex;align-items:center;justify-content:center;}
-.logo-mark svg{width:14px;height:14px;}
-.logo-name{font-family:var(--h);font-size:1.15rem;color:var(--text);}
-.admin-badge{font-size:.69rem;font-weight:700;background:var(--rl);color:var(--red);padding:3px 10px;border-radius:100px;}
+.lm{width:28px;height:28px;border-radius:7px;background:var(--text);display:flex;align-items:center;justify-content:center;}
+.lm svg{width:13px;height:13px;}
+.ln{font-family:var(--h);font-size:1.1rem;color:var(--text);font-weight:600;}
+.chip{font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:100px;}
+.chip-admin{background:var(--rl);color:var(--red);}
 .nav-r{margin-left:auto;display:flex;align-items:center;gap:8px;}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:9px;font-family:var(--b);font-weight:500;font-size:.83rem;cursor:pointer;border:none;transition:all .2s;text-decoration:none;}
-.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text2);}
-.btn-ghost:hover{background:var(--bg3);}
-.btn-dark{background:var(--text);color:#fff;}
-.btn-dark:hover{background:#1a1a2e;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:9px;font-family:var(--b);font-weight:500;font-size:.82rem;cursor:pointer;border:none;transition:all .2s;text-decoration:none;white-space:nowrap;}
+.btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--text2);}
+.btn-ghost:hover{background:var(--bg2);}
+.btn-dark{background:var(--text);color:var(--bg);}
+.btn-dark:hover{opacity:.86;}
 .btn-accent{background:var(--accent);color:#fff;}
 .btn-accent:hover{background:#1448c0;}
 .btn-red{background:var(--red);color:#fff;}
-.btn-green{background:var(--green);color:#fff;}
-.btn-sm{padding:6px 12px;font-size:.78rem;border-radius:7px;}
-
-/* LAYOUT */
-.admin-layout{display:grid;grid-template-columns:230px 1fr;min-height:calc(100vh - 64px);}
-.sidebar{background:var(--bg);border-right:1px solid var(--border);padding:16px 0;position:sticky;top:64px;height:calc(100vh - 64px);overflow-y:auto;}
-.sb-sect{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);padding:10px 18px 5px;margin-top:6px;}
-.sb-item{display:flex;align-items:center;gap:9px;padding:9px 18px;font-size:.83rem;color:var(--text2);cursor:pointer;transition:all .15s;border-right:2px solid transparent;}
+.btn-sm{padding:5px 12px;font-size:.77rem;border-radius:7px;}
+.layout{display:grid;grid-template-columns:228px 1fr;min-height:calc(100vh - 62px);}
+.sidebar{background:var(--panel);border-right:1px solid var(--border);padding:14px 0;position:sticky;top:62px;height:calc(100vh - 62px);overflow-y:auto;}
+.sb-sect{font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);padding:10px 18px 5px;margin-top:6px;}
+.sb-item{display:flex;align-items:center;gap:9px;padding:9px 18px;font-size:.82rem;color:var(--text2);cursor:pointer;transition:all .15s;border-right:2px solid transparent;}
 .sb-item:hover{background:var(--bg2);color:var(--text);}
 .sb-item.active{color:var(--accent);background:var(--al);border-right-color:var(--accent);font-weight:500;}
 .sb-item svg{width:15px;height:15px;flex-shrink:0;}
-.sb-badge{margin-left:auto;font-size:.64rem;font-weight:700;padding:2px 6px;border-radius:100px;background:var(--accent);color:#fff;}
-
-/* MAIN */
+.sb-bdg{margin-left:auto;font-size:.63rem;font-weight:700;padding:2px 7px;border-radius:100px;background:var(--accent);color:#fff;}
 .main{padding:26px;overflow-y:auto;}
-.tab-pane{display:none;}
-.tab-pane.active{display:block;}
-.page-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px;flex-wrap:wrap;gap:12px;}
-.page-title{font-family:var(--h);font-size:1.55rem;letter-spacing:-.5px;}
-.page-actions{display:flex;gap:8px;flex-wrap:wrap;}
-
-/* STATS */
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
-.stat-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:18px;transition:all .2s;}
-.stat-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);transform:translateY(-2px);}
-.stat-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
-.stat-icon svg{width:17px;height:17px;}
-.stat-num{font-family:var(--h);font-size:1.7rem;letter-spacing:-1px;line-height:1;margin-bottom:3px;}
-.stat-label{font-size:.73rem;color:var(--text3);}
-
-/* CARD */
-.card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;}
+.tab-p{display:none;}.tab-p.active{display:block;}
+.page-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.page-title{font-family:var(--h);font-size:1.55rem;letter-spacing:-.5px;font-weight:600;}
+.page-actions{display:flex;gap:8px;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
+.stat-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:19px;transition:all .2s;box-shadow:var(--sh);}
+.stat-card:hover{box-shadow:var(--sh2);transform:translateY(-2px);}
+.sc-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:13px;}
+.sc-icon svg{width:17px;height:17px;}
+.sc-num{font-family:var(--h);font-size:1.75rem;letter-spacing:-1px;line-height:1;margin-bottom:4px;}
+.sc-label{font-size:.72rem;color:var(--text3);}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:var(--sh);}
 .card-title{font-size:.93rem;font-weight:700;margin-bottom:4px;}
-.card-sub{font-size:.79rem;color:var(--text3);margin-bottom:18px;}
-
-/* FORM */
+.card-sub{font-size:.79rem;color:var(--text3);margin-bottom:18px;line-height:1.55;}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .form-full{grid-column:span 2;}
 .field{display:flex;flex-direction:column;gap:5px;}
 .field label{font-size:.79rem;font-weight:600;color:var(--text2);}
-.field input,.field select,.field textarea{border:1.5px solid var(--border);border-radius:9px;padding:10px 13px;font-family:var(--b);font-size:.84rem;color:var(--text);background:var(--bg2);outline:none;transition:all .2s;width:100%;}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);background:var(--bg);}
+.field input,.field select,.field textarea{border:1.5px solid var(--border);border-radius:10px;padding:11px 13px;font-family:var(--b);font-size:.84rem;color:var(--text);background:var(--bg2);outline:none;transition:all .2s;width:100%;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);background:var(--panel);}
+[data-theme="dark"] .field input,[data-theme="dark"] .field select,[data-theme="dark"] .field textarea{background:var(--bg3);}
 .field textarea{resize:vertical;min-height:76px;line-height:1.6;}
-
-/* FORMAT */
-.format-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:14px 0;}
-.fmt-card{border:1.5px solid var(--border);border-radius:11px;padding:13px 10px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);}
+.fmt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0;}
+.fmt-card{border:1.5px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .18s;background:var(--panel);}
 .fmt-card:hover,.fmt-card.active{border-color:var(--accent);background:var(--al);}
-.fmt-card svg{width:20px;height:20px;color:var(--text3);margin:0 auto 6px;display:block;}
+.fmt-card svg{width:21px;height:21px;color:var(--text3);margin:0 auto 7px;display:block;}
 .fmt-card.active svg{color:var(--accent);}
 .fmt-label{font-size:.73rem;font-weight:700;color:var(--text2);}
 .fmt-card.active .fmt-label{color:var(--accent);}
 .fmt-sub{font-size:.63rem;color:var(--text3);margin-top:2px;}
-
-/* PLAN IA */
-.ai-plan{background:linear-gradient(135deg,var(--pl),var(--al));border:1px solid rgba(109,40,217,.15);border-radius:15px;padding:20px;margin-top:16px;display:none;}
+.ai-plan{background:linear-gradient(135deg,var(--pl),var(--al));border:1px solid rgba(109,40,217,.15);border-radius:16px;padding:20px;margin-top:16px;display:none;}
 .ai-plan.show{display:block;}
-.ap-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.ap-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
 .ap-icon{width:34px;height:34px;border-radius:9px;background:var(--purple);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .ap-icon svg{width:16px;height:16px;color:#fff;}
-.ap-title{font-size:.87rem;font-weight:700;}
+.ap-title{font-size:.88rem;font-weight:700;}
 .ap-sub{font-size:.73rem;color:var(--text3);}
-.plan-row{display:flex;align-items:center;gap:10px;padding:9px 13px;background:rgba(255,255,255,.75);border-radius:9px;font-size:.8rem;margin-bottom:6px;animation:rowIn .3s ease;}
+.ap-loading{display:none;align-items:center;gap:7px;font-size:.74rem;color:var(--purple);margin-left:auto;font-weight:500;}
+.ap-loading.show{display:flex;}
+.ap-dot{width:6px;height:6px;border-radius:50%;background:var(--purple);animation:blink 1s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.plan-row{display:flex;align-items:center;gap:10px;padding:9px 13px;background:rgba(255,255,255,.8);border-radius:9px;font-size:.8rem;margin-bottom:6px;animation:rowIn .3s ease;}
+[data-theme="dark"] .plan-row{background:rgba(30,30,40,.8);}
 @keyframes rowIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:translateX(0);}}
-.pr-time{font-weight:700;color:var(--accent);width:44px;flex-shrink:0;}
+.pr-time{font-weight:700;color:var(--accent);width:46px;flex-shrink:0;}
 .pr-topic{flex:1;font-weight:500;}
-.pr-pill{font-size:.61rem;padding:2px 8px;border-radius:100px;font-weight:700;}
-.pl{background:var(--al);color:var(--accent);}
-.pc{background:var(--pl);color:var(--purple);}
-.pq{background:var(--gl);color:var(--green);}
-.pb{background:#f3f4f6;color:var(--text3);}
-
-/* SHARE BOX */
-.share-box{background:var(--bg);border:1px solid var(--gm);border-radius:14px;padding:20px;margin-top:14px;display:none;}
+.pr-pill{font-size:.61rem;padding:2px 9px;border-radius:100px;font-weight:700;}
+.pl-l{background:var(--al);color:var(--accent);}
+.pl-c{background:var(--pl);color:var(--purple);}
+.pl-q{background:var(--gl);color:var(--green);}
+.pl-b{background:var(--bg3);color:var(--text3);}
+.share-box{background:var(--panel);border:1px solid var(--gm);border-radius:16px;padding:20px;margin-top:16px;display:none;}
 .share-box.show{display:block;}
-.share-title{font-size:.9rem;font-weight:700;margin-bottom:4px;}
-.share-sub{font-size:.77rem;color:var(--text3);margin-bottom:12px;}
-.share-row{display:flex;gap:7px;margin-bottom:10px;}
-.share-inp{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 13px;font-size:.8rem;font-family:monospace;color:var(--text2);outline:none;}
-.copy-btn{padding:10px 18px;background:var(--text);color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:var(--b);font-size:.8rem;font-weight:600;white-space:nowrap;}
-.copy-btn:hover{background:#1a1a2e;}
-
-/* TABLE */
-.table-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:20px;}
-.table-hd{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.share-row{display:flex;gap:8px;margin-bottom:12px;}
+.share-inp{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:11px 14px;font-size:.8rem;font-family:monospace;color:var(--text2);outline:none;}
+.copy-btn{padding:11px 20px;background:var(--text);color:var(--bg);border:none;border-radius:9px;cursor:pointer;font-family:var(--b);font-size:.82rem;font-weight:600;}
+.table-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:20px;box-shadow:var(--sh);}
+.table-hd{padding:15px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
 .table-hd h3{font-size:.88rem;font-weight:700;}
 table{width:100%;border-collapse:collapse;}
-th{padding:9px 16px;text-align:left;font-size:.67rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;background:var(--bg2);border-bottom:1px solid var(--border);}
+th{padding:9px 16px;text-align:left;font-size:.65rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;background:var(--bg2);border-bottom:1px solid var(--border);}
 td{padding:13px 16px;border-bottom:1px solid var(--border);font-size:.82rem;vertical-align:middle;}
 tr:last-child td{border-bottom:none;}
 tr:hover td{background:var(--bg2);}
-.td-main{font-weight:600;}
-.td-sub{font-size:.71rem;color:var(--text3);margin-top:2px;}
+.td-m{font-weight:600;}.td-s{font-size:.71rem;color:var(--text3);margin-top:2px;}
 .badge{display:inline-flex;align-items:center;gap:4px;font-size:.69rem;font-weight:700;padding:3px 9px;border-radius:100px;}
 .badge-live{background:var(--rl);color:var(--red);}
 .badge-plan{background:var(--goldl);color:var(--gold);}
 .badge-done{background:var(--bg2);color:var(--text3);border:1px solid var(--border);}
 .badge-pub{background:var(--gl);color:var(--green);}
 .pulse{width:5px;height:5px;border-radius:50%;background:var(--red);animation:pulse 1.5s infinite;display:inline-block;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.8);}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(1.8);}}
 .act-btns{display:flex;gap:5px;}
-.act-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;}
+.act-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--panel);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;}
 .act-btn:hover{background:var(--bg3);}
-.act-btn.red:hover{background:var(--rl);border-color:#fecaca;}
+.act-btn.danger:hover{background:var(--rl);border-color:#fecaca;}
 .act-btn svg{width:12px;height:12px;color:var(--text2);}
-.act-btn.red:hover svg{color:var(--red);}
-
-/* COURS CARD */
-.course-card{
-  display:flex;align-items:center;gap:14px;padding:14px 18px;
-  border-bottom:1px solid var(--border);transition:background .15s;
-}
-.course-card:hover{background:var(--bg2);}
-.course-card:last-child{border-bottom:none;}
-.course-icon{width:46px;height:46px;border-radius:11px;background:var(--al);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
-.course-info{flex:1;min-width:0;}
-.course-name{font-size:.85rem;font-weight:700;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.course-meta{font-size:.73rem;color:var(--text3);}
-.course-actions{display:flex;gap:6px;align-items:center;flex-shrink:0;}
-
-/* LIVE NOTIF */
-.live-notif{
-  background:linear-gradient(135deg,var(--rl),#fef7f7);
-  border:1px solid #fca5a5;border-radius:15px;padding:16px 20px;
-  margin-bottom:20px;display:none;align-items:center;gap:14px;
-}
-.live-notif.show{display:flex;}
-.ln-icon{width:38px;height:38px;border-radius:10px;background:var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.ln-icon svg{width:17px;height:17px;color:#fff;}
-.ln-title{font-size:.87rem;font-weight:700;color:var(--red);margin-bottom:2px;}
-.ln-sub{font-size:.77rem;color:var(--text2);}
-
-/* UPLOAD */
-.drop-zone{border:2px dashed var(--border);border-radius:14px;padding:42px 24px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg2);}
+.act-btn.danger:hover svg{color:var(--red);}
+.course-row{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);transition:background .15s;}
+.course-row:hover{background:var(--bg2);}
+.course-row:last-child{border-bottom:none;}
+.ci{width:44px;height:44px;border-radius:11px;background:var(--al);display:flex;align-items:center;justify-content:center;font-size:1.35rem;flex-shrink:0;}
+.cn{font-size:.85rem;font-weight:700;margin-bottom:3px;}
+.cm{font-size:.73rem;color:var(--text3);}
+.ca{display:flex;gap:6px;align-items:center;flex-shrink:0;}
+.drop-zone{border:2px dashed var(--border);border-radius:16px;padding:44px 24px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg2);}
 .drop-zone:hover,.drop-zone.over{border-color:var(--accent);background:var(--al);}
-.drop-icon{font-size:2.4rem;margin-bottom:10px;}
-.drop-title{font-size:.9rem;font-weight:600;margin-bottom:4px;}
-.drop-sub{font-size:.77rem;color:var(--text3);}
-.up-progress{display:none;margin-top:12px;}
-.up-progress.show{display:block;}
+.up-prog{display:none;margin-top:14px;}.up-prog.show{display:block;}
 .up-bar{background:var(--bg3);border-radius:100px;height:5px;margin:6px 0;}
 .up-fill{height:100%;border-radius:100px;background:var(--accent);transition:width .4s;width:0%;}
 .up-status{font-size:.74rem;color:var(--text3);}
-.ai-result{background:var(--gl);border:1px solid var(--gm);border-radius:11px;padding:14px;margin-top:12px;font-size:.82rem;color:var(--green);line-height:1.75;display:none;}
-.ai-result.show{display:block;}
-
-/* USER ROW */
-.user-row{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--border);}
-.user-av{width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.88rem;font-weight:700;}
-.user-av img{width:100%;height:100%;object-fit:cover;}
-.user-name{font-size:.84rem;font-weight:600;}
-.user-email{font-size:.73rem;color:var(--text3);}
-.user-pts{font-size:.74rem;font-weight:700;color:var(--accent);margin-left:auto;}
-.role-chip{font-size:.67rem;font-weight:700;padding:2px 8px;border-radius:100px;}
-.role-admin{background:var(--rl);color:var(--red);}
-.role-student{background:var(--bg2);color:var(--text3);border:1px solid var(--border);}
-
-.spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+.ai-res{background:var(--gl);border:1px solid var(--gm);border-radius:12px;padding:14px;margin-top:12px;font-size:.82rem;color:var(--green);line-height:1.75;display:none;}
+.ai-res.show{display:block;}
+.user-row{display:flex;align-items:center;gap:12px;padding:13px 20px;border-bottom:1px solid var(--border);}
+.ua{width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.88rem;font-weight:700;}
+.ua img{width:100%;height:100%;object-fit:cover;}
+.live-notif{background:linear-gradient(135deg,var(--rl),#fef7f7);border:1px solid #fca5a5;border-radius:15px;padding:16px 20px;margin-bottom:20px;display:none;align-items:center;gap:14px;}
+[data-theme="dark"] .live-notif{background:linear-gradient(135deg,#2a0f0f,#1e1414);}
+.live-notif.show{display:flex;}
+.ln-icon{width:38px;height:38px;border-radius:10px;background:var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ln-icon svg{width:17px;height:17px;color:#fff;}
+.course-info-box{background:linear-gradient(135deg,var(--gl),var(--al));border:1px solid var(--gm);border-radius:12px;padding:13px 16px;margin-top:8px;display:none;}
+.course-info-box.show{display:block;}
+.spinner{width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
-@media(max-width:960px){.admin-layout{grid-template-columns:1fr;}.sidebar{display:none;}.stats-grid{grid-template-columns:1fr 1fr;}.format-grid{grid-template-columns:1fr 1fr;}.form-grid{grid-template-columns:1fr;}.form-full{grid-column:span 1;}}
+.fly-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,#7928ca,#2563eb);color:#fff;font-size:.69rem;font-weight:700;padding:3px 10px;border-radius:100px;}
+@media(max-width:960px){.layout{grid-template-columns:1fr;}.sidebar{display:none;}.stats-grid{grid-template-columns:1fr 1fr;}.fmt-grid{grid-template-columns:1fr 1fr;}.form-grid{grid-template-columns:1fr;}.form-full{grid-column:span 1;}}
 </style>
 </head>
 <body>
 
-<!-- PROTECTION -->
+<button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+
 <div id="protectScreen">
-  <div class="protect-box">
-    <div class="protect-logo">⭐ Learnova Admin</div>
-    <div class="protect-sub">Espace réservé à l'administrateur.<br/>Accès sécurisé uniquement.</div>
-    <input class="protect-inp" id="adminPin" type="password" placeholder="Mot de passe admin"/>
-    <button class="protect-btn" onclick="checkPin()">Accéder →</button>
-    <div class="protect-err" id="pinErr">❌ Mot de passe incorrect.</div>
-    <div class="protect-note">Non accessible au public.</div>
+  <div class="pbox">
+    <div class="plogo">⭐ Learnova Admin</div>
+    <div class="psub">Espace réservé à l'administrateur.<br/>Backend sur <span style="color:#7c3aed">Fly.io 🚀</span></div>
+    <input class="pinp" id="adminPin" type="password" placeholder="Mot de passe admin"/>
+    <button class="pbtn" onclick="checkPin()">Accéder →</button>
+    <div class="perr" id="pinErr">❌ Mot de passe incorrect.</div>
   </div>
 </div>
 
-<!-- APP -->
 <div id="adminApp">
   <nav class="nav">
-    <div class="nav-inner">
-      <a href="index.html" class="logo"><div class="logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div><span class="logo-name">Learnova</span></a>
-      <span class="admin-badge">ADMIN</span>
-      <div class="nav-r">
-        <a href="index.html" class="btn btn-ghost btn-sm">← Site public</a>
-        <a href="live.html" class="btn btn-ghost btn-sm">Voir le live</a>
-        <button class="btn btn-red btn-sm" onclick="lockAdmin()">🔒 Verrouiller</button>
-      </div>
+    <a href="index.html" class="logo"><div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div><span class="ln">Learnova</span></a>
+    <span class="chip chip-admin">ADMIN</span>
+    <span class="fly-badge">🚀 Fly.io</span>
+    <div class="nav-r">
+      <a href="index.html" class="btn btn-ghost btn-sm">← Site</a>
+      <a href="live.html" class="btn btn-ghost btn-sm">Live</a>
+      <a href="admin-store.html" class="btn btn-ghost btn-sm">🛒 Store</a>
+      <button class="btn btn-red btn-sm" onclick="lockAdmin()">🔒 Verrouiller</button>
     </div>
   </nav>
 
-  <div class="admin-layout">
+  <div class="layout">
     <aside class="sidebar">
       <div class="sb-sect">Principal</div>
-      <div class="sb-item active" onclick="showTab('tab-dash',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Tableau de bord
-      </div>
-      <div class="sb-item" onclick="showTab('tab-new-session',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-        Créer une session
-      </div>
-      <div class="sb-item" onclick="showTab('tab-sessions',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Sessions <span class="sb-badge" id="badgeSessions">0</span>
-      </div>
-      <div class="sb-sect">Contenu</div>
-      <div class="sb-item" onclick="showTab('tab-upload',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg>
-        Upload PDF → IA
-      </div>
-      <div class="sb-item" onclick="showTab('tab-courses',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-        Cours publiés <span class="sb-badge" id="badgeCourses">0</span>
-      </div>
+      <div class="sb-item active" onclick="showTab('t-dash',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</div>
+      <div class="sb-item" onclick="showTab('t-new-sess',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Créer une session</div>
+      <div class="sb-item" onclick="showTab('t-sessions',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>Sessions <span class="sb-bdg" id="bdgSessions">0</span></div>
+      <div class="sb-sect">Contenu IA</div>
+      <div class="sb-item" onclick="showTab('t-upload',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg>Upload PDF → IA</div>
+      <div class="sb-item" onclick="showTab('t-courses',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Cours publiés <span class="sb-bdg" id="bdgCourses">0</span></div>
       <div class="sb-sect">Communauté</div>
-      <div class="sb-item" onclick="showTab('tab-users',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-        Apprenants <span class="sb-badge" id="badgeUsers">0</span>
-      </div>
+      <div class="sb-item" onclick="showTab('t-users',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Apprenants <span class="sb-bdg" id="bdgUsers">0</span></div>
     </aside>
 
     <div class="main">
 
-      <!-- TABLEAU DE BORD -->
-      <div id="tab-dash" class="tab-pane active">
-        <div class="page-hd">
-          <h1 class="page-title">Tableau de bord</h1>
-          <div class="page-actions">
-            <button class="btn btn-ghost btn-sm" onclick="refreshAll()">↻ Actualiser</button>
-            <button class="btn btn-accent btn-sm" onclick="showTab('tab-new-session',null)">+ Session</button>
-          </div>
-        </div>
-
+      <!-- DASHBOARD -->
+      <div id="t-dash" class="tab-p active">
+        <div class="page-hd"><h1 class="page-title">Tableau de bord</h1><div class="page-actions"><button class="btn btn-ghost btn-sm" onclick="refreshAll()">↻ Actualiser</button><button class="btn btn-accent btn-sm" onclick="showTab('t-new-sess',null)">+ Nouvelle session</button></div></div>
         <div class="stats-grid">
-          <div class="stat-card"><div class="stat-icon" style="background:var(--al)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><div class="stat-num" id="dSessions">—</div><div class="stat-label">Sessions</div></div>
-          <div class="stat-card"><div class="stat-icon" style="background:var(--gl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="stat-num" id="dInscrits">—</div><div class="stat-label">Apprenants</div></div>
-          <div class="stat-card"><div class="stat-icon" style="background:var(--pl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div><div class="stat-num" id="dCours">—</div><div class="stat-label">Cours publiés</div></div>
-          <div class="stat-card"><div class="stat-icon" style="background:var(--al)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div><div class="stat-num" id="dOnline">—</div><div class="stat-label">En ligne maintenant</div></div>
+          <div class="stat-card"><div class="sc-icon" style="background:var(--al)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><div class="sc-num" id="dSess">—</div><div class="sc-label">Sessions</div></div>
+          <div class="stat-card"><div class="sc-icon" style="background:var(--gl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="sc-num" id="dInscrits">—</div><div class="sc-label">Apprenants</div></div>
+          <div class="stat-card"><div class="sc-icon" style="background:var(--pl)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div><div class="sc-num" id="dCours">—</div><div class="sc-label">Cours publiés</div></div>
+          <div class="stat-card"><div class="sc-icon" style="background:var(--al)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="sc-num" id="dOnline">—</div><div class="sc-label">En ligne</div></div>
         </div>
-
-        <div class="live-notif" id="liveNotif">
-          <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-          <div style="flex:1;"><div class="ln-title" id="liveNotifTitle">Session en direct !</div><div class="ln-sub" id="liveNotifSub">L'IA enseigne en ce moment.</div></div>
-          <a href="live.html" class="btn btn-dark btn-sm">Voir →</a>
-        </div>
-
-        <div class="table-card">
-          <div class="table-hd"><h3>Sessions récentes</h3><button class="btn btn-accent btn-sm" onclick="showTab('tab-new-session',null)">+ Créer</button></div>
-          <table><thead><tr><th>Session</th><th>Cours lié</th><th>Date</th><th>Statut</th><th>Inscrits</th><th>Actions</th></tr></thead>
-          <tbody id="tblDashSessions"><tr><td colspan="6" style="text-align:center;padding:20px;color:var(--text3);">Chargement...</td></tr></tbody></table>
-        </div>
-
-        <div class="table-card">
-          <div class="table-hd"><h3>Cours publiés</h3><button class="btn btn-accent btn-sm" onclick="showTab('tab-upload',null)">+ PDF</button></div>
-          <div id="dashCoursesList"><div style="padding:20px;text-align:center;color:var(--text3);">Chargement...</div></div>
-        </div>
+        <div class="live-notif" id="liveNotif"><div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><div style="flex:1"><div style="font-size:.87rem;font-weight:700;color:var(--red);margin-bottom:2px" id="lnTitle">Session en direct !</div><div style="font-size:.77rem;color:var(--text2)" id="lnSub"></div></div><a href="live.html" class="btn btn-dark btn-sm">Voir →</a></div>
+        <div class="table-card"><div class="table-hd"><h3>Sessions récentes</h3><button class="btn btn-accent btn-sm" onclick="showTab('t-new-sess',null)">+ Créer</button></div><table><thead><tr><th>Session</th><th>Cours lié</th><th>Date / Heure</th><th>Statut</th><th>Inscrits</th><th>Actions</th></tr></thead><tbody id="tblDash"><tr><td colspan="6" style="text-align:center;padding:20px;color:var(--text3)">Chargement...</td></tr></tbody></table></div>
+        <div class="table-card"><div class="table-hd"><h3>Cours récents</h3><button class="btn btn-accent btn-sm" onclick="showTab('t-upload',null)">+ PDF</button></div><div id="dashCourses"><div style="padding:20px;text-align:center;color:var(--text3)">Chargement...</div></div></div>
       </div>
 
       <!-- CRÉER SESSION -->
-      <div id="tab-new-session" class="tab-pane">
+      <div id="t-new-sess" class="tab-p">
         <div class="page-hd"><h1 class="page-title">Créer une session IA</h1></div>
         <div class="card">
-          <div class="card-title">Paramètres de la session</div>
-          <div class="card-sub">L'IA génère le programme complet. Si vous liez un cours PDF, l'IA s'en servira pour enseigner dans le live.</div>
+          <div class="card-title">Paramètres</div>
+          <div class="card-sub">L'IA génère le programme via <strong>Fly.io</strong>. Liez un cours PDF pour que l'IA l'utilise pendant l'enseignement live.</div>
           <div class="form-grid">
-            <div class="field"><label>Sujet / Titre *</label><input id="sesSubject" type="text" placeholder="Ex: Python pour débutants, Design UI/UX..."/></div>
+            <div class="field"><label>Sujet / Titre *</label><input id="sesSubject" type="text" placeholder="Ex: Python débutants, Design UI/UX..."/></div>
             <div class="field"><label>Catégorie</label><select id="sesCat"><option>Programmation</option><option>Design</option><option>Marketing</option><option>Business</option><option>Langues</option><option>Data Science</option><option>Autre</option></select></div>
-            <div class="field"><label>Date de début</label><input id="sesDate" type="date"/></div>
+            <div class="field"><label>Date</label><input id="sesDate" type="date"/></div>
             <div class="field"><label>Heure exacte (l'IA arrive à la seconde)</label><input id="sesTime" type="time" value="20:00"/></div>
             <div class="field"><label>Niveau</label><select id="sesLevel"><option>Tous niveaux</option><option>Débutant</option><option>Intermédiaire</option><option>Avancé</option></select></div>
-            <div class="field">
-              <label>🔗 Lier un cours PDF (l'IA l'utilisera dans le live)</label>
-              <select id="sesCourse"><option value="">— Aucun cours lié —</option></select>
+            <div class="field"><label>🔗 Cours lié (l'IA l'utilisera en live)</label><select id="sesCourse" onchange="onCourseSelect(this.value)"><option value="">— Aucun cours lié —</option></select>
+              <div class="course-info-box" id="courseInfoBox"><div style="font-size:.83rem;font-weight:700;margin-bottom:4px;color:var(--green)" id="cibTitle"></div><div style="font-size:.76rem;color:var(--text2)" id="cibMeta"></div></div>
             </div>
-            <div class="field form-full"><label>Description (optionnel)</label><textarea id="sesDesc" placeholder="Ce que les apprenants vont apprendre..."></textarea></div>
+            <div class="field form-full"><label>Description</label><textarea id="sesDesc" placeholder="Ce que les apprenants vont apprendre..."></textarea></div>
           </div>
-
-          <div style="margin-top:18px;">
-            <label style="font-size:.79rem;font-weight:600;color:var(--text2);display:block;margin-bottom:8px;">Format de formation</label>
-            <div class="format-grid">
-              <div class="fmt-card active" data-fmt="1h/jour" onclick="selFmt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><div class="fmt-label">1h / jour</div><div class="fmt-sub">Quotidien</div></div>
-              <div class="fmt-card" data-fmt="2h/semaine" onclick="selFmt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><div class="fmt-label">2h / semaine</div><div class="fmt-sub">Modulable</div></div>
-              <div class="fmt-card" data-fmt="session unique" onclick="selFmt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg><div class="fmt-label">Session unique</div><div class="fmt-sub">1h à 8h</div></div>
-              <div class="fmt-card" data-fmt="30h/mois" onclick="selFmt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><div class="fmt-label">30h / mois</div><div class="fmt-sub">Formation complète</div></div>
-            </div>
-          </div>
-
-          <div style="display:flex;gap:10px;margin-top:20px;">
-            <button class="btn btn-dark" style="flex:1;" id="genPlanBtn" onclick="generatePlan()">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1"/></svg>
-              <span id="genPlanTxt">L'IA génère le programme complet</span>
-              <div class="spinner" id="genSpinner"></div>
-            </button>
+          <div style="margin-top:20px"><label style="font-size:.79rem;font-weight:600;color:var(--text2);display:block;margin-bottom:10px">Format</label>
+          <div class="fmt-grid">
+            <div class="fmt-card active" data-fmt="1h/jour" onclick="selFmt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><div class="fmt-label">1h / jour</div><div class="fmt-sub">Quotidien</div></div>
+            <div class="fmt-card" data-fmt="2h/semaine" onclick="selFmt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><div class="fmt-label">2h / sem.</div><div class="fmt-sub">Modulable</div></div>
+            <div class="fmt-card" data-fmt="session unique" onclick="selFmt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg><div class="fmt-label">Session unique</div><div class="fmt-sub">1h à 8h</div></div>
+            <div class="fmt-card" data-fmt="30h/mois" onclick="selFmt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><div class="fmt-label">30h / mois</div><div class="fmt-sub">Complet</div></div>
+          </div></div>
+          <div style="display:flex;gap:10px;margin-top:22px">
+            <button class="btn btn-dark" style="flex:1" id="genBtn" onclick="generatePlan()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1"/></svg><span id="genTxt">L'IA génère le programme (via Fly.io)</span><div class="spinner" id="genSpin"></div></button>
           </div>
         </div>
-
-        <!-- PLAN IA -->
         <div class="ai-plan" id="aiPlan">
-          <div class="ap-head">
-            <div class="ap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.663 17h4.673M12 3v1"/></svg></div>
-            <div><div class="ap-title">Programme généré par l'IA</div><div class="ap-sub" id="planSubtitle">—</div></div>
-            <div id="planLoadingTxt" style="margin-left:auto;font-size:.74rem;color:var(--text3);">⏳ Génération...</div>
-          </div>
+          <div class="ap-head"><div class="ap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.663 17h4.673M12 3v1"/></svg></div><div><div class="ap-title">Programme — Fly.io</div><div class="ap-sub" id="planSub">—</div></div><div class="ap-loading" id="planLoading"><div class="ap-dot"></div>Génération...</div></div>
           <div id="planRows"></div>
-          <div style="display:flex;gap:8px;margin-top:12px;" id="planBtns">
-            <button class="btn btn-dark btn-sm" onclick="publishSession()">✅ Publier cette session</button>
-            <button class="btn btn-ghost btn-sm" onclick="generatePlan()">↺ Régénérer</button>
-          </div>
+          <div style="display:flex;gap:8px;margin-top:14px" id="planBtns"><button class="btn btn-dark btn-sm" onclick="publishSession()">✅ Publier</button><button class="btn btn-ghost btn-sm" onclick="generatePlan()">↺ Régénérer</button></div>
         </div>
-
-        <!-- SHARE -->
         <div class="share-box" id="shareBox">
-          <div class="share-title">✅ Session publiée et reliée au cours !</div>
-          <div class="share-sub">Partagez ce lien. L'IA utilisera le contenu du cours pour enseigner en live.</div>
-          <div class="share-row">
-            <input class="share-inp" id="shareLink" readonly/>
-            <button class="copy-btn" onclick="copyText(document.getElementById('shareLink').value)">Copier</button>
-          </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="btn btn-ghost btn-sm" onclick="window.open('waiting.html?session=' + lastSessionId)">Salle d'attente →</button>
-            <button class="btn btn-dark btn-sm" onclick="window.open('live.html?session=' + lastSessionId)">Voir le live →</button>
-          </div>
+          <div style="font-size:.9rem;font-weight:700;margin-bottom:4px;color:var(--green)">✅ Session publiée !</div>
+          <div style="font-size:.77rem;color:var(--text3);margin-bottom:14px">L'IA (Fly.io) sera prête à l'heure exacte.</div>
+          <div class="share-row"><input class="share-inp" id="shareLink" readonly/><button class="copy-btn" onclick="copyText(document.getElementById('shareLink').value)">Copier</button></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" id="waitBtn">Salle d'attente →</button><button class="btn btn-dark btn-sm" id="liveBtn">Voir le live →</button></div>
         </div>
       </div>
 
       <!-- SESSIONS -->
-      <div id="tab-sessions" class="tab-pane">
-        <div class="page-hd"><h1 class="page-title">Toutes les sessions</h1><button class="btn btn-accent btn-sm" onclick="showTab('tab-new-session',null)">+ Nouvelle</button></div>
-        <div class="table-card">
-          <div class="table-hd"><h3>Sessions IA</h3></div>
-          <table><thead><tr><th>Session</th><th>Cours lié</th><th>Format</th><th>Date</th><th>Statut</th><th>Inscrits</th><th>Lien</th><th>Actions</th></tr></thead>
-          <tbody id="tblAllSessions"><tr><td colspan="8" style="text-align:center;padding:20px;color:var(--text3);">Chargement...</td></tr></tbody></table>
-        </div>
+      <div id="t-sessions" class="tab-p">
+        <div class="page-hd"><h1 class="page-title">Toutes les sessions</h1><button class="btn btn-accent btn-sm" onclick="showTab('t-new-sess',null)">+ Nouvelle</button></div>
+        <div class="table-card"><div class="table-hd"><h3>Sessions IA</h3></div><table><thead><tr><th>Session</th><th>Cours lié</th><th>Format</th><th>Date/Heure</th><th>Statut</th><th>Inscrits</th><th>Lien</th><th>Actions</th></tr></thead><tbody id="tblAll"><tr><td colspan="8" style="text-align:center;padding:20px;color:var(--text3)">Chargement...</td></tr></tbody></table></div>
       </div>
 
       <!-- UPLOAD PDF -->
-      <div id="tab-upload" class="tab-pane">
-        <div class="page-hd"><h1 class="page-title">Upload PDF → IA</h1></div>
+      <div id="t-upload" class="tab-p">
+        <div class="page-hd"><h1 class="page-title">Upload PDF → IA (Fly.io)</h1></div>
         <div class="card">
-          <div class="card-title">Analyser un PDF avec l'IA</div>
-          <div class="card-sub">L'IA lit le PDF, génère résumé + chapitres + 10 questions de quiz. Le cours est publié automatiquement et disponible pour les sessions live.</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;">
+          <div class="card-title">Analyser un PDF</div>
+          <div class="card-sub">L'IA sur <strong>Fly.io</strong> lit le PDF, génère résumé + chapitres + 10 questions de quiz. Publié automatiquement dans Supabase.</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
             <div>
-              <div class="drop-zone" id="dropZone" onclick="document.getElementById('pdfFile').click()" ondragover="drgOver(event)" ondragleave="drgLeave()" ondrop="drgDrop(event)">
-                <div class="drop-icon">📄</div>
-                <div class="drop-title">Glisse ton PDF ici</div>
-                <div class="drop-sub">ou clique pour choisir · PDF · Max 50MB</div>
-              </div>
-              <input type="file" id="pdfFile" accept=".pdf" style="display:none;" onchange="onFileSelected(this.files[0])"/>
-              <div class="up-progress" id="upProgress">
-                <div style="display:flex;justify-content:space-between;font-size:.79rem;margin-bottom:4px;"><span id="upName">fichier.pdf</span><span id="upPct">0%</span></div>
-                <div class="up-bar"><div class="up-fill" id="upFill"></div></div>
-                <div class="up-status" id="upStatus">En attente...</div>
-              </div>
-              <div class="ai-result" id="aiResult"></div>
+              <div class="drop-zone" id="dropZone" onclick="document.getElementById('pdfFile').click()" ondragover="drgO(event)" ondragleave="drgL()" ondrop="drgD(event)"><div style="font-size:2.5rem;margin-bottom:12px">📄</div><div style="font-size:.92rem;font-weight:600;margin-bottom:5px">Glisse ton PDF ici</div><div style="font-size:.78rem;color:var(--text3)">ou clique · PDF · Max 50MB</div></div>
+              <input type="file" id="pdfFile" accept=".pdf" style="display:none" onchange="onFile(this.files[0])"/>
+              <div class="up-prog" id="upProg"><div style="display:flex;justify-content:space-between;font-size:.79rem;margin-bottom:5px"><span id="upName">—</span><span id="upPct">0%</span></div><div class="up-bar"><div class="up-fill" id="upFill"></div></div><div class="up-status" id="upStatus"></div></div>
+              <div class="ai-res" id="aiRes"></div>
             </div>
-            <div style="display:flex;flex-direction:column;gap:13px;">
+            <div style="display:flex;flex-direction:column;gap:14px">
               <div class="field"><label>Titre du cours *</label><input id="pdfTitle" type="text" placeholder="Ex: Introduction à Python"/></div>
-              <div class="field"><label>Description courte</label><textarea id="pdfDesc" placeholder="Ce que l'apprenant va apprendre..." style="min-height:68px;"></textarea></div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
+              <div class="field"><label>Description courte</label><textarea id="pdfDesc" placeholder="Ce que l'apprenant va apprendre..." style="min-height:70px"></textarea></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
                 <div class="field"><label>Catégorie</label><select id="pdfCat"><option>Programmation</option><option>Design</option><option>Marketing</option><option>Business</option><option>Autre</option></select></div>
                 <div class="field"><label>Niveau</label><select id="pdfLevel"><option>Débutant</option><option>Intermédiaire</option><option>Avancé</option></select></div>
               </div>
-              <button class="btn btn-dark" onclick="uploadPDF()" id="uploadBtn">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1"/></svg>
-                <span id="uploadBtnTxt">Analyser avec l'IA & Publier</span>
-                <div class="spinner" id="uploadSpinner"></div>
-              </button>
-              <div style="font-size:.74rem;color:var(--text3);line-height:1.6;">L'IA analyse le contenu et génère automatiquement résumé, plan des chapitres et 10 questions de quiz. Le cours sera disponible pour toutes les sessions live.</div>
+              <button class="btn btn-dark" onclick="uploadPDF()" id="upBtn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1"/></svg><span id="upBtnTxt">Analyser avec l'IA (Fly.io) & Publier</span><div class="spinner" id="upSpin"></div></button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- COURS PUBLIÉS -->
-      <div id="tab-courses" class="tab-pane">
-        <div class="page-hd"><h1 class="page-title">Cours publiés</h1><button class="btn btn-accent btn-sm" onclick="showTab('tab-upload',null)">+ PDF</button></div>
-        <div class="table-card">
-          <div class="table-hd"><h3 id="coursesCount">Cours</h3></div>
-          <div id="coursesList"><div style="padding:20px;text-align:center;color:var(--text3);">Chargement...</div></div>
-        </div>
+      <!-- COURS -->
+      <div id="t-courses" class="tab-p">
+        <div class="page-hd"><h1 class="page-title">Cours publiés</h1><button class="btn btn-accent btn-sm" onclick="showTab('t-upload',null)">+ PDF</button></div>
+        <div class="table-card"><div class="table-hd"><h3 id="coursesCount">Cours</h3></div><div id="coursesList"><div style="padding:20px;text-align:center;color:var(--text3)">Chargement...</div></div></div>
       </div>
 
       <!-- APPRENANTS -->
-      <div id="tab-users" class="tab-pane">
+      <div id="t-users" class="tab-p">
         <div class="page-hd"><h1 class="page-title">Apprenants inscrits</h1></div>
-        <div class="table-card">
-          <div class="table-hd"><h3 id="usersCount">Apprenants</h3></div>
-          <div id="usersList"><div style="padding:20px;text-align:center;color:var(--text3);">Chargement...</div></div>
-        </div>
+        <div class="table-card"><div class="table-hd"><h3 id="usersCount">Apprenants</h3></div><div id="usersList"><div style="padding:20px;text-align:center;color:var(--text3)">Chargement...</div></div></div>
       </div>
 
     </div>
@@ -453,526 +307,152 @@ tr:hover td{background:var(--bg2);}
 
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
-
 const SB_URL      = "https://jbshkbqchrehfhoodtuj.supabase.co"
 const SB_KEY      = "sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs"
-const BACKEND_URL = "https://learnova-backend-28pl.onrender.com"
+const BACKEND_URL = "https://learnova-backend.fly.dev"  // 🚀 FLY.IO
 const ADMIN_PASS  = "Learnova@Admin2025"
 const sb = createClient(SB_URL, SB_KEY, { auth: { persistSession: true } })
 
-let currentPlan    = []
-let selectedFile   = null
-let lastSessionId  = null
-let allCourses     = []
+// DARK MODE
+const savedTheme = localStorage.getItem('ln_theme') || 'light'
+document.documentElement.setAttribute('data-theme', savedTheme)
+document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '☀️' : '🌙'
+window.toggleTheme = () => { const c = document.documentElement.getAttribute('data-theme'); const n = c === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); document.getElementById('themeBtn').textContent = n === 'dark' ? '☀️' : '🌙'; localStorage.setItem('ln_theme', n) }
 
-// ── PROTECTION ────────────────────────────────────────────────
-window.checkPin = () => {
-  const pin = document.getElementById('adminPin').value
-  if (pin === ADMIN_PASS) {
-    document.getElementById('protectScreen').style.display = 'none'
-    document.getElementById('adminApp').style.display = 'block'
-    sessionStorage.setItem('ln_admin', '1')
-    initAdmin()
-  } else {
-    const err = document.getElementById('pinErr')
-    err.classList.add('show')
-    document.getElementById('adminPin').value = ''
-    setTimeout(() => err.classList.remove('show'), 3000)
-  }
-}
+let currentPlan = [], selectedFile = null, allCourses = []
 
-window.lockAdmin = () => {
-  sessionStorage.removeItem('ln_admin')
-  document.getElementById('protectScreen').style.display = 'flex'
-  document.getElementById('adminApp').style.display = 'none'
-  document.getElementById('adminPin').value = ''
-}
-
+// PROTECT
+window.checkPin = () => { const pin = document.getElementById('adminPin').value; if (pin === ADMIN_PASS) { document.getElementById('protectScreen').style.display = 'none'; document.getElementById('adminApp').style.display = 'block'; sessionStorage.setItem('ln_admin','1'); initAdmin() } else { const e = document.getElementById('pinErr'); e.classList.add('show'); document.getElementById('adminPin').value = ''; setTimeout(() => e.classList.remove('show'), 3000) } }
+window.lockAdmin = () => { sessionStorage.removeItem('ln_admin'); document.getElementById('protectScreen').style.display = 'flex'; document.getElementById('adminApp').style.display = 'none'; document.getElementById('adminPin').value = '' }
 document.getElementById('adminPin').addEventListener('keypress', e => { if (e.key === 'Enter') checkPin() })
+if (sessionStorage.getItem('ln_admin') === '1') { document.getElementById('protectScreen').style.display = 'none'; document.getElementById('adminApp').style.display = 'block'; initAdmin() }
 
-if (sessionStorage.getItem('ln_admin') === '1') {
-  document.getElementById('protectScreen').style.display = 'none'
-  document.getElementById('adminApp').style.display = 'block'
-  initAdmin()
-}
-
-// ── INIT ──────────────────────────────────────────────────────
 async function initAdmin() {
   document.getElementById('sesDate').value = new Date().toISOString().split('T')[0]
   await Promise.all([loadStats(), loadSessions(), loadCourses(), loadUsers(), loadCoursesForSelect()])
-  setupRealtime()
-  setupPresence()
+  setupRealtime(); setupPresence()
 }
+window.refreshAll = () => { loadStats(); loadSessions(); loadCourses(); loadUsers(); toast('Actualisé !', 'ok') }
 
-window.refreshAll = () => {
-  loadStats(); loadSessions(); loadCourses(); loadUsers()
-  toast('Actualisé !', 'ok')
-}
-
-// ── STATS ─────────────────────────────────────────────────────
 async function loadStats() {
-  const { data: s } = await sb.from('stats').select('*').eq('id', 1).single()
-  if (s) {
-    document.getElementById('dSessions').textContent = (s.total_sessions || 0).toLocaleString('fr')
-    document.getElementById('dInscrits').textContent = (s.total_inscrits || 0).toLocaleString('fr')
-    document.getElementById('dCours').textContent    = (s.total_cours || 0).toLocaleString('fr')
-  }
+  const { data: s } = await sb.from('stats').select('*').eq('id',1).single()
+  if (s) { setEl('dSess', s.total_sessions||0); setEl('dInscrits', s.total_inscrits||0); setEl('dCours', s.total_cours||0) }
 }
+function setEl(id,v){const el=document.getElementById(id);if(el)el.textContent=typeof v==='number'?v.toLocaleString('fr'):v}
+function setupPresence(){const ch=sb.channel('admin-pres');ch.on('presence',{event:'sync'},()=>setEl('dOnline',Object.keys(ch.presenceState()).length)).subscribe()}
+function setupRealtime(){sb.channel('admin-rt').on('postgres_changes',{event:'UPDATE',schema:'public',table:'stats'},loadStats).on('postgres_changes',{event:'*',schema:'public',table:'sessions'},()=>{loadSessions();updateBdg('bdgSessions','sessions')}).on('postgres_changes',{event:'*',schema:'public',table:'courses'},()=>{loadCourses();updateBdg('bdgCourses','courses');loadCoursesForSelect()}).on('postgres_changes',{event:'*',schema:'public',table:'profiles'},()=>{loadUsers();updateBdg('bdgUsers','profiles')}).subscribe()}
+async function updateBdg(id,table){const{count}=await sb.from(table).select('*',{count:'exact',head:true});const el=document.getElementById(id);if(el)el.textContent=count||0}
 
-function setupPresence() {
-  const ch = sb.channel('admin-presence')
-  ch.on('presence', { event: 'sync' }, () => {
-    document.getElementById('dOnline').textContent = Object.keys(ch.presenceState()).length
-  }).subscribe()
+async function loadSessions(){
+  const{data:sessions}=await sb.from('sessions').select('*,courses(titre,chapitres,difficulte)').order('created_at',{ascending:false})
+  const count=sessions?.length||0;setEl('bdgSessions',count);setEl('dSess',count)
+  const live=sessions?.find(s=>s.statut==='en_cours');const notif=document.getElementById('liveNotif')
+  if(live){notif.classList.add('show');setEl('lnTitle',`🔴 "${live.titre}" est en direct !`);setEl('lnSub',`${live.nb_inscrits||0} participants`)}else notif.classList.remove('show')
+  renderSessTable(sessions||[],'tblDash',5); renderSessTable(sessions||[],'tblAll',-1)
 }
-
-// ── REALTIME ──────────────────────────────────────────────────
-function setupRealtime() {
-  sb.channel('admin-rt')
-    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'stats' }, loadStats)
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'sessions' }, () => { loadSessions(); updateBadge('badgeSessions', 'sessions') })
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'courses' },  () => { loadCourses(); updateBadge('badgeCourses', 'courses'); loadCoursesForSelect() })
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, () => { loadUsers(); updateBadge('badgeUsers', 'profiles') })
-    .subscribe()
-}
-
-async function updateBadge(id, table) {
-  const { count } = await sb.from(table).select('*', { count: 'exact', head: true })
-  const el = document.getElementById(id)
-  if (el) el.textContent = count || 0
-}
-
-// ── SESSIONS ──────────────────────────────────────────────────
-async function loadSessions() {
-  const { data: sessions } = await sb.from('sessions')
-    .select('*, courses(titre)')
-    .order('created_at', { ascending: false })
-
-  const count = sessions?.length || 0
-  document.getElementById('badgeSessions').textContent = count
-  document.getElementById('dSessions').textContent     = count
-
-  const live = sessions?.find(s => s.statut === 'en_cours')
-  const notif = document.getElementById('liveNotif')
-  if (live) {
-    notif.classList.add('show')
-    document.getElementById('liveNotifTitle').textContent = `🔴 "${live.titre}" est en direct !`
-    document.getElementById('liveNotifSub').textContent   = `${live.nb_inscrits || 0} participants · L'IA enseigne maintenant.`
-  } else {
-    notif.classList.remove('show')
-  }
-
-  renderSessionsTable(sessions || [], 'tblDashSessions', 5)
-  renderSessionsTable(sessions || [], 'tblAllSessions', -1)
-}
-
-function renderSessionsTable(sessions, tableId, limit) {
-  const tbody = document.getElementById(tableId)
-  const list  = limit > 0 ? sessions.slice(0, limit) : sessions
-  const isAll = tableId === 'tblAllSessions'
-  const cols  = isAll ? 8 : 6
-
-  if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="${cols}" style="text-align:center;padding:20px;color:var(--text3);">Aucune session — <button class="btn btn-sm btn-accent" style="margin-left:6px;" onclick="showTab('tab-new-session',null)">Créer</button></td></tr>`
-    return
-  }
-
-  tbody.innerHTML = list.map(s => {
-    const badge = s.statut === 'en_cours'
-      ? `<span class="badge badge-live"><span class="pulse"></span> Live</span>`
-      : s.statut === 'planifie'
-      ? `<span class="badge badge-plan">⏰ Planifié</span>`
-      : `<span class="badge badge-done">Terminé</span>`
-
-    const waitUrl = `${window.location.origin}/waiting.html?session=${s.id}`
-    const liveUrl = `${window.location.origin}/live.html?session=${s.id}`
-    const courseLie = s.courses?.titre
-      ? `<span style="font-size:.7rem;background:var(--gl);color:var(--green);padding:2px 7px;border-radius:100px;">📚 ${s.courses.titre.substring(0, 20)}...</span>`
-      : `<span style="font-size:.7rem;color:var(--text3);">—</span>`
-
-    return `<tr>
-      <td><div class="td-main">${s.titre}</div><div class="td-sub">${s.format || '—'}</div></td>
-      <td>${courseLie}</td>
-      ${isAll ? `<td>${s.format || '—'}</td>` : ''}
-      <td><div class="td-sub">${s.created_at || '—'} ${s.heure ? 'à ' + s.heure : ''}</div></td>
-      <td>${badge}</td>
-      <td><strong>${s.nb_inscrits || 0}</strong></td>
-      ${isAll ? `<td><button class="btn btn-ghost btn-sm" onclick="copyText('${waitUrl}')">Lien</button></td>` : ''}
-      <td><div class="act-btns">
-        <a href="${liveUrl}" class="act-btn" title="Voir live"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a>
-        <button class="act-btn" title="Changer statut" onclick="toggleStatus('${s.id}','${s.statut}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button>
-        <button class="act-btn red" title="Supprimer" onclick="deleteSession('${s.id}',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
-      </div></td>
-    </tr>`
+function renderSessTable(sessions,tId,limit){
+  const tbody=document.getElementById(tId);const list=limit>0?sessions.slice(0,limit):sessions;const isAll=tId==='tblAll';const cols=isAll?8:6
+  if(!list.length){tbody.innerHTML=`<tr><td colspan="${cols}" style="text-align:center;padding:20px;color:var(--text3)">Aucune session — <button class="btn btn-sm btn-accent" style="margin-left:6px" onclick="showTab('t-new-sess',null)">Créer</button></td></tr>`;return}
+  tbody.innerHTML=list.map(s=>{
+    const badge=s.statut==='en_cours'?`<span class="badge badge-live"><span class="pulse"></span> Live</span>`:s.statut==='planifie'?`<span class="badge badge-plan">⏰ Planifié</span>`:`<span class="badge badge-done">Terminé</span>`
+    const courseLie=s.courses?.titre?`<span style="font-size:.71rem;background:var(--gl);color:var(--green);padding:2px 8px;border-radius:100px">📚 ${s.courses.titre.substring(0,18)}</span>`:`<span style="font-size:.71rem;color:var(--text3)">—</span>`
+    const wUrl=`${window.location.origin}/waiting.html?session=${s.id}`;const lUrl=`${window.location.origin}/live.html?session=${s.id}`
+    return`<tr><td><div class="td-m">${s.titre}</div></td><td>${courseLie}</td>${isAll?`<td>${s.format||'—'}</td>`:''}<td><div class="td-s">${s.date_debut||'—'} ${s.heure?'à '+s.heure:''}</div></td><td>${badge}</td><td><strong>${s.nb_inscrits||0}</strong></td>${isAll?`<td><button class="btn btn-ghost btn-sm" onclick="copyText('${wUrl}')">Lien</button></td>`:''}<td><div class="act-btns"><a href="${lUrl}" class="act-btn" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a><button class="act-btn" onclick="toggleSt('${s.id}','${s.statut}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button><button class="act-btn danger" onclick="delSess('${s.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button></div></td></tr>`
   }).join('')
 }
+window.delSess=async id=>{if(!confirm('Supprimer ?'))return;await sb.from('sessions').delete().eq('id',id);loadSessions();toast('Supprimé','ok')}
+window.toggleSt=async(id,cur)=>{const next=cur==='planifie'?'en_cours':cur==='en_cours'?'termine':'planifie';await sb.from('sessions').update({statut:next}).eq('id',id);toast(`→ ${next}`,'ok');loadSessions()}
 
-window.deleteSession = async (id, btn) => {
-  if (!confirm('Supprimer cette session ?')) return
-  await sb.from('sessions').delete().eq('id', id)
-  loadSessions()
-  toast('Session supprimée.', 'ok')
+window.onCourseSelect=async courseId=>{
+  const box=document.getElementById('courseInfoBox')
+  if(!courseId){box.classList.remove('show');return}
+  const course=allCourses.find(c=>c.id===courseId);if(!course){box.classList.remove('show');return}
+  document.getElementById('cibTitle').textContent=`✅ "${course.titre}" sera utilisé par l'IA en live`
+  document.getElementById('cibMeta').textContent=`${course.chapitres?.length||0} chapitres · ${course.quiz?.length||0} questions · ${course.difficulte||'Tous niveaux'}`
+  box.classList.add('show')
 }
 
-window.toggleStatus = async (id, current) => {
-  const next = current === 'planifie' ? 'en_cours' : current === 'en_cours' ? 'termine' : 'planifie'
-  await sb.from('sessions').update({ statut: next }).eq('id', id)
-  toast(`Statut → ${next}`, 'ok')
-  loadSessions()
+const FALLBACK={'1h/jour':[{time:'00:00',topic:'Introduction',type:'lesson'},{time:'00:15',topic:'Concept principal',type:'lesson'},{time:'00:35',topic:'Challenge QCM',type:'challenge'},{time:'00:45',topic:'Exercice',type:'lesson'},{time:'00:55',topic:'Quiz clôture',type:'quiz'}],'session unique':[{time:'00:00',topic:'Introduction',type:'lesson'},{time:'00:20',topic:'Module 1',type:'lesson'},{time:'00:50',topic:'Challenge #1',type:'challenge'},{time:'01:00',topic:'Pause',type:'break'},{time:'01:10',topic:'Module 2',type:'lesson'},{time:'01:40',topic:'Défi final',type:'challenge'},{time:'01:55',topic:'Quiz certification',type:'quiz'}]}
+window.selFmt=el=>{document.querySelectorAll('.fmt-card').forEach(c=>c.classList.remove('active'));el.classList.add('active')}
+
+window.generatePlan=async()=>{
+  const subject=document.getElementById('sesSubject').value.trim();const courseId=document.getElementById('sesCourse').value
+  if(!subject){toast('Entre un sujet.','err');return}
+  const fmt=document.querySelector('.fmt-card.active')?.dataset.fmt||'session unique';const level=document.getElementById('sesLevel').value
+  const btn=document.getElementById('genBtn');const spin=document.getElementById('genSpin');const txt=document.getElementById('genTxt')
+  btn.disabled=true;txt.textContent='Génération via Fly.io...';spin.style.display='block'
+  const planBox=document.getElementById('aiPlan');planBox.classList.add('show')
+  document.getElementById('planRows').innerHTML='';document.getElementById('planSub').textContent=`"${subject}" — ${fmt}`
+  document.getElementById('planLoading').classList.add('show');document.getElementById('planBtns').style.display='none';document.getElementById('shareBox').classList.remove('show')
+  let courseData={}
+  if(courseId)courseData=allCourses.find(c=>c.id===courseId)||{}
+  let plan=[]
+  try{const res=await fetch(`${BACKEND_URL}/api/generate-session-plan`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subject,format:fmt,level,course_data:courseData})});if(res.ok){const d=await res.json();if(d.plan?.length)plan=d.plan}}catch(e){console.error('[Fly.io]',e)}
+  if(!plan.length)plan=FALLBACK[fmt]||FALLBACK['session unique']
+  currentPlan=plan;document.getElementById('planLoading').classList.remove('show');btn.disabled=false;spin.style.display='none';txt.textContent="L'IA génère le programme (via Fly.io)"
+  const tmap={lesson:'pl-l',challenge:'pl-c',quiz:'pl-q',break:'pl-b'};const lmap={lesson:'Leçon',challenge:'Challenge',quiz:'Quiz',break:'Pause'}
+  const rows=document.getElementById('planRows');let i=0
+  const iv=setInterval(()=>{if(i>=plan.length){clearInterval(iv);document.getElementById('planBtns').style.display='flex';return}const p=plan[i];const div=document.createElement('div');div.className='plan-row';div.innerHTML=`<span class="pr-time">${p.time||'—'}</span><span class="pr-topic">${p.topic}</span><span class="pr-pill ${tmap[p.type]||'pl-l'}">${lmap[p.type]||'Leçon'}</span>`;rows.appendChild(div);i++},260)
 }
 
-// ── CRÉER SESSION ─────────────────────────────────────────────
-const FALLBACK = {
-  '1h/jour': [
-    {time:'00:00',topic:'Introduction & objectifs',type:'lesson'},
-    {time:'00:15',topic:'Concept principal',type:'lesson'},
-    {time:'00:35',topic:'Challenge QCM',type:'challenge'},
-    {time:'00:45',topic:'Exercice pratique',type:'lesson'},
-    {time:'00:55',topic:'Quiz de clôture',type:'quiz'}
-  ],
-  '2h/semaine': [
-    {time:'00:00',topic:'Rappel & introduction',type:'lesson'},
-    {time:'00:20',topic:'Nouveau chapitre',type:'lesson'},
-    {time:'00:50',topic:'Challenge collectif',type:'challenge'},
-    {time:'01:05',topic:'Pause',type:'break'},
-    {time:'01:15',topic:'Pratique',type:'lesson'},
-    {time:'01:45',topic:'Quiz final',type:'quiz'}
-  ],
-  'session unique': [
-    {time:'00:00',topic:'Présentation & objectifs',type:'lesson'},
-    {time:'00:20',topic:'Module 1 — Fondations',type:'lesson'},
-    {time:'00:50',topic:'Challenge #1',type:'challenge'},
-    {time:'01:00',topic:'Pause 10 min',type:'break'},
-    {time:'01:10',topic:'Module 2 — Approfondissement',type:'lesson'},
-    {time:'01:40',topic:'Défi final',type:'challenge'},
-    {time:'01:55',topic:'Quiz de certification',type:'quiz'}
-  ],
-  '30h/mois': [
-    {time:'Sem.1',topic:'Fondations & concepts de base',type:'lesson'},
-    {time:'Sem.1',topic:'Premier projet pratique',type:'challenge'},
-    {time:'Sem.2',topic:'Approfondissement',type:'lesson'},
-    {time:'Sem.2',topic:'Quiz mi-parcours',type:'quiz'},
-    {time:'Sem.3',topic:'Techniques avancées',type:'lesson'},
-    {time:'Sem.3',topic:'Projet collaboratif',type:'challenge'},
-    {time:'Sem.4',topic:'Révision + projet final',type:'lesson'},
-    {time:'Sem.4',topic:'Examen de certification',type:'quiz'}
-  ]
+window.publishSession=async()=>{
+  const titre=document.getElementById('sesSubject').value.trim();if(!titre){toast('Entre un titre.','err');return}
+  const{data,error}=await sb.from('sessions').insert({titre,description:document.getElementById('sesDesc').value,format:document.querySelector('.fmt-card.active')?.dataset.fmt||'session unique',date_debut:document.getElementById('sesDate').value,heure:document.getElementById('sesTime').value,statut:'planifie',nb_inscrits:0,plan:currentPlan,course_id:document.getElementById('sesCourse').value||null}).select().single()
+  if(error){toast('Erreur: '+error.message,'err');return}
+  await sb.rpc('increment_stat',{stat_name:'total_sessions'}).catch(()=>{})
+  const wUrl=`${window.location.origin}/waiting.html?session=${data.id}`
+  document.getElementById('shareLink').value=wUrl;document.getElementById('shareBox').classList.add('show')
+  document.getElementById('waitBtn').onclick=()=>window.open(`waiting.html?session=${data.id}`)
+  document.getElementById('liveBtn').onclick=()=>window.open(`live.html?session=${data.id}`)
+  toast('✅ Session publiée !','ok');loadSessions()
 }
 
-window.selFmt = (el) => {
-  document.querySelectorAll('.fmt-card').forEach(c => c.classList.remove('active'))
-  el.classList.add('active')
+window.onFile=f=>{if(!f)return;selectedFile=f;document.getElementById('upName').textContent=f.name;document.getElementById('upProg').classList.add('show');document.getElementById('upFill').style.width='12%';document.getElementById('upPct').textContent='Prêt';document.getElementById('upStatus').textContent='Fichier prêt — clique Analyser';if(!document.getElementById('pdfTitle').value)document.getElementById('pdfTitle').value=f.name.replace('.pdf','').replace(/[-_]/g,' ')}
+window.drgO=e=>{e.preventDefault();document.getElementById('dropZone').classList.add('over')}
+window.drgL=()=>document.getElementById('dropZone').classList.remove('over')
+window.drgD=e=>{e.preventDefault();drgL();onFile(e.dataTransfer.files[0])}
+
+window.uploadPDF=async()=>{
+  if(!selectedFile){toast('Sélectionne un PDF.','err');return}
+  const title=document.getElementById('pdfTitle').value.trim();if(!title){toast('Entre un titre.','err');return}
+  const level=document.getElementById('pdfLevel').value;const cat=document.getElementById('pdfCat').value;const desc=document.getElementById('pdfDesc').value
+  const btn=document.getElementById('upBtn');const spin=document.getElementById('upSpin');const fill=document.getElementById('upFill');const pct=document.getElementById('upPct');const status=document.getElementById('upStatus');const result=document.getElementById('aiRes')
+  btn.disabled=true;document.getElementById('upBtnTxt').textContent='Analyse via Fly.io...';spin.style.display='block'
+  fill.style.width='40%';pct.textContent='40%';status.textContent='⏳ L\'IA lit le PDF...';result.classList.remove('show')
+  const fd=new FormData();fd.append('file',selectedFile);fd.append('title',title);fd.append('level',level)
+  try{
+    fill.style.width='70%';pct.textContent='70%';status.textContent='🤖 L\'IA analyse...'
+    const res=await fetch(`${BACKEND_URL}/api/analyze-pdf`,{method:'POST',body:fd})
+    const data=await res.json();fill.style.width='100%';pct.textContent='100%'
+    if(data.error){status.textContent='❌ '+data.error;return}
+    status.textContent='✅ Analyse terminée ! Publication...'
+    const{data:course,error:courseErr}=await sb.from('courses').insert({titre:title,description:desc||data.resume||'',categorie:cat,difficulte:level,duree_totale:data.duree_totale||'—',resume:data.resume||'',chapitres:data.chapitres||[],quiz:data.quiz||[],concepts_cles:data.concepts_cles||[],objectifs:data.objectifs||[],nb_apprenants:0,statut:'publie'}).select().single()
+    if(courseErr){status.textContent='⚠️ '+courseErr.message}else{status.textContent='✅ Cours publié !';await sb.rpc('increment_stat',{stat_name:'total_cours'}).catch(()=>{});loadCourses();loadCoursesForSelect()}
+    result.classList.add('show');result.innerHTML=`<strong>✅ Analyse IA (Fly.io) terminée !</strong><br/>📖 <strong>${data.chapitres?.length||0} chapitres</strong><br/>❓ <strong>${data.quiz?.length||0} questions</strong><br/>⏱️ ${data.duree_totale||'—'}<br/>📝 ${data.resume||'—'}${course?`<br/><br/><a href="course.html?course=${course.id}" style="display:inline-flex;align-items:center;gap:5px;background:var(--green);color:#fff;padding:8px 14px;border-radius:8px;font-family:var(--b);font-size:.8rem;font-weight:700;text-decoration:none" target="_blank">→ Voir le cours</a>`:''}`
+    toast(`"${title}" publié !`,'ok')
+  }catch(e){fill.style.width='0%';status.textContent='❌ Erreur Fly.io. Vérifie que le backend tourne.';toast('Backend Fly.io indisponible.','err')}
+  finally{spin.style.display='none';btn.disabled=false;document.getElementById('upBtnTxt').textContent="Analyser avec l'IA (Fly.io) & Publier"}
 }
 
-window.generatePlan = async () => {
-  const subject  = document.getElementById('sesSubject').value.trim()
-  const courseId = document.getElementById('sesCourse').value
-  if (!subject) { toast('Entre un sujet pour la session.', 'err'); return }
+async function loadCourses(){
+  const{data:courses,count}=await sb.from('courses').select('*',{count:'exact'}).order('created_at',{ascending:false})
+  allCourses=courses||[];const c=count||0;setEl('bdgCourses',c);setEl('coursesCount',`${c} cours`)
+  const html=list=>list.length?list.map(co=>`<div class="course-row"><div class="ci">📚</div><div style="flex:1;min-width:0"><div class="cn">${co.titre}</div><div class="cm">${co.categorie||'—'} · ${co.difficulte||'—'} · ${co.chapitres?.length||0} chap. · ${co.quiz?.length||0} quiz</div></div><div class="ca"><span class="badge badge-pub">Publié</span><a href="course.html?course=${co.id}" class="btn btn-ghost btn-sm" target="_blank">Voir</a><button class="btn btn-ghost btn-sm" onclick="copyText('${window.location.origin}/course.html?course=${co.id}')">Partager</button><button class="act-btn danger" onclick="delCourse('${co.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button></div></div>`).join(''):'<div style="padding:28px;text-align:center;color:var(--text3)">Aucun cours. Uploade un PDF !</div>'
+  document.getElementById('dashCourses').innerHTML=html(allCourses.slice(0,5));document.getElementById('coursesList').innerHTML=html(allCourses)
+}
+window.delCourse=async id=>{if(!confirm('Supprimer ce cours ?'))return;await sb.from('courses').delete().eq('id',id);toast('Supprimé','ok');loadCourses()}
+async function loadCoursesForSelect(){const{data}=await sb.from('courses').select('id,titre').order('created_at',{ascending:false});const sel=document.getElementById('sesCourse');sel.innerHTML='<option value="">— Aucun cours lié —</option>';data?.forEach(c=>sel.innerHTML+=`<option value="${c.id}">📚 ${c.titre}</option>`)}
 
-  const fmt   = document.querySelector('.fmt-card.active')?.dataset.fmt || 'session unique'
-  const level = document.getElementById('sesLevel').value
-  const btn   = document.getElementById('genPlanBtn')
-  const spin  = document.getElementById('genSpinner')
-  const txt   = document.getElementById('genPlanTxt')
-
-  btn.disabled = true; txt.textContent = 'Génération...'; spin.style.display = 'block'
-
-  const planBox = document.getElementById('aiPlan')
-  planBox.classList.add('show')
-  document.getElementById('planRows').innerHTML = ''
-  document.getElementById('planSubtitle').textContent = `"${subject}" — ${fmt}`
-  document.getElementById('planLoadingTxt').style.display = 'flex'
-  document.getElementById('planBtns').style.display = 'none'
-  document.getElementById('shareBox').classList.remove('show')
-
-  // Récupérer les données du cours lié si disponible
-  let courseData = {}
-  if (courseId) {
-    const { data: cd } = await sb.from('courses').select('*').eq('id', courseId).single()
-    if (cd) courseData = cd
-  }
-
-  let plan = []
-  try {
-    const res = await fetch(`${BACKEND_URL}/api/generate-session-plan`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ subject, format: fmt, level, course_data: courseData })
-    })
-    if (res.ok) {
-      const d = await res.json()
-      if (d.plan?.length) plan = d.plan
-    }
-  } catch (e) {}
-
-  if (!plan.length) plan = FALLBACK[fmt] || FALLBACK['session unique']
-  currentPlan = plan
-
-  document.getElementById('planLoadingTxt').style.display = 'none'
-  btn.disabled = false; spin.style.display = 'none'; txt.textContent = 'L\'IA génère le programme complet'
-
-  const tmap = { lesson:'pl', challenge:'pc', quiz:'pq', break:'pb' }
-  const lmap = { lesson:'Leçon', challenge:'Challenge', quiz:'Quiz', break:'Pause' }
-  const rows = document.getElementById('planRows')
-
-  let i = 0
-  const iv = setInterval(() => {
-    if (i >= plan.length) {
-      clearInterval(iv)
-      document.getElementById('planBtns').style.display = 'flex'
-      return
-    }
-    const p = plan[i]
-    const div = document.createElement('div')
-    div.className = 'plan-row'
-    div.innerHTML = `<span class="pr-time">${p.time || p.t || '—'}</span><span class="pr-topic">${p.topic}</span><span class="pr-pill ${tmap[p.type]||'pl'}">${lmap[p.type]||'Leçon'}</span>`
-    rows.appendChild(div)
-    i++
-  }, 280)
+async function loadUsers(){
+  const{data:users,count}=await sb.from('profiles').select('*',{count:'exact'}).order('created_at',{ascending:false})
+  const c=count||0;setEl('bdgUsers',c);setEl('usersCount',`${c} apprenant${c>1?'s':''}`)
+  document.getElementById('usersList').innerHTML=users?.length?users.map(u=>`<div class="user-row"><div class="ua">${u.photo_url?`<img src="${u.photo_url}" alt="${u.prenom}"/>`:(u.prenom||'?').charAt(0).toUpperCase()}</div><div style="flex:1"><div style="font-size:.84rem;font-weight:600">${u.prenom||'—'}</div><div style="font-size:.73rem;color:var(--text3)">${u.email||'—'}</div></div><div style="font-size:.74rem;font-weight:700;color:var(--accent)">${u.score_total||0} pts</div><span style="font-size:.67rem;font-weight:700;padding:2px 9px;border-radius:100px;${u.role==='admin'?'background:var(--rl);color:var(--red)':'background:var(--bg2);color:var(--text3);border:1px solid var(--border)'}">${u.role||'student'}</span></div>`).join(''):'<div style="padding:28px;text-align:center;color:var(--text3)">Aucun inscrit.</div>'
 }
 
-window.publishSession = async () => {
-  const titre    = document.getElementById('sesSubject').value.trim()
-  const desc     = document.getElementById('sesDesc').value
-  const format   = document.querySelector('.fmt-card.active')?.dataset.fmt || 'session unique'
-  const date     = document.getElementById('sesDate').value
-  const heure    = document.getElementById('sesTime').value
-  const courseId = document.getElementById('sesCourse').value || null
-
-  if (!titre) { toast('Entre un titre.', 'err'); return }
-
-  const { data, error } = await sb.from('sessions').insert({
-    titre, description: desc, format,
-    date_debut: date, heure,
-    statut: 'planifie', nb_inscrits: 0,
-    plan: currentPlan,
-    course_id: courseId
-  }).select().single()
-
-  if (error) { toast('Erreur : ' + error.message, 'err'); return }
-  await sb.rpc('increment_stat', { stat_name: 'total_sessions' }).catch(() => {})
-
-  lastSessionId = data.id
-  const waitUrl = `${window.location.origin}/waiting.html?session=${data.id}`
-  document.getElementById('shareLink').value = waitUrl
-  document.getElementById('shareBox').classList.add('show')
-  toast('✅ Session publiée et reliée au cours !', 'ok')
-  loadSessions()
-}
-
-// ── UPLOAD PDF ────────────────────────────────────────────────
-window.onFileSelected = (f) => {
-  if (!f) return
-  selectedFile = f
-  document.getElementById('upName').textContent = f.name
-  document.getElementById('upProgress').classList.add('show')
-  document.getElementById('upFill').style.width = '12%'
-  document.getElementById('upPct').textContent  = 'Prêt'
-  document.getElementById('upStatus').textContent = 'Fichier sélectionné — clique sur "Analyser"'
-  if (!document.getElementById('pdfTitle').value) {
-    document.getElementById('pdfTitle').value = f.name.replace('.pdf','').replace(/[-_]/g,' ')
-  }
-}
-
-window.drgOver  = (e) => { e.preventDefault(); document.getElementById('dropZone').classList.add('over') }
-window.drgLeave = ()  => document.getElementById('dropZone').classList.remove('over')
-window.drgDrop  = (e) => { e.preventDefault(); drgLeave(); onFileSelected(e.dataTransfer.files[0]) }
-
-window.uploadPDF = async () => {
-  if (!selectedFile) { toast('Sélectionne un PDF.', 'err'); return }
-  const title = document.getElementById('pdfTitle').value.trim()
-  if (!title) { toast('Entre un titre.', 'err'); return }
-
-  const level  = document.getElementById('pdfLevel').value
-  const cat    = document.getElementById('pdfCat').value
-  const desc   = document.getElementById('pdfDesc').value
-  const btn    = document.getElementById('uploadBtn')
-  const spin   = document.getElementById('uploadSpinner')
-  const fill   = document.getElementById('upFill')
-  const pct    = document.getElementById('upPct')
-  const status = document.getElementById('upStatus')
-  const result = document.getElementById('aiResult')
-
-  btn.disabled = true
-  document.getElementById('uploadBtnTxt').textContent = 'Analyse...'
-  spin.style.display = 'block'
-  fill.style.width = '40%'; pct.textContent = '40%'
-  status.textContent = '⏳ L\'IA lit le PDF...'
-  result.classList.remove('show')
-
-  const formData = new FormData()
-  formData.append('file', selectedFile)
-  formData.append('title', title)
-  formData.append('level', level)
-
-  try {
-    fill.style.width = '70%'; pct.textContent = '70%'
-    status.textContent = '🤖 L\'IA analyse le contenu...'
-
-    const res  = await fetch(`${BACKEND_URL}/api/analyze-pdf`, { method: 'POST', body: formData })
-    const data = await res.json()
-
-    fill.style.width = '100%'; pct.textContent = '100%'
-
-    if (data.error) {
-      status.textContent = '❌ ' + data.error
-      return
-    }
-
-    status.textContent = '✅ Analyse terminée ! Publication...'
-
-    // Publier dans Supabase
-    const { data: course, error: courseErr } = await sb.from('courses').insert({
-      titre: title,
-      description: desc || data.resume || '',
-      difficulte: level,
-      duree_totale: data.duree_totale || '—',
-      resume: data.resume || '',
-      chapitres: data.chapitres || [],
-      quiz: data.quiz || [],
-      concepts_cles: data.concepts_cles || [],
-      objectifs: data.objectifs || [],
-      nb_apprenants: 0,
-      statut: 'publie'
-    }).select().single()
-
-    if (courseErr) {
-      status.textContent = '⚠️ Analysé mais erreur DB : ' + courseErr.message
-    } else {
-      status.textContent = '✅ Cours publié et disponible pour les sessions live !'
-      await sb.rpc('increment_stat', { stat_name: 'total_cours' }).catch(() => {})
-      loadCourses()
-      loadCoursesForSelect()
-    }
-
-    result.classList.add('show')
-    result.innerHTML = `
-      <strong>✅ Analyse IA terminée !</strong><br/>
-      📖 <strong>${data.chapitres?.length || 0} chapitres</strong> générés<br/>
-      ❓ <strong>${data.quiz?.length || 0} questions</strong> de quiz<br/>
-      ⏱️ Durée estimée : <strong>${data.duree_totale || '—'}</strong><br/>
-      🎯 Niveau : <strong>${level}</strong><br/>
-      📝 ${data.resume || '—'}`
-
-    toast(`"${title}" publié ! ${data.quiz?.length || 0} questions créées.`, 'ok')
-
-  } catch (e) {
-    fill.style.width = '0%'; pct.textContent = '0%'
-    status.textContent = '❌ Erreur de connexion au backend Render.'
-    toast('Vérifiez que le backend Render est actif.', 'err')
-  } finally {
-    spin.style.display = 'none'
-    btn.disabled = false
-    document.getElementById('uploadBtnTxt').textContent = 'Analyser avec l\'IA & Publier'
-  }
-}
-
-// ── COURS ─────────────────────────────────────────────────────
-async function loadCourses() {
-  const { data: courses, count } = await sb.from('courses')
-    .select('*', { count: 'exact' })
-    .order('created_at', { ascending: false })
-
-  allCourses = courses || []
-  const c = count || 0
-  document.getElementById('badgeCourses').textContent = c
-  document.getElementById('dCours').textContent = c
-  document.getElementById('coursesCount').textContent = `${c} cours publié${c > 1 ? 's' : ''}`
-
-  const html = (list) => list.length
-    ? list.map(co => `
-        <div class="course-card">
-          <div class="course-icon">📚</div>
-          <div class="course-info">
-            <div class="course-name">${co.titre}</div>
-            <div class="course-meta">${co.categorie || '—'} · ${co.difficulte || '—'} · ${co.chapitres?.length || 0} chapitres · ${co.quiz?.length || 0} questions</div>
-          </div>
-          <div class="course-actions">
-            <span class="badge badge-pub">Publié</span>
-            <a href="course.html?course=${co.id}" class="btn btn-ghost btn-sm">Voir</a>
-            <button class="btn btn-ghost btn-sm" onclick="copyText('${window.location.origin}/course.html?course=${co.id}')">Partager</button>
-            <button class="act-btn red" onclick="deleteCourse('${co.id}',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
-          </div>
-        </div>`).join('')
-    : '<div style="padding:28px;text-align:center;color:var(--text3);">Aucun cours. Uploade un PDF pour commencer !</div>'
-
-  document.getElementById('dashCoursesList').innerHTML = html(allCourses.slice(0, 5))
-  document.getElementById('coursesList').innerHTML     = html(allCourses)
-}
-
-window.deleteCourse = async (id, btn) => {
-  if (!confirm('Supprimer ce cours ? Les sessions liées seront mises à jour.')) return
-  await sb.from('courses').delete().eq('id', id)
-  toast('Cours supprimé.', 'ok')
-  loadCourses()
-}
-
-async function loadCoursesForSelect() {
-  const { data } = await sb.from('courses').select('id,titre').order('created_at', { ascending: false })
-  const sel = document.getElementById('sesCourse')
-  sel.innerHTML = '<option value="">— Aucun cours lié —</option>'
-  data?.forEach(c => {
-    sel.innerHTML += `<option value="${c.id}">📚 ${c.titre}</option>`
-  })
-}
-
-// ── APPRENANTS ────────────────────────────────────────────────
-async function loadUsers() {
-  const { data: users, count } = await sb.from('profiles')
-    .select('*', { count: 'exact' })
-    .order('created_at', { ascending: false })
-
-  const c = count || 0
-  document.getElementById('badgeUsers').textContent = c
-  document.getElementById('usersCount').textContent = `${c} apprenant${c > 1 ? 's' : ''} inscrit${c > 1 ? 's' : ''}`
-  document.getElementById('usersList').innerHTML = users?.length
-    ? users.map(u => `
-        <div class="user-row">
-          <div class="user-av">${u.photo_url ? `<img src="${u.photo_url}" alt=""/>` : (u.prenom || '?').charAt(0).toUpperCase()}</div>
-          <div style="flex:1;">
-            <div class="user-name">${u.prenom || '—'}</div>
-            <div class="user-email">${u.email || '—'}</div>
-          </div>
-          <div class="user-pts">${u.score_total || 0} pts</div>
-          <span class="role-chip ${u.role === 'admin' ? 'role-admin' : 'role-student'}">${u.role || 'student'}</span>
-        </div>`).join('')
-    : '<div style="padding:32px;text-align:center;color:var(--text3);">Aucun inscrit pour l\'instant.</div>'
-}
-
-// ── TABS ──────────────────────────────────────────────────────
-window.showTab = (id, el) => {
-  document.querySelectorAll('.tab-pane').forEach(t => t.classList.remove('active'))
-  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'))
-  document.getElementById(id)?.classList.add('active')
-  if (el) el.classList.add('active')
-  if (id === 'tab-users')    loadUsers()
-  if (id === 'tab-sessions') loadSessions()
-  if (id === 'tab-courses')  loadCourses()
-  if (id === 'tab-dash')     { loadStats(); loadSessions(); loadCourses() }
-}
-
-// ── UTILS ─────────────────────────────────────────────────────
-window.copyText = (text) => {
-  navigator.clipboard.writeText(text).catch(() => {
-    const ta = document.createElement('textarea')
-    ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove()
-  })
-  toast('🔗 Lien copié !', 'ok')
-}
-
-function toast(msg, type = 'dark') {
-  let t = document.getElementById('ln-toast')
-  if (!t) {
-    t = document.createElement('div'); t.id = 'ln-toast'
-    t.style.cssText = "position:fixed;bottom:24px;right:24px;padding:12px 20px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif;font-weight:500;box-shadow:0 20px 60px rgba(0,0,0,.2);"
-    document.body.appendChild(t)
-  }
-  const styles = { dark:'background:#09090f;color:#fff;', ok:'background:#047857;color:#fff;', err:'background:#b91c1c;color:#fff;' }
-  t.style.cssText += styles[type] || styles.dark
-  t.textContent = msg; t.style.transform = 'translateY(0)'
-  clearTimeout(t._t); t._t = setTimeout(() => t.style.transform = 'translateY(80px)', 4000)
-}
-window.showToast = toast
+window.showTab=(id,el)=>{document.querySelectorAll('.tab-p').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));document.getElementById(id)?.classList.add('active');if(el)el.classList.add('active');if(id==='t-users')loadUsers();if(id==='t-sessions')loadSessions();if(id==='t-courses')loadCourses();if(id==='t-dash'){loadStats();loadSessions();loadCourses()}}
+window.copyText=text=>{navigator.clipboard.writeText(text).catch(()=>{});toast('🔗 Copié !','ok')}
+function toast(msg,type='dark'){let t=document.getElementById('ln-toast');if(!t){t=document.createElement('div');t.id='ln-toast';t.style.cssText="position:fixed;bottom:80px;right:24px;padding:12px 20px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif;font-weight:500;box-shadow:0 20px 60px rgba(0,0,0,.2);max-width:300px;";document.body.appendChild(t)}const bg={dark:'#0f0e0c',ok:'#057a55',err:'#c81c1c'};t.style.background=bg[type]||bg.dark;t.style.color='#fff';t.textContent=msg;t.style.transform='translateY(0)';clearTimeout(t._t);t._t=setTimeout(()=>t.style.transform='translateY(80px)',4000)}
+window.showToast=toast
 </script>
 </body>
 </html>
