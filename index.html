@@ -96,7 +96,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--b);-webkit-font-sm
 .msg-box.ok{display:block;background:var(--gl);color:var(--green);border:1px solid var(--gm);}
 .sub-btn{width:100%;padding:14px;background:var(--text);color:var(--bg);border:none;border-radius:10px;font-family:var(--b);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
 .sub-btn:disabled{opacity:.6;pointer-events:none;}
-.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:currentColor;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+.spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:currentColor;border-radius:50%;animation:spin .7s linear infinite;display:none;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .form-note{font-size:.73rem;color:var(--text3);text-align:center;margin-top:10px;}
 .form-link{font-size:.8rem;color:var(--accent);cursor:pointer;text-align:center;margin-top:10px;display:block;}
@@ -248,7 +248,7 @@ const SB_URL = "https://jbshkbqchrehfhoodtuj.supabase.co"
 const SB_KEY = "sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs"
 const sb = createClient(SB_URL, SB_KEY, { auth: { autoRefreshToken: true, persistSession: true } })
 
-// ── DARK MODE ─────────────────────────────────────────────────
+// ── DARK MODE
 const savedTheme = localStorage.getItem('ln_theme') || 'light'
 document.documentElement.setAttribute('data-theme', savedTheme)
 document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '☀️' : '🌙'
@@ -260,58 +260,108 @@ window.toggleTheme = () => {
   localStorage.setItem('ln_theme', next)
 }
 
-// ── AUTH ──────────────────────────────────────────────────────
+// ── AUTH LISTENERS
 sb.auth.getSession().then(({ data: { session } }) => {
   if (session?.user) updateNavConnected(session.user)
 })
-sb.auth.onAuthStateChange(async (_, session) => {
-  if (session?.user) await updateNavConnected(session.user)
-  else updateNavGuest()
+
+sb.auth.onAuthStateChange(async (event, session) => {
+  console.log('Auth event:', event, 'Session:', !!session?.user)
+  if (session?.user) {
+    await updateNavConnected(session.user)
+  } else {
+    updateNavGuest()
+  }
 })
+
 async function updateNavConnected(user) {
+  console.log('Updating nav for user:', user.email)
   document.getElementById('navGuest').style.display = 'none'
-  document.getElementById('navUser').style.display  = 'flex'
-  const { data: p } = await sb.from('profiles').select('prenom,photo_url').eq('id', user.id).single()
-  const prenom = p?.prenom || user.user_metadata?.prenom || user.email?.split('@')[0] || 'Toi'
-  document.getElementById('navName').textContent = prenom
-  const av = document.getElementById('navAv')
-  if (p?.photo_url) av.innerHTML = `<img src="${p.photo_url}" alt=""/>`
-  else av.textContent = prenom.charAt(0).toUpperCase()
-}
-function updateNavGuest() {
-  document.getElementById('navGuest').style.display = 'flex'
-  document.getElementById('navUser').style.display  = 'none'
+  document.getElementById('navUser').style.display = 'flex'
+  
+  try {
+    const { data: p, error } = await sb.from('profiles').select('prenom,photo_url').eq('id', user.id).single()
+    if (error) console.error('Profile fetch error:', error)
+    
+    const prenom = p?.prenom || user.user_metadata?.prenom || user.email?.split('@')[0] || 'Toi'
+    document.getElementById('navName').textContent = prenom
+    
+    const av = document.getElementById('navAv')
+    if (p?.photo_url) av.innerHTML = `<img src="${p.photo_url}" alt=""/>`
+    else av.textContent = prenom.charAt(0).toUpperCase()
+  } catch (e) {
+    console.error('updateNavConnected error:', e)
+  }
 }
 
-// ── STATS ─────────────────────────────────────────────────────
+function updateNavGuest() {
+  console.log('Updating nav for guest')
+  document.getElementById('navGuest').style.display = 'flex'
+  document.getElementById('navUser').style.display = 'none'
+}
+
+// ── STATS
 async function loadStats() {
   const { data: s } = await sb.from('stats').select('*').eq('id', 1).single()
   if (s) {
     animNum('sInscrits', s.total_inscrits || 0)
     animNum('sSessions', s.total_sessions || 0)
-    animNum('sCours',    s.total_cours    || 0)
+    animNum('sCours', s.total_cours || 0)
   }
 }
+
 const onlineCh = sb.channel('home-online', { config: { presence: { key: 'v-' + Math.random().toString(36).substr(2,6) } } })
-onlineCh.on('presence', { event: 'sync' }, () => { document.getElementById('sOnline').textContent = Object.keys(onlineCh.presenceState()).length }).subscribe(async s => { if (s === 'SUBSCRIBED') await onlineCh.track({ online: 1 }) })
-sb.channel('stats-rt').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'stats' }, p => { animNum('sInscrits', p.new.total_inscrits||0); animNum('sSessions', p.new.total_sessions||0); animNum('sCours', p.new.total_cours||0) }).subscribe()
+onlineCh.on('presence', { event: 'sync' }, () => {
+  document.getElementById('sOnline').textContent = Object.keys(onlineCh.presenceState()).length
+}).subscribe(async s => {
+  if (s === 'SUBSCRIBED') await onlineCh.track({ online: 1 })
+})
+
+sb.channel('stats-rt').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'stats' }, p => {
+  animNum('sInscrits', p.new.total_inscrits || 0)
+  animNum('sSessions', p.new.total_sessions || 0)
+  animNum('sCours', p.new.total_cours || 0)
+}).subscribe()
+
 function animNum(id, target) {
-  const el = document.getElementById(id); if (!el) return
-  const start = parseInt(el.textContent.replace(/\D/g,'')) || 0
-  let i = 0; const iv = setInterval(() => { i++; el.textContent = Math.round(start + (target - start) * (i/20)).toLocaleString('fr'); if (i >= 20) { el.textContent = target.toLocaleString('fr'); clearInterval(iv) } }, 40)
+  const el = document.getElementById(id)
+  if (!el) return
+  const start = parseInt(el.textContent.replace(/\D/g, '')) || 0
+  let i = 0
+  const iv = setInterval(() => {
+    i++
+    el.textContent = Math.round(start + (target - start) * (i / 20)).toLocaleString('fr')
+    if (i >= 20) {
+      el.textContent = target.toLocaleString('fr')
+      clearInterval(iv)
+    }
+  }, 40)
 }
+
 loadStats()
 
-// ── SESSIONS ──────────────────────────────────────────────────
+// ── SESSIONS
 async function loadSessions() {
   const { data: sessions } = await sb.from('sessions').select('*').order('created_at', { ascending: false }).limit(6)
   const grid = document.getElementById('sessionsGrid')
-  if (!sessions?.length) { grid.innerHTML = '<div class="sc-empty"><div style="font-size:1.8rem;margin-bottom:10px">📅</div><strong style="display:block;margin-bottom:6px">Aucune session</strong><p>Revenez bientôt !</p></div>'; return }
+  
+  if (!sessions?.length) {
+    grid.innerHTML = '<div class="sc-empty"><div style="font-size:1.8rem;margin-bottom:10px">📅</div><strong style="display:block;margin-bottom:6px">Aucune session</strong></div>'
+    return
+  }
+  
   grid.innerHTML = ''
   sessions.forEach(s => {
-    const badge = s.statut === 'en_cours' ? `<span class="badge badge-live"><span class="dot-red"></span> En direct</span>` : s.statut === 'planifie' ? `<span class="badge badge-soon">⏰ ${s.heure || ''}</span>` : `<span class="badge badge-done">✓ Terminé</span>`
-    const card = document.createElement('div'); card.className = 'session-card'
-    card.innerHTML = `<div class="sc-head">${badge}<span style="font-size:.72rem;color:var(--text3)">${s.nb_inscrits||0} inscrits</span></div><div class="sc-title">${s.titre}</div><div class="sc-desc">${s.format || '—'}</div><div class="sc-foot"><span class="sc-ia">🤖 IA</span><span class="sc-time">${s.created_at ? new Date(s.created_at).toLocaleDateString('fr-FR') : '—'}</span></div>`
+    const badge = s.statut === 'en_cours' 
+      ? `<span class="badge badge-live"><span class="dot-red"></span> En direct</span>`
+      : s.statut === 'planifie'
+      ? `<span class="badge badge-soon">⏰ ${s.heure || ''}</span>`
+      : `<span class="badge badge-done">✓ Terminé</span>`
+    
+    const card = document.createElement('div')
+    card.className = 'session-card'
+    card.innerHTML = `<div class="sc-head">${badge}<span style="font-size:.72rem;color:var(--text3)">${s.nb_inscrits || 0} inscrits</span></div><div class="sc-title">${s.titre}</div><div class="sc-desc">${s.format || '—'}</div><div class="sc-foot"><span class="sc-ia">🤖 IA</span><span class="sc-time">${s.created_at ? new Date(s.created_at).toLocaleDateString('fr-FR') : '—'}</span></div>`
+    
     card.onclick = async () => {
       const { data: { session } } = await sb.auth.getSession()
       if (session) window.location.href = `waiting.html?session=${s.id}`
@@ -320,43 +370,62 @@ async function loadSessions() {
     grid.appendChild(card)
   })
 }
+
 loadSessions()
 sb.channel('sess-rt').on('postgres_changes', { event: '*', schema: 'public', table: 'sessions' }, loadSessions).subscribe()
 
-// ── MODAL ─────────────────────────────────────────────────────
-window.openModal = (tab = 'signup') => { document.getElementById('modalOv').classList.add('show'); switchTab(tab); setTimeout(() => { const el = tab === 'signup' ? document.getElementById('sPrenom') : document.getElementById('lEmail'); el?.focus() }, 100) }
-window.closeModal = () => { document.getElementById('modalOv').classList.remove('show'); resetForms() }
-window.switchTab = (tab) => { document.getElementById('panelSignup').style.display = tab === 'signup' ? 'block' : 'none'; document.getElementById('panelLogin').style.display = tab === 'login' ? 'block' : 'none'; document.getElementById('tabS').classList.toggle('active', tab === 'signup'); document.getElementById('tabL').classList.toggle('active', tab === 'login') }
+// ── MODAL
+window.openModal = (tab = 'signup') => {
+  document.getElementById('modalOv').classList.add('show')
+  switchTab(tab)
+  setTimeout(() => {
+    const el = tab === 'signup' ? document.getElementById('sPrenom') : document.getElementById('lEmail')
+    el?.focus()
+  }, 100)
+}
+
+window.closeModal = () => {
+  document.getElementById('modalOv').classList.remove('show')
+  resetForms()
+}
+
+window.switchTab = (tab) => {
+  document.getElementById('panelSignup').style.display = tab === 'signup' ? 'block' : 'none'
+  document.getElementById('panelLogin').style.display = tab === 'login' ? 'block' : 'none'
+  document.getElementById('tabS').classList.toggle('active', tab === 'signup')
+  document.getElementById('tabL').classList.toggle('active', tab === 'login')
+}
+
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal() })
 document.getElementById('sPassword').addEventListener('keypress', e => { if (e.key === 'Enter') doSignUp() })
 document.getElementById('lPassword').addEventListener('keypress', e => { if (e.key === 'Enter') doSignIn() })
 
-// ── INSCRIPTION ─────────────────────────────────────────────────
+// ── SIGNUP
 window.doSignUp = async () => {
   const prenom = document.getElementById('sPrenom').value.trim()
-  const email  = document.getElementById('sEmail').value.trim().toLowerCase()
-  const pass   = document.getElementById('sPassword').value
-  const btn    = document.getElementById('sBtnSignup')
+  const email = document.getElementById('sEmail').value.trim().toLowerCase()
+  const pass = document.getElementById('sPassword').value
+  const btn = document.getElementById('sBtnSignup')
   const btnTxt = document.getElementById('sBtnTxt')
   const spin = document.getElementById('sSpin')
   
   clearMsg('sMsg')
-  clearErrs(['sPrenom','sEmail','sPassword'])
+  clearErrs(['sPrenom', 'sEmail', 'sPassword'])
   
-  if (!prenom || prenom.length < 2) { 
+  if (!prenom || prenom.length < 2) {
     setErr('sPrenom')
-    showMsg('sMsg','err','⚠️ Entre ton prénom (min. 2 caractères).')
-    return 
+    showMsg('sMsg', 'err', '⚠️ Entre ton prénom (min. 2 caractères).')
+    return
   }
-  if (!email || !email.includes('@')) { 
+  if (!email || !email.includes('@')) {
     setErr('sEmail')
-    showMsg('sMsg','err','⚠️ Adresse email invalide.')
-    return 
+    showMsg('sMsg', 'err', '⚠️ Adresse email invalide.')
+    return
   }
-  if (pass.length < 6) { 
+  if (pass.length < 6) {
     setErr('sPassword')
-    showMsg('sMsg','err','⚠️ Mot de passe trop court (min. 6).')
-    return 
+    showMsg('sMsg', 'err', '⚠️ Mot de passe trop court (min. 6).')
+    return
   }
   
   btn.disabled = true
@@ -364,33 +433,33 @@ window.doSignUp = async () => {
   spin.style.display = 'inline-block'
   
   try {
-    const { data, error } = await sb.auth.signUp({ 
-      email, 
-      password: pass, 
-      options: { data: { prenom } } 
+    const { data, error } = await sb.auth.signUp({
+      email,
+      password: pass,
+      options: { data: { prenom } }
     })
     
-    if (error) { 
-      showMsg('sMsg','err', trErr(error.message))
+    if (error) {
+      showMsg('sMsg', 'err', trErr(error.message))
       btn.disabled = false
       btnTxt.textContent = 'Créer mon compte gratuitement'
       spin.style.display = 'none'
-      return 
+      return
     }
     
     if (data.user) {
-      await sb.from('profiles').upsert({ 
-        id: data.user.id, 
-        prenom, 
-        email, 
-        role: 'student', 
-        score_total: 0 
+      await sb.from('profiles').upsert({
+        id: data.user.id,
+        prenom,
+        email,
+        role: 'student',
+        score_total: 0
       }).catch(() => {})
       
       await sb.rpc('increment_stat', { stat_name: 'total_inscrits' }).catch(() => {})
     }
     
-    showMsg('sMsg','ok',`🎉 Bienvenue ${prenom} !`)
+    showMsg('sMsg', 'ok', `🎉 Bienvenue ${prenom} !`)
     btnTxt.textContent = '✅ Inscription réussie !'
     spin.style.display = 'none'
     
@@ -406,33 +475,34 @@ window.doSignUp = async () => {
     }, 1500)
     
   } catch (e) {
-    showMsg('sMsg','err','❌ Problème de connexion.')
+    console.error('SignUp error:', e)
+    showMsg('sMsg', 'err', '❌ Problème de connexion.')
     btn.disabled = false
     btnTxt.textContent = 'Créer mon compte gratuitement'
     spin.style.display = 'none'
   }
 }
 
-// ── CONNEXION ─────────────────────────────────────────────────
+// ── LOGIN
 window.doSignIn = async () => {
   const email = document.getElementById('lEmail').value.trim().toLowerCase()
-  const pass  = document.getElementById('lPassword').value
-  const btn   = document.getElementById('lBtn')
+  const pass = document.getElementById('lPassword').value
+  const btn = document.getElementById('lBtn')
   const btnTxt = document.getElementById('lBtnTxt')
   const spin = document.getElementById('lSpin')
   
   clearMsg('lMsg')
-  clearErrs(['lEmail','lPassword'])
+  clearErrs(['lEmail', 'lPassword'])
   
-  if (!email || !email.includes('@')) { 
+  if (!email || !email.includes('@')) {
     setErr('lEmail')
-    showMsg('lMsg','err','⚠️ Email invalide.')
-    return 
+    showMsg('lMsg', 'err', '⚠️ Email invalide.')
+    return
   }
-  if (!pass) { 
+  if (!pass) {
     setErr('lPassword')
-    showMsg('lMsg','err','⚠️ Entre ton mot de passe.')
-    return 
+    showMsg('lMsg', 'err', '⚠️ Entre ton mot de passe.')
+    return
   }
   
   btn.disabled = true
@@ -440,16 +510,20 @@ window.doSignIn = async () => {
   spin.style.display = 'inline-block'
   
   try {
+    console.log('Attempting login for:', email)
     const { data, error } = await sb.auth.signInWithPassword({ email, password: pass })
     
-    if (error) { 
-      showMsg('lMsg','err', trErr(error.message))
+    if (error) {
+      console.error('Login error:', error)
+      showMsg('lMsg', 'err', trErr(error.message))
       setErr('lPassword')
       btn.disabled = false
       btnTxt.textContent = 'Se connecter'
       spin.style.display = 'none'
-      return 
+      return
     }
+    
+    console.log('Login successful:', data.user.email)
     
     const user = data.user
     const { data: p } = await sb.from('profiles').select('prenom,photo_url').eq('id', user.id).single()
@@ -466,69 +540,133 @@ window.doSignIn = async () => {
     closeModal()
     showToast(`👋 Bon retour, ${prenom} !`)
     
+    // ✅ REDIRECTION
     setTimeout(() => {
       window.location.href = 'waiting.html'
     }, 1000)
     
-  } catch (e) { 
-    showMsg('lMsg','err','❌ Problème de connexion.')
+  } catch (e) {
+    console.error('SignIn catch error:', e)
+    showMsg('lMsg', 'err', '❌ Problème de connexion.')
     btn.disabled = false
     btnTxt.textContent = 'Se connecter'
     spin.style.display = 'none'
   }
 }
 
-// ── DÉCONNEXION ──────────────────────────────────────────────
-window.doSignOut = async () => { 
-  await sb.auth.signOut()
-  updateNavGuest()
-  showToast('À bientôt !')
-  setTimeout(() => {
-    window.location.href = 'index.html'
-  }, 500)
+// ── LOGOUT
+window.doSignOut = async () => {
+  console.log('Signing out...')
+  try {
+    await sb.auth.signOut()
+    console.log('Signout successful')
+    updateNavGuest()
+    showToast('À bientôt !')
+    
+    setTimeout(() => {
+      window.location.href = 'index.html'
+    }, 500)
+  } catch (e) {
+    console.error('Signout error:', e)
+    showToast('❌ Erreur lors de la déconnexion')
+  }
 }
 
-// ── CTA ────────────────────────────────────────────────────
+// ── CTA SIGNUP
 window.ctaSignUp = async () => {
   const prenom = document.getElementById('ctaPrenom').value.trim()
   const email = document.getElementById('ctaEmail').value.trim().toLowerCase()
   const pass = document.getElementById('ctaPass').value
   const btn = document.getElementById('ctaBtn')
-  const msgEl = document.getElementById('ctaMsg')
-  msgEl.className = 'cta-msg'
   
-  if (!prenom || prenom.length < 2) { showCtaMsg('err-s','⚠️ Entre ton prénom.'); return }
-  if (!email || !email.includes('@')) { showCtaMsg('err-s','⚠️ Email invalide.'); return }
-  if (pass.length < 6) { showCtaMsg('err-s','⚠️ Mot de passe trop court (min. 6).'); return }
+  if (!prenom || prenom.length < 2) { showCtaMsg('err-s', '⚠️ Entre ton prénom.'); return }
+  if (!email || !email.includes('@')) { showCtaMsg('err-s', '⚠️ Email invalide.'); return }
+  if (pass.length < 6) { showCtaMsg('err-s', '⚠️ Mot de passe trop court (min. 6).'); return }
   
   btn.disabled = true
   btn.textContent = 'Création...'
   
   try {
     const { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { prenom } } })
-    if (error) { showCtaMsg('err-s', trErr(error.message)); btn.disabled = false; btn.textContent = 'Rejoindre Learnova gratuitement →'; return }
-    if (data.user) { await sb.from('profiles').upsert({ id: data.user.id, prenom, email, role: 'student', score_total: 0 }).catch(() => {}); await sb.rpc('increment_stat', { stat_name: 'total_inscrits' }).catch(() => {}) }
+    
+    if (error) {
+      showCtaMsg('err-s', trErr(error.message))
+      btn.disabled = false
+      btn.textContent = 'Rejoindre Learnova gratuitement →'
+      return
+    }
+    
+    if (data.user) {
+      await sb.from('profiles').upsert({ id: data.user.id, prenom, email, role: 'student', score_total: 0 }).catch(() => {})
+      await sb.rpc('increment_stat', { stat_name: 'total_inscrits' }).catch(() => {})
+    }
+    
     showCtaMsg('ok', `🎉 Bienvenue ${prenom} !`)
     btn.textContent = '✅ Compte créé !'
+    
     document.getElementById('navGuest').style.display = 'none'
     document.getElementById('navUser').style.display = 'flex'
     document.getElementById('navName').textContent = prenom
     document.getElementById('navAv').textContent = prenom.charAt(0).toUpperCase()
+    
     document.getElementById('ctaPrenom').value = ''
     document.getElementById('ctaEmail').value = ''
     document.getElementById('ctaPass').value = ''
+    
     setTimeout(() => { window.location.href = 'waiting.html' }, 1500)
-  } catch (e) { showCtaMsg('err-s','❌ Problème. Réessaie.'); btn.disabled = false; btn.textContent = 'Rejoindre Learnova gratuitement →' }
+    
+  } catch (e) {
+    console.error('CTA signup error:', e)
+    showCtaMsg('err-s', '❌ Problème. Réessaie.')
+    btn.disabled = false
+    btn.textContent = 'Rejoindre Learnova gratuitement →'
+  }
 }
 
-function showMsg(id,t,txt){const el=document.getElementById(id);if(el){el.textContent=txt;el.className=`msg-box ${t}`}}
-function clearMsg(id){const el=document.getElementById(id);if(el)el.className='msg-box'}
-function setErr(id){document.getElementById(id)?.classList.add('err')}
-function clearErrs(ids){ids.forEach(id=>document.getElementById(id)?.classList.remove('err'))}
-function showCtaMsg(t,txt){const el=document.getElementById('ctaMsg');el.textContent=txt;el.className=`cta-msg ${t}`}
-function resetForms(){clearMsg('sMsg');clearMsg('lMsg');clearErrs(['sPrenom','sEmail','sPassword','lEmail','lPassword']);const b=document.getElementById('sBtnSignup');if(b){b.disabled=false;document.getElementById('sBtnTxt').textContent='Créer mon compte gratuitement';document.getElementById('sSpin').style.display='none'}const l=document.getElementById('lBtn');if(l){l.disabled=false;document.getElementById('lBtnTxt').textContent='Se connecter';document.getElementById('lSpin').style.display='none'}}
-function trErr(msg){if(!msg)return'Erreur.';const m=msg.toLowerCase();if(m.includes('already registered'))return'❌ Email déjà utilisé. Connecte-toi.';if(m.includes('invalid login')||m.includes('invalid password'))return'❌ Email ou mot de passe incorrect.';if(m.includes('weak password'))return'❌ Mot de passe trop faible.';return'❌ '+msg}
-function showToast(msg){let t=document.getElementById('ln-toast');if(!t){t=document.createElement('div');t.id='ln-toast';t.style.cssText="position:fixed;bottom:22px;right:80px;background:#0f0e0c;color:#fff;padding:12px 20px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s cubic-bezier(.34,1.56,.64,1)";document.body.appendChild(t)}t.textContent=msg;t.style.transform='translateY(0)';clearTimeout(t._t);t._t=setTimeout(()=>t.style.transform='translateY(80px)',3000)}
+// ── UTILS
+function showMsg(id, t, txt) { const el = document.getElementById(id); if (el) { el.textContent = txt; el.className = `msg-box ${t}` } }
+function clearMsg(id) { const el = document.getElementById(id); if (el) el.className = 'msg-box' }
+function setErr(id) { document.getElementById(id)?.classList.add('err') }
+function clearErrs(ids) { ids.forEach(id => document.getElementById(id)?.classList.remove('err')) }
+function showCtaMsg(t, txt) { const el = document.getElementById('ctaMsg'); el.textContent = txt; el.className = `cta-msg ${t}` }
+function resetForms() {
+  clearMsg('sMsg')
+  clearMsg('lMsg')
+  clearErrs(['sPrenom', 'sEmail', 'sPassword', 'lEmail', 'lPassword'])
+  const b = document.getElementById('sBtnSignup')
+  if (b) {
+    b.disabled = false
+    document.getElementById('sBtnTxt').textContent = 'Créer mon compte gratuitement'
+    document.getElementById('sSpin').style.display = 'none'
+  }
+  const l = document.getElementById('lBtn')
+  if (l) {
+    l.disabled = false
+    document.getElementById('lBtnTxt').textContent = 'Se connecter'
+    document.getElementById('lSpin').style.display = 'none'
+  }
+}
+function trErr(msg) {
+  if (!msg) return 'Erreur.'
+  const m = msg.toLowerCase()
+  if (m.includes('already registered')) return '❌ Email déjà utilisé. Connecte-toi.'
+  if (m.includes('invalid login') || m.includes('invalid password')) return '❌ Email ou mot de passe incorrect.'
+  if (m.includes('weak password')) return '❌ Mot de passe trop faible.'
+  return '❌ ' + msg
+}
+function showToast(msg) {
+  let t = document.getElementById('ln-toast')
+  if (!t) {
+    t = document.createElement('div')
+    t.id = 'ln-toast'
+    t.style.cssText = "position:fixed;bottom:22px;right:80px;background:#0f0e0c;color:#fff;padding:12px 20px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s cubic-bezier(.34,1.56,.64,1);[data-theme=dark]&{background:#fff;color:#0f0e0c}"
+    document.body.appendChild(t)
+  }
+  t.textContent = msg
+  t.style.transform = 'translateY(0)'
+  clearTimeout(t._t)
+  t._t = setTimeout(() => t.style.transform = 'translateY(80px)', 3000)
+}
 </script>
 </body>
 </html>
