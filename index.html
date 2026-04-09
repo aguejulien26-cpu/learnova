@@ -360,21 +360,61 @@ window.doSignUp = async () => {
 window.doSignIn = async () => {
   const email = document.getElementById('lEmail').value.trim().toLowerCase()
   const pass  = document.getElementById('lPassword').value
-  const btn   = document.getElementById('lBtn'); const btnTxt = document.getElementById('lBtnTxt'); const spin = document.getElementById('lSpin')
-  clearMsg('lMsg'); clearErrs(['lEmail','lPassword'])
-  if (!email || !email.includes('@')) { setErr('lEmail'); showMsg('lMsg','err','⚠️ Email invalide.'); return }
-  if (!pass) { setErr('lPassword'); showMsg('lMsg','err','⚠️ Entre ton mot de passe.'); return }
-  btn.disabled = true; btnTxt.textContent = 'Connexion...'; spin.style.display = 'block'
+  const btn   = document.getElementById('lBtn'); 
+  const btnTxt = document.getElementById('lBtnTxt'); 
+  const spin = document.getElementById('lSpin')
+  
+  clearMsg('lMsg'); 
+  clearErrs(['lEmail','lPassword'])
+  
+  if (!email || !email.includes('@')) { 
+    setErr('lEmail'); 
+    showMsg('lMsg','err','⚠️ Email invalide.'); 
+    return 
+  }
+  if (!pass) { 
+    setErr('lPassword'); 
+    showMsg('lMsg','err','⚠️ Entre ton mot de passe.'); 
+    return 
+  }
+  
+  btn.disabled = true
+  btnTxt.textContent = 'Connexion...'
+  spin.style.display = 'block'
+  
   try {
     const { data, error } = await sb.auth.signInWithPassword({ email, password: pass })
-    if (error) { showMsg('lMsg','err', trErr(error.message)); setErr('lPassword'); return }
-    const user = data.user; const { data: p } = await sb.from('profiles').select('prenom,photo_url').eq('id', user.id).single()
+    
+    if (error) { 
+      showMsg('lMsg','err', trErr(error.message))
+      setErr('lPassword')
+      return // ✅ Sort et va au finally
+    }
+    
+    const user = data.user
+    const { data: p } = await sb.from('profiles').select('prenom,photo_url').eq('id', user.id).single()
     const prenom = p?.prenom || user.email?.split('@')[0] || 'Toi'
-    document.getElementById('navGuest').style.display = 'none'; document.getElementById('navUser').style.display = 'flex'
-    document.getElementById('navName').textContent = prenom; const av = document.getElementById('navAv'); if (p?.photo_url) av.innerHTML = `<img src="${p.photo_url}" alt=""/>`; else av.textContent = prenom.charAt(0).toUpperCase()
-    closeModal(); showToast(`👋 Bon retour, ${prenom} !`)
-  } catch (e) { showMsg('lMsg','err','❌ Problème de connexion.') }
-  finally { btn.disabled = false; btnTxt.textContent = 'Se connecter'; spin.style.display = 'none' }
+    
+    document.getElementById('navGuest').style.display = 'none'
+    document.getElementById('navUser').style.display = 'flex'
+    document.getElementById('navName').textContent = prenom
+    
+    const av = document.getElementById('navAv')
+    if (p?.photo_url) av.innerHTML = `<img src="${p.photo_url}" alt=""/>`
+    else av.textContent = prenom.charAt(0).toUpperCase()
+    
+    closeModal()
+    showToast(`👋 Bon retour, ${prenom} !`)
+    
+  } catch (e) { 
+    showMsg('lMsg','err','❌ Problème de connexion.') 
+  } 
+  finally { 
+    // ✅ TOUJOURS réinitialiser le bouton
+    btn.disabled = false
+    btnTxt.textContent = 'Se connecter'
+    spin.style.display = 'none' 
+  }
 }
 
 window.doSignOut = async () => { await sb.auth.signOut(); updateNavGuest(); showToast('À bientôt !') }
