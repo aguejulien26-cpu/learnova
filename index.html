@@ -331,50 +331,109 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 document.getElementById('sPassword').addEventListener('keypress', e => { if (e.key === 'Enter') doSignUp() })
 document.getElementById('lPassword').addEventListener('keypress', e => { if (e.key === 'Enter') doSignIn() })
 
-// ── INSCRIPTION (FIX SPINNER INFINI) ─────────────────────────
+// ── INSCRIPTION ─────────────────────────────────────────────────
 window.doSignUp = async () => {
   const prenom = document.getElementById('sPrenom').value.trim()
   const email  = document.getElementById('sEmail').value.trim().toLowerCase()
   const pass   = document.getElementById('sPassword').value
-  const btn    = document.getElementById('sBtnSignup'); const btnTxt = document.getElementById('sBtnTxt'); const spin = document.getElementById('sSpin')
-  clearMsg('sMsg'); clearErrs(['sPrenom','sEmail','sPassword'])
-  if (!prenom || prenom.length < 2) { setErr('sPrenom'); showMsg('sMsg','err','⚠️ Entre ton prénom (min. 2 caractères).'); return }
-  if (!email || !email.includes('@')) { setErr('sEmail'); showMsg('sMsg','err','⚠️ Adresse email invalide.'); return }
-  if (pass.length < 6) { setErr('sPassword'); showMsg('sMsg','err','⚠️ Mot de passe trop court (min. 6).'); return }
-  btn.disabled = true; btnTxt.textContent = 'Création en cours...'; spin.style.display = 'block'
+  const btn    = document.getElementById('sBtnSignup')
+  const btnTxt = document.getElementById('sBtnTxt')
+  const spin = document.getElementById('sSpin')
+  
+  clearMsg('sMsg')
+  clearErrs(['sPrenom','sEmail','sPassword'])
+  
+  if (!prenom || prenom.length < 2) { 
+    setErr('sPrenom')
+    showMsg('sMsg','err','⚠️ Entre ton prénom (min. 2 caractères).')
+    return 
+  }
+  if (!email || !email.includes('@')) { 
+    setErr('sEmail')
+    showMsg('sMsg','err','⚠️ Adresse email invalide.')
+    return 
+  }
+  if (pass.length < 6) { 
+    setErr('sPassword')
+    showMsg('sMsg','err','⚠️ Mot de passe trop court (min. 6).')
+    return 
+  }
+  
+  btn.disabled = true
+  btnTxt.textContent = 'Création en cours...'
+  spin.style.display = 'block'
+  
   try {
-    const { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { prenom } } })
-    if (error) { showMsg('sMsg','err', trErr(error.message)); return }
-    if (data.user) { await sb.from('profiles').upsert({ id: data.user.id, prenom, email, role: 'student', score_total: 0 }).catch(() => {}); await sb.rpc('increment_stat', { stat_name: 'total_inscrits' }).catch(() => {}) }
-    // FIX : mise à jour nav immédiate sans attendre onAuthStateChange
-    showMsg('sMsg','ok',`🎉 Bienvenue ${prenom} ! Compte créé.`)
-    btnTxt.textContent = '✅ Compte créé !'; spin.style.display = 'none'
-    document.getElementById('navGuest').style.display = 'none'; document.getElementById('navUser').style.display = 'flex'
-    document.getElementById('navName').textContent = prenom; document.getElementById('navAv').textContent = prenom.charAt(0).toUpperCase()
-    setTimeout(() => { closeModal(); showToast(`🎉 Bienvenue ${prenom} sur Learnova !`) }, 1800)
-  } catch (e) { showMsg('sMsg','err','❌ Problème de connexion.') }
-  finally { if (btnTxt.textContent !== '✅ Compte créé !') { btn.disabled = false; btnTxt.textContent = 'Créer mon compte gratuitement'; spin.style.display = 'none' } }
+    const { data, error } = await sb.auth.signUp({ 
+      email, 
+      password: pass, 
+      options: { data: { prenom } } 
+    })
+    
+    if (error) { 
+      showMsg('sMsg','err', trErr(error.message))
+      btn.disabled = false
+      btnTxt.textContent = 'Créer mon compte gratuitement'
+      spin.style.display = 'none'
+      return 
+    }
+    
+    if (data.user) {
+      await sb.from('profiles').upsert({ 
+        id: data.user.id, 
+        prenom, 
+        email, 
+        role: 'student', 
+        score_total: 0 
+      }).catch(() => {})
+      
+      await sb.rpc('increment_stat', { stat_name: 'total_inscrits' }).catch(() => {})
+    }
+    
+    showMsg('sMsg','ok',`🎉 Bienvenue ${prenom} !`)
+    btnTxt.textContent = '✅ Inscription réussie !'
+    spin.style.display = 'none'
+    
+    // ✅ Mise à jour nav
+    document.getElementById('navGuest').style.display = 'none'
+    document.getElementById('navUser').style.display = 'flex'
+    document.getElementById('navName').textContent = prenom
+    document.getElementById('navAv').textContent = prenom.charAt(0).toUpperCase()
+    
+    // ✅ Redirection après 1.5 secondes
+    setTimeout(() => {
+      closeModal()
+      showToast(`🎉 Bienvenue ${prenom} sur Learnova !`)
+      window.location.href = 'waiting.html' // ✅ REDIRECTION
+    }, 1500)
+    
+  } catch (e) {
+    showMsg('sMsg','err','❌ Problème de connexion.')
+    btn.disabled = false
+    btnTxt.textContent = 'Créer mon compte gratuitement'
+    spin.style.display = 'none'
+  }
 }
 
 // ── CONNEXION ─────────────────────────────────────────────────
 window.doSignIn = async () => {
   const email = document.getElementById('lEmail').value.trim().toLowerCase()
   const pass  = document.getElementById('lPassword').value
-  const btn   = document.getElementById('lBtn'); 
-  const btnTxt = document.getElementById('lBtnTxt'); 
+  const btn   = document.getElementById('lBtn')
+  const btnTxt = document.getElementById('lBtnTxt')
   const spin = document.getElementById('lSpin')
   
-  clearMsg('lMsg'); 
+  clearMsg('lMsg')
   clearErrs(['lEmail','lPassword'])
   
   if (!email || !email.includes('@')) { 
-    setErr('lEmail'); 
-    showMsg('lMsg','err','⚠️ Email invalide.'); 
+    setErr('lEmail')
+    showMsg('lMsg','err','⚠️ Email invalide.')
     return 
   }
   if (!pass) { 
-    setErr('lPassword'); 
-    showMsg('lMsg','err','⚠️ Entre ton mot de passe.'); 
+    setErr('lPassword')
+    showMsg('lMsg','err','⚠️ Entre ton mot de passe.')
     return 
   }
   
@@ -388,7 +447,10 @@ window.doSignIn = async () => {
     if (error) { 
       showMsg('lMsg','err', trErr(error.message))
       setErr('lPassword')
-      return // ✅ Sort et va au finally
+      btn.disabled = false
+      btnTxt.textContent = 'Se connecter'
+      spin.style.display = 'none'
+      return 
     }
     
     const user = data.user
@@ -397,6 +459,114 @@ window.doSignIn = async () => {
     
     document.getElementById('navGuest').style.display = 'none'
     document.getElementById('navUser').style.display = 'flex'
+    document.getElementById('navName').textContent = prenom
+    
+    const av = document.getElementById('navAv')
+    if (p?.photo_url) av.innerHTML = `<img src="${p.photo_url}" alt=""/>`
+    else av.textContent = prenom.charAt(0).toUpperCase()
+    
+    // ✅ Fermer modal ET rediriger
+    closeModal()
+    showToast(`👋 Bon retour, ${prenom} !`)
+    
+    // ✅ Redirection après 1 seconde
+    setTimeout(() => {
+      window.location.href = 'waiting.html' // ✅ REDIRECTION
+    }, 1000)
+    
+  } catch (e) { 
+    showMsg('lMsg','err','❌ Problème de connexion.')
+    btn.disabled = false
+    btnTxt.textContent = 'Se connecter'
+    spin.style.display = 'none'
+  }
+}
+
+// ── DÉCONNEXION ──────────────────────────────────────────────
+window.doSignOut = async () => { 
+  await sb.auth.signOut()
+  updateNavGuest()
+  showToast('À bientôt !')
+  // ✅ Redirection après déconnexion
+  setTimeout(() => {
+    window.location.href = 'index.html'
+  }, 500)
+}
+
+// ── CTA (Section bas) ────────────────────────────────────────
+window.ctaSignUp = async () => {
+  const prenom = document.getElementById('ctaPrenom').value.trim()
+  const email = document.getElementById('ctaEmail').value.trim().toLowerCase()
+  const pass = document.getElementById('ctaPass').value
+  const btn = document.getElementById('ctaBtn')
+  const msgEl = document.getElementById('ctaMsg')
+  msgEl.className = 'cta-msg'
+  
+  if (!prenom || prenom.length < 2) { 
+    showCtaMsg('err-s','⚠️ Entre ton prénom.')
+    return 
+  }
+  if (!email || !email.includes('@')) { 
+    showCtaMsg('err-s','⚠️ Email invalide.')
+    return 
+  }
+  if (pass.length < 6) { 
+    showCtaMsg('err-s','⚠️ Mot de passe trop court (min. 6).')
+    return 
+  }
+  
+  btn.disabled = true
+  btn.textContent = 'Création...'
+  
+  try {
+    const { data, error } = await sb.auth.signUp({ 
+      email, 
+      password: pass, 
+      options: { data: { prenom } } 
+    })
+    
+    if (error) { 
+      showCtaMsg('err-s', trErr(error.message))
+      btn.disabled = false
+      btn.textContent = 'Rejoindre Learnova gratuitement →'
+      return 
+    }
+    
+    if (data.user) { 
+      await sb.from('profiles').upsert({ 
+        id: data.user.id, 
+        prenom, 
+        email, 
+        role: 'student', 
+        score_total: 0 
+      }).catch(() => {})
+      
+      await sb.rpc('increment_stat', { stat_name: 'total_inscrits' }).catch(() => {})
+    }
+    
+    showCtaMsg('ok', `🎉 Bienvenue ${prenom} !`)
+    btn.textContent = '✅ Compte créé !'
+    
+    document.getElementById('navGuest').style.display = 'none'
+    document.getElementById('navUser').style.display = 'flex'
+    document.getElementById('navName').textContent = prenom
+    document.getElementById('navAv').textContent = prenom.charAt(0).toUpperCase()
+    
+    document.getElementById('ctaPrenom').value = ''
+    document.getElementById('ctaEmail').value = ''
+    document.getElementById('ctaPass').value = ''
+    
+    // ✅ Redirection
+    setTimeout(() => {
+      window.location.href = 'waiting.html'
+    }, 1500)
+    
+  } catch (e) { 
+    showCtaMsg('err-s','❌ Problème. Réessaie.')
+    btn.disabled = false
+    btn.textContent = 'Rejoindre Learnova gratuitement →' 
+  }
+} document.getElementById('navUser').style.display = 'flex'
     document.getElementById('navName').textContent = prenom
     
     const av = document.getElementById('navAv')
