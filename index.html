@@ -554,21 +554,35 @@ window.doSignIn = async () => {
   }
 }
 
-// ── LOGOUT
+// ── LOGOUT - DÉCONNEXION CORRIGÉE
 window.doSignOut = async () => {
-  console.log('Signing out...')
+  console.log('🚀 Signing out...')
   try {
+    // ✅ Vider la session Supabase
     await sb.auth.signOut()
-    console.log('Signout successful')
-    updateNavGuest()
-    showToast('À bientôt !')
+    console.log('✅ Signout successful')
     
+    // ✅ Vider le localStorage
+    localStorage.removeItem('sb-' + SB_URL.split('//')[1].split('.')[0] + '-auth-token')
+    localStorage.removeItem('supabase.auth.token')
+    localStorage.clear() // ✅ Nettoyer tout
+    
+    // ✅ Mettre à jour la nav
+    updateNavGuest()
+    showToast('À bientôt ! 👋')
+    
+    // ✅ Redirection après 1 seconde
     setTimeout(() => {
       window.location.href = 'index.html'
-    }, 500)
+      window.location.reload() // ✅ FORCE le rechargement
+    }, 1000)
+    
   } catch (e) {
-    console.error('Signout error:', e)
+    console.error('❌ Signout error:', e)
     showToast('❌ Erreur lors de la déconnexion')
+    // Forcer la déconnexion même s'il y a erreur
+    localStorage.clear()
+    window.location.href = 'index.html'
   }
 }
 
