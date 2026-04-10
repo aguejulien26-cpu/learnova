@@ -246,7 +246,15 @@ footer{border-top:1px solid var(--border);padding:32px 0 20px;}
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 const SB_URL = "https://jbshkbqchrehfhoodtuj.supabase.co"
 const SB_KEY = "sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs"
-const sb = createClient(SB_URL, SB_KEY, { auth: { autoRefreshToken: true, persistSession: true } })
+const sb = createClient(SB_URL, SB_KEY, { 
+  auth: { 
+    autoRefreshToken: true, 
+    persistSession: true,
+    detectSessionInUrl: true,
+    storage: window.localStorage,
+    storageKey: 'sb-auth-token'
+  } 
+})
 
 // ── DARK MODE
 const savedTheme = localStorage.getItem('ln_theme') || 'light'
@@ -260,28 +268,53 @@ window.toggleTheme = () => {
   localStorage.setItem('ln_theme', next)
 }
 
-// ── AUTH LISTENERS
-sb.auth.getSession().then(({ data: { session } }) => {
-  if (session?.user) updateNavConnected(session.user)
-})
+// ── INIT AUTH STATE
+let isInitialized = false
 
-sb.auth.onAuthStateChange(async (event, session) => {
-  console.log('Auth event:', event, 'Session:', !!session?.user)
+async function initAuth() {
+  if (isInitialized) return
+  isInitialized = true
+  
+  // ✅ Vérifier la session au chargement
+  const { data: { session } } = await sb.auth.getSession()
+  console.log('📱 Initial session check:', session ? 'LOGGED IN' : 'LOGGED OUT')
+  
   if (session?.user) {
     await updateNavConnected(session.user)
   } else {
     updateNavGuest()
   }
+}
+
+// ── AUTH STATE LISTENER
+sb.auth.onAuthStateChange(async (event, session) => {
+  console.log('🔄 Auth event:', event)
+  
+  if (event === 'SIGNED_OUT') {
+    console.log('❌ User signed out')
+    updateNavGuest()
+    // Nettoyer le localStorage
+    localStorage.removeItem('sb-auth-token')
+    localStorage.removeItem('supabase.auth.token')
+    return
+  }
+  
+  if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
+    if (session?.user) {
+      console.log('✅ User signed in:', session.user.email)
+      await updateNavConnected(session.user)
+    }
+  }
 })
 
 async function updateNavConnected(user) {
-  console.log('Updating nav for user:', user.email)
+  console.log('👤 Updating nav for user:', user.email)
   document.getElementById('navGuest').style.display = 'none'
   document.getElementById('navUser').style.display = 'flex'
   
   try {
     const { data: p, error } = await sb.from('profiles').select('prenom,photo_url').eq('id', user.id).single()
-    if (error) console.error('Profile fetch error:', error)
+    if (error) console.error('❌ Profile fetch error:', error)
     
     const prenom = p?.prenom || user.user_metadata?.prenom || user.email?.split('@')[0] || 'Toi'
     document.getElementById('navName').textContent = prenom
@@ -290,15 +323,17 @@ async function updateNavConnected(user) {
     if (p?.photo_url) av.innerHTML = `<img src="${p.photo_url}" alt=""/>`
     else av.textContent = prenom.charAt(0).toUpperCase()
   } catch (e) {
-    console.error('updateNavConnected error:', e)
+    console.error('❌ updateNavConnected error:', e)
   }
 }
 
 function updateNavGuest() {
-  console.log('Updating nav for guest')
+  console.log('👥 Updating nav for guest')
   document.getElementById('navGuest').style.display = 'flex'
   document.getElementById('navUser').style.display = 'none'
 }
+
+initAuth()
 
 // ── STATS
 async function loadStats() {
@@ -475,7 +510,7 @@ window.doSignUp = async () => {
     }, 1500)
     
   } catch (e) {
-    console.error('SignUp error:', e)
+    console.error('❌ SignUp error:', e)
     showMsg('sMsg', 'err', '❌ Problème de connexion.')
     btn.disabled = false
     btnTxt.textContent = 'Créer mon compte gratuitement'
@@ -510,11 +545,11 @@ window.doSignIn = async () => {
   spin.style.display = 'inline-block'
   
   try {
-    console.log('Attempting login for:', email)
+    console.log('🔑 Attempting login for:', email)
     const { data, error } = await sb.auth.signInWithPassword({ email, password: pass })
     
     if (error) {
-      console.error('Login error:', error)
+      console.error('❌ Login error:', error)
       showMsg('lMsg', 'err', trErr(error.message))
       setErr('lPassword')
       btn.disabled = false
@@ -523,7 +558,7 @@ window.doSignIn = async () => {
       return
     }
     
-    console.log('Login successful:', data.user.email)
+    console.log('✅ Login successful:', data.user.email)
     
     const user = data.user
     const { data: p } = await sb.from('profiles').select('prenom,photo_url').eq('id', user.id).single()
@@ -540,13 +575,12 @@ window.doSignIn = async () => {
     closeModal()
     showToast(`👋 Bon retour, ${prenom} !`)
     
-    // ✅ REDIRECTION
     setTimeout(() => {
       window.location.href = 'waiting.html'
     }, 1000)
     
   } catch (e) {
-    console.error('SignIn catch error:', e)
+    console.error('❌ SignIn catch error:', e)
     showMsg('lMsg', 'err', '❌ Problème de connexion.')
     btn.disabled = false
     btnTxt.textContent = 'Se connecter'
@@ -554,34 +588,48 @@ window.doSignIn = async () => {
   }
 }
 
-// ── LOGOUT - DÉCONNEXION CORRIGÉE
+// ── LOGOUT - DÉCONNEXION CORRIGÉE ✅
 window.doSignOut = async () => {
-  console.log('🚀 Signing out...')
+  console.log('🚪 Starting logout...')
+  
   try {
-    // ✅ Vider la session Supabase
-    await sb.auth.signOut()
-    console.log('✅ Signout successful')
+    // ✅ Étape 1: Invalider les sessions dans la base de données
+    const { data: { session } } = await sb.auth.getSession()
+    if (session?.user) {
+      console.log('🔄 Invalidating user sessions...')
+      await sb.rpc('invalidate_user_sessions', { user_id: session.user.id }).catch(e => console.log('⚠️ RPC call optional:', e))
+    }
     
-    // ✅ Vider le localStorage
-    localStorage.removeItem('sb-' + SB_URL.split('//')[1].split('.')[0] + '-auth-token')
-    localStorage.removeItem('supabase.auth.token')
-    localStorage.clear() // ✅ Nettoyer tout
+    // ✅ Étape 2: Déconnecter de Supabase
+    const { error } = await sb.auth.signOut()
+    if (error) {
+      console.error('⚠️ Signout error:', error)
+    }
     
-    // ✅ Mettre à jour la nav
+    console.log('✅ Signed out from Supabase')
+    
+    // ✅ Étape 3: Nettoyer TOUT le localStorage
+    localStorage.clear()
+    sessionStorage.clear()
+    console.log('🧹 Cleared all storage')
+    
+    // ✅ Étape 4: Mettre à jour l'UI
     updateNavGuest()
     showToast('À bientôt ! 👋')
     
-    // ✅ Redirection après 1 seconde
+    // ✅ Étape 5: Redirection + Reload force
     setTimeout(() => {
       window.location.href = 'index.html'
-      window.location.reload() // ✅ FORCE le rechargement
+      window.location.reload(true) // true = force le reload du serveur
     }, 1000)
     
   } catch (e) {
-    console.error('❌ Signout error:', e)
-    showToast('❌ Erreur lors de la déconnexion')
-    // Forcer la déconnexion même s'il y a erreur
+    console.error('❌ Logout error:', e)
+    // ✅ Si erreur, forcer la déconnexion côté client
     localStorage.clear()
+    sessionStorage.clear()
+    updateNavGuest()
+    showToast('Déconnecté !')
     window.location.href = 'index.html'
   }
 }
@@ -630,7 +678,7 @@ window.ctaSignUp = async () => {
     setTimeout(() => { window.location.href = 'waiting.html' }, 1500)
     
   } catch (e) {
-    console.error('CTA signup error:', e)
+    console.error('❌ CTA signup error:', e)
     showCtaMsg('err-s', '❌ Problème. Réessaie.')
     btn.disabled = false
     btn.textContent = 'Rejoindre Learnova gratuitement →'
@@ -673,7 +721,7 @@ function showToast(msg) {
   if (!t) {
     t = document.createElement('div')
     t.id = 'ln-toast'
-    t.style.cssText = "position:fixed;bottom:22px;right:80px;background:#0f0e0c;color:#fff;padding:12px 20px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s cubic-bezier(.34,1.56,.64,1);[data-theme=dark]&{background:#fff;color:#0f0e0c}"
+    t.style.cssText = "position:fixed;bottom:22px;right:80px;background:#0f0e0c;color:#fff;padding:12px 20px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s cubic-bezier(.34,1.56,.64,1);"
     document.body.appendChild(t)
   }
   t.textContent = msg
