@@ -1,971 +1,723 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Learnova — Communauté</title>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
 <style>
-:root{
-  --bg:#ffffff;--bg2:#f8f9fc;--bg3:#f0f2f8;--border:#e8eaf2;
-  --text:#09090f;--text2:#454560;--text3:#9090b0;
-  --accent:#1a56db;--al:#eef2ff;--am:#c7d7fd;
-  --green:#047857;--gl:#ecfdf5;--gm:#a7f3d0;
-  --red:#b91c1c;--rl:#fef2f2;
-  --purple:#6d28d9;--pl:#f5f3ff;
-  --gold:#92400e;--goldl:#fef3c7;
-  --h:'Instrument Serif',serif;--b:'DM Sans',sans-serif;
-  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
-  --shadow-md:0 4px 16px rgba(0,0,0,.08);
-  --shadow-lg:0 20px 60px rgba(0,0,0,.12);
-}
+:root{--bg:#fafaf8;--bg2:#f2f1ee;--bg3:#e8e6e0;--panel:#fff;--border:#e0ddd6;--text:#0f0e0c;--text2:#4a4840;--text3:#9a9890;--accent:#1a56db;--al:#eff3ff;--am:#bfcffb;--green:#057a55;--gl:#edfaf4;--gm:#9fe0c4;--red:#c81c1c;--rl:#fff1f1;--purple:#6d28d9;--pl:#f5f0ff;--gold:#b45309;--goldl:#fef3c7;--h:'Fraunces',Georgia,serif;--b:'DM Sans',sans-serif;--sh:0 2px 10px rgba(0,0,0,.07);--sh2:0 10px 38px rgba(0,0,0,.13);}
+[data-theme="dark"]{--bg:#0d0d11;--bg2:#141419;--bg3:#1c1c24;--panel:#18181f;--border:#28283a;--text:#eeeef4;--text2:#a8a8c0;--text3:#606078;--al:#16203a;--am:#243070;--gl:#0c2018;--gm:#184030;--rl:#280e0e;--pl:#1a1040;--goldl:#281a04;--sh:0 2px 10px rgba(0,0,0,.4);--sh2:0 10px 38px rgba(0,0,0,.6);}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:var(--bg2);color:var(--text);font-family:var(--b);-webkit-font-smoothing:antialiased;padding-top:64px;}
-
-/* ── NAV ── */
-.nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(255,255,255,.96);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);height:64px;}
-.nav-inner{max-width:1280px;margin:0 auto;padding:0 28px;height:100%;display:flex;align-items:center;gap:20px;}
+body{background:var(--bg);color:var(--text);font-family:var(--b);-webkit-font-smoothing:antialiased;padding-top:64px;transition:background .3s,color .3s;}
+::selection{background:var(--am);}
+.theme-btn{position:fixed;bottom:24px;right:24px;z-index:999;width:46px;height:46px;border-radius:50%;background:var(--panel);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--sh2);font-size:1.1rem;transition:all .2s;}
+.theme-btn:hover{transform:scale(1.1);}
+.nav{position:fixed;top:0;left:0;right:0;z-index:600;height:64px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 28px;gap:18px;transition:background .3s;}
+[data-theme="dark"] .nav{background:rgba(24,24,31,.97);backdrop-filter:blur(20px);}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.logo-mark{width:32px;height:32px;border-radius:9px;background:var(--text);display:flex;align-items:center;justify-content:center;}
-.logo-mark svg{width:16px;height:16px;}
-.logo-name{font-family:var(--h);font-size:1.2rem;color:var(--text);}
+.lm{width:34px;height:34px;border-radius:10px;background:var(--text);display:flex;align-items:center;justify-content:center;}
+.lm svg{width:16px;height:16px;}
+.ln{font-family:var(--h);font-size:1.2rem;color:var(--text);font-weight:600;}
 .nav-links{display:flex;gap:2px;list-style:none;}
-.nav-links a{padding:6px 13px;border-radius:8px;color:var(--text3);font-size:.84rem;font-weight:500;text-decoration:none;transition:all .15s;}
-.nav-links a:hover,.nav-links a.active{background:var(--bg3);color:var(--text);}
+.nav-links a{padding:7px 13px;border-radius:9px;color:var(--text3);font-size:.84rem;font-weight:500;text-decoration:none;transition:all .15s;}
+.nav-links a:hover,.nav-links a.active{background:var(--bg2);color:var(--text);}
 .nav-r{margin-left:auto;display:flex;align-items:center;gap:10px;}
-.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:10px;font-family:var(--b);font-weight:500;font-size:.875rem;cursor:pointer;border:none;transition:all .2s;text-decoration:none;}
-.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text2);}
-.btn-ghost:hover{background:var(--bg3);}
-.btn-dark{background:var(--text);color:#fff;}
-.btn-dark:hover{background:#1a1a2e;transform:translateY(-1px);}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:10px;font-family:var(--b);font-weight:600;font-size:.875rem;cursor:pointer;border:none;transition:all .2s;text-decoration:none;white-space:nowrap;}
+.btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--text2);}
+.btn-ghost:hover{background:var(--bg2);}
+.btn-dark{background:var(--text);color:var(--bg);}
+.btn-dark:hover{opacity:.86;}
 .btn-accent{background:var(--accent);color:#fff;}
-.btn-accent:hover{background:#1448c0;transform:translateY(-1px);}
-.btn-sm{padding:7px 14px;font-size:.8rem;border-radius:8px;}
-.nav-user-pill{display:flex;align-items:center;gap:8px;padding:5px 12px 5px 6px;border-radius:100px;background:var(--bg2);border:1px solid var(--border);cursor:pointer;transition:all .15s;}
-.nav-user-pill:hover{background:var(--bg3);}
-.nav-av{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.btn-sm{padding:7px 15px;font-size:.8rem;border-radius:8px;}
+.nav-av{width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;font-size:.76rem;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;}
 .nav-av img{width:100%;height:100%;object-fit:cover;}
+.nav-uw{display:flex;align-items:center;gap:9px;padding:5px 14px 5px 7px;border-radius:100px;background:var(--bg2);border:1px solid var(--border);}
 
-/* ── HERO ── */
-.community-hero{background:var(--bg);border-bottom:1px solid var(--border);padding:40px 0 36px;}
-.container{max-width:1280px;margin:0 auto;padding:0 28px;}
-.hero-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
-.hero-left h1{font-family:var(--h);font-size:2.1rem;letter-spacing:-.6px;margin-bottom:7px;}
-.hero-left p{font-size:.9rem;color:var(--text2);line-height:1.65;max-width:500px;}
-.hero-stats{display:flex;gap:32px;}
-.hstat{text-align:center;}
-.hstat-num{font-family:var(--h);font-size:1.6rem;color:var(--text);}
-.hstat-label{font-size:.72rem;color:var(--text3);margin-top:2px;}
+/* HERO */
+.page-hero{background:linear-gradient(140deg,#0c0c18,#131328);padding:48px 0 38px;color:#fff;position:relative;overflow:hidden;}
+.page-hero::before{content:'';position:absolute;top:-80px;right:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(26,86,219,.22),transparent 70%);}
+.c{max-width:1180px;margin:0 auto;padding:0 28px;}
+.ph-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+.ph-eyebrow{font-size:.72rem;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.ph-title{font-family:var(--h);font-size:clamp(1.9rem,3vw,2.6rem);font-weight:600;letter-spacing:-.8px;line-height:1.18;margin-bottom:7px;}
+.ph-title em{font-style:italic;color:#93c5fd;}
+.ph-sub{font-size:.87rem;color:rgba(255,255,255,.42);max-width:480px;line-height:1.6;}
+.ph-stats{display:flex;gap:28px;flex-shrink:0;}
+.phs{text-align:center;}
+.phs-n{font-family:var(--h);font-size:1.6rem;font-weight:600;}
+.phs-l{font-size:.7rem;color:rgba(255,255,255,.38);margin-top:2px;}
 
-/* ── LAYOUT ── */
-.comm-layout{max-width:1280px;margin:0 auto;padding:28px;display:grid;grid-template-columns:1fr 300px;gap:24px;}
+/* LAYOUT */
+.page-layout{display:grid;grid-template-columns:1fr 300px;gap:24px;padding:28px 0 60px;align-items:start;}
 
-/* ── FILTRES ── */
-.filters-bar{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
-.filter-chip{display:flex;align-items:center;gap:5px;padding:7px 16px;border:1px solid var(--border);border-radius:100px;font-size:.81rem;font-weight:500;color:var(--text2);background:var(--bg);cursor:pointer;transition:all .2s;}
-.filter-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--al);}
-.filter-chip.active{background:var(--text);color:#fff;border-color:var(--text);}
-.filter-chip svg{width:13px;height:13px;}
+/* ZONE GAUCHE */
+/* TYPES TABS */
+.type-tabs{display:flex;gap:7px;margin-bottom:22px;flex-wrap:wrap;}
+.tt{padding:7px 18px;border-radius:100px;font-size:.8rem;font-weight:500;border:1.5px solid var(--border);background:var(--panel);color:var(--text2);cursor:pointer;font-family:var(--b);transition:all .15s;}
+.tt:hover{border-color:var(--accent);color:var(--accent);}
+.tt.active{background:var(--text);color:var(--bg);border-color:var(--text);}
 
-/* ── NOUVEAU POST ── */
-.new-post-card{background:var(--bg);border:1px solid var(--border);border-radius:18px;padding:20px;margin-bottom:18px;box-shadow:var(--shadow-sm);}
-.np-trigger{display:flex;align-items:center;gap:12px;cursor:pointer;}
-.np-av{width:38px;height:38px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.88rem;font-weight:700;overflow:hidden;flex-shrink:0;}
-.np-av img{width:100%;height:100%;object-fit:cover;}
-.np-placeholder{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:100px;padding:11px 18px;font-size:.85rem;color:var(--text3);transition:all .2s;}
-.np-placeholder:hover{border-color:var(--accent);background:var(--al);color:var(--accent);}
-.np-form-wrap{display:none;margin-top:16px;}
-.np-form-wrap.show{display:block;}
-.np-types{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
-.np-type-btn{display:flex;align-items:center;gap:5px;padding:6px 14px;border:1.5px solid var(--border);border-radius:100px;font-size:.78rem;font-weight:600;cursor:pointer;background:var(--bg);transition:all .2s;}
-.np-type-btn:hover{border-color:var(--accent);}
-.np-type-btn.active[data-type="avis"]{background:var(--goldl);border-color:var(--gold);color:var(--gold);}
-.np-type-btn.active[data-type="question"]{background:var(--pl);border-color:var(--purple);color:var(--purple);}
-.np-type-btn.active[data-type="experience"]{background:var(--al);border-color:var(--accent);color:var(--accent);}
-.np-type-btn.active[data-type="ressource"]{background:var(--gl);border-color:var(--green);color:var(--green);}
-.np-stars-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
-.np-stars-label{font-size:.8rem;color:var(--text3);}
-.star-btn{font-size:1.3rem;cursor:pointer;transition:transform .15s;opacity:.35;}
-.star-btn:hover,.star-btn.lit{opacity:1;}
-.star-btn:hover{transform:scale(1.2);}
-.np-textarea{width:100%;border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;font-family:var(--b);font-size:.86rem;color:var(--text);background:var(--bg);outline:none;resize:none;min-height:96px;line-height:1.65;transition:border-color .2s;margin-bottom:12px;}
-.np-textarea:focus{border-color:var(--accent);}
-.np-footer{display:flex;align-items:center;justify-content:space-between;}
-.np-char{font-size:.74rem;color:var(--text3);}
-.np-actions{display:flex;gap:8px;}
-.np-cancel-btn{padding:9px 16px;border:1px solid var(--border);border-radius:9px;font-family:var(--b);font-size:.82rem;cursor:pointer;background:var(--bg);color:var(--text2);transition:all .15s;}
-.np-cancel-btn:hover{background:var(--bg3);}
-.np-submit-btn{padding:9px 22px;background:var(--text);color:#fff;border:none;border-radius:9px;font-family:var(--b);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
-.np-submit-btn:hover{background:#1a1a2e;}
-.np-submit-btn:disabled{opacity:.5;pointer-events:none;}
-.np-spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+/* BOX CRÉER POST */
+.create-box{background:var(--panel);border:1.5px solid var(--border);border-radius:18px;padding:20px;margin-bottom:22px;box-shadow:var(--sh);}
+.create-top{display:flex;gap:11px;margin-bottom:14px;}
+.c-av{width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;font-size:.85rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
+.c-av img{width:100%;height:100%;object-fit:cover;}
+.c-ta{width:100%;border:1.5px solid var(--border);border-radius:13px;padding:13px 15px;font-family:var(--b);font-size:.87rem;color:var(--text);background:var(--bg2);outline:none;resize:vertical;min-height:84px;transition:all .2s;line-height:1.65;}
+.c-ta:focus{border-color:var(--accent);background:var(--panel);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
+[data-theme="dark"] .c-ta{background:var(--bg3);}
+.c-ta::placeholder{color:var(--text3);}
+.create-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.type-chips{display:flex;gap:6px;flex-wrap:wrap;}
+.tc{padding:5px 13px;border-radius:100px;font-size:.76rem;font-weight:600;border:1.5px solid var(--border);cursor:pointer;font-family:var(--b);color:var(--text2);transition:all .15s;}
+.tc:hover{border-color:var(--accent);}
+.tc.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.create-actions{display:flex;align-items:center;gap:10px;}
+.char-cnt{font-size:.74rem;color:var(--text3);}
+.pub-btn{padding:9px 24px;background:var(--text);color:var(--bg);border:none;border-radius:10px;font-family:var(--b);font-size:.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:7px;transition:all .2s;}
+.pub-btn:hover{opacity:.86;}
+.pub-btn:disabled{opacity:.45;pointer-events:none;}
+.pub-spin{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.np-err{font-size:.8rem;color:var(--red);background:var(--rl);border:1px solid #fecaca;padding:9px 13px;border-radius:9px;margin-bottom:10px;display:none;}
-.np-err.show{display:block;}
+.note-zone{display:flex;align-items:center;gap:7px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+.star{font-size:.9rem;cursor:pointer;color:var(--text3);transition:color .15s;}
+.star.on{color:#f59e0b;}
 
-/* ── POSTS ── */
-.posts-list{display:flex;flex-direction:column;gap:14px;}
-.post-card{background:var(--bg);border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:var(--shadow-sm);transition:all .25s;animation:fadeIn .4s ease;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-.post-card:hover{box-shadow:var(--shadow-md);border-color:#d4d8ef;}
-.post-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
-.post-av{width:42px;height:42px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;font-weight:700;}
+/* WALL DE CONNEXION */
+.auth-wall{background:linear-gradient(135deg,var(--al),var(--pl));border:1.5px solid var(--am);border-radius:18px;padding:32px;text-align:center;margin-bottom:22px;}
+.aw-ico{font-size:2.5rem;margin-bottom:12px;}
+.aw-title{font-family:var(--h);font-size:1.2rem;font-weight:600;margin-bottom:7px;}
+.aw-sub{font-size:.84rem;color:var(--text3);margin-bottom:20px;line-height:1.6;}
+.aw-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+
+/* POSTS */
+.posts-list{display:flex;flex-direction:column;gap:16px;}
+.post-card{background:var(--panel);border:1.5px solid var(--border);border-radius:18px;padding:20px;box-shadow:var(--sh);transition:all .22s;animation:postIn .3s ease;}
+@keyframes postIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.post-card:hover{box-shadow:var(--sh2);border-color:var(--am);}
+.post-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:13px;}
+.post-av{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;font-size:.88rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
 .post-av img{width:100%;height:100%;object-fit:cover;}
-.post-meta{flex:1;}
-.post-author{font-size:.87rem;font-weight:700;margin-bottom:4px;}
-.post-info{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.post-time{font-size:.72rem;color:var(--text3);}
-.post-type-chip{font-size:.68rem;font-weight:700;padding:2px 10px;border-radius:100px;}
-.ptc-avis{background:var(--goldl);color:var(--gold);}
-.ptc-question{background:var(--pl);color:var(--purple);}
-.ptc-experience{background:var(--al);color:var(--accent);}
-.ptc-ressource{background:var(--gl);color:var(--green);}
-.post-stars{font-size:.82rem;}
-.post-content{font-size:.87rem;color:var(--text2);line-height:1.75;margin-bottom:16px;word-break:break-word;}
-.post-content a{color:var(--accent);text-decoration:none;}
-.post-content a:hover{text-decoration:underline;}
-.post-actions{display:flex;align-items:center;gap:4px;padding-top:12px;border-top:1px solid var(--border);}
-.post-action-btn{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:9px;font-size:.78rem;font-weight:500;cursor:pointer;background:transparent;border:none;color:var(--text3);transition:all .15s;font-family:var(--b);}
-.post-action-btn:hover{background:var(--bg2);color:var(--text);}
-.post-action-btn.liked{color:var(--red);}
-.post-action-btn svg{width:14px;height:14px;}
-.action-sep{width:1px;height:18px;background:var(--border);margin:0 4px;}
-.post-action-btn.danger:hover{color:var(--red);background:var(--rl);}
+.post-meta{flex:1;min-width:0;}
+.post-author{font-size:.88rem;font-weight:700;}
+.post-time{font-size:.73rem;color:var(--text3);margin-top:1px;}
+.post-type{font-size:.69rem;font-weight:700;padding:3px 10px;border-radius:100px;margin-left:auto;flex-shrink:0;}
+.pt-avis{background:var(--al);color:var(--accent);}
+.pt-question{background:var(--pl);color:var(--purple);}
+.pt-temoignage{background:var(--gl);color:var(--green);}
+.pt-bug{background:var(--rl);color:var(--red);}
+.pt-idee{background:var(--goldl);color:var(--gold);}
+.post-stars{display:flex;gap:2px;margin-bottom:10px;}
+.post-content{font-size:.875rem;color:var(--text2);line-height:1.82;white-space:pre-line;margin-bottom:14px;}
+.post-foot{display:flex;align-items:center;gap:10px;padding-top:12px;border-top:1px solid var(--border);}
+.like-btn{display:flex;align-items:center;gap:5px;padding:5px 13px;border-radius:100px;border:1.5px solid var(--border);background:var(--bg2);cursor:pointer;font-family:var(--b);font-size:.79rem;font-weight:500;color:var(--text2);transition:all .15s;}
+.like-btn:hover{border-color:var(--red);color:var(--red);}
+.like-btn.liked{background:var(--rl);border-color:var(--red);color:var(--red);}
+.reply-btn{display:flex;align-items:center;gap:5px;padding:5px 13px;border-radius:100px;border:1.5px solid var(--border);background:transparent;cursor:pointer;font-family:var(--b);font-size:.79rem;font-weight:500;color:var(--text2);transition:all .15s;}
+.reply-btn:hover{border-color:var(--accent);color:var(--accent);}
+.del-btn{margin-left:auto;font-size:.73rem;color:var(--text3);cursor:pointer;padding:4px 9px;border-radius:7px;border:none;background:transparent;transition:all .15s;}
+.del-btn:hover{background:var(--rl);color:var(--red);}
 
-/* ── RÉPONSES ── */
-.replies-section{display:none;margin-top:16px;border-top:1px solid var(--border);padding-top:16px;}
-.replies-section.show{display:block;}
+/* RÉPONSES */
+.replies-zone{margin-top:14px;border-top:1px solid var(--border);padding-top:14px;display:none;}
+.replies-zone.open{display:block;}
 .reply-item{display:flex;gap:10px;margin-bottom:12px;}
-.reply-av{width:30px;height:30px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:700;}
-.reply-av img{width:100%;height:100%;object-fit:cover;}
-.reply-body{flex:1;background:var(--bg2);border-radius:4px 12px 12px 12px;padding:10px 14px;}
-.reply-author{font-size:.76rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px;}
-.reply-author time{font-weight:400;color:var(--text3);font-size:.7rem;}
-.reply-text{font-size:.83rem;color:var(--text2);line-height:1.6;}
-.reply-input-row{display:flex;gap:8px;margin-top:10px;align-items:center;}
-.reply-av-sm{width:28px;height:28px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.65rem;font-weight:700;flex-shrink:0;overflow:hidden;}
-.reply-av-sm img{width:100%;height:100%;object-fit:cover;}
-.reply-inp{flex:1;border:1.5px solid var(--border);border-radius:100px;padding:9px 16px;font-family:var(--b);font-size:.82rem;outline:none;background:var(--bg);transition:border-color .2s;}
-.reply-inp:focus{border-color:var(--accent);}
-.reply-send-btn{width:32px;height:32px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
-.reply-send-btn:hover{background:#1448c0;}
-.reply-send-btn svg{width:12px;height:12px;}
+.r-av{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font-size:.68rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
+.r-av img{width:100%;height:100%;object-fit:cover;}
+.r-bub{background:var(--bg2);border-radius:4px 13px 13px 13px;padding:10px 14px;font-size:.82rem;color:var(--text2);line-height:1.7;flex:1;}
+[data-theme="dark"] .r-bub{background:var(--bg3);}
+.r-author{font-weight:700;font-size:.79rem;color:var(--text);margin-bottom:3px;}
+.r-time{font-size:.69rem;color:var(--text3);margin-left:6px;font-weight:400;}
+.reply-input-row{display:flex;gap:8px;align-items:flex-end;margin-top:10px;}
+.r-input{flex:1;border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-family:var(--b);font-size:.82rem;color:var(--text);background:var(--bg2);outline:none;resize:none;min-height:42px;transition:all .2s;}
+.r-input:focus{border-color:var(--accent);background:var(--panel);}
+[data-theme="dark"] .r-input{background:var(--bg3);}
+.r-send{padding:9px 17px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-family:var(--b);font-size:.82rem;font-weight:700;cursor:pointer;flex-shrink:0;transition:all .2s;}
+.r-send:hover{background:#1448c0;}
 
-/* ── LOAD MORE ── */
-.load-more-wrap{text-align:center;padding:20px 0;}
-.load-more-btn{padding:11px 30px;border:1px solid var(--border);border-radius:100px;font-family:var(--b);font-size:.83rem;font-weight:500;cursor:pointer;background:var(--bg);color:var(--text2);transition:all .2s;}
-.load-more-btn:hover{border-color:var(--accent);color:var(--accent);}
+/* EMPTY / LOADING */
+.posts-empty,.posts-loading{text-align:center;padding:64px 20px;color:var(--text3);}
+.loader{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;}
 
-/* ── EMPTY ── */
-.empty-state{text-align:center;padding:60px 20px;color:var(--text3);}
-.empty-icon{font-size:2.8rem;margin-bottom:14px;}
-.empty-title{font-family:var(--h);font-size:1.2rem;color:var(--text);margin-bottom:6px;}
-.empty-sub{font-size:.84rem;}
+/* SIDEBAR DROITE */
+.sidebar-r{display:flex;flex-direction:column;gap:14px;position:sticky;top:82px;}
+.sr-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--sh);}
+.sr-head{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);padding:13px 16px;border-bottom:1px solid var(--border);background:var(--bg);}
+[data-theme="dark"] .sr-head{background:var(--bg2);}
+.stat-row{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;}
+.stat-lbl{font-size:.82rem;color:var(--text2);}
+.stat-val{font-family:var(--h);font-size:1.15rem;font-weight:600;color:var(--accent);}
+.online-item{display:flex;align-items:center;gap:9px;padding:7px 16px;}
+.o-av{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:.63rem;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;flex-shrink:0;}
+.o-av img{width:100%;height:100%;object-fit:cover;}
+.o-dot{position:absolute;bottom:0;right:0;width:7px;height:7px;border-radius:50%;background:var(--green);border:1.5px solid var(--panel);}
+.o-name{font-size:.82rem;font-weight:500;flex:1;}
+.o-pts{font-size:.72rem;font-weight:700;color:var(--accent);}
+.top-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);}
+.top-item:last-child{border-bottom:none;}
+.top-rank{font-size:.75rem;font-weight:700;color:var(--text3);width:18px;flex-shrink:0;}
+.top-rank.g{color:#f59e0b;}
+.top-av{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font-size:.68rem;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;}
+.top-av img{width:100%;height:100%;object-fit:cover;}
+.top-name{font-size:.82rem;font-weight:600;flex:1;}
+.top-pts{font-size:.74rem;font-weight:700;color:var(--accent);}
 
-/* ── SIDEBAR ── */
-.sidebar{display:flex;flex-direction:column;gap:16px;}
-.sidebar-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--shadow-sm);}
-.sidebar-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);margin-bottom:14px;}
-.stat-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:.82rem;}
-.stat-row:last-child{border-bottom:none;}
-.stat-val{font-weight:700;color:var(--accent);}
-.contrib-item{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
-.contrib-rank{width:22px;text-align:center;font-size:.8rem;font-weight:700;color:var(--text3);flex-shrink:0;}
-.contrib-av{width:32px;height:32px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.75rem;font-weight:700;}
-.contrib-av img{width:100%;height:100%;object-fit:cover;}
-.contrib-name{flex:1;font-size:.82rem;font-weight:500;}
-.contrib-count{font-size:.74rem;font-weight:700;color:var(--accent);}
-.rule-item{display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);font-size:.8rem;color:var(--text2);}
-.rule-item:last-child{border-bottom:none;}
-.rule-icon{font-size:.9rem;flex-shrink:0;margin-top:1px;}
-.tags-wrap{display:flex;flex-wrap:wrap;gap:6px;}
-.tag-chip{padding:5px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:100px;font-size:.76rem;color:var(--text2);cursor:pointer;transition:all .15s;}
-.tag-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--al);}
+/* MODAL AUTH */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px);padding:16px;}
+.mo.show{display:flex;}
+.ambox{background:var(--panel);border:1px solid var(--border);border-radius:22px;padding:38px;width:430px;max-width:96vw;box-shadow:0 40px 100px rgba(0,0,0,.25);animation:mIn .28s ease;position:relative;}
+@keyframes mIn{from{opacity:0;transform:scale(.94) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.am-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:9px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;color:var(--text3);}
+.am-close:hover{background:var(--bg3);}
+.am-tabs{display:flex;background:var(--bg2);border-radius:11px;padding:4px;gap:4px;margin-bottom:24px;}
+.am-tab{flex:1;padding:9px;text-align:center;font-size:.85rem;font-weight:500;cursor:pointer;border-radius:8px;color:var(--text3);transition:all .2s;}
+.am-tab.active{background:var(--panel);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.mf{margin-bottom:14px;}
+.mf label{display:block;font-size:.79rem;font-weight:600;color:var(--text2);margin-bottom:5px;}
+.mf input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:13px 15px;font-family:var(--b);font-size:.87rem;color:var(--text);background:var(--bg2);outline:none;transition:all .2s;}
+.mf input:focus{border-color:var(--accent);background:var(--panel);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
+[data-theme="dark"] .mf input{background:var(--bg3);}
+.amsg{border-radius:9px;padding:11px 14px;font-size:.82rem;margin-bottom:12px;display:none;line-height:1.5;}
+.amsg.err{display:block;background:var(--rl);color:var(--red);}
+.amsg.ok{display:block;background:var(--gl);color:var(--green);}
+.am-sub{width:100%;padding:14px;background:var(--text);color:var(--bg);border:none;border-radius:10px;font-family:var(--b);font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+.am-sub:disabled{opacity:.6;}
+.am-spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+.am-link{font-size:.8rem;color:var(--accent);cursor:pointer;text-align:center;margin-top:10px;display:block;}
 
-/* ── MODAL AUTH ── */
-.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(10px);}
-.modal-ov.show{display:flex;}
-.modal{background:var(--bg);border-radius:22px;padding:38px;width:440px;max-width:94vw;box-shadow:var(--shadow-lg);animation:mIn .25s ease;position:relative;}
-@keyframes mIn{from{opacity:0;transform:scale(.96) translateY(8px);}to{opacity:1;transform:scale(1) translateY(0);}}
-.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:9px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);transition:all .15s;font-size:1.1rem;}
-.modal-close:hover{background:var(--bg3);}
-.modal-tabs{display:flex;background:var(--bg2);border-radius:11px;padding:4px;margin-bottom:24px;gap:4px;}
-.mtab{flex:1;padding:9px;text-align:center;font-size:.85rem;font-weight:500;cursor:pointer;border-radius:8px;color:var(--text3);transition:all .2s;}
-.mtab.active{background:var(--bg);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.06);}
-.form-field{margin-bottom:14px;}
-.form-label{font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:6px;display:block;}
-.form-inp{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:13px 15px;font-family:var(--b);font-size:.88rem;color:var(--text);background:var(--bg2);outline:none;transition:all .2s;}
-.form-inp:focus{border-color:var(--accent);background:var(--bg);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
-.form-inp.error{border-color:var(--red);background:var(--rl);}
-.form-msg{font-size:.81rem;padding:10px 14px;border-radius:9px;margin-bottom:12px;display:none;}
-.form-msg.err{display:block;background:var(--rl);color:var(--red);border:1px solid #fecaca;}
-.form-msg.ok{display:block;background:var(--gl);color:var(--green);border:1px solid var(--gm);}
-.form-submit{width:100%;padding:14px;background:var(--text);color:#fff;border:none;border-radius:10px;font-family:var(--b);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
-.form-submit:hover{background:#1a1a2e;}
-.form-submit:disabled{opacity:.6;pointer-events:none;}
-.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
-.form-note{font-size:.73rem;color:var(--text3);text-align:center;margin-top:10px;}
-
-@media(max-width:960px){.comm-layout{grid-template-columns:1fr;}.sidebar{display:none;}.nav-links{display:none;}}
-@media(max-width:640px){.hero-stats{display:none;}.hero-inner{flex-direction:column;}.container{padding:0 16px;}.comm-layout{padding:16px;}}
+@media(max-width:960px){.page-layout{grid-template-columns:1fr;}.sidebar-r{display:none;}.nav-links{display:none;}}
 </style>
 </head>
 <body>
 
+<button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+
 <!-- NAV -->
 <nav class="nav">
-  <div class="nav-inner">
-    <a href="index.html" class="logo">
-      <div class="logo-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div>
-      <span class="logo-name">Learnova</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="community.html" class="active">Communauté</a></li>
-    </ul>
-    <div class="nav-r">
-      <div id="navGuest" style="display:flex;gap:8px;">
-        <button class="btn btn-ghost btn-sm" onclick="openModal('login')">Connexion</button>
-        <button class="btn btn-accent btn-sm" onclick="openModal('signup')">S'inscrire</button>
-      </div>
-      <div id="navUser" style="display:none;align-items:center;gap:10px;">
-        <div class="nav-user-pill">
-          <div class="nav-av" id="navAv">?</div>
-          <span style="font-size:.82rem;font-weight:500;" id="navName">...</span>
-        </div>
-        <button class="btn btn-ghost btn-sm" onclick="doSignOut()">Déconnexion</button>
-      </div>
+  <a href="index.html" class="logo"><div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div><span class="ln">Learnova</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="store.html">🛒 Store</a></li>
+    <li><a href="waiting.html">📚 Ressources</a></li>
+    <li><a href="community.html" class="active">💬 Communauté</a></li>
+  </ul>
+  <div class="nav-r">
+    <div id="navGuest" style="display:flex;gap:8px;">
+      <button class="btn btn-ghost btn-sm" onclick="openAuth('l')">Connexion</button>
+      <button class="btn btn-dark btn-sm" onclick="openAuth('s')">S'inscrire — Gratuit</button>
+    </div>
+    <div id="navUser" style="display:none;align-items:center;gap:10px;">
+      <a href="store.html" class="btn btn-accent btn-sm">🛒 Store</a>
+      <div class="nav-uw"><div class="nav-av" id="navAv">?</div><span style="font-size:.83rem;font-weight:500" id="navName">…</span></div>
+      <button class="btn btn-ghost btn-sm" onclick="doOut()">Déco.</button>
     </div>
   </div>
 </nav>
 
 <!-- HERO -->
-<div class="community-hero">
-  <div class="container">
-    <div class="hero-inner">
-      <div class="hero-left">
-        <h1>La communauté Learnova</h1>
-        <p>Partage tes avis, pose tes questions, inspire les autres apprenants. Ensemble, on apprend mieux.</p>
+<div class="page-hero">
+  <div class="c">
+    <div class="ph-inner">
+      <div>
+        <div class="ph-eyebrow">💬 Communauté Learnova</div>
+        <div class="ph-title">Partagez, apprenez,<br/><em>progressez ensemble</em></div>
+        <div class="ph-sub">Posez vos questions, donnez vos avis sur les cours, aidez les autres membres.</div>
       </div>
-      <div class="hero-stats">
-        <div class="hstat"><div class="hstat-num" id="statPosts">—</div><div class="hstat-label">Publications</div></div>
-        <div class="hstat"><div class="hstat-num" id="statMembers">—</div><div class="hstat-label">Membres</div></div>
-        <div class="hstat"><div class="hstat-num" id="statOnline">—</div><div class="hstat-label">En ligne</div></div>
+      <div class="ph-stats">
+        <div class="phs"><div class="phs-n" id="hPosts">—</div><div class="phs-l">Posts</div></div>
+        <div class="phs"><div class="phs-n" id="hMembers">—</div><div class="phs-l">Membres</div></div>
+        <div class="phs"><div class="phs-n" id="hOnline">—</div><div class="phs-l">En ligne</div></div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="comm-layout">
-  <!-- CONTENU PRINCIPAL -->
-  <div>
-    <!-- FILTRES -->
-    <div class="filters-bar">
-      <div class="filter-chip active" onclick="setFilter('all',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
-        Tout
+<div class="c">
+  <div class="page-layout">
+    <!-- COLONNE PRINCIPALE -->
+    <div>
+      <!-- FILTRES TYPE -->
+      <div class="type-tabs" style="margin-top:28px;">
+        <div class="tt active" onclick="filterType('',this)">🌍 Tous</div>
+        <div class="tt" onclick="filterType('avis',this)">⭐ Avis</div>
+        <div class="tt" onclick="filterType('question',this)">❓ Questions</div>
+        <div class="tt" onclick="filterType('temoignage',this)">💬 Témoignages</div>
+        <div class="tt" onclick="filterType('idee',this)">💡 Idées</div>
+        <div class="tt" onclick="filterType('bug',this)">🐛 Bugs</div>
       </div>
-      <div class="filter-chip" onclick="setFilter('avis',this)">⭐ Avis</div>
-      <div class="filter-chip" onclick="setFilter('question',this)">❓ Questions</div>
-      <div class="filter-chip" onclick="setFilter('experience',this)">💡 Expériences</div>
-      <div class="filter-chip" onclick="setFilter('ressource',this)">📚 Ressources</div>
-    </div>
 
-    <!-- NOUVEAU POST -->
-    <div class="new-post-card">
-      <div class="np-trigger" id="npTrigger" onclick="openNewPost()">
-        <div class="np-av" id="npAvatar">?</div>
-        <div class="np-placeholder">Partage ton avis, une question ou une expérience...</div>
-      </div>
-      <div class="np-form-wrap" id="npFormWrap">
-        <!-- Types -->
-        <div class="np-types">
-          <button class="np-type-btn active" data-type="avis" onclick="setPostType(this)">⭐ Avis</button>
-          <button class="np-type-btn" data-type="question" onclick="setPostType(this)">❓ Question</button>
-          <button class="np-type-btn" data-type="experience" onclick="setPostType(this)">💡 Expérience</button>
-          <button class="np-type-btn" data-type="ressource" onclick="setPostType(this)">📚 Ressource</button>
+      <!-- CRÉER POST (si connecté) -->
+      <div class="create-box" id="createBox" style="display:none;">
+        <div class="create-top">
+          <div class="c-av" id="createAv">?</div>
+          <textarea class="c-ta" id="postTa" placeholder="Partagez votre avis, posez une question, aidez les autres..." maxlength="1000" oninput="updateChar()"></textarea>
         </div>
-        <!-- Étoiles (pour avis) -->
-        <div class="np-stars-row" id="npStarsRow">
-          <span class="np-stars-label">Note :</span>
-          <span class="star-btn lit" data-val="1" onclick="setStar(1)">★</span>
-          <span class="star-btn" data-val="2" onclick="setStar(2)">★</span>
-          <span class="star-btn" data-val="3" onclick="setStar(3)">★</span>
-          <span class="star-btn" data-val="4" onclick="setStar(4)">★</span>
-          <span class="star-btn" data-val="5" onclick="setStar(5)">★</span>
-        </div>
-        <!-- Erreur -->
-        <div class="np-err" id="npError"></div>
-        <!-- Textarea -->
-        <textarea class="np-textarea" id="npText" placeholder="Partage ta pensée avec la communauté Learnova..." maxlength="1000" oninput="onTextInput()"></textarea>
-        <!-- Footer -->
-        <div class="np-footer">
-          <span class="np-char" id="npChar">0 / 1000</span>
-          <div class="np-actions">
-            <button class="np-cancel-btn" onclick="closeNewPost()">Annuler</button>
-            <button class="np-submit-btn" id="npSubmitBtn" onclick="submitPost()">
-              <span id="npBtnText">Publier</span>
-              <div class="np-spinner" id="npSpinner"></div>
+        <div class="create-bottom">
+          <div class="type-chips">
+            <div class="tc active" onclick="selType('avis',this)">⭐ Avis</div>
+            <div class="tc" onclick="selType('question',this)">❓ Question</div>
+            <div class="tc" onclick="selType('temoignage',this)">💬 Témoignage</div>
+            <div class="tc" onclick="selType('idee',this)">💡 Idée</div>
+            <div class="tc" onclick="selType('bug',this)">🐛 Bug</div>
+          </div>
+          <div class="create-actions">
+            <span class="char-cnt" id="charCnt">0 / 1000</span>
+            <button class="pub-btn" id="pubBtn" onclick="submitPost()">
+              <span id="pubTxt">Publier</span>
+              <div class="pub-spin" id="pubSpin"></div>
             </button>
           </div>
         </div>
+        <div class="note-zone" id="noteZone">
+          <span style="font-size:.8rem;color:var(--text3);">Note :</span>
+          <div style="display:flex;gap:3px;" id="noteStars">
+            <span class="star on" onclick="setNote(1)">★</span>
+            <span class="star on" onclick="setNote(2)">★</span>
+            <span class="star on" onclick="setNote(3)">★</span>
+            <span class="star on" onclick="setNote(4)">★</span>
+            <span class="star on" onclick="setNote(5)">★</span>
+          </div>
+          <span style="font-size:.78rem;color:var(--text3);" id="noteLbl">5/5</span>
+        </div>
       </div>
+
+      <!-- MUR DE CONNEXION (si non connecté) -->
+      <div class="auth-wall" id="authWall" style="display:none;">
+        <div class="aw-ico">💬</div>
+        <div class="aw-title">Rejoins la communauté</div>
+        <div class="aw-sub">Crée un compte gratuit pour poster, commenter et interagir avec les autres membres.</div>
+        <div class="aw-btns">
+          <button class="btn btn-dark" onclick="openAuth('s')">S'inscrire — Gratuit</button>
+          <button class="btn btn-ghost" onclick="openAuth('l')">Se connecter</button>
+        </div>
+      </div>
+
+      <!-- POSTS -->
+      <div id="postsList"><div class="posts-loading"><div class="loader"></div>Chargement des posts...</div></div>
     </div>
 
-    <!-- LISTE DES POSTS -->
-    <div class="posts-list" id="postsList">
-      <div class="empty-state"><div class="empty-icon">⏳</div><div class="empty-title">Chargement...</div></div>
-    </div>
-
-    <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
-      <button class="load-more-btn" onclick="loadMorePosts()">Charger plus de publications</button>
-    </div>
+    <!-- SIDEBAR DROITE -->
+    <aside class="sidebar-r">
+      <div class="sr-card">
+        <div class="sr-head">Statistiques</div>
+        <div class="stat-row"><span class="stat-lbl">💬 Posts</span><span class="stat-val" id="sPosts">—</span></div>
+        <div class="stat-row"><span class="stat-lbl">👥 Membres</span><span class="stat-val" id="sMembers2">—</span></div>
+        <div class="stat-row"><span class="stat-lbl">🟢 En ligne</span><span class="stat-val" id="sOnline2">—</span></div>
+        <div class="stat-row"><span class="stat-lbl">⭐ Moy. avis</span><span class="stat-val" id="sRating">—</span></div>
+      </div>
+      <div class="sr-card">
+        <div class="sr-head">Membres en ligne</div>
+        <div id="onlineList"><div style="padding:12px 16px;font-size:.8rem;color:var(--text3)">Personne pour l'instant...</div></div>
+      </div>
+      <div class="sr-card">
+        <div class="sr-head">Top contributeurs</div>
+        <div id="topContrib"><div style="padding:12px 16px;font-size:.8rem;color:var(--text3)">Chargement...</div></div>
+      </div>
+      <div class="sr-card" style="padding:16px;">
+        <div style="font-size:.84rem;font-weight:700;margin-bottom:8px;">🛒 Besoin de ressources ?</div>
+        <div style="font-size:.79rem;color:var(--text3);margin-bottom:12px;line-height:1.6;">Découvre nos PDF premium avec livraison instantanée.</div>
+        <a href="store.html" class="btn btn-accent" style="width:100%;justify-content:center;">Voir le Store →</a>
+      </div>
+    </aside>
   </div>
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <!-- STATS -->
-    <div class="sidebar-card">
-      <div class="sidebar-title">Statistiques</div>
-      <div class="stat-row"><span>Publications</span><span class="stat-val" id="sbPosts">—</span></div>
-      <div class="stat-row"><span>Membres</span><span class="stat-val" id="sbMembers">—</span></div>
-      <div class="stat-row"><span>Avis publiés</span><span class="stat-val" id="sbAvis">—</span></div>
-      <div class="stat-row"><span>Questions</span><span class="stat-val" id="sbQuestions">—</span></div>
-    </div>
-    <!-- TOP CONTRIBUTEURS -->
-    <div class="sidebar-card">
-      <div class="sidebar-title">Top contributeurs</div>
-      <div id="topContribs"><div style="font-size:.8rem;color:var(--text3);">Chargement...</div></div>
-    </div>
-    <!-- TAGS -->
-    <div class="sidebar-card">
-      <div class="sidebar-title">Tags populaires</div>
-      <div class="tags-wrap">
-        <span class="tag-chip" onclick="filterByTag('IA')">🤖 IA</span>
-        <span class="tag-chip" onclick="filterByTag('Python')">🐍 Python</span>
-        <span class="tag-chip" onclick="filterByTag('Design')">🎨 Design</span>
-        <span class="tag-chip" onclick="filterByTag('Débutant')">🌱 Débutant</span>
-        <span class="tag-chip" onclick="filterByTag('Live')">📡 Live</span>
-        <span class="tag-chip" onclick="filterByTag('Quiz')">❓ Quiz</span>
-        <span class="tag-chip" onclick="filterByTag('Challenge')">⚡ Challenge</span>
-      </div>
-    </div>
-    <!-- RÈGLES -->
-    <div class="sidebar-card">
-      <div class="sidebar-title">Règles de la communauté</div>
-      <div class="rule-item"><span class="rule-icon">🤝</span>Sois respectueux avec tout le monde</div>
-      <div class="rule-item"><span class="rule-icon">💡</span>Partage des informations utiles et précises</div>
-      <div class="rule-item"><span class="rule-icon">❓</span>Pose tes questions sans hésiter</div>
-      <div class="rule-item"><span class="rule-icon">⭐</span>Donne ton vrai avis sur les cours</div>
-      <div class="rule-item"><span class="rule-icon">🚫</span>Pas de spam ni de contenu négatif</div>
-    </div>
-  </aside>
 </div>
 
 <!-- MODAL AUTH -->
-<div class="modal-ov" id="authModal" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal()">×</button>
-    <div class="modal-tabs">
-      <div class="mtab active" id="tabS" onclick="switchAuthTab('signup')">Créer un compte</div>
-      <div class="mtab" id="tabL" onclick="switchAuthTab('login')">Se connecter</div>
+<div class="mo" id="authMo" onclick="if(event.target===this)closeAuth()">
+  <div class="ambox">
+    <button class="am-close" onclick="closeAuth()">×</button>
+    <div class="am-tabs">
+      <div class="am-tab active" id="amtS" onclick="swAuth('s')">Créer un compte</div>
+      <div class="am-tab"        id="amtL" onclick="swAuth('l')">Se connecter</div>
     </div>
-    <div id="panelSignup">
-      <div class="form-field"><label class="form-label">Prénom *</label><input class="form-inp" id="sPrenom" type="text" placeholder="Ton prénom" autocomplete="given-name"/></div>
-      <div class="form-field"><label class="form-label">Email *</label><input class="form-inp" id="sEmail" type="email" placeholder="ton@email.com" autocomplete="email"/></div>
-      <div class="form-field"><label class="form-label">Mot de passe *</label><input class="form-inp" id="sPass" type="password" placeholder="Minimum 6 caractères" autocomplete="new-password"/></div>
-      <div class="form-msg" id="sMsg"></div>
-      <button class="form-submit" id="sBtn" onclick="doSignUp()"><span id="sBtnTxt">Créer mon compte</span><div class="spinner" id="sSpinner"></div></button>
-      <div class="form-note">Gratuit · Aucune carte · Aucun spam</div>
+    <div id="amS">
+      <div class="mf"><label>Prénom *</label><input id="amPrenom" type="text" placeholder="Ex: Marie" autocomplete="given-name"/></div>
+      <div class="mf"><label>Email *</label><input id="amEmail" type="email" placeholder="ton@email.com" autocomplete="email"/></div>
+      <div class="mf"><label>Mot de passe *</label><input id="amPass" type="password" placeholder="Min. 6 caractères" autocomplete="new-password"/></div>
+      <div class="amsg" id="amMsgS"></div>
+      <button class="am-sub" id="amBtnS" onclick="doSU()"><span id="amTxtS">Créer mon compte gratuitement</span><div class="am-spin" id="amSpinS"></div></button>
+      <span class="am-link" onclick="swAuth('l')">Déjà un compte ? Se connecter →</span>
     </div>
-    <div id="panelLogin" style="display:none;">
-      <div class="form-field"><label class="form-label">Email *</label><input class="form-inp" id="lEmail" type="email" placeholder="ton@email.com" autocomplete="email"/></div>
-      <div class="form-field"><label class="form-label">Mot de passe *</label><input class="form-inp" id="lPass" type="password" placeholder="Ton mot de passe" autocomplete="current-password"/></div>
-      <div class="form-msg" id="lMsg"></div>
-      <button class="form-submit" id="lBtn" onclick="doSignIn()"><span id="lBtnTxt">Se connecter</span><div class="spinner" id="lSpinner"></div></button>
+    <div id="amL" style="display:none">
+      <div class="mf"><label>Email *</label><input id="amLEmail" type="email" placeholder="ton@email.com" autocomplete="email"/></div>
+      <div class="mf"><label>Mot de passe *</label><input id="amLPass" type="password" placeholder="Ton mot de passe" autocomplete="current-password"/></div>
+      <div class="amsg" id="amMsgL"></div>
+      <button class="am-sub" id="amBtnL" onclick="doSI()"><span id="amTxtL">Se connecter</span><div class="am-spin" id="amSpinL"></div></button>
+      <span class="am-link" onclick="swAuth('s')">Pas de compte ? S'inscrire →</span>
     </div>
   </div>
 </div>
 
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+const SB      = createClient("https://jbshkbqchrehfhoodtuj.supabase.co","sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs",{auth:{persistSession:true}})
+const BACKEND = "https://learnova-backend.onrender.com"
 
-const SB_URL = "https://jbshkbqchrehfhoodtuj.supabase.co"
-const SB_KEY = "sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs"
-const sb = createClient(SB_URL, SB_KEY, { auth: { persistSession: true } })
+// THEME
+const th = localStorage.getItem('ln_theme') || 'light'
+document.documentElement.setAttribute('data-theme', th)
+document.getElementById('themeBtn').textContent = th === 'dark' ? '☀️' : '🌙'
+window.toggleTheme = () => {
+  const c = document.documentElement.getAttribute('data-theme')
+  const n = c === 'dark' ? 'light' : 'dark'
+  document.documentElement.setAttribute('data-theme', n)
+  document.getElementById('themeBtn').textContent = n === 'dark' ? '☀️' : '🌙'
+  localStorage.setItem('ln_theme', n)
+}
 
-// État
-let currentUser = null
-let myProfile   = null
-let currentFilter = 'all'
-let currentType   = 'avis'
-let currentStars  = 1
-let postsOffset   = 0
-const PAGE_SIZE   = 10
-let isSubmitting = false  // ← AJOUT: Bloquer les doublons
+let currentUser = null, myProfile = null
+let activeType = '', postType = 'avis', noteValue = 5, authMode = 's'
 
-// ── AUTH STATE ────────────────────────────────────────────────
-sb.auth.onAuthStateChange(async (event, session) => {
-  currentUser = session?.user || null
-  if (currentUser) {
-    document.getElementById('navGuest').style.display = 'none'
-    document.getElementById('navUser').style.display = 'flex'
-    const { data: p } = await sb.from('profiles').select('*').eq('id', currentUser.id).single()
-    myProfile = p
-    const prenom = p?.prenom || currentUser.email?.split('@')[0] || 'Moi'
-    document.getElementById('navName').textContent = prenom
-    const nav = document.getElementById('navAv')
-    if (p?.photo_url) nav.innerHTML = `<img src="${p.photo_url}" alt=""/>`
-    else nav.textContent = prenom.charAt(0).toUpperCase()
+// ── AUTH ──────────────────────────────────────────────────────
+SB.auth.getSession().then(({ data: { session } }) => { if (session?.user) setConn(session.user) ; else setGuest() })
+SB.auth.onAuthStateChange(async (_, s) => { if (s?.user) await setConn(s.user) ; else setGuest() })
 
-    const npAv = document.getElementById('npAvatar')
-    if (p?.photo_url) npAv.innerHTML = `<img src="${p.photo_url}" alt=""/>`
-    else { npAv.textContent = prenom.charAt(0).toUpperCase() }
+async function setConn(user) {
+  currentUser = user
+  const { data: p } = await SB.from('profiles').select('*').eq('id', user.id).single()
+  myProfile = p
+  const prenom = p?.prenom || user.user_metadata?.prenom || user.email?.split('@')[0] || 'Toi'
+  document.getElementById('navGuest').style.display = 'none'
+  document.getElementById('navUser').style.display  = 'flex'
+  document.getElementById('navName').textContent    = prenom
+  const av = document.getElementById('navAv')
+  if (p?.photo_url) av.innerHTML = `<img src="${p.photo_url}" alt=""/>` ; else av.textContent = prenom.charAt(0).toUpperCase()
+  // Afficher zone de création
+  document.getElementById('createBox').style.display = 'block'
+  document.getElementById('authWall').style.display  = 'none'
+  const cAv = document.getElementById('createAv')
+  if (p?.photo_url) cAv.innerHTML = `<img src="${p.photo_url}" alt=""/>` ; else cAv.textContent = prenom.charAt(0).toUpperCase()
+  if (presenceCh) presenceCh.track({ uid: user.id, prenom, photo: p?.photo_url || null, score: p?.score_total || 0 })
+}
 
-    closeModal()
-  } else {
-    document.getElementById('navGuest').style.display = 'flex'
-    document.getElementById('navUser').style.display = 'none'
+function setGuest() {
+  currentUser = null; myProfile = null
+  document.getElementById('navGuest').style.display = 'flex'
+  document.getElementById('navUser').style.display  = 'none'
+  document.getElementById('createBox').style.display = 'none'
+  document.getElementById('authWall').style.display  = 'block'
+}
+
+window.doOut = async () => { await SB.auth.signOut(); setGuest(); toast('À bientôt !') }
+
+// ── POSTS ─────────────────────────────────────────────────────
+async function loadPosts() {
+  document.getElementById('postsList').innerHTML = '<div class="posts-loading"><div class="loader"></div>Chargement...</div>'
+  let q = SB.from('community_posts').select('*').order('created_at', { ascending: false }).limit(50)
+  if (activeType) q = q.eq('type', activeType)
+  const { data: posts } = await q
+  renderPosts(posts || [])
+  loadStats()
+}
+
+function renderPosts(posts) {
+  const c = document.getElementById('postsList')
+  if (!posts.length) {
+    c.innerHTML = `<div class="posts-empty"><div style="font-size:2.8rem;margin-bottom:14px">💬</div><div style="font-family:var(--h);font-size:1.15rem;color:var(--text);margin-bottom:8px">Aucun post encore</div><div style="font-size:.84rem">Sois le premier à partager !</div></div>`
+    return
   }
-})
+  c.innerHTML = ''
+  posts.forEach(p => c.appendChild(buildCard(p)))
+}
+
+function buildCard(p) {
+  const div = document.createElement('div')
+  div.className = 'post-card'; div.id = `post-${p.id}`
+  const initials = (p.auteur_nom || 'A').charAt(0).toUpperCase()
+  const avH = p.auteur_photo ? `<img src="${p.auteur_photo}" alt=""/>` : initials
+  const tC = { avis:'pt-avis', question:'pt-question', temoignage:'pt-temoignage', bug:'pt-bug', idee:'pt-idee' }
+  const tL = { avis:'⭐ Avis', question:'❓ Question', temoignage:'💬 Témoignage', bug:'🐛 Bug', idee:'💡 Idée' }
+  const starsH = p.type === 'avis' && p.note > 0
+    ? `<div class="post-stars">${[1,2,3,4,5].map(i=>`<span class="star${i<=p.note?' on':''}">${i<=p.note?'★':'☆'}</span>`).join('')}</div>` : ''
+  const isOwn  = currentUser && p.auteur_id === currentUser.id
+  const isLiked = currentUser && (p.liked_by || []).includes(currentUser.id)
+
+  div.innerHTML = `
+    <div class="post-head">
+      <div class="post-av">${avH}</div>
+      <div class="post-meta">
+        <div class="post-author">${p.auteur_nom || 'Anonyme'}</div>
+        <div class="post-time">${timeAgo(p.created_at)}</div>
+      </div>
+      <span class="post-type ${tC[p.type] || 'pt-avis'}">${tL[p.type] || p.type}</span>
+    </div>
+    ${starsH}
+    <div class="post-content">${escHtml(p.contenu)}</div>
+    <div class="post-foot">
+      <button class="like-btn${isLiked?' liked':''}" onclick="toggleLike('${p.id}',${isLiked})">
+        ${isLiked?'❤️':'🤍'} <span id="lk-${p.id}">${p.likes_count||0}</span>
+      </button>
+      <button class="reply-btn" onclick="toggleReplies('${p.id}')">💬 <span id="rc-${p.id}">${p.replies_count||0}</span></button>
+      ${isOwn ? `<button class="del-btn" onclick="deletePost('${p.id}')">🗑️ Supprimer</button>` : ''}
+    </div>
+    <div class="replies-zone" id="rz-${p.id}">
+      <div id="rl-${p.id}"></div>
+      ${currentUser
+        ? `<div class="reply-input-row"><div class="r-av">${avH}</div><textarea class="r-input" id="ri-${p.id}" placeholder="Répondre..." rows="1"></textarea><button class="r-send" onclick="sendReply('${p.id}')">↗</button></div>`
+        : `<div style="font-size:.8rem;color:var(--text3);padding:4px 0"><span style="color:var(--accent);cursor:pointer" onclick="openAuth('s')">Connecte-toi</span> pour répondre.</div>`
+      }
+    </div>`
+  return div
+}
+
+window.filterType = (type, el) => {
+  activeType = type
+  document.querySelectorAll('.tt').forEach(t => t.classList.remove('active'))
+  el.classList.add('active')
+  loadPosts()
+}
+
+window.toggleLike = async (postId, wasLiked) => {
+  if (!currentUser) { openAuth('s'); return }
+  const uid = currentUser.id
+  const { data: post } = await SB.from('community_posts').select('liked_by,likes_count').eq('id', postId).single()
+  if (!post) return
+  const liked    = post.liked_by || []
+  const newLiked = wasLiked ? liked.filter(x => x !== uid) : [...liked, uid]
+  const newCount = Math.max(0, (post.likes_count || 0) + (wasLiked ? -1 : 1))
+  await SB.from('community_posts').update({ liked_by: newLiked, likes_count: newCount }).eq('id', postId)
+  const btn = document.querySelector(`#post-${postId} .like-btn`)
+  if (btn) {
+    btn.className = `like-btn${!wasLiked?' liked':''}`
+    btn.innerHTML = `${!wasLiked?'❤️':'🤍'} <span id="lk-${postId}">${newCount}</span>`
+    btn.onclick = () => toggleLike(postId, !wasLiked)
+  }
+}
+
+window.toggleReplies = async postId => {
+  const zone = document.getElementById(`rz-${postId}`); if (!zone) return
+  zone.classList.toggle('open')
+  if (zone.classList.contains('open')) {
+    const rl = document.getElementById(`rl-${postId}`)
+    rl.innerHTML = '<div style="font-size:.79rem;color:var(--text3);padding:4px 0">Chargement...</div>'
+    const { data: replies } = await SB.from('community_replies').select('*').eq('post_id', postId).order('created_at')
+    if (!replies?.length) { rl.innerHTML = '<div style="font-size:.79rem;color:var(--text3);padding-bottom:8px">Aucune réponse encore.</div>'; return }
+    rl.innerHTML = replies.map(r => {
+      const avH = r.auteur_photo ? `<img src="${r.auteur_photo}" alt=""/>` : (r.auteur_nom || 'A').charAt(0).toUpperCase()
+      return `<div class="reply-item"><div class="r-av">${avH}</div><div class="r-bub"><div class="r-author">${r.auteur_nom || 'Anonyme'}<span class="r-time">${timeAgo(r.created_at)}</span></div>${escHtml(r.contenu)}</div></div>`
+    }).join('')
+  }
+}
+
+window.sendReply = async postId => {
+  if (!currentUser) { openAuth('s'); return }
+  const inp  = document.getElementById(`ri-${postId}`)
+  const text = inp?.value?.trim(); if (!text) return
+  const prenom = myProfile?.prenom || currentUser.email?.split('@')[0] || 'Anonyme'
+  const { error } = await SB.from('community_replies').insert({ post_id: postId, auteur_id: currentUser.id, auteur_nom: prenom, auteur_photo: myProfile?.photo_url || null, contenu: text })
+  if (error) { toast('Erreur lors de l\'envoi.', 'err'); return }
+  const { data: post } = await SB.from('community_posts').select('replies_count').eq('id', postId).single()
+  if (post) await SB.from('community_posts').update({ replies_count: (post.replies_count || 0) + 1 }).eq('id', postId)
+  inp.value = ''
+  const avH = myProfile?.photo_url ? `<img src="${myProfile.photo_url}" alt=""/>` : prenom.charAt(0).toUpperCase()
+  const rl = document.getElementById(`rl-${postId}`)
+  const rd = document.createElement('div'); rd.className = 'reply-item'
+  rd.innerHTML = `<div class="r-av">${avH}</div><div class="r-bub"><div class="r-author">${prenom}<span class="r-time">À l'instant</span></div>${escHtml(text)}</div>`
+  rl?.appendChild(rd)
+  const rc = document.getElementById(`rc-${postId}`); if (rc) rc.textContent = parseInt(rc.textContent || 0) + 1
+}
+
+window.deletePost = async postId => {
+  if (!confirm('Supprimer ce post définitivement ?')) return
+  await SB.from('community_posts').delete().eq('id', postId)
+  const el = document.getElementById(`post-${postId}`)
+  if (el) { el.style.opacity = '0'; el.style.transform = 'scale(.95)'; setTimeout(() => el.remove(), 300) }
+  toast('Post supprimé.', 'ok'); loadStats()
+}
+
+// ── PUBLIER ───────────────────────────────────────────────────
+window.setNote = n => {
+  noteValue = n
+  document.querySelectorAll('#noteStars .star').forEach((s, i) => s.className = `star${i < n ? ' on' : ''}`)
+  document.getElementById('noteLbl').textContent = `${n}/5`
+}
+
+window.selType = (type, el) => {
+  postType = type
+  document.querySelectorAll('.tc').forEach(c => c.classList.remove('active'))
+  el.classList.add('active')
+  document.getElementById('noteZone').style.display = type === 'avis' ? 'flex' : 'none'
+}
+
+window.updateChar = () => {
+  const l = document.getElementById('postTa').value.length
+  document.getElementById('charCnt').textContent = `${l} / 1000`
+}
+
+window.submitPost = async () => {
+  if (!currentUser) { openAuth('s'); return }
+  const text = document.getElementById('postTa').value.trim()
+  if (!text || text.length < 10) { toast('Écris au moins 10 caractères.', 'err'); return }
+
+  const btn  = document.getElementById('pubBtn')
+  const spin = document.getElementById('pubSpin')
+  const txt  = document.getElementById('pubTxt')
+  btn.disabled = true; spin.style.display = 'block'; txt.textContent = ''
+
+  // Modération Render (si disponible)
+  try {
+    const modRes = await fetch(`${BACKEND}/api/community-moderate`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text })
+    })
+    if (modRes.ok) {
+      const mod = await modRes.json()
+      if (!mod.approved) {
+        toast(`❌ Post refusé : ${mod.reason || 'Contenu inapproprié.'}`, 'err')
+        btn.disabled = false; spin.style.display = 'none'; txt.textContent = 'Publier'; return
+      }
+    }
+  } catch { /* Modération indisponible, on publie quand même */ }
+
+  const prenom = myProfile?.prenom || currentUser.email?.split('@')[0] || 'Anonyme'
+  const { error } = await SB.from('community_posts').insert({
+    auteur_id: currentUser.id, auteur_nom: prenom, auteur_photo: myProfile?.photo_url || null,
+    contenu: text, type: postType, note: postType === 'avis' ? noteValue : 0,
+    likes_count: 0, replies_count: 0, liked_by: []
+  })
+
+  btn.disabled = false; spin.style.display = 'none'; txt.textContent = 'Publier'
+  if (error) { toast('Erreur lors de la publication.', 'err'); return }
+  document.getElementById('postTa').value = ''
+  document.getElementById('charCnt').textContent = '0 / 1000'
+  toast('✅ Post publié !', 'ok')
+  loadPosts()
+}
 
 // ── STATS ─────────────────────────────────────────────────────
 async function loadStats() {
-  const [{ count: total }, { count: members }, { count: avis }, { count: questions }] = await Promise.all([
-    sb.from('community_posts').select('*', { count: 'exact', head: true }),
-    sb.from('profiles').select('*', { count: 'exact', head: true }),
-    sb.from('community_posts').select('*', { count: 'exact', head: true }).eq('type', 'avis'),
-    sb.from('community_posts').select('*', { count: 'exact', head: true }).eq('type', 'question')
+  const [{ count: postsCount }, { count: membersCount }, { data: avisData }] = await Promise.all([
+    SB.from('community_posts').select('*', { count: 'exact', head: true }),
+    SB.from('profiles').select('*', { count: 'exact', head: true }),
+    SB.from('community_posts').select('note').eq('type', 'avis').gt('note', 0)
   ])
-  const fmt = n => (n || 0).toLocaleString('fr')
-  document.getElementById('statPosts').textContent = fmt(total)
-  document.getElementById('statMembers').textContent = fmt(members)
-  document.getElementById('sbPosts').textContent = fmt(total)
-  document.getElementById('sbMembers').textContent = fmt(members)
-  document.getElementById('sbAvis').textContent = fmt(avis)
-  document.getElementById('sbQuestions').textContent = fmt(questions)
+  const avg = avisData?.length ? (avisData.reduce((s, a) => s + a.note, 0) / avisData.length).toFixed(1) : '—'
+  setEl('hPosts',   postsCount   || 0)
+  setEl('hMembers', membersCount || 0)
+  setEl('sPosts',   postsCount   || 0)
+  setEl('sMembers2',membersCount || 0)
+  setEl('sRating',  avg !== '—' ? `${avg} ⭐` : '—')
+  loadTopContrib()
 }
 
-// Présence en ligne
-const onlineCh = sb.channel('community-online', { config: { presence: { key: 'v-' + Math.random().toString(36).substr(2, 6) } } })
-onlineCh.on('presence', { event: 'sync' }, () => {
-  document.getElementById('statOnline').textContent = Object.keys(onlineCh.presenceState()).length
-}).subscribe(async s => { if (s === 'SUBSCRIBED') await onlineCh.track({ page: 'community' }) })
-
-loadStats()
-
-// ── CHARGER POSTS ─────────────────────────────────────────────
-async function loadPosts(reset = true) {
-  if (reset) {
-    postsOffset = 0
-    document.getElementById('postsList').innerHTML = ''
-    document.getElementById('loadMoreWrap').style.display = 'none'
-  }
-
-  let query = sb.from('community_posts')
-    .select('*, profiles(prenom, photo_url)')
-    .order('created_at', { ascending: false })
-    .range(postsOffset, postsOffset + PAGE_SIZE - 1)
-
-  if (currentFilter !== 'all') query = query.eq('type', currentFilter)
-
-  const { data: posts, error } = await query
-
-  if (error) {
-    document.getElementById('postsList').innerHTML = `
-      <div class="empty-state">
-        <div class="empty-icon">⚠️</div>
-        <div class="empty-title">Erreur de chargement</div>
-        <div class="empty-sub">${error.message}</div>
-      </div>`
-    return
-  }
-
-  if (!posts?.length && postsOffset === 0) {
-    document.getElementById('postsList').innerHTML = `
-      <div class="empty-state">
-        <div class="empty-icon">💬</div>
-        <div class="empty-title">Aucune publication pour l'instant</div>
-        <div class="empty-sub">Sois le premier à partager ton expérience avec la communauté !</div>
-      </div>`
-    return
-  }
-
-  posts?.forEach(post => renderPost(post))
-  postsOffset += posts.length
-  document.getElementById('loadMoreWrap').style.display = posts.length >= PAGE_SIZE ? 'block' : 'none'
-
-  loadTopContribs()
+async function loadTopContrib() {
+  const { data: profiles } = await SB.from('profiles').select('prenom,photo_url,score_total').order('score_total', { ascending: false }).limit(5)
+  const c = document.getElementById('topContrib')
+  if (!profiles?.length) { c.innerHTML = '<div style="padding:12px 16px;font-size:.8rem;color:var(--text3)">Aucun contributeur.</div>'; return }
+  const medals = ['🥇','🥈','🥉','4.','5.']
+  c.innerHTML = profiles.map((p, i) => {
+    const av = p.photo_url ? `<img src="${p.photo_url}" alt=""/>` : (p.prenom || '?').charAt(0).toUpperCase()
+    return `<div class="top-item"><div class="top-rank${i===0?' g':''}">${medals[i]}</div><div class="top-av">${av}</div><div class="top-name">${p.prenom || '—'}</div><div class="top-pts">${p.score_total || 0} pts</div></div>`
+  }).join('')
 }
 
-function renderPost(p) {
-  const prenom = p.profiles?.prenom || p.auteur_nom || 'Anonyme'
-  const photo  = p.profiles?.photo_url || p.auteur_photo || null
-  const avHtml = photo ? `<img src="${photo}" alt="${prenom}"/>` : prenom.charAt(0).toUpperCase()
-
-  const typeLabels = { avis: '⭐ Avis', question: '❓ Question', experience: '💡 Expérience', ressource: '📚 Ressource' }
-  const typeClasses = { avis: 'ptc-avis', question: 'ptc-question', experience: 'ptc-experience', ressource: 'ptc-ressource' }
-
-  const starsHtml = p.type === 'avis' && p.note > 0
-    ? `<span class="post-stars">${'★'.repeat(Math.min(p.note, 5))}${'☆'.repeat(5 - Math.min(p.note, 5))}</span>` : ''
-
-  const timeAgo = formatTime(p.created_at)
-  const isMyPost = currentUser?.id === p.auteur_id
-  const isLiked  = (p.liked_by || []).includes(currentUser?.id)
-
-  const div = document.createElement('div')
-  div.className = 'post-card'
-  div.id = `post-${p.id}`
-  div.innerHTML = `
-    <div class="post-header">
-      <div class="post-av">${avHtml}</div>
-      <div class="post-meta">
-        <div class="post-author">${prenom}</div>
-        <div class="post-info">
-          <span class="post-time">${timeAgo}</span>
-          <span class="post-type-chip ${typeClasses[p.type] || 'ptc-avis'}">${typeLabels[p.type] || 'Post'}</span>
-          ${starsHtml}
-        </div>
-      </div>
-    </div>
-    <div class="post-content">${formatContent(p.contenu)}</div>
-    <div class="post-actions">
-      <button class="post-action-btn${isLiked ? ' liked' : ''}" onclick="toggleLike('${p.id}', this)">
-        <svg viewBox="0 0 24 24" fill="${isLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-        <span id="likes-${p.id}">${p.likes_count || 0}</span>
-      </button>
-      <div class="action-sep"></div>
-      <button class="post-action-btn" onclick="toggleReplies('${p.id}', this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-        <span id="rcount-${p.id}">${p.replies_count || 0}</span>&nbsp;réponse${(p.replies_count || 0) > 1 ? 's' : ''}
-      </button>
-      <div class="action-sep"></div>
-      <button class="post-action-btn" onclick="sharePost('${p.id}')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-        Partager
-      </button>
-      ${isMyPost ? `<div class="action-sep"></div><button class="post-action-btn danger" onclick="deletePost('${p.id}', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>Supprimer</button>` : ''}
-    </div>
-    <div class="replies-section" id="replies-${p.id}">
-      <div id="replies-list-${p.id}"></div>
-      <div class="reply-input-row">
-        <div class="reply-av-sm" id="repAv-${p.id}">${myProfile ? (myProfile.photo_url ? `<img src="${myProfile.photo_url}" alt=""/>` : myProfile.prenom?.charAt(0).toUpperCase() || '?') : '?'}</div>
-        <input class="reply-inp" id="rep-inp-${p.id}" type="text" placeholder="Ta réponse..." maxlength="500"/>
-        <button class="reply-send-btn" onclick="sendReply('${p.id}')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
-      </div>
-    </div>`
-
-  document.getElementById('postsList').appendChild(div)
-
-  // ← CORRECTION: Ajouter listener APRÈS création du post
-  const replyInp = div.querySelector(`#rep-inp-${p.id}`)
-  if (replyInp) {
-    replyInp.addEventListener('keypress', e => {
-      if (e.key === 'Enter') sendReply(p.id)
-    })
-  }
-}
-
-// ── LIKES ─────────────────────────────────────────────────────
-window.toggleLike = async (postId, btn) => {
-  if (!currentUser) { openModal('signup'); toast('Connecte-toi pour liker !', 'err'); return }
-
-  const { data: post } = await sb.from('community_posts').select('likes_count,liked_by').eq('id', postId).single()
-  const liked = (post?.liked_by || []).includes(currentUser.id)
-  const newLikes = liked ? Math.max((post?.likes_count || 0) - 1, 0) : (post?.likes_count || 0) + 1
-  const newLikedBy = liked
-    ? (post?.liked_by || []).filter(id => id !== currentUser.id)
-    : [...(post?.liked_by || []), currentUser.id]
-
-  await sb.from('community_posts').update({ likes_count: newLikes, liked_by: newLikedBy }).eq('id', postId)
-  btn.classList.toggle('liked', !liked)
-  btn.querySelector('svg').setAttribute('fill', liked ? 'none' : 'currentColor')
-  document.getElementById(`likes-${postId}`).textContent = newLikes
-}
-
-// ── RÉPONSES ──────────────────────────────────────────────────
-window.toggleReplies = async (postId, btn) => {
-  const section = document.getElementById(`replies-${postId}`)
-  const isOpen  = section.classList.contains('show')
-
-  if (!isOpen) {
-    section.classList.add('show')
-    const list = document.getElementById(`replies-list-${postId}`)
-    list.innerHTML = '<div style="font-size:.8rem;color:var(--text3);padding:8px 0;">Chargement...</div>'
-
-    const { data: replies } = await sb.from('community_replies')
-      .select('*, profiles(prenom,photo_url)')
-      .eq('post_id', postId)
-      .order('created_at', { ascending: true })
-
-    if (!replies?.length) {
-      list.innerHTML = '<div style="font-size:.8rem;color:var(--text3);padding:8px 0;">Aucune réponse. Sois le premier !</div>'
-      return
-    }
-
-    list.innerHTML = replies.map(r => {
-      const rprenom = r.profiles?.prenom || r.auteur_nom || 'Anonyme'
-      const rphoto  = r.profiles?.photo_url || r.auteur_photo || null
-      const avHtml  = rphoto ? `<img src="${rphoto}" alt=""/>` : rprenom.charAt(0).toUpperCase()
-      return `
-        <div class="reply-item">
-          <div class="reply-av">${avHtml}</div>
-          <div class="reply-body">
-            <div class="reply-author">${rprenom}<time>${formatTime(r.created_at)}</time></div>
-            <div class="reply-text">${r.contenu}</div>
-          </div>
-        </div>`
+// ── PRÉSENCE ──────────────────────────────────────────────────
+let presenceCh = null
+function setupPresence() {
+  presenceCh = SB.channel('comm-pres', {
+    config: { presence: { key: currentUser?.id || 'g-' + Math.random().toString(36).substr(2, 6) } }
+  })
+  presenceCh.on('presence', { event: 'sync' }, () => {
+    const users = Object.values(presenceCh.presenceState()).flat()
+    setEl('hOnline',  users.length)
+    setEl('sOnline2', users.length)
+    const list = document.getElementById('onlineList')
+    if (!users.length) { list.innerHTML = '<div style="padding:12px 16px;font-size:.8rem;color:var(--text3)">Personne pour l\'instant...</div>'; return }
+    list.innerHTML = users.map(u => {
+      const av = u.photo ? `<img src="${u.photo}" alt=""/>` : (u.prenom || '?').charAt(0).toUpperCase()
+      return `<div class="online-item"><div class="o-av">${av}<div class="o-dot"></div></div><span class="o-name">${u.prenom || '?'}</span><span class="o-pts">${u.score || 0} pts</span></div>`
     }).join('')
-  } else {
-    section.classList.remove('show')
-  }
-}
-
-// ← CORRECTION: Flag pour éviter les doublons
-let replySending = false
-
-window.sendReply = async (postId) => {
-  if (!currentUser) { openModal('signup'); toast('Connecte-toi pour répondre !', 'err'); return }
-  if (replySending) return  // ← Bloquer si déjà en cours
-  
-  const inp  = document.getElementById(`rep-inp-${postId}`)
-  const text = inp.value.trim()
-  if (!text) return
-  
-  replySending = true  // ← Marquer comme en cours
-  inp.value = ''
-
-  const prenom = myProfile?.prenom || currentUser.email?.split('@')[0] || 'Anonyme'
-  const photo  = myProfile?.photo_url || null
-
-  const { error } = await sb.from('community_replies').insert({
-    post_id: postId,
-    auteur_id: currentUser.id,
-    auteur_nom: prenom,
-    auteur_photo: photo,
-    contenu: text
-  }).select().single()
-
-  replySending = false  // ← Débloquer
-
-  if (error) {
-    toast('Erreur lors de la réponse: ' + error.message, 'err')
-    inp.value = text  // Restaurer le texte
-    return
-  }
-
-  // Incrémenter compteur
-  const { data: post } = await sb.from('community_posts').select('replies_count').eq('id', postId).single()
-  const newCount = (post?.replies_count || 0) + 1
-  await sb.from('community_posts').update({ replies_count: newCount }).eq('id', postId)
-  document.getElementById(`rcount-${postId}`).textContent = newCount
-
-  // Ajouter localement
-  const list = document.getElementById(`replies-list-${postId}`)
-  const old  = list.querySelector('div[style*="Aucune"]')
-  if (old) old.remove()
-  const div  = document.createElement('div')
-  div.className = 'reply-item'
-  const avHtml = photo ? `<img src="${photo}" alt=""/>` : prenom.charAt(0).toUpperCase()
-  div.innerHTML = `
-    <div class="reply-av">${avHtml}</div>
-    <div class="reply-body">
-      <div class="reply-author">${prenom}<time>À l'instant</time></div>
-      <div class="reply-text">${text}</div>
-    </div>`
-  list.appendChild(div)
-  toast('✅ Réponse publiée !', 'ok')
-}
-
-// ── SUPPRIMER POST ────────────────────────────────────────────
-window.deletePost = async (postId, btn) => {
-  if (!confirm('Supprimer cette publication définitivement ?')) return
-  await sb.from('community_posts').delete().eq('id', postId)
-  const card = document.getElementById(`post-${postId}`)
-  card.style.opacity = '0'; card.style.transition = 'opacity .3s'
-  setTimeout(() => { card.remove(); loadStats() }, 300)
-}
-
-// ── PARTAGER ──────────────────────────────────────────────────
-window.sharePost = (postId) => {
-  navigator.clipboard.writeText(`${window.location.origin}/community.html#post-${postId}`).catch(() => {})
-  toast('🔗 Lien copié !', 'ok')
-}
-
-// ── FILTRE ────────────────────────────────────────────────────
-window.setFilter = (type, el) => {
-  currentFilter = type
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'))
-  el.classList.add('active')
-  loadPosts(true)
-}
-
-window.filterByTag = (tag) => {
-  toast(`Filtrage par #${tag}`)
-}
-
-window.loadMorePosts = () => loadPosts(false)
-
-// ── NOUVEAU POST ──────────────────────────────────────────────
-window.openNewPost = () => {
-  if (!currentUser) { openModal('signup'); toast('Connecte-toi pour publier !', 'err'); return }
-  document.getElementById('npFormWrap').classList.add('show')
-  document.getElementById('npTrigger').style.display = 'none'
-  document.getElementById('npText').focus()
-}
-
-window.closeNewPost = () => {
-  document.getElementById('npFormWrap').classList.remove('show')
-  document.getElementById('npTrigger').style.display = 'flex'
-  document.getElementById('npText').value = ''
-  document.getElementById('npChar').textContent = '0 / 1000'
-  document.getElementById('npError').classList.remove('show')
-  setStar(1)
-}
-
-window.setPostType = (el) => {
-  document.querySelectorAll('.np-type-btn').forEach(b => b.classList.remove('active'))
-  el.classList.add('active')
-  currentType = el.dataset.type
-  document.getElementById('npStarsRow').style.display = currentType === 'avis' ? 'flex' : 'none'
-}
-
-window.setStar = (val) => {
-  currentStars = val
-  document.querySelectorAll('.star-btn').forEach((s, i) => {
-    s.classList.toggle('lit', i < val)
+  }).subscribe(async s => {
+    if (s === 'SUBSCRIBED' && myProfile) {
+      await presenceCh.track({ uid: currentUser?.id, prenom: myProfile?.prenom, photo: myProfile?.photo_url || null, score: myProfile?.score_total || 0 })
+    }
   })
 }
 
-window.onTextInput = () => {
-  const len = document.getElementById('npText').value.length
-  document.getElementById('npChar').textContent = `${len} / 1000`
-}
-
-// ← CORRECTION PRINCIPALE
-window.submitPost = async () => {
-  if (!currentUser) { openModal('signup'); return }
-  if (isSubmitting) return  // ← Bloquer les doublons
-
-  const text = document.getElementById('npText').value.trim()
-  const errEl = document.getElementById('npError')
-  errEl.classList.remove('show')
-
-  if (!text || text.length < 5) {
-    errEl.textContent = 'Écris au moins 5 caractères.'
-    errEl.classList.add('show')
-    return
-  }
-
-  const btn     = document.getElementById('npSubmitBtn')
-  const btnTxt  = document.getElementById('npBtnText')
-  const spinner = document.getElementById('npSpinner')
-
-  isSubmitting = true  // ← Bloquer
-  btn.disabled = true
-  btnTxt.textContent = 'Publication...'
-  spinner.style.display = 'block'
-
-  const prenom = myProfile?.prenom || currentUser.email?.split('@')[0] || 'Anonyme'
-  const photo  = myProfile?.photo_url || null
-
-  const { data, error } = await sb.from('community_posts').insert({
-    auteur_id: currentUser.id,
-    auteur_nom: prenom,
-    auteur_photo: photo,
-    contenu: text,
-    type: currentType,
-    note: currentType === 'avis' ? currentStars : 0,
-    likes_count: 0,
-    replies_count: 0,
-    liked_by: []
-  }).select('*, profiles(prenom,photo_url)').single()
-
-  spinner.style.display = 'none'
-  isSubmitting = false  // ← Débloquer
-
-  if (error) {
-    errEl.textContent = 'Erreur: ' + (error.message || 'Réessaie')
-    errEl.classList.add('show')
-    btn.disabled = false
-    btnTxt.textContent = 'Publier'
-    return
-  }
-
-  if (data) {
-    // ← CORRECTION: Ajouter correctement le nouveau post
-    closeNewPost()
-    const list  = document.getElementById('postsList')
-    const empty = list.querySelector('.empty-state')
-    if (empty) empty.remove()
-
-    renderPost(data)
-    const newCard = list.lastElementChild
-    list.insertBefore(newCard, list.firstChild)
-
+// ── REALTIME ──────────────────────────────────────────────────
+SB.channel('comm-rt')
+  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'community_posts' }, ({ new: p }) => {
+    if (!activeType || p.type === activeType) {
+      const list = document.getElementById('postsList')
+      const empty = list.querySelector('.posts-empty')
+      if (empty) list.innerHTML = ''
+      list.insertBefore(buildCard(p), list.firstChild)
+    }
     loadStats()
-    toast('✅ Publication partagée !', 'ok')
-  }
-
-  btn.disabled = false
-  btnTxt.textContent = 'Publier'
-}
-
-// ── TOP CONTRIBUTEURS ─────────────────────────────────────────
-async function loadTopContribs() {
-  const { data } = await sb.from('community_posts')
-    .select('auteur_id, auteur_nom, auteur_photo, profiles(prenom,photo_url)')
-    .limit(100)
-  if (!data) return
-
-  const counts = {}
-  data.forEach(p => {
-    const id     = p.auteur_id || 'anon'
-    const prenom = p.profiles?.prenom || p.auteur_nom || 'Anonyme'
-    const photo  = p.profiles?.photo_url || p.auteur_photo || null
-    if (!counts[id]) counts[id] = { prenom, photo, count: 0 }
-    counts[id].count++
   })
-  const sorted = Object.values(counts).sort((a, b) => b.count - a.count).slice(0, 5)
-  const medals = ['🥇', '🥈', '🥉', '4', '5']
-
-  document.getElementById('topContribs').innerHTML = sorted.length
-    ? sorted.map((u, i) => `
-        <div class="contrib-item">
-          <span class="contrib-rank">${medals[i]}</span>
-          <div class="contrib-av">${u.photo ? `<img src="${u.photo}" alt=""/>` : u.prenom.charAt(0).toUpperCase()}</div>
-          <span class="contrib-name">${u.prenom}</span>
-          <span class="contrib-count">${u.count} pub.</span>
-        </div>`).join('')
-    : '<div style="font-size:.8rem;color:var(--text3);">Aucun contributeur.</div>'
-}
-
-// Temps réel nouveaux posts
-sb.channel('community-rt')
-  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'community_posts' }, async payload => {
-    if (payload.new.auteur_id === currentUser?.id) return
-    const { data: profile } = await sb.from('profiles').select('prenom,photo_url').eq('id', payload.new.auteur_id).single()
-    const post = { ...payload.new, profiles: profile }
-    const list  = document.getElementById('postsList')
-    const empty = list.querySelector('.empty-state')
-    if (empty) empty.remove()
-    renderPost(post)
-    list.insertBefore(list.lastElementChild, list.firstChild)
-    loadStats()
+  .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'community_posts' }, ({ old }) => {
+    const el = document.getElementById(`post-${old.id}`)
+    if (el) { el.style.opacity = '0'; setTimeout(() => el.remove(), 300) }
   })
   .subscribe()
 
-// ── AUTH ──────────────────────────────────────────────────────
-window.openModal = (tab = 'signup') => {
-  document.getElementById('authModal').classList.add('show')
-  switchAuthTab(tab)
+// ── MODAL AUTH ────────────────────────────────────────────────
+window.openAuth = mode => {
+  authMode = mode === 'signup' ? 's' : mode
+  document.getElementById('authMo').classList.add('show')
+  swAuth(authMode)
+  setTimeout(() => document.getElementById(authMode === 's' ? 'amPrenom' : 'amLEmail')?.focus(), 100)
 }
-window.closeModal = () => document.getElementById('authModal').classList.remove('show')
-window.switchAuthTab = (tab) => {
-  document.getElementById('panelSignup').style.display = tab === 'signup' ? 'block' : 'none'
-  document.getElementById('panelLogin').style.display  = tab === 'login'  ? 'block' : 'none'
-  document.getElementById('tabS').classList.toggle('active', tab === 'signup')
-  document.getElementById('tabL').classList.toggle('active', tab === 'login')
-  document.querySelectorAll('.form-msg').forEach(m => m.className = 'form-msg')
+window.closeAuth = () => document.getElementById('authMo').classList.remove('show')
+window.swAuth = tab => {
+  authMode = tab
+  document.getElementById('amS').style.display = tab === 's' ? 'block' : 'none'
+  document.getElementById('amL').style.display = tab === 'l' ? 'block' : 'none'
+  document.getElementById('amtS').classList.toggle('active', tab === 's')
+  document.getElementById('amtL').classList.toggle('active', tab === 'l')
 }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAuth() })
 
-window.doSignUp = async () => {
-  const prenom = document.getElementById('sPrenom').value.trim()
-  const email  = document.getElementById('sEmail').value.trim()
-  const pass   = document.getElementById('sPass').value
-  const btn    = document.getElementById('sBtn')
-  const msg    = document.getElementById('sMsg')
-  msg.className = 'form-msg'
-
-  if (!prenom || prenom.length < 2) { showFormMsg('sMsg', 'err', 'Entre ton prénom.'); return }
-  if (!email || !email.includes('@')) { showFormMsg('sMsg', 'err', 'Email invalide.'); return }
-  if (pass.length < 6) { showFormMsg('sMsg', 'err', 'Mot de passe trop court (min. 6).'); return }
-
-  btn.disabled = true; document.getElementById('sBtnTxt').textContent = 'Création...'; document.getElementById('sSpinner').style.display = 'block'
-
-  const { data, error } = await sb.auth.signUp({ email: email.toLowerCase(), password: pass, options: { data: { prenom } } })
-  document.getElementById('sSpinner').style.display = 'none'
-
-  if (error) { btn.disabled = false; document.getElementById('sBtnTxt').textContent = 'Créer mon compte'; showFormMsg('sMsg', 'err', translateErr(error.message)); return }
-
-  if (data.user) {
-    await sb.from('profiles').upsert({ id: data.user.id, prenom, email: email.toLowerCase(), role: 'student', score_total: 0 })
-    await sb.rpc('increment_stat', { stat_name: 'total_inscrits' }).catch(() => {})
-  }
-  showFormMsg('sMsg', 'ok', `🎉 Bienvenue ${prenom} ! Compte créé.`)
-  document.getElementById('sBtnTxt').textContent = '✓ Compte créé !'
-}
-
-window.doSignIn = async () => {
-  const email = document.getElementById('lEmail').value.trim()
-  const pass  = document.getElementById('lPass').value
-  const btn   = document.getElementById('lBtn')
-  document.getElementById('lMsg').className = 'form-msg'
-
-  if (!email || !email.includes('@')) { showFormMsg('lMsg', 'err', 'Email invalide.'); return }
-  if (!pass) { showFormMsg('lMsg', 'err', 'Entre ton mot de passe.'); return }
-
-  btn.disabled = true; document.getElementById('lBtnTxt').textContent = 'Connexion...'; document.getElementById('lSpinner').style.display = 'block'
-  const { error } = await sb.auth.signInWithPassword({ email: email.toLowerCase(), password: pass })
-  document.getElementById('lSpinner').style.display = 'none'
-
-  if (error) { btn.disabled = false; document.getElementById('lBtnTxt').textContent = 'Se connecter'; showFormMsg('lMsg', 'err', translateErr(error.message)); return }
+window.doSU = async () => {
+  const prenom = document.getElementById('amPrenom').value.trim()
+  const email  = document.getElementById('amEmail').value.trim().toLowerCase()
+  const pass   = document.getElementById('amPass').value
+  clearMsgs()
+  if (!prenom || prenom.length < 2) { showMsg('amMsgS','err','⚠️ Entre ton prénom.'); return }
+  if (!email || !email.includes('@')) { showMsg('amMsgS','err','⚠️ Email invalide.'); return }
+  if (pass.length < 6) { showMsg('amMsgS','err','⚠️ Mot de passe trop court.'); return }
+  setLoad('amBtnS','amTxtS','amSpinS',true,'Création...')
+  try {
+    const { data, error } = await SB.auth.signUp({ email, password: pass, options: { data: { prenom } } })
+    if (error) { showMsg('amMsgS','err','❌ '+trErr(error.message)); return }
+    if (data.user) {
+      await SB.from('profiles').upsert({ id: data.user.id, prenom, email, role: 'student', score_total: 0 }).catch(()=>{})
+      await SB.rpc('increment_stat', { stat_name: 'total_inscrits' }).catch(()=>{})
+    }
+    showMsg('amMsgS','ok',`🎉 Bienvenue ${prenom} !`)
+    setLoad('amBtnS','amTxtS','amSpinS',false,'✅ Compte créé !')
+    setTimeout(() => closeAuth(), 1500)
+  } catch { showMsg('amMsgS','err','❌ Problème de connexion.') }
+  finally { setLoad('amBtnS','amTxtS','amSpinS',false,'Créer mon compte gratuitement') }
 }
 
-window.doSignOut = async () => { await sb.auth.signOut(); toast('À bientôt !') }
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal() })
-document.getElementById('sPass').addEventListener('keypress', e => { if (e.key === 'Enter') doSignUp() })
-document.getElementById('lPass').addEventListener('keypress', e => { if (e.key === 'Enter') doSignIn() })
+window.doSI = async () => {
+  const email = document.getElementById('amLEmail').value.trim().toLowerCase()
+  const pass  = document.getElementById('amLPass').value
+  clearMsgs()
+  if (!email || !pass) { showMsg('amMsgL','err','⚠️ Remplis tous les champs.'); return }
+  setLoad('amBtnL','amTxtL','amSpinL',true,'Connexion...')
+  try {
+    const { data, error } = await SB.auth.signInWithPassword({ email, password: pass })
+    if (error) { showMsg('amMsgL','err','❌ '+trErr(error.message)); return }
+    closeAuth(); toast(`👋 Bon retour !`)
+  } catch { showMsg('amMsgL','err','❌ Problème.') }
+  finally { setLoad('amBtnL','amTxtL','amSpinL',false,'Se connecter') }
+}
 
 // ── UTILS ─────────────────────────────────────────────────────
-function showFormMsg(id, type, text) {
-  const el = document.getElementById(id)
-  el.textContent = text; el.className = `form-msg ${type}`
-}
+function setEl(id, v) { const el = document.getElementById(id); if (el) el.textContent = typeof v === 'number' ? v.toLocaleString('fr') : v }
+function timeAgo(d) { const s=Math.floor((new Date()-new Date(d))/1000);if(s<60)return'À l\'instant';if(s<3600)return`il y a ${Math.floor(s/60)} min`;if(s<86400)return`il y a ${Math.floor(s/3600)}h`;return new Date(d).toLocaleDateString('fr',{day:'numeric',month:'short'}) }
+function escHtml(t) { const d=document.createElement('div');d.appendChild(document.createTextNode(t||''));return d.innerHTML }
+function trErr(msg) { if(!msg)return'Erreur.';const m=msg.toLowerCase();if(m.includes('already registered'))return'Email déjà utilisé.';if(m.includes('invalid login')||m.includes('invalid credentials'))return'Email ou mot de passe incorrect.';return'Erreur. Réessaie.' }
+function showMsg(id,t,txt){const el=document.getElementById(id);if(el){el.textContent=txt;el.className=`amsg ${t}`}}
+function clearMsgs(){['amMsgS','amMsgL'].forEach(id=>{const el=document.getElementById(id);if(el)el.className='amsg'})}
+function setLoad(bId,tId,sId,on,txt){const b=document.getElementById(bId);const t=document.getElementById(tId);const s=document.getElementById(sId);if(b)b.disabled=on;if(s)s.style.display=on?'block':'none';if(t&&txt)t.textContent=txt}
+function toast(msg,type='ok'){let t=document.getElementById('lt');if(!t){t=document.createElement('div');t.id='lt';t.style.cssText="position:fixed;bottom:24px;right:80px;padding:12px 22px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif;font-weight:500;box-shadow:0 16px 48px rgba(0,0,0,.22);max-width:300px;";document.body.appendChild(t)}const bg={ok:'#057a55',err:'#c81c1c',dark:'#09090f'};t.style.background=bg[type]||bg.ok;t.style.color='#fff';t.textContent=msg;t.style.transform='translateY(0)';clearTimeout(t._t);t._t=setTimeout(()=>t.style.transform='translateY(80px)',3800)}
 
-function translateErr(msg) {
-  if (!msg) return 'Erreur.'
-  const m = msg.toLowerCase()
-  if (m.includes('already registered')) return 'Email déjà utilisé. Connecte-toi.'
-  if (m.includes('invalid login') || m.includes('invalid credentials')) return 'Email ou mot de passe incorrect.'
-  if (m.includes('too many')) return 'Trop de tentatives. Attends quelques minutes.'
-  return 'Erreur. Réessaie.'
-}
-
-function formatTime(dateStr) {
-  const d = new Date(dateStr)
-  const now = new Date()
-  const diff = Math.floor((now - d) / 1000)
-  if (diff < 60) return 'À l\'instant'
-  if (diff < 3600) return `il y a ${Math.floor(diff / 60)} min`
-  if (diff < 86400) return `il y a ${Math.floor(diff / 3600)}h`
-  return d.toLocaleDateString('fr', { day: 'numeric', month: 'short' })
-}
-
-function formatContent(text) {
-  return text
-    .replace(/\n/g, '<br/>')
-    .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')
-}
-
-function toast(msg, type = 'dark') {
-  let t = document.getElementById('ln-toast')
-  if (!t) {
-    t = document.createElement('div'); t.id = 'ln-toast'
-    t.style.cssText = 'position:fixed;bottom:24px;right:24px;padding:12px 20px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s cubic-bezier(.34,1.56,.64,1);'
-    document.body.appendChild(t)
-  }
-  const colors = { dark: 'background:#09090f;color:#fff;', ok: 'background:#047857;color:#fff;', err: 'background:#b91c1c;color:#fff;' }
-  t.style.cssText += colors[type] || colors.dark
-  t.textContent = msg; t.style.transform = 'translateY(0)'
-  clearTimeout(t._t); t._t = setTimeout(() => t.style.transform = 'translateY(80px)', 3500)
-}
-
-// Init
 loadPosts()
-</script></body>
+setupPresence()
+</script>
+</body>
 </html>
