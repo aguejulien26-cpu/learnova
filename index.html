@@ -1,734 +1,465 @@
 <!DOCTYPE html>
 <html lang="fr" data-theme="light">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Learnova — L'IA qui enseigne en direct</title>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Learnova — Ressources PDF & Communauté</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
 <style>
-:root{--bg:#fafaf8;--bg2:#f2f1ee;--bg3:#e8e6e0;--panel:#fff;--border:#e0ddd6;--text:#0f0e0c;--text2:#4a4840;--text3:#9a9890;--accent:#1a56db;--al:#eff3ff;--am:#bfcffb;--green:#057a55;--gl:#edfaf4;--gm:#a7f3d0;--red:#dc2626;--rl:#fee2e2;--purple:#7c3aed;--pl:#f3e8ff;--h:'Fraunces',serif;--b:'DM Sans',sans-serif;--sh:0 4px 12px rgba(0,0,0,.06);--sh2:0 12px 24px rgba(0,0,0,.1);}
-[data-theme="dark"]{--bg:#0d0d11;--bg2:#141419;--bg3:#1c1c24;--panel:#18181f;--border:#28283a;--text:#eeeef4;--text2:#a8a8c0;--text3:#606078;--al:#16203a;--am:#243070;--gl:#0c2018;--gm:#184030;--rl:#7f1d1d;}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:var(--b);-webkit-font-smoothing:antialiased;padding-top:62px;transition:background .3s,color .3s;}
-.theme-btn{position:fixed;bottom:24px;right:24px;z-index:999;width:46px;height:46px;border-radius:50%;background:var(--panel);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.2rem;transition:all .2s;}
+:root{--bg:#fafaf8;--bg2:#f2f1ee;--bg3:#e8e6e0;--panel:#fff;--border:#e0ddd6;--text:#0f0e0c;--text2:#4a4840;--text3:#9a9890;--accent:#1a56db;--al:#eff3ff;--am:#bfcffb;--green:#057a55;--gl:#edfaf4;--gm:#9fe0c4;--red:#c81c1c;--rl:#fff1f1;--purple:#6d28d9;--pl:#f5f0ff;--gold:#b45309;--goldl:#fef3c7;--h:'Fraunces',Georgia,serif;--b:'DM Sans',sans-serif;--sh:0 2px 12px rgba(0,0,0,.07);--sh2:0 12px 44px rgba(0,0,0,.14);}
+[data-theme="dark"]{--bg:#0d0d11;--bg2:#141419;--bg3:#1c1c24;--panel:#18181f;--border:#28283a;--text:#eeeef4;--text2:#a8a8c0;--text3:#606078;--al:#16203a;--am:#243070;--gl:#0c2018;--gm:#184030;--rl:#280e0e;--pl:#1a1040;--goldl:#281a04;--sh:0 2px 12px rgba(0,0,0,.4);--sh2:0 12px 44px rgba(0,0,0,.6);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--b);-webkit-font-smoothing:antialiased;padding-top:64px;transition:background .3s,color .3s;}
+::selection{background:var(--am);}
+.theme-btn{position:fixed;bottom:24px;right:24px;z-index:999;width:46px;height:46px;border-radius:50%;background:var(--panel);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--sh2);font-size:1.1rem;transition:all .2s;}
 .theme-btn:hover{transform:scale(1.1);}
-.nav{position:fixed;top:0;left:0;right:0;z-index:500;height:62px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 28px;gap:18px;transition:background .2s;}
+.nav{position:fixed;top:0;left:0;right:0;z-index:600;height:64px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 28px;gap:18px;}
 [data-theme="dark"] .nav{background:rgba(24,24,31,.97);backdrop-filter:blur(20px);}
-.logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
-.lm{width:30px;height:30px;border-radius:8px;background:var(--text);display:flex;align-items:center;justify-content:center;}
-.lm svg{width:14px;height:14px;}
-.ln{font-family:var(--h);font-size:1.15rem;color:var(--text);font-weight:600;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-m{width:34px;height:34px;border-radius:10px;background:var(--text);display:flex;align-items:center;justify-content:center;}
+.logo-m svg{width:16px;height:16px;}
+.logo-n{font-family:var(--h);font-size:1.2rem;color:var(--text);font-weight:600;}
 .nav-links{display:flex;gap:2px;list-style:none;}
-.nav-links a{padding:6px 12px;border-radius:8px;color:var(--text3);font-size:.84rem;font-weight:500;text-decoration:none;transition:all .15s;}
+.nav-links a{padding:7px 13px;border-radius:9px;color:var(--text3);font-size:.84rem;font-weight:500;text-decoration:none;transition:all .15s;}
 .nav-links a:hover{background:var(--bg2);color:var(--text);}
 .nav-r{margin-left:auto;display:flex;align-items:center;gap:10px;}
-.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:10px;font-family:var(--b);font-weight:500;font-size:.875rem;cursor:pointer;border:none;transition:all .2s;text-decoration:none;}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:10px;font-family:var(--b);font-weight:600;font-size:.875rem;cursor:pointer;border:none;transition:all .2s;text-decoration:none;white-space:nowrap;}
 .btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--text2);}
 .btn-ghost:hover{background:var(--bg2);}
 .btn-dark{background:var(--text);color:var(--bg);}
 .btn-dark:hover{opacity:.86;transform:translateY(-1px);}
-.btn-lg{padding:14px 32px;font-size:1rem;border-radius:13px;}
-.btn-sm{padding:7px 14px;font-size:.8rem;border-radius:8px;}
-.nav-user-pill{display:flex;align-items:center;gap:8px;padding:5px 12px 5px 6px;border-radius:100px;background:var(--bg2);border:1px solid var(--border);cursor:pointer;}
-.nav-av{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:.74rem;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.btn-accent{background:var(--accent);color:#fff;}
+.btn-accent:hover{background:#1448c0;transform:translateY(-1px);}
+.btn-green{background:var(--green);color:#fff;}
+.btn-green:hover{opacity:.88;}
+.btn-sm{padding:7px 15px;font-size:.8rem;border-radius:8px;}
+.btn-lg{padding:15px 34px;font-size:1rem;border-radius:13px;}
+.nav-av{width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;font-size:.76rem;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;}
 .nav-av img{width:100%;height:100%;object-fit:cover;}
-.hero{padding:80px 0 56px;text-align:center;position:relative;}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(26,86,219,.06) 0%,transparent 70%);pointer-events:none;}
-.container{max-width:1200px;margin:0 auto;padding:0 28px;}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--al);border:1px solid var(--am);color:var(--accent);padding:5px 14px;border-radius:100px;font-size:.78rem;font-weight:600;}
-.dot-red{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.5s infinite;display:inline-block;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.7);}}
-.hero h1{font-family:var(--h);font-size:clamp(2.8rem,5.5vw,4.3rem);font-weight:600;line-height:1.1;letter-spacing:-1.5px;margin-bottom:22px;}
-.hero h1 em{font-style:italic;color:var(--accent);}
-.hero-sub{font-size:1.05rem;color:var(--text2);line-height:1.75;max-width:560px;margin:0 auto 36px;font-weight:300;}
-.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:52px;}
-.stats-row{display:flex;align-items:center;justify-content:center;gap:32px;padding:24px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:70px;flex-wrap:wrap;}
-.stat-item{text-align:center;}
-.stat-num{font-family:var(--h);font-size:1.7rem;color:var(--text);letter-spacing:-1px;}
-.stat-label{font-size:.74rem;color:var(--text3);margin-top:2px;}
-.stat-div{width:1px;height:36px;background:var(--border);}
-.sessions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:80px;}
-.session-card{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:22px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;box-shadow:var(--sh);}
-.session-card:hover{box-shadow:var(--sh2);transform:translateY(-3px);}
-.session-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--purple));opacity:0;transition:opacity .25s;}
-.session-card:hover::before{opacity:1;}
-.sc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.badge{display:inline-flex;align-items:center;gap:4px;font-size:.71rem;font-weight:700;padding:3px 10px;border-radius:100px;}
-.badge-live{background:var(--rl);color:var(--red);}
-.badge-soon{background:#fffbeb;color:#92400e;}
-.badge-done{background:var(--bg2);color:var(--text3);border:1px solid var(--border);}
-.sc-title{font-family:var(--h);font-size:1.05rem;margin-bottom:6px;line-height:1.3;}
-.sc-desc{font-size:.8rem;color:var(--text2);line-height:1.6;margin-bottom:14px;}
-.sc-foot{display:flex;align-items:center;gap:8px;}
-.sc-ia{font-size:.71rem;color:var(--purple);background:var(--pl);padding:3px 9px;border-radius:100px;font-weight:500;}
-.sc-time{font-size:.71rem;color:var(--text3);margin-left:auto;}
-.sc-empty{grid-column:span 3;text-align:center;padding:60px;color:var(--text3);}
-.cta-wrap{background:var(--text);border-radius:24px;padding:64px;display:grid;grid-template-columns:1fr 340px;gap:48px;align-items:center;margin-bottom:80px;}
-.cta-title{font-family:var(--h);font-size:clamp(1.8rem,3vw,2.4rem);color:#fff;line-height:1.2;margin-bottom:10px;letter-spacing:-.8px;}
-.cta-sub{font-size:.9rem;color:rgba(255,255,255,.45);}
-.cta-form{display:flex;flex-direction:column;gap:10px;}
-.cta-inp{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:13px 16px;color:#fff;font-family:var(--b);font-size:.87rem;outline:none;transition:all .2s;}
-.cta-inp:focus{border-color:rgba(255,255,255,.45);}
-.cta-inp::placeholder{color:rgba(255,255,255,.35);}
-.cta-btn{background:#fff;color:var(--text);border:none;border-radius:10px;padding:14px;font-family:var(--b);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;}
-.cta-btn:hover{background:#f0f1f8;}
-.cta-msg{font-size:.81rem;padding:10px 14px;border-radius:9px;text-align:center;display:none;}
-.cta-msg.ok{display:block;background:rgba(5,122,85,.2);color:#6ee7b7;}
-.cta-msg.err-s{display:block;background:rgba(200,28,28,.2);color:#fca5a5;}
-.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(10px);}
-.modal-ov.show{display:flex;}
-.modal{background:var(--panel);border-radius:22px;padding:38px;width:440px;max-width:94vw;box-shadow:0 40px 100px rgba(0,0,0,.2);animation:mIn .25s ease;position:relative;border:1px solid var(--border);}
-@keyframes mIn{from{opacity:0;transform:scale(.96) translateY(8px);}to{opacity:1;transform:scale(1) translateY(0);}}
-.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:9px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:all .2s;}
-.modal-close:hover{background:var(--bg3);}
-.modal-tabs{display:flex;background:var(--bg2);border-radius:11px;padding:4px;margin-bottom:24px;gap:4px;}
+.nav-uw{display:flex;align-items:center;gap:9px;padding:5px 14px 5px 7px;border-radius:100px;background:var(--bg2);border:1px solid var(--border);}
+.c{max-width:1200px;margin:0 auto;padding:0 28px;}
+
+/* HERO */
+.hero{min-height:calc(100vh - 64px);display:grid;grid-template-columns:1fr 420px;gap:64px;align-items:center;padding:80px 0;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -5%,rgba(26,86,219,.08),transparent 70%);pointer-events:none;}
+.hero-l{position:relative;z-index:1;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--al);border:1px solid var(--am);color:var(--accent);padding:6px 16px;border-radius:100px;font-size:.78rem;font-weight:600;margin-bottom:28px;}
+h1{font-family:var(--h);font-size:clamp(3rem,5vw,4.4rem);font-weight:600;line-height:1.08;letter-spacing:-2px;margin-bottom:22px;}
+h1 em{font-style:italic;color:var(--accent);}
+h1 .sub{display:block;font-size:clamp(2rem,3.5vw,3rem);color:var(--text2);}
+.hero-p{font-size:1.05rem;color:var(--text2);line-height:1.78;margin-bottom:36px;max-width:500px;font-weight:300;}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:36px;}
+.trust-row{display:flex;flex-wrap:wrap;gap:16px;}
+.ti{display:flex;align-items:center;gap:7px;font-size:.8rem;color:var(--text3);}
+.ti-dot{width:7px;height:7px;border-radius:50%;background:var(--green);}
+
+/* HERO RIGHT — MINI STORE */
+.hero-r{position:relative;z-index:1;}
+.store-card{background:var(--panel);border:1px solid var(--border);border-radius:24px;box-shadow:var(--sh2);overflow:hidden;animation:float 6s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.sc-head{background:linear-gradient(140deg,#0c0c18,#131328);padding:24px 22px 20px;position:relative;overflow:hidden;}
+.sc-head::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(26,86,219,.3),transparent 70%);}
+.sc-tag{font-size:.7rem;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px;}
+.sc-title{font-family:var(--h);font-size:1.3rem;color:#fff;font-weight:600;margin-bottom:4px;}
+.sc-sub{font-size:.78rem;color:rgba(255,255,255,.4);}
+.sc-body{padding:16px;}
+.sp{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:13px;background:var(--bg2);margin-bottom:8px;cursor:pointer;text-decoration:none;transition:all .2s;}
+[data-theme="dark"] .sp{background:var(--bg3);}
+.sp:hover{background:var(--al);transform:translateX(4px);}
+.sp-ico{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;background:var(--panel);}
+.sp-name{font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:2px;}
+.sp-price{font-size:.75rem;font-weight:700;color:var(--accent);}
+.sp-bdg{margin-left:auto;font-size:.65rem;font-weight:700;padding:2px 9px;border-radius:100px;flex-shrink:0;}
+.bdg-pop{background:rgba(194,65,12,.12);color:#c2410c;}
+.bdg-new{background:var(--al);color:var(--accent);}
+.bdg-free{background:var(--gl);color:var(--green);}
+.sc-foot{padding:4px 16px 16px;}
+.sc-cta{width:100%;padding:13px;background:var(--text);color:var(--bg);border:none;border-radius:12px;font-family:var(--b);font-size:.88rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;text-decoration:none;}
+.sc-cta:hover{opacity:.85;}
+
+/* STATS */
+.stats-band{background:var(--panel);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:28px 0;}
+.stats-inner{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;}
+.stat-b{flex:1;min-width:140px;text-align:center;padding:14px 20px;border-right:1px solid var(--border);}
+.stat-b:last-child{border-right:none;}
+.stat-n{font-family:var(--h);font-size:2rem;font-weight:600;letter-spacing:-1px;margin-bottom:4px;}
+.stat-l{font-size:.73rem;color:var(--text3);}
+
+/* SECTIONS */
+.section{padding:80px 0;}
+.s-eye{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:9px;}
+.s-eye::before{content:'';width:22px;height:2px;background:var(--accent);border-radius:2px;}
+.s-title{font-family:var(--h);font-size:clamp(1.8rem,3vw,2.6rem);font-weight:600;letter-spacing:-.8px;line-height:1.15;margin-bottom:14px;}
+.s-sub{font-size:.93rem;color:var(--text3);line-height:1.75;max-width:520px;}
+
+/* PRODUITS FEATURED */
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px;}
+.pc{background:var(--panel);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;transition:all .28s;box-shadow:var(--sh);display:flex;flex-direction:column;cursor:pointer;}
+.pc:hover{box-shadow:var(--sh2);transform:translateY(-6px);border-color:var(--am);}
+.pc.feat{border-color:var(--accent);box-shadow:0 0 0 3px rgba(26,86,219,.1),var(--sh2);}
+.pc-img{height:178px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,var(--bg2),var(--bg3));}
+[data-theme="dark"] .pc-img{background:linear-gradient(135deg,var(--bg3),#202030);}
+.pc-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.pc:hover .pc-img img{transform:scale(1.06);}
+.pc-emoji{font-size:4rem;filter:drop-shadow(0 6px 16px rgba(0,0,0,.14));}
+.pc-badges{position:absolute;top:12px;left:12px;display:flex;gap:5px;}
+.pb{font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:100px;backdrop-filter:blur(8px);}
+.pb-pop{background:rgba(194,65,12,.9);color:#fff;}
+.pb-new{background:rgba(26,86,219,.9);color:#fff;}
+.pb-sale{background:rgba(200,28,28,.9);color:#fff;}
+.pb-free{background:rgba(5,122,85,.9);color:#fff;}
+.pc-disc{position:absolute;bottom:10px;right:10px;background:var(--red);color:#fff;font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:100px;}
+.pc-body{padding:18px;flex:1;display:flex;flex-direction:column;}
+.pc-cat{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--accent);margin-bottom:7px;}
+.pc-name{font-family:var(--h);font-size:1.03rem;font-weight:600;line-height:1.3;margin-bottom:8px;}
+.pc-desc{font-size:.8rem;color:var(--text3);line-height:1.65;flex:1;margin-bottom:10px;}
+.pc-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px;}
+.pc-tag{font-size:.67rem;padding:2px 8px;border-radius:100px;background:var(--bg2);color:var(--text3);border:1px solid var(--border);}
+.pc-meta{display:flex;gap:10px;font-size:.73rem;color:var(--text3);}
+.pc-foot{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;border-top:1px solid var(--border);background:var(--bg);gap:12px;flex-shrink:0;}
+[data-theme="dark"] .pc-foot{background:var(--bg2);}
+.price-m{font-family:var(--h);font-size:1.22rem;font-weight:600;}
+.price-f{font-family:var(--h);font-size:1.1rem;font-weight:600;color:var(--green);}
+.price-o{font-size:.76rem;color:var(--text3);text-decoration:line-through;margin-left:5px;}
+.price-d{font-size:.7rem;color:var(--text3);}
+.buy-b{padding:10px 20px;border-radius:10px;font-family:var(--b);font-size:.83rem;font-weight:700;border:none;cursor:pointer;transition:all .2s;}
+.buy-dk{background:var(--text);color:var(--bg);}
+.buy-dk:hover{opacity:.86;}
+.buy-gn{background:var(--green);color:#fff;}
+.buy-gn:hover{opacity:.88;}
+
+/* FEATURES */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px;}
+.fc{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:26px;box-shadow:var(--sh);transition:all .2s;}
+.fc:hover{box-shadow:var(--sh2);transform:translateY(-3px);}
+.fc-icon{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:18px;}
+.fc-title{font-size:1rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.fc-desc{font-size:.83rem;color:var(--text2);line-height:1.72;margin-bottom:12px;}
+.fc-link{display:inline-flex;align-items:center;gap:5px;font-size:.8rem;color:var(--accent);font-weight:600;text-decoration:none;cursor:pointer;}
+.fc-link:hover{text-decoration:underline;}
+.tag-lock{font-size:.68rem;background:var(--rl);color:var(--red);padding:2px 9px;border-radius:100px;font-weight:600;}
+.tag-free{font-size:.68rem;background:var(--gl);color:var(--green);padding:2px 9px;border-radius:100px;font-weight:600;}
+.tag-ok{font-size:.68rem;background:var(--gl);color:var(--green);padding:2px 9px;border-radius:100px;font-weight:600;}
+
+/* COMMUNITY PREVIEW */
+.comm-section{background:var(--bg2);padding:80px 0;}
+.comm-card{background:var(--panel);border:1px solid var(--border);border-radius:22px;padding:26px;box-shadow:var(--sh);}
+.cpost{display:flex;align-items:flex-start;gap:12px;padding:13px;background:var(--bg2);border-radius:12px;border:1px solid var(--border);margin-bottom:10px;}
+[data-theme="dark"] .cpost{background:var(--bg3);}
+.cpost:last-child{margin-bottom:0;}
+.cpost-av{width:36px;height:36px;border-radius:50%;background:var(--accent);color:#fff;font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
+.cpost-av img{width:100%;height:100%;object-fit:cover;}
+.cpost-name{font-size:.83rem;font-weight:700;}
+.cpost-type{font-size:.66rem;font-weight:700;padding:1px 8px;border-radius:100px;margin-left:5px;}
+.ct-avis{background:var(--al);color:var(--accent);}
+.ct-tem{background:var(--gl);color:var(--green);}
+.ct-q{background:var(--pl);color:var(--purple);}
+.cpost-text{font-size:.82rem;color:var(--text2);line-height:1.6;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cpost-time{font-size:.7rem;color:var(--text3);margin-left:auto;flex-shrink:0;}
+.lock-banner{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;border:2px dashed var(--border);border-radius:16px;margin-top:14px;}
+.lb-ico{font-size:2rem;margin-bottom:10px;}
+.lb-t{font-size:.93rem;font-weight:700;margin-bottom:5px;}
+.lb-s{font-size:.8rem;color:var(--text3);margin-bottom:16px;}
+
+/* CTA */
+.cta-s{background:linear-gradient(140deg,#0c0c18,#131328);border-radius:24px;padding:72px;display:grid;grid-template-columns:1fr 380px;gap:56px;align-items:center;position:relative;overflow:hidden;margin-bottom:80px;}
+.cta-s::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(26,86,219,.28),transparent 70%);}
+.cta-t{font-family:var(--h);font-size:clamp(2rem,3.5vw,2.8rem);color:#fff;line-height:1.18;margin-bottom:10px;letter-spacing:-.8px;}
+.cta-t em{font-style:italic;color:#93c5fd;}
+.cta-sb{font-size:.9rem;color:rgba(255,255,255,.4);}
+.cta-form{display:flex;flex-direction:column;gap:11px;position:relative;z-index:1;}
+.ci{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:11px;padding:13px 16px;color:#fff;font-family:var(--b);font-size:.88rem;outline:none;transition:border-color .2s;}
+.ci:focus{border-color:rgba(255,255,255,.4);}
+.ci::placeholder{color:rgba(255,255,255,.3);}
+.cta-btn-f{background:#fff;color:var(--text);border:none;border-radius:11px;padding:14px;font-family:var(--b);font-size:.9rem;font-weight:700;cursor:pointer;}
+.cta-btn-f:hover{background:#f0f1f8;}
+.cm{font-size:.8rem;padding:10px 14px;border-radius:9px;display:none;text-align:center;}
+.cm.ok{display:block;background:rgba(5,122,85,.2);color:#6ee7b7;}
+.cm.err{display:block;background:rgba(200,28,28,.2);color:#fca5a5;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:36px 0;}
+.fi{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.fl a{font-size:.8rem;color:var(--text3);text-decoration:none;margin-left:20px;}
+.fl a:hover{color:var(--text);}
+.fc2{font-size:.78rem;color:var(--text3);}
+
+/* MODAL */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px);padding:16px;}
+.mo.show{display:flex;}
+.mb{background:var(--panel);border:1px solid var(--border);border-radius:22px;padding:38px;width:430px;max-width:96vw;box-shadow:0 40px 100px rgba(0,0,0,.25);animation:mIn .28s cubic-bezier(.34,1.56,.64,1);position:relative;}
+@keyframes mIn{from{opacity:0;transform:scale(.94) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.mx{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:9px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;color:var(--text3);}
+.mx:hover{background:var(--bg3);}
+.mtabs{display:flex;background:var(--bg2);border-radius:11px;padding:4px;gap:4px;margin-bottom:24px;}
 .mtab{flex:1;padding:9px;text-align:center;font-size:.85rem;font-weight:500;cursor:pointer;border-radius:8px;color:var(--text3);transition:all .2s;}
 .mtab.active{background:var(--panel);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.06);}
-.field{margin-bottom:14px;}
-.field label{display:block;font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:5px;}
-.field input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:13px 15px;font-family:var(--b);font-size:.87rem;color:var(--text);background:var(--bg2);outline:none;transition:all .2s;}
-.field input:focus{border-color:var(--accent);background:var(--panel);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
-[data-theme="dark"] .field input{background:var(--bg3);}
-.field input.err{border-color:var(--red);}
-.msg-box{border-radius:9px;padding:11px 14px;font-size:.82rem;margin-bottom:12px;display:none;line-height:1.5;}
-.msg-box.err{display:block;background:var(--rl);color:var(--red);border:1px solid #fecaca;}
-.msg-box.ok{display:block;background:var(--gl);color:var(--green);border:1px solid var(--gm);}
-.sub-btn{width:100%;padding:14px;background:var(--text);color:var(--bg);border:none;border-radius:10px;font-family:var(--b);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
-.sub-btn:disabled{opacity:.6;pointer-events:none;}
-.spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:currentColor;border-radius:50%;animation:spin .7s linear infinite;display:none;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.form-note{font-size:.73rem;color:var(--text3);text-align:center;margin-top:10px;}
-.form-link{font-size:.8rem;color:var(--accent);cursor:pointer;text-align:center;margin-top:10px;display:block;}
-footer{border-top:1px solid var(--border);padding:32px 0 20px;}
-.footer-in{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
-.footer-in p{font-size:.77rem;color:var(--text3);}
-@media(max-width:900px){.sessions-grid{grid-template-columns:1fr 1fr;}.cta-wrap{grid-template-columns:1fr;}.nav-links{display:none;}.sc-empty{grid-column:span 2;}}
-@media(max-width:640px){.sessions-grid{grid-template-columns:1fr;}.sc-empty{grid-column:span 1;}.stats-row{gap:16px;}.stat-div{display:none;}.cta-wrap{padding:36px 20px;}}
+.mf{margin-bottom:14px;}
+.mf label{display:block;font-size:.79rem;font-weight:600;color:var(--text2);margin-bottom:5px;}
+.mf input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:13px 15px;font-family:var(--b);font-size:.87rem;color:var(--text);background:var(--bg2);outline:none;transition:all .2s;}
+.mf input:focus{border-color:var(--accent);background:var(--panel);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
+[data-theme="dark"] .mf input{background:var(--bg3);}
+.mf input.err{border-color:var(--red);}
+.mm{border-radius:9px;padding:11px 14px;font-size:.82rem;margin-bottom:12px;display:none;line-height:1.5;}
+.mm.err{display:block;background:var(--rl);color:var(--red);}
+.mm.ok{display:block;background:var(--gl);color:var(--green);}
+.msub{width:100%;padding:14px;background:var(--text);color:var(--bg);border:none;border-radius:10px;font-family:var(--b);font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+.msub:disabled{opacity:.6;}
+.mspin{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;display:none;}
+@keyframes sp{to{transform:rotate(360deg);}}
+.ml{font-size:.8rem;color:var(--accent);cursor:pointer;text-align:center;margin-top:10px;display:block;}
+.mn{font-size:.73rem;color:var(--text3);text-align:center;margin-top:8px;}
+
+@media(max-width:1060px){.hero{grid-template-columns:1fr;}.store-card{max-width:460px;}.prod-grid{grid-template-columns:1fr 1fr;}.cta-s{grid-template-columns:1fr;padding:44px 28px;}.feat-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:640px){.prod-grid{grid-template-columns:1fr;}.feat-grid{grid-template-columns:1fr;}.stats-inner{flex-direction:column;}.stat-b{border-right:none;border-bottom:1px solid var(--border);width:100%;}.stat-b:last-child{border-bottom:none;}.nav-links{display:none;}}
 </style>
 </head>
 <body>
-
-<button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
-
+<button class="theme-btn" onclick="TH()" id="themeBtn">🌙</button>
 <nav class="nav">
-  <a href="index.html" class="logo"><div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="currentColor"/></svg></div><span class="ln">Learnova</span></a>
-  <ul class="nav-links">
-    <li><a href="#sessions">Sessions</a></li>
-    <li><a href="waiting.html">Toutes les sessions</a></li>
-    <li><a href="community.html">Communauté</a></li>
-    <li><a href="store.html">🛒 Store</a></li>
-  </ul>
+  <a href="index.html" class="logo"><div class="logo-m"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div><span class="logo-n">Learnova</span></a>
+  <ul class="nav-links"><li><a href="store.html">🛒 Store</a></li><li><a href="waiting.html">📚 Ressources</a></li><li><a href="community.html">💬 Communauté</a></li></ul>
   <div class="nav-r">
-    <div id="navGuest" style="display:flex;gap:8px;">
-      <button class="btn btn-ghost btn-sm" onclick="openModal('login')">Connexion</button>
-      <button class="btn btn-dark btn-sm" onclick="openModal('signup')">S'inscrire</button>
-    </div>
-    <div id="navUser" style="display:none;align-items:center;gap:10px;">
-      <div class="nav-user-pill">
-        <div class="nav-av" id="navAv">?</div>
-        <span style="font-size:.83rem;font-weight:500;" id="navName">...</span>
-      </div>
-      <button class="btn btn-ghost btn-sm" onclick="doSignOut()">Déconnexion</button>
-    </div>
+    <div id="gN" style="display:flex;gap:8px;"><button class="btn btn-ghost btn-sm" onclick="openM('l')">Connexion</button><button class="btn btn-dark btn-sm" onclick="openM('s')">S'inscrire — Gratuit</button></div>
+    <div id="uN" style="display:none;align-items:center;gap:10px;"><a href="store.html" class="btn btn-accent btn-sm">🛒 Store</a><div class="nav-uw"><div class="nav-av" id="navAv">?</div><span style="font-size:.83rem;font-weight:500" id="navName">…</span></div><button class="btn btn-ghost btn-sm" onclick="doOut()">Déco.</button></div>
   </div>
 </nav>
 
+<div class="c">
+<!-- HERO -->
 <section class="hero">
-  <div class="container">
-    <div class="hero-badge"><span class="dot-red"></span>L'IA qui enseigne en direct</div>
-    <h1>Votre professeur IA<br/>ne dort <em>jamais.</em></h1>
-    <p class="hero-sub">Learnova planifie, enseigne et évalue des centaines d'apprenants simultanément. L'IA arrive à l'heure exacte, enseigne, lance des challenges et répond à chaque question.</p>
-    <div class="hero-btns">
-      <button class="btn btn-dark btn-lg" onclick="openModal('signup')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Rejoindre Learnova — Gratuit
-      </button>
-      <a href="waiting.html" class="btn btn-ghost btn-lg">Voir toutes les sessions →</a>
+  <div class="hero-l">
+    <div class="hero-eyebrow">✨ Ressources PDF · Communauté · Savoir partagé</div>
+    <h1>Progressez avec<br/>les <em>meilleures</em><span class="sub">ressources PDF</span></h1>
+    <p class="hero-p">Des cours PDF premium, une communauté active et des ressources accessibles à tous. Achetez, téléchargez et progressez en quelques secondes.</p>
+    <div class="hero-ctas">
+      <a href="store.html" class="btn btn-accent btn-lg"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Voir le Store</a>
+      <a href="waiting.html" class="btn btn-ghost btn-lg">📚 Ressources →</a>
     </div>
-    <div class="stats-row">
-      <div class="stat-item"><div class="stat-num" id="sOnline">—</div><div class="stat-label">En ligne maintenant</div></div>
-      <div class="stat-div"></div>
-      <div class="stat-item"><div class="stat-num" id="sInscrits">—</div><div class="stat-label">Inscrits</div></div>
-      <div class="stat-div"></div>
-      <div class="stat-item"><div class="stat-num" id="sSessions">—</div><div class="stat-label">Sessions créées</div></div>
-      <div class="stat-div"></div>
-      <div class="stat-item"><div class="stat-num" id="sCours">—</div><div class="stat-label">Cours publiés</div></div>
-      <div class="stat-div"></div>
-      <div class="stat-item"><div class="stat-num">0€</div><div class="stat-label">Toujours gratuit</div></div>
+    <div class="trust-row">
+      <div class="ti"><div class="ti-dot"></div>Livraison instantanée</div>
+      <div class="ti"><div class="ti-dot"></div>FedaPay sécurisé</div>
+      <div class="ti"><div class="ti-dot"></div>Email + SMS + WhatsApp</div>
+      <div class="ti"><div class="ti-dot"></div>Garantie qualité</div>
+    </div>
+  </div>
+  <div class="hero-r">
+    <div class="store-card">
+      <div class="sc-head">
+        <div class="sc-tag">🛒 Learnova Store</div>
+        <div class="sc-title">Ressources PDF premium</div>
+        <div class="sc-sub">Livraison instantanée après paiement</div>
+      </div>
+      <div class="sc-body" id="heroItems"><div style="padding:20px;text-align:center;color:var(--text3);font-size:.82rem">Chargement...</div></div>
+      <div class="sc-foot"><a href="store.html" class="sc-cta"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/></svg>Voir tous les produits</a></div>
     </div>
   </div>
 </section>
+</div>
 
-<section id="sessions" style="padding-bottom:80px;">
-  <div class="container">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
-      <h2 style="font-family:var(--h);font-size:1.7rem;letter-spacing:-.5px;font-weight:600;">Sessions en cours et à venir</h2>
-      <div style="display:flex;gap:8px;">
-        <a href="waiting.html" class="btn btn-ghost btn-sm">Voir tout →</a>
-        <a href="community.html" class="btn btn-ghost btn-sm">Communauté</a>
-      </div>
-    </div>
-    <div class="sessions-grid" id="sessionsGrid">
-      <div class="sc-empty">⏳ Chargement des sessions...</div>
+<!-- STATS -->
+<div class="stats-band"><div class="c"><div class="stats-inner">
+  <div class="stat-b"><div class="stat-n" id="sM">—</div><div class="stat-l">Membres</div></div>
+  <div class="stat-b"><div class="stat-n" id="sP">—</div><div class="stat-l">Produits</div></div>
+  <div class="stat-b"><div class="stat-n" id="sV">—</div><div class="stat-l">Ventes</div></div>
+  <div class="stat-b"><div class="stat-n">⚡</div><div class="stat-l">Livraison instantanée</div></div>
+  <div class="stat-b"><div class="stat-n">🔒</div><div class="stat-l">FedaPay sécurisé</div></div>
+</div></div></div>
+
+<!-- PRODUITS FEATURED -->
+<section class="section"><div class="c">
+  <div class="s-eye">Sélection premium</div>
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+    <div><div class="s-title">Produits en vedette</div><div class="s-sub">Les ressources les plus appréciées. Téléchargement immédiat.</div></div>
+    <a href="store.html" class="btn btn-ghost btn-sm">Tout voir →</a>
+  </div>
+  <div class="prod-grid" id="featGrid"><div style="grid-column:span 3;text-align:center;padding:40px;color:var(--text3)">Chargement...</div></div>
+  <div style="display:flex;justify-content:center;margin-top:36px;"><a href="store.html" class="btn btn-dark">Voir tous les produits (<span id="totP">…</span>)</a></div>
+</div></section>
+
+<!-- CE QUE TU PEUX FAIRE -->
+<section class="section" style="background:var(--bg2);"><div class="c">
+  <div class="s-eye">Ce que le site propose</div>
+  <div class="s-title">Tout est ici, clairement</div>
+  <div class="feat-grid">
+    <div class="fc"><div class="fc-icon" style="background:var(--al)">🛒</div><div class="fc-title">Store <span class="tag-free">Ouvert à tous</span></div><div class="fc-desc">Achète et télécharge des PDF premium immédiatement. Mobile Money, Moov, Orange, Wave ou carte bancaire.</div><a href="store.html" class="fc-link">Aller au Store →</a></div>
+    <div class="fc"><div class="fc-icon" style="background:var(--pl)">📚</div><div class="fc-title">Catalogue <span class="tag-free">Ouvert à tous</span></div><div class="fc-desc">Parcours tous nos PDF avec filtres par catégorie, niveau et prix. Trouve ce qu'il te faut en 30 secondes.</div><a href="waiting.html" class="fc-link">Voir le catalogue →</a></div>
+    <div class="fc"><div class="fc-icon" style="background:var(--gl)">💬</div><div class="fc-title">Communauté <span class="tag-lock" id="commTag">Connexion requise</span></div><div class="fc-desc">Partage tes avis, pose des questions, aide les autres. Discussions, témoignages, retours sur les cours.</div><span class="fc-link" onclick="goComm()">Rejoindre →</span></div>
+    <div class="fc"><div class="fc-icon" style="background:var(--goldl)">👤</div><div class="fc-title">Mon compte <span class="tag-lock">Connexion requise</span></div><div class="fc-desc">Historique de tes achats, re-télécharge tes PDF à tout moment depuis ton espace personnel.</div><span class="fc-link" onclick="openM('s')">Créer un compte gratuit →</span></div>
+    <div class="fc"><div class="fc-icon" style="background:var(--gl)">💳</div><div class="fc-title">Paiements <span class="tag-ok">FedaPay</span></div><div class="fc-desc">Mobile Money selon ton pays (MTN, Moov, Orange, Wave, Airtel) ou carte Visa/MasterCard. 100% sécurisé.</div><a href="store.html" class="fc-link">Voir les méthodes →</a></div>
+    <div class="fc"><div class="fc-icon" style="background:var(--rl)">⚡</div><div class="fc-title">Livraison <span class="tag-ok">Automatique</span></div><div class="fc-desc">Dès ton paiement confirmé, ton PDF est envoyé automatiquement par email ET/OU SMS/WhatsApp. Zéro attente.</div><a href="store.html" class="fc-link">Acheter maintenant →</a></div>
+  </div>
+</div></section>
+
+<!-- COMMUNITY PREVIEW -->
+<section class="comm-section"><div class="c">
+  <div class="s-eye">Communauté</div>
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:28px;">
+    <div><div class="s-title">Ce que disent nos membres</div><div class="s-sub">Des membres partagent leurs expériences chaque jour.</div></div>
+    <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:.75rem;color:var(--text3)" id="onlineCount">🟢 — en ligne</span><a href="community.html" class="btn btn-ghost btn-sm" id="commBtn">Voir la communauté →</a></div>
+  </div>
+  <div class="comm-card">
+    <div id="postsPreview"><div style="text-align:center;padding:20px;color:var(--text3);font-size:.82rem">Chargement...</div></div>
+    <div class="lock-banner" id="lockBanner" style="display:none;">
+      <div class="lb-ico">🔒</div>
+      <div class="lb-t">Connexion requise pour participer</div>
+      <div class="lb-s">Crée un compte gratuit pour poster et interagir avec la communauté.</div>
+      <div style="display:flex;gap:10px;"><button class="btn btn-dark btn-sm" onclick="openM('s')">S'inscrire — Gratuit</button><button class="btn btn-ghost btn-sm" onclick="openM('l')">Se connecter</button></div>
     </div>
   </div>
-</section>
+</div></section>
 
-<section id="rejoindre" style="padding:0 0 80px;">
-  <div class="container">
-    <div class="cta-wrap">
-      <div>
-        <div class="cta-title">Prêt à apprendre<br/>autrement ?</div>
-        <div class="cta-sub">Rejoins Learnova. Gratuit, pour toujours.</div>
-      </div>
-      <div class="cta-form">
-        <input class="cta-inp" id="ctaPrenom" type="text" placeholder="Ton prénom *" maxlength="50"/>
-        <input class="cta-inp" id="ctaEmail"  type="email" placeholder="ton@email.com *"/>
-        <input class="cta-inp" id="ctaPass"   type="password" placeholder="Mot de passe (min. 6 caractères) *"/>
-        <button class="cta-btn" id="ctaBtn" onclick="ctaSignUp()">Rejoindre Learnova gratuitement →</button>
-        <div style="font-size:.72rem;color:rgba(255,255,255,.24);text-align:center;">Aucune carte · Aucun spam · Gratuit</div>
-        <div class="cta-msg" id="ctaMsg"></div>
-      </div>
+<!-- CTA -->
+<section class="section"><div class="c">
+  <div class="cta-s">
+    <div><div class="cta-t">Prêt à accéder aux<br/><em>meilleures ressources</em> ?</div><div class="cta-sb">Inscris-toi gratuitement. Accès immédiat au store et à la communauté.</div></div>
+    <div class="cta-form">
+      <input class="ci" id="ctaP" type="text" placeholder="Ton prénom *"/>
+      <input class="ci" id="ctaE" type="email" placeholder="ton@email.com *"/>
+      <input class="ci" id="ctaK" type="password" placeholder="Mot de passe (min. 6 car.) *"/>
+      <button class="cta-btn-f" onclick="ctaSU()">Créer mon compte gratuit →</button>
+      <div class="cm" id="ctaMsg"></div>
+      <div style="font-size:.72rem;color:rgba(255,255,255,.2);text-align:center;">Gratuit · Aucune carte · Aucun spam</div>
     </div>
   </div>
-</section>
+</div></section>
 
-<footer>
-  <div class="container">
-    <div class="footer-in">
-      <a href="index.html" class="logo"><div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="currentColor"/></svg></div><span class="ln">Learnova</span></a>
-      <p>© 2025 Learnova · Backend sur <strong>Fly.io</strong> 🚀 · Gratuit pour toujours.</p>
-      <div style="display:flex;gap:16px;">
-        <a href="waiting.html" style="font-size:.77rem;color:var(--text3);text-decoration:none;">Sessions</a>
-        <a href="store.html"   style="font-size:.77rem;color:var(--text3);text-decoration:none;">Store</a>
-        <a href="community.html" style="font-size:.77rem;color:var(--text3);text-decoration:none;">Communauté</a>
-        <a href="admin.html"   style="font-size:.77rem;color:var(--text3);text-decoration:none;">Admin</a>
-      </div>
-    </div>
-  </div>
-</footer>
+<footer><div class="c"><div class="fi">
+  <a href="index.html" class="logo"><div class="logo-m"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L15 9H22L16.5 13.5L19 21L12 16.5L5 21L7.5 13.5L2 9H9L12 2Z" fill="white"/></svg></div><span class="logo-n">Learnova</span></a>
+  <div class="fc2">© 2025 Learnova · Paiements <strong>FedaPay</strong> · Backend <strong>Render</strong></div>
+  <div class="fl"><a href="store.html">Store</a><a href="waiting.html">Ressources</a><a href="community.html">Communauté</a><a href="admin-store.html">Admin</a></div>
+</div></div></footer>
 
 <!-- MODAL AUTH -->
-<div class="modal-ov" id="modalOv" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal()">×</button>
-    <div class="modal-tabs">
-      <div class="mtab active" id="tabS" onclick="switchTab('signup')">Créer un compte</div>
-      <div class="mtab" id="tabL" onclick="switchTab('login')">Se connecter</div>
+<div class="mo" id="authMo" onclick="if(event.target===this)closeM()">
+  <div class="mb">
+    <button class="mx" onclick="closeM()">×</button>
+    <div class="mtabs"><div class="mtab active" id="tS" onclick="swT('s')">Créer un compte</div><div class="mtab" id="tL" onclick="swT('l')">Se connecter</div></div>
+    <div id="pS">
+      <div class="mf"><label>Ton prénom *</label><input id="sP2" type="text" placeholder="Ex: Marie" autocomplete="given-name"/></div>
+      <div class="mf"><label>Email *</label><input id="sE2" type="email" placeholder="ton@email.com" autocomplete="email"/></div>
+      <div class="mf"><label>Mot de passe *</label><input id="sK2" type="password" placeholder="Minimum 6 caractères" autocomplete="new-password"/></div>
+      <div class="mm" id="sMsg"></div>
+      <button class="msub" id="sBtn" onclick="doSU()"><span id="sTxt">Créer mon compte gratuitement</span><div class="mspin" id="sSpin"></div></button>
+      <div class="mn">Gratuit · Aucune carte · Aucun spam</div>
+      <span class="ml" onclick="swT('l')">Déjà un compte ? Se connecter →</span>
     </div>
-    <div id="panelSignup">
-      <div class="field"><label>Ton prénom *</label><input id="sPrenom" type="text" placeholder="Ex: Julien" maxlength="50" autocomplete="given-name"/></div>
-      <div class="field"><label>Adresse email *</label><input id="sEmail" type="email" placeholder="ton@email.com" autocomplete="email"/></div>
-      <div class="field"><label>Mot de passe *</label><input id="sPassword" type="password" placeholder="Minimum 6 caractères" autocomplete="new-password"/></div>
-      <div class="msg-box" id="sMsg"></div>
-      <button class="sub-btn" id="sBtnSignup" onclick="doSignUp()">
-        <span id="sBtnTxt">Créer mon compte gratuitement</span>
-        <div class="spinner" id="sSpin"></div>
-      </button>
-      <div class="form-note">Gratuit · Aucune carte · Aucun spam</div>
-      <span class="form-link" onclick="switchTab('login')">Déjà un compte ? Se connecter →</span>
-    </div>
-    <div id="panelLogin" style="display:none;">
-      <div class="field"><label>Adresse email *</label><input id="lEmail" type="email" placeholder="ton@email.com" autocomplete="email"/></div>
-      <div class="field"><label>Mot de passe *</label><input id="lPassword" type="password" placeholder="Ton mot de passe" autocomplete="current-password"/></div>
-      <div class="msg-box" id="lMsg"></div>
-      <button class="sub-btn" id="lBtn" onclick="doSignIn()">
-        <span id="lBtnTxt">Se connecter</span>
-        <div class="spinner" id="lSpin"></div>
-      </button>
-      <span class="form-link" onclick="switchTab('signup')">Pas de compte ? S'inscrire →</span>
+    <div id="pL" style="display:none">
+      <div class="mf"><label>Email *</label><input id="lE2" type="email" placeholder="ton@email.com" autocomplete="email"/></div>
+      <div class="mf"><label>Mot de passe *</label><input id="lK2" type="password" placeholder="Ton mot de passe" autocomplete="current-password"/></div>
+      <div class="mm" id="lMsg"></div>
+      <button class="msub" id="lBtn" onclick="doSI()"><span id="lTxt">Se connecter</span><div class="mspin" id="lSpin"></div></button>
+      <span class="ml" onclick="swT('s')">Pas de compte ? S'inscrire →</span>
     </div>
   </div>
 </div>
 
 <script type="module">
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
-const SB_URL = "https://jbshkbqchrehfhoodtuj.supabase.co"
-const SB_KEY = "sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs"
-const sb = createClient(SB_URL, SB_KEY, { 
-  auth: { 
-    autoRefreshToken: true, 
-    persistSession: true,
-    detectSessionInUrl: true,
-    storage: window.localStorage,
-    storageKey: 'sb-auth-token'
-  } 
-})
+import{createClient}from'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+const SB=createClient("https://jbshkbqchrehfhoodtuj.supabase.co","sb_publishable_iBypuqRKhVqZUvNBmATW-w_I1LJHLRs",{auth:{autoRefreshToken:true,persistSession:true}})
+const th=localStorage.getItem('ln_theme')||'light';document.documentElement.setAttribute('data-theme',th);document.getElementById('themeBtn').textContent=th==='dark'?'☀️':'🌙'
+window.TH=()=>{const c=document.documentElement.getAttribute('data-theme');const n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);document.getElementById('themeBtn').textContent=n==='dark'?'☀️':'🌙';localStorage.setItem('ln_theme',n)}
+let currentUser=null
+SB.auth.getSession().then(({data:{session}})=>{if(session?.user)setConn(session.user);else setGuest()})
+SB.auth.onAuthStateChange(async(_,session)=>{if(session?.user)await setConn(session.user);else setGuest()})
+async function setConn(user){
+  currentUser=user
+  const{data:p}=await SB.from('profiles').select('prenom,photo_url').eq('id',user.id).single()
+  const prenom=p?.prenom||user.user_metadata?.prenom||user.email?.split('@')[0]||'Toi'
+  document.getElementById('gN').style.display='none';document.getElementById('uN').style.display='flex'
+  document.getElementById('navName').textContent=prenom
+  const av=document.getElementById('navAv');if(p?.photo_url)av.innerHTML=`<img src="${p.photo_url}" alt=""/>`;else av.textContent=prenom.charAt(0).toUpperCase()
+  const ct=document.getElementById('commTag');if(ct){ct.textContent='✅ Ouvert';ct.className='tag-ok'}
+  document.getElementById('lockBanner').style.display='none'
+}
+function setGuest(){currentUser=null;document.getElementById('gN').style.display='flex';document.getElementById('uN').style.display='none';document.getElementById('lockBanner').style.display='flex'}
+window.doOut=async()=>{await SB.auth.signOut();setGuest();toast('À bientôt !')}
+window.goComm=()=>{if(currentUser)window.location.href='community.html';else openM('s')}
 
-// ── DARK MODE
-const savedTheme = localStorage.getItem('ln_theme') || 'light'
-document.documentElement.setAttribute('data-theme', savedTheme)
-document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '☀️' : '🌙'
-window.toggleTheme = () => {
-  const cur = document.documentElement.getAttribute('data-theme')
-  const next = cur === 'dark' ? 'light' : 'dark'
-  document.documentElement.setAttribute('data-theme', next)
-  document.getElementById('themeBtn').textContent = next === 'dark' ? '☀️' : '🌙'
-  localStorage.setItem('ln_theme', next)
+async function loadFeatured(){
+  const{data:prods,count}=await SB.from('store_products').select('*',{count:'exact'}).eq('statut','publie').order('en_vedette',{ascending:false}).order('nb_ventes',{ascending:false}).limit(3)
+  document.getElementById('totP').textContent=count||0
+  const g=document.getElementById('featGrid')
+  if(!prods?.length){g.innerHTML='<div style="grid-column:span 3;text-align:center;padding:40px;color:var(--text3)">Aucun produit.</div>';return}
+  const bm={popular:'pb-pop',new:'pb-new',sale:'pb-sale',free:'pb-free'};const bt={popular:'🔥 Populaire',new:'✨ Nouveau',sale:'💰 Promo',free:'✅ Gratuit'}
+  g.innerHTML=prods.map(p=>{
+    const imgs=p.images||[];const disc=p.prix_barre&&p.prix_barre>p.prix?Math.round((1-p.prix/p.prix_barre)*100):0
+    const imgH=imgs.length?`<img src="${imgs[0]}" alt="${p.nom}" onerror="this.parentNode.innerHTML='<div class=\\'pc-emoji\\'>${p.emoji||'📦'}</div>'">`:`<div class="pc-emoji">${p.emoji||'📦'}</div>`
+    const prH=p.est_gratuit||p.prix===0?`<span class="price-f">Gratuit</span>`:`<span class="price-m">${fp(p.prix,p.devise)}</span><span class="price-d"> ${p.devise||'XOF'}</span>${p.prix_barre?`<span class="price-o">${fp(p.prix_barre,p.devise)}</span>`:''}`
+    const btnH=p.est_gratuit||p.prix===0?`<button class="buy-b buy-gn" onclick="event.stopPropagation();location.href='store.html'">Obtenir</button>`:`<button class="buy-b buy-dk" onclick="event.stopPropagation();location.href='store.html'">Acheter</button>`
+    return`<div class="pc${p.en_vedette?' feat':''}" onclick="location.href='store.html'"><div class="pc-img">${imgH}<div class="pc-badges">${p.badge?`<span class="pb ${bm[p.badge]||''}">${bt[p.badge]||p.badge}</span>`:''}</div>${disc>0?`<span class="pc-disc">-${disc}%</span>`:''}</div><div class="pc-body"><div class="pc-cat">${p.categorie_nom||'—'}</div><div class="pc-name">${p.nom}</div><div class="pc-desc">${(p.description||'').substring(0,90)}…</div><div class="pc-tags">${(p.tags||[]).slice(0,3).map(t=>`<span class="pc-tag">${t}</span>`).join('')}</div><div class="pc-meta">${p.nb_pages?`<span>📄 ${p.nb_pages}p</span>`:''} ${p.niveau?`<span>📊 ${p.niveau}</span>`:''} <span>⬇️ ${p.nb_ventes||0}</span></div></div><div class="pc-foot">${prH}${btnH}</div></div>`
+  }).join('')
+  // Hero items
+  document.getElementById('heroItems').innerHTML=prods.slice(0,3).map(p=>{
+    const bTxt=p.est_gratuit||p.prix===0?'Gratuit':`${fp(p.prix,p.devise)} ${p.devise||'XOF'}`
+    const bCls=p.est_gratuit||p.prix===0?'bdg-free':p.badge==='popular'?'bdg-pop':'bdg-new'
+    const bLabel=p.est_gratuit||p.prix===0?'✅ Gratuit':p.badge==='popular'?'🔥 Top':'✨ Nouveau'
+    return`<a href="store.html" class="sp"><div class="sp-ico">${p.emoji||'📦'}</div><div><div class="sp-name">${p.nom.substring(0,26)}${p.nom.length>26?'…':''}</div><div class="sp-price">${bTxt}</div></div><span class="sp-bdg ${bCls}">${bLabel}</span></a>`
+  }).join('')
 }
 
-// ── INIT AUTH STATE
-let isInitialized = false
+async function loadStats(){
+  const[{data:s},{count:pc}]=await Promise.all([SB.from('stats').select('*').eq('id',1).single(),SB.from('store_products').select('*',{count:'exact',head:true}).eq('statut','publie')])
+  if(s){animN('sM',s.total_inscrits||0);animN('sV',s.total_ventes||0)}
+  animN('sP',pc||0)
+  SB.channel('stats-rt').on('postgres_changes',{event:'UPDATE',schema:'public',table:'stats'},d=>{animN('sM',d.new.total_inscrits||0);animN('sV',d.new.total_ventes||0)}).subscribe()
+}
+function animN(id,target){const el=document.getElementById(id);if(!el)return;let i=0;const t=Math.max(target,1);const iv=setInterval(()=>{i++;el.textContent=Math.round(t*(i/20)).toLocaleString('fr');if(i>=20){el.textContent=target.toLocaleString('fr');clearInterval(iv)}},30)}
 
-async function initAuth() {
-  if (isInitialized) return
-  isInitialized = true
-  
-  // ✅ Vérifier la session au chargement
-  const { data: { session } } = await sb.auth.getSession()
-  console.log('📱 Initial session check:', session ? 'LOGGED IN' : 'LOGGED OUT')
-  
-  if (session?.user) {
-    await updateNavConnected(session.user)
-  } else {
-    updateNavGuest()
-  }
+async function loadPosts(){
+  const{data:posts}=await SB.from('community_posts').select('*').order('created_at',{ascending:false}).limit(4)
+  const c=document.getElementById('postsPreview')
+  if(!posts?.length){c.innerHTML='<div style="text-align:center;padding:20px;color:var(--text3);font-size:.82rem">Aucun post encore.</div>';return}
+  const tC={avis:'ct-avis',temoignage:'ct-tem',question:'ct-q',idee:'ct-avis',bug:'ct-avis'};const tL={avis:'⭐ Avis',temoignage:'💬 Témoignage',question:'❓ Question',idee:'💡 Idée',bug:'🐛 Bug'}
+  c.innerHTML=posts.map(p=>{const avH=p.auteur_photo?`<img src="${p.auteur_photo}" alt=""/>`:(p.auteur_nom||'A').charAt(0).toUpperCase();return`<div class="cpost"><div class="cpost-av">${avH}</div><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span class="cpost-name">${p.auteur_nom||'Anonyme'}</span><span class="cpost-type ${tC[p.type]||'ct-avis'}">${tL[p.type]||p.type}</span><span class="cpost-time">${timeAgo(p.created_at)}</span></div><div class="cpost-text">${p.contenu}</div></div></div>`}).join('')
+  SB.channel('comm-rt').on('postgres_changes',{event:'INSERT',schema:'public',table:'community_posts'},loadPosts).subscribe()
 }
 
-// ── AUTH STATE LISTENER
-sb.auth.onAuthStateChange(async (event, session) => {
-  console.log('🔄 Auth event:', event)
-  
-  if (event === 'SIGNED_OUT') {
-    console.log('❌ User signed out')
-    updateNavGuest()
-    // Nettoyer le localStorage
-    localStorage.removeItem('sb-auth-token')
-    localStorage.removeItem('supabase.auth.token')
-    return
-  }
-  
-  if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
-    if (session?.user) {
-      console.log('✅ User signed in:', session.user.email)
-      await updateNavConnected(session.user)
-    }
-  }
-})
+const onCh=SB.channel('home-pres',{config:{presence:{key:'v-'+Math.random().toString(36).substr(2,5)}}})
+onCh.on('presence',{event:'sync'},()=>{const n=Object.keys(onCh.presenceState()).length;document.getElementById('onlineCount').textContent=`🟢 ${n} membre${n>1?'s':''} en ligne`}).subscribe(async s=>{if(s==='SUBSCRIBED')await onCh.track({p:'home'})})
 
-async function updateNavConnected(user) {
-  console.log('👤 Updating nav for user:', user.email)
-  document.getElementById('navGuest').style.display = 'none'
-  document.getElementById('navUser').style.display = 'flex'
-  
-  try {
-    const { data: p, error } = await sb.from('profiles').select('prenom,photo_url').eq('id', user.id).single()
-    if (error) console.error('❌ Profile fetch error:', error)
-    
-    const prenom = p?.prenom || user.user_metadata?.prenom || user.email?.split('@')[0] || 'Toi'
-    document.getElementById('navName').textContent = prenom
-    
-    const av = document.getElementById('navAv')
-    if (p?.photo_url) av.innerHTML = `<img src="${p.photo_url}" alt=""/>`
-    else av.textContent = prenom.charAt(0).toUpperCase()
-  } catch (e) {
-    console.error('❌ updateNavConnected error:', e)
-  }
+window.openM=(tab)=>{document.getElementById('authMo').classList.add('show');swT(tab==='signup'||tab==='s'?'s':'l');setTimeout(()=>document.getElementById(tab==='s'||tab==='signup'?'sP2':'lE2')?.focus(),120)}
+window.closeM=()=>{document.getElementById('authMo').classList.remove('show');clearF()}
+window.swT=(tab)=>{document.getElementById('pS').style.display=tab==='s'?'block':'none';document.getElementById('pL').style.display=tab==='l'?'block':'none';document.getElementById('tS').classList.toggle('active',tab==='s');document.getElementById('tL').classList.toggle('active',tab==='l');clearF()}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()})
+document.getElementById('sK2')?.addEventListener('keypress',e=>{if(e.key==='Enter')doSU()})
+document.getElementById('lK2')?.addEventListener('keypress',e=>{if(e.key==='Enter')doSI()})
+
+window.doSU=async()=>{
+  const prenom=document.getElementById('sP2').value.trim();const email=document.getElementById('sE2').value.trim().toLowerCase();const pass=document.getElementById('sK2').value
+  clearF();if(!prenom||prenom.length<2){showM('sMsg','err','⚠️ Entre ton prénom (min. 2 car.).');return};if(!email||!email.includes('@')){showM('sMsg','err','⚠️ Email invalide.');return};if(pass.length<6){showM('sMsg','err','⚠️ Mot de passe trop court.');return}
+  setL('sBtn','sTxt','sSpin',true,'Création...')
+  try{const{data,error}=await SB.auth.signUp({email,password:pass,options:{data:{prenom}}});if(error){showM('sMsg','err','❌ '+trE(error.message));return};if(data.user){await SB.from('profiles').upsert({id:data.user.id,prenom,email,role:'student',score_total:0}).catch(()=>{});await SB.rpc('increment_stat',{stat_name:'total_inscrits'}).catch(()=>{})}
+  showM('sMsg','ok',`🎉 Bienvenue ${prenom} !`);setL('sBtn','sTxt','sSpin',false,'✅ Compte créé !');navConn(prenom,null,true);setTimeout(()=>closeM(),1600)}catch{showM('sMsg','err','❌ Problème.')}finally{setL('sBtn','sTxt','sSpin',false,'Créer mon compte gratuitement')}
 }
-
-function updateNavGuest() {
-  console.log('👥 Updating nav for guest')
-  document.getElementById('navGuest').style.display = 'flex'
-  document.getElementById('navUser').style.display = 'none'
+window.doSI=async()=>{
+  const email=document.getElementById('lE2').value.trim().toLowerCase();const pass=document.getElementById('lK2').value
+  clearF();if(!email||!email.includes('@')){showM('lMsg','err','⚠️ Email invalide.');return};if(!pass){showM('lMsg','err','⚠️ Entre ton mot de passe.');return}
+  setL('lBtn','lTxt','lSpin',true,'Connexion...')
+  try{const{data,error}=await SB.auth.signInWithPassword({email,password:pass});if(error){showM('lMsg','err','❌ '+trE(error.message));return};const{data:p}=await SB.from('profiles').select('prenom,photo_url').eq('id',data.user.id).single();const prenom=p?.prenom||email.split('@')[0];navConn(prenom,p?.photo_url||null,true);closeM();toast(`👋 Bon retour, ${prenom} !`)}catch{showM('lMsg','err','❌ Problème.')}finally{setL('lBtn','lTxt','lSpin',false,'Se connecter')}
 }
-
-initAuth()
-
-// ── STATS
-async function loadStats() {
-  const { data: s } = await sb.from('stats').select('*').eq('id', 1).single()
-  if (s) {
-    animNum('sInscrits', s.total_inscrits || 0)
-    animNum('sSessions', s.total_sessions || 0)
-    animNum('sCours', s.total_cours || 0)
-  }
+window.ctaSU=async()=>{
+  const prenom=document.getElementById('ctaP').value.trim();const email=document.getElementById('ctaE').value.trim().toLowerCase();const pass=document.getElementById('ctaK').value
+  const msg=document.getElementById('ctaMsg');const btn=document.querySelector('.cta-btn-f');msg.className='cm'
+  if(!prenom||prenom.length<2){msg.className='cm err';msg.textContent='⚠️ Entre ton prénom.';return};if(!email||!email.includes('@')){msg.className='cm err';msg.textContent='⚠️ Email invalide.';return};if(pass.length<6){msg.className='cm err';msg.textContent='⚠️ Mot de passe trop court.';return}
+  btn.disabled=true;btn.textContent='Création...'
+  try{const{data,error}=await SB.auth.signUp({email,password:pass,options:{data:{prenom}}});if(error){msg.className='cm err';msg.textContent='❌ '+trE(error.message);btn.disabled=false;btn.textContent='Créer mon compte gratuit →';return};if(data.user){await SB.from('profiles').upsert({id:data.user.id,prenom,email,role:'student',score_total:0}).catch(()=>{});await SB.rpc('increment_stat',{stat_name:'total_inscrits'}).catch(()=>{})}
+  msg.className='cm ok';msg.textContent=`🎉 Bienvenue ${prenom} !`;btn.textContent='✅ Compte créé !';navConn(prenom,null,true);['ctaP','ctaE','ctaK'].forEach(id=>document.getElementById(id).value='')}catch{msg.className='cm err';msg.textContent='❌ Réessaie.';btn.disabled=false;btn.textContent='Créer mon compte gratuit →'}
 }
-
-const onlineCh = sb.channel('home-online', { config: { presence: { key: 'v-' + Math.random().toString(36).substr(2,6) } } })
-onlineCh.on('presence', { event: 'sync' }, () => {
-  document.getElementById('sOnline').textContent = Object.keys(onlineCh.presenceState()).length
-}).subscribe(async s => {
-  if (s === 'SUBSCRIBED') await onlineCh.track({ online: 1 })
-})
-
-sb.channel('stats-rt').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'stats' }, p => {
-  animNum('sInscrits', p.new.total_inscrits || 0)
-  animNum('sSessions', p.new.total_sessions || 0)
-  animNum('sCours', p.new.total_cours || 0)
-}).subscribe()
-
-function animNum(id, target) {
-  const el = document.getElementById(id)
-  if (!el) return
-  const start = parseInt(el.textContent.replace(/\D/g, '')) || 0
-  let i = 0
-  const iv = setInterval(() => {
-    i++
-    el.textContent = Math.round(start + (target - start) * (i / 20)).toLocaleString('fr')
-    if (i >= 20) {
-      el.textContent = target.toLocaleString('fr')
-      clearInterval(iv)
-    }
-  }, 40)
+function navConn(prenom,photo,updateOverlay){
+  document.getElementById('gN').style.display='none';document.getElementById('uN').style.display='flex'
+  document.getElementById('navName').textContent=prenom
+  const av=document.getElementById('navAv');if(photo)av.innerHTML=`<img src="${photo}" alt=""/>`;else av.textContent=prenom.charAt(0).toUpperCase()
+  const ct=document.getElementById('commTag');if(ct){ct.textContent='✅ Ouvert';ct.className='tag-ok'}
+  if(updateOverlay)document.getElementById('lockBanner').style.display='none'
 }
-
-loadStats()
-
-// ── SESSIONS
-async function loadSessions() {
-  const { data: sessions } = await sb.from('sessions').select('*').order('created_at', { ascending: false }).limit(6)
-  const grid = document.getElementById('sessionsGrid')
-  
-  if (!sessions?.length) {
-    grid.innerHTML = '<div class="sc-empty"><div style="font-size:1.8rem;margin-bottom:10px">📅</div><strong style="display:block;margin-bottom:6px">Aucune session</strong></div>'
-    return
-  }
-  
-  grid.innerHTML = ''
-  sessions.forEach(s => {
-    const badge = s.statut === 'en_cours' 
-      ? `<span class="badge badge-live"><span class="dot-red"></span> En direct</span>`
-      : s.statut === 'planifie'
-      ? `<span class="badge badge-soon">⏰ ${s.heure || ''}</span>`
-      : `<span class="badge badge-done">✓ Terminé</span>`
-    
-    const card = document.createElement('div')
-    card.className = 'session-card'
-    card.innerHTML = `<div class="sc-head">${badge}<span style="font-size:.72rem;color:var(--text3)">${s.nb_inscrits || 0} inscrits</span></div><div class="sc-title">${s.titre}</div><div class="sc-desc">${s.format || '—'}</div><div class="sc-foot"><span class="sc-ia">🤖 IA</span><span class="sc-time">${s.created_at ? new Date(s.created_at).toLocaleDateString('fr-FR') : '—'}</span></div>`
-    
-    card.onclick = async () => {
-      const { data: { session } } = await sb.auth.getSession()
-      if (session) window.location.href = `waiting.html?session=${s.id}`
-      else { openModal('signup'); showToast('📚 Inscris-toi pour rejoindre !') }
-    }
-    grid.appendChild(card)
-  })
-}
-
-loadSessions()
-sb.channel('sess-rt').on('postgres_changes', { event: '*', schema: 'public', table: 'sessions' }, loadSessions).subscribe()
-
-// ── MODAL
-window.openModal = (tab = 'signup') => {
-  document.getElementById('modalOv').classList.add('show')
-  switchTab(tab)
-  setTimeout(() => {
-    const el = tab === 'signup' ? document.getElementById('sPrenom') : document.getElementById('lEmail')
-    el?.focus()
-  }, 100)
-}
-
-window.closeModal = () => {
-  document.getElementById('modalOv').classList.remove('show')
-  resetForms()
-}
-
-window.switchTab = (tab) => {
-  document.getElementById('panelSignup').style.display = tab === 'signup' ? 'block' : 'none'
-  document.getElementById('panelLogin').style.display = tab === 'login' ? 'block' : 'none'
-  document.getElementById('tabS').classList.toggle('active', tab === 'signup')
-  document.getElementById('tabL').classList.toggle('active', tab === 'login')
-}
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal() })
-document.getElementById('sPassword').addEventListener('keypress', e => { if (e.key === 'Enter') doSignUp() })
-document.getElementById('lPassword').addEventListener('keypress', e => { if (e.key === 'Enter') doSignIn() })
-
-// ── SIGNUP
-window.doSignUp = async () => {
-  const prenom = document.getElementById('sPrenom').value.trim()
-  const email = document.getElementById('sEmail').value.trim().toLowerCase()
-  const pass = document.getElementById('sPassword').value
-  const btn = document.getElementById('sBtnSignup')
-  const btnTxt = document.getElementById('sBtnTxt')
-  const spin = document.getElementById('sSpin')
-  
-  clearMsg('sMsg')
-  clearErrs(['sPrenom', 'sEmail', 'sPassword'])
-  
-  if (!prenom || prenom.length < 2) {
-    setErr('sPrenom')
-    showMsg('sMsg', 'err', '⚠️ Entre ton prénom (min. 2 caractères).')
-    return
-  }
-  if (!email || !email.includes('@')) {
-    setErr('sEmail')
-    showMsg('sMsg', 'err', '⚠️ Adresse email invalide.')
-    return
-  }
-  if (pass.length < 6) {
-    setErr('sPassword')
-    showMsg('sMsg', 'err', '⚠️ Mot de passe trop court (min. 6).')
-    return
-  }
-  
-  btn.disabled = true
-  btnTxt.textContent = 'Création en cours...'
-  spin.style.display = 'inline-block'
-  
-  try {
-    const { data, error } = await sb.auth.signUp({
-      email,
-      password: pass,
-      options: { data: { prenom } }
-    })
-    
-    if (error) {
-      showMsg('sMsg', 'err', trErr(error.message))
-      btn.disabled = false
-      btnTxt.textContent = 'Créer mon compte gratuitement'
-      spin.style.display = 'none'
-      return
-    }
-    
-    if (data.user) {
-      await sb.from('profiles').upsert({
-        id: data.user.id,
-        prenom,
-        email,
-        role: 'student',
-        score_total: 0
-      }).catch(() => {})
-      
-      await sb.rpc('increment_stat', { stat_name: 'total_inscrits' }).catch(() => {})
-    }
-    
-    showMsg('sMsg', 'ok', `🎉 Bienvenue ${prenom} !`)
-    btnTxt.textContent = '✅ Inscription réussie !'
-    spin.style.display = 'none'
-    
-    document.getElementById('navGuest').style.display = 'none'
-    document.getElementById('navUser').style.display = 'flex'
-    document.getElementById('navName').textContent = prenom
-    document.getElementById('navAv').textContent = prenom.charAt(0).toUpperCase()
-    
-    setTimeout(() => {
-      closeModal()
-      showToast(`🎉 Bienvenue ${prenom} sur Learnova !`)
-      window.location.href = 'waiting.html'
-    }, 1500)
-    
-  } catch (e) {
-    console.error('❌ SignUp error:', e)
-    showMsg('sMsg', 'err', '❌ Problème de connexion.')
-    btn.disabled = false
-    btnTxt.textContent = 'Créer mon compte gratuitement'
-    spin.style.display = 'none'
-  }
-}
-
-// ── LOGIN
-window.doSignIn = async () => {
-  const email = document.getElementById('lEmail').value.trim().toLowerCase()
-  const pass = document.getElementById('lPassword').value
-  const btn = document.getElementById('lBtn')
-  const btnTxt = document.getElementById('lBtnTxt')
-  const spin = document.getElementById('lSpin')
-  
-  clearMsg('lMsg')
-  clearErrs(['lEmail', 'lPassword'])
-  
-  if (!email || !email.includes('@')) {
-    setErr('lEmail')
-    showMsg('lMsg', 'err', '⚠️ Email invalide.')
-    return
-  }
-  if (!pass) {
-    setErr('lPassword')
-    showMsg('lMsg', 'err', '⚠️ Entre ton mot de passe.')
-    return
-  }
-  
-  btn.disabled = true
-  btnTxt.textContent = 'Connexion...'
-  spin.style.display = 'inline-block'
-  
-  try {
-    console.log('🔑 Attempting login for:', email)
-    const { data, error } = await sb.auth.signInWithPassword({ email, password: pass })
-    
-    if (error) {
-      console.error('❌ Login error:', error)
-      showMsg('lMsg', 'err', trErr(error.message))
-      setErr('lPassword')
-      btn.disabled = false
-      btnTxt.textContent = 'Se connecter'
-      spin.style.display = 'none'
-      return
-    }
-    
-    console.log('✅ Login successful:', data.user.email)
-    
-    const user = data.user
-    const { data: p } = await sb.from('profiles').select('prenom,photo_url').eq('id', user.id).single()
-    const prenom = p?.prenom || user.email?.split('@')[0] || 'Toi'
-    
-    document.getElementById('navGuest').style.display = 'none'
-    document.getElementById('navUser').style.display = 'flex'
-    document.getElementById('navName').textContent = prenom
-    
-    const av = document.getElementById('navAv')
-    if (p?.photo_url) av.innerHTML = `<img src="${p.photo_url}" alt=""/>`
-    else av.textContent = prenom.charAt(0).toUpperCase()
-    
-    closeModal()
-    showToast(`👋 Bon retour, ${prenom} !`)
-    
-    setTimeout(() => {
-      window.location.href = 'waiting.html'
-    }, 1000)
-    
-  } catch (e) {
-    console.error('❌ SignIn catch error:', e)
-    showMsg('lMsg', 'err', '❌ Problème de connexion.')
-    btn.disabled = false
-    btnTxt.textContent = 'Se connecter'
-    spin.style.display = 'none'
-  }
-}
-
-// ── LOGOUT - DÉCONNEXION CORRIGÉE ✅
-window.doSignOut = async () => {
-  console.log('🚪 Starting logout...')
-  
-  try {
-    // ✅ Étape 1: Invalider les sessions dans la base de données
-    const { data: { session } } = await sb.auth.getSession()
-    if (session?.user) {
-      console.log('🔄 Invalidating user sessions...')
-      await sb.rpc('invalidate_user_sessions', { user_id: session.user.id }).catch(e => console.log('⚠️ RPC call optional:', e))
-    }
-    
-    // ✅ Étape 2: Déconnecter de Supabase
-    const { error } = await sb.auth.signOut()
-    if (error) {
-      console.error('⚠️ Signout error:', error)
-    }
-    
-    console.log('✅ Signed out from Supabase')
-    
-    // ✅ Étape 3: Nettoyer TOUT le localStorage
-    localStorage.clear()
-    sessionStorage.clear()
-    console.log('🧹 Cleared all storage')
-    
-    // ✅ Étape 4: Mettre à jour l'UI
-    updateNavGuest()
-    showToast('À bientôt ! 👋')
-    
-    // ✅ Étape 5: Redirection + Reload force
-    setTimeout(() => {
-      window.location.href = 'index.html'
-      window.location.reload(true) // true = force le reload du serveur
-    }, 1000)
-    
-  } catch (e) {
-    console.error('❌ Logout error:', e)
-    // ✅ Si erreur, forcer la déconnexion côté client
-    localStorage.clear()
-    sessionStorage.clear()
-    updateNavGuest()
-    showToast('Déconnecté !')
-    window.location.href = 'index.html'
-  }
-}
-
-// ── CTA SIGNUP
-window.ctaSignUp = async () => {
-  const prenom = document.getElementById('ctaPrenom').value.trim()
-  const email = document.getElementById('ctaEmail').value.trim().toLowerCase()
-  const pass = document.getElementById('ctaPass').value
-  const btn = document.getElementById('ctaBtn')
-  
-  if (!prenom || prenom.length < 2) { showCtaMsg('err-s', '⚠️ Entre ton prénom.'); return }
-  if (!email || !email.includes('@')) { showCtaMsg('err-s', '⚠️ Email invalide.'); return }
-  if (pass.length < 6) { showCtaMsg('err-s', '⚠️ Mot de passe trop court (min. 6).'); return }
-  
-  btn.disabled = true
-  btn.textContent = 'Création...'
-  
-  try {
-    const { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { prenom } } })
-    
-    if (error) {
-      showCtaMsg('err-s', trErr(error.message))
-      btn.disabled = false
-      btn.textContent = 'Rejoindre Learnova gratuitement →'
-      return
-    }
-    
-    if (data.user) {
-      await sb.from('profiles').upsert({ id: data.user.id, prenom, email, role: 'student', score_total: 0 }).catch(() => {})
-      await sb.rpc('increment_stat', { stat_name: 'total_inscrits' }).catch(() => {})
-    }
-    
-    showCtaMsg('ok', `🎉 Bienvenue ${prenom} !`)
-    btn.textContent = '✅ Compte créé !'
-    
-    document.getElementById('navGuest').style.display = 'none'
-    document.getElementById('navUser').style.display = 'flex'
-    document.getElementById('navName').textContent = prenom
-    document.getElementById('navAv').textContent = prenom.charAt(0).toUpperCase()
-    
-    document.getElementById('ctaPrenom').value = ''
-    document.getElementById('ctaEmail').value = ''
-    document.getElementById('ctaPass').value = ''
-    
-    setTimeout(() => { window.location.href = 'waiting.html' }, 1500)
-    
-  } catch (e) {
-    console.error('❌ CTA signup error:', e)
-    showCtaMsg('err-s', '❌ Problème. Réessaie.')
-    btn.disabled = false
-    btn.textContent = 'Rejoindre Learnova gratuitement →'
-  }
-}
-
-// ── UTILS
-function showMsg(id, t, txt) { const el = document.getElementById(id); if (el) { el.textContent = txt; el.className = `msg-box ${t}` } }
-function clearMsg(id) { const el = document.getElementById(id); if (el) el.className = 'msg-box' }
-function setErr(id) { document.getElementById(id)?.classList.add('err') }
-function clearErrs(ids) { ids.forEach(id => document.getElementById(id)?.classList.remove('err')) }
-function showCtaMsg(t, txt) { const el = document.getElementById('ctaMsg'); el.textContent = txt; el.className = `cta-msg ${t}` }
-function resetForms() {
-  clearMsg('sMsg')
-  clearMsg('lMsg')
-  clearErrs(['sPrenom', 'sEmail', 'sPassword', 'lEmail', 'lPassword'])
-  const b = document.getElementById('sBtnSignup')
-  if (b) {
-    b.disabled = false
-    document.getElementById('sBtnTxt').textContent = 'Créer mon compte gratuitement'
-    document.getElementById('sSpin').style.display = 'none'
-  }
-  const l = document.getElementById('lBtn')
-  if (l) {
-    l.disabled = false
-    document.getElementById('lBtnTxt').textContent = 'Se connecter'
-    document.getElementById('lSpin').style.display = 'none'
-  }
-}
-function trErr(msg) {
-  if (!msg) return 'Erreur.'
-  const m = msg.toLowerCase()
-  if (m.includes('already registered')) return '❌ Email déjà utilisé. Connecte-toi.'
-  if (m.includes('invalid login') || m.includes('invalid password')) return '❌ Email ou mot de passe incorrect.'
-  if (m.includes('weak password')) return '❌ Mot de passe trop faible.'
-  return '❌ ' + msg
-}
-function showToast(msg) {
-  let t = document.getElementById('ln-toast')
-  if (!t) {
-    t = document.createElement('div')
-    t.id = 'ln-toast'
-    t.style.cssText = "position:fixed;bottom:22px;right:80px;background:#0f0e0c;color:#fff;padding:12px 20px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s cubic-bezier(.34,1.56,.64,1);"
-    document.body.appendChild(t)
-  }
-  t.textContent = msg
-  t.style.transform = 'translateY(0)'
-  clearTimeout(t._t)
-  t._t = setTimeout(() => t.style.transform = 'translateY(80px)', 3000)
-}
+function fp(p,d){const n=parseFloat(p);if(!n)return'0';if(d==='EUR')return n.toFixed(2)+' €';if(d==='USD')return'$'+n.toFixed(2);return n.toLocaleString('fr')+' F'}
+function timeAgo(d){const s=Math.floor((new Date()-new Date(d))/1000);if(s<60)return'À l\'instant';if(s<3600)return`il y a ${Math.floor(s/60)} min`;if(s<86400)return`il y a ${Math.floor(s/3600)}h`;return new Date(d).toLocaleDateString('fr',{day:'numeric',month:'short'})}
+function showM(id,t,txt){const el=document.getElementById(id);if(el){el.textContent=txt;el.className=`mm ${t}`}}
+function clearF(){['sMsg','lMsg'].forEach(id=>{const el=document.getElementById(id);if(el)el.className='mm'})}
+function setL(bId,tId,sId,on,txt){const b=document.getElementById(bId);const t=document.getElementById(tId);const s=document.getElementById(sId);if(b)b.disabled=on;if(s)s.style.display=on?'block':'none';if(t&&txt)t.textContent=txt}
+function trE(msg){if(!msg)return'Erreur.';const m=msg.toLowerCase();if(m.includes('already registered'))return'Email déjà utilisé. Connecte-toi.';if(m.includes('invalid login')||m.includes('invalid credentials'))return'Email ou mot de passe incorrect.';return'Erreur. Réessaie.'}
+function toast(msg,type='dark'){let t=document.getElementById('lt');if(!t){t=document.createElement('div');t.id='lt';t.style.cssText="position:fixed;bottom:24px;right:80px;padding:12px 22px;border-radius:12px;font-size:.84rem;z-index:9999;transform:translateY(80px);transition:all .35s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif;font-weight:500;box-shadow:0 16px 48px rgba(0,0,0,.22);max-width:300px;";document.body.appendChild(t)}const bg={dark:'#09090f',ok:'#057a55',err:'#c81c1c'};t.style.background=bg[type]||bg.dark;t.style.color='#fff';t.textContent=msg;t.style.transform='translateY(0)';clearTimeout(t._t);t._t=setTimeout(()=>t.style.transform='translateY(80px)',3500)}
+loadFeatured();loadStats();loadPosts()
 </script>
 </body>
 </html>
