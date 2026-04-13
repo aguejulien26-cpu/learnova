@@ -665,16 +665,40 @@ window.loadMyPurchases=async()=>{
 
 // CHARGER PRODUITS
 async function load(){
-  const[{data:cats},{data:prods,count}]=await Promise.all([SB.from('store_categories').select('*').order('ordre'),SB.from('store_products').select('*',{count:'exact'}).eq('statut','publie').order('en_vedette',{ascending:false}).order('created_at',{ascending:false})])
-  allCats=cats||[];allProds=prods||[]
-  document.getElementById('hP').textContent=allProds.length
-  document.getElementById('hV').textContent=allProds.reduce((s,p)=>s+(p.nb_ventes||0),0).toLocaleString('fr')
-  const{data:st}=await SB.from('stats').select('total_inscrits').eq('id',1).single()
-  document.getElementById('hM').textContent=(st?.total_inscrits||0).toLocaleString('fr')
-  const pills=document.getElementById('catPills');pills.innerHTML='<div class="cp active" onclick="setCat(\'\',this)">Tout</div>'
-  allCats.forEach(c=>{const d=document.createElement('div');d.className='cp';d.textContent=`${c.emoji} ${c.nom}`;d.onclick=()=>setCat(c.nom,d);pills.appendChild(d)})
-  applyF()
-  SB.channel('store-rt').on('postgres_changes',{event:'*',schema:'public',table:'store_products'},load).subscribe()
+  try {
+    const[{data:cats},{data:prods}]=await Promise.all([
+      SB.from('store_categories').select('*').order('ordre'),
+      SB.from('store_products')
+        .select('*')
+        .eq('statut','publie')
+        .order('created_at', {ascending: false})
+    ])
+    
+    allCats=cats||[]
+    allProds=prods||[]
+    
+    document.getElementById('hP').textContent=allProds.length
+    document.getElementById('hV').textContent=allProds.reduce((s,p)=>s+(p.nb_ventes||0),0).toLocaleString('fr')
+    
+    const{data:st}=await SB.from('stats').select('total_inscrits').eq('id',1).single()
+    document.getElementById('hM').textContent=(st?.total_inscrits||0).toLocaleString('fr')
+    
+    const pills=document.getElementById('catPills')
+    pills.innerHTML='<div class="cp active" onclick="setCat(\'\',this)">Tout</div>'
+    allCats.forEach(c=>{
+      const d=document.createElement('div')
+      d.className='cp'
+      d.textContent=`${c.emoji} ${c.nom}`
+      d.onclick=()=>setCat(c.nom,d)
+      pills.appendChild(d)
+    })
+    
+    applyF()
+    SB.channel('store-rt').on('postgres_changes',{event:'*',schema:'public',table:'store_products'},load).subscribe()
+  } catch(e) {
+    console.error('Erreur chargement produits:', e)
+    document.getElementById('prodsCnt').textContent='Erreur chargement'
+  }
 }
 window.setCat=(cat,el)=>{activeCat=cat;document.querySelectorAll('.cp').forEach(p=>p.classList.remove('active'));el.classList.add('active');applyF()}
 window.applyF=()=>{
